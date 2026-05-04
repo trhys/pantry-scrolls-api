@@ -1,5 +1,5 @@
 -- name: CreateRecipe :one
-INSERT INTO recipes (id, title, author, created_at, updated_at, user_id, description, image_key)
+INSERT INTO recipes (id, title, author, created_at, updated_at, user_id, description, image_key, instructions)
 VALUES(
 	gen_random_uuid(),
 	$1,
@@ -8,7 +8,8 @@ VALUES(
 	NOW(),
 	$3,
 	$4,
-	$5
+	$5,
+	$6
 )
 RETURNING *;
 

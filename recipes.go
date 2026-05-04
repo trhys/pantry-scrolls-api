@@ -20,14 +20,15 @@ func (cfg *apiConfig) handlerCreateRecipe(w http.ResponseWriter, r *http.Request
 	// Request
 	r.Body = http.MaxBytesReader(w, r.Body, 10 << 20)
 	var req struct{
-		Title string `json:"title"`
-		UserID uuid.UUID `json:"user_id"`
-		Description string `json:"description"`
-		Ingredients []struct{
+		Title 		string `json:"title"`
+		UserID 		uuid.UUID `json:"user_id"`
+		Description	string `json:"description"`
+		Ingredients 	[]struct{
 			ID		uuid.UUID `json:"id"`
 			Quantity 	float32 `json:"quantity"`
 			Unit		string `json:"unit"`
 		} `json:"ingredients"`
+		Instructions 	string `json:"instructions"`
 
 	}
 
@@ -118,6 +119,7 @@ func (cfg *apiConfig) handlerCreateRecipe(w http.ResponseWriter, r *http.Request
 		UserID: req.UserID,
 		Description: req.Description,
 		ImageKey: key,
+		Instructions: req.Instructions,
 	}
 
 	rec, err := cfg.db.CreateRecipe(r.Context(), query)

@@ -202,7 +202,8 @@ export async function postRecipe(form) {
                 title: document.getElementById('recipe-title').value,
                 user_id: localStorage.getItem('user_id'),
                 ingredients: [],
-                description: document.getElementById('author-description').value
+                description: document.getElementById('author-description').value,
+		instructions: document.getElementById('recipe-instructions').value,
             };
 
             const rows = document.querySelectorAll('.ingredient-row')

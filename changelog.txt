@@ -29,3 +29,19 @@ Dockerfile saw an edit due to moving setup.json into the internal directory, so 
 END:
 -----------------------------
 
+Commit From: 2490bf0
+
+# SQL:
+
+Added instructions column to the recipes table. This is another text field that will hold user steps for the recipe, separate from the description. Will add length limits along the chain
+
+# Internal:
+
+Made changes to viewmodels package to accomodate the new table, but alos added some finer degrees of separation betweenvisible data between endpoints.
+
+# App:
+
+Added to the recipe creator form to allow user input into the instructions table. Same changes went out to the api.js file, and the template for recipes had it added in as well.
+
+END:
+-----------------------------

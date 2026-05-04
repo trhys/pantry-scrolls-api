@@ -17,7 +17,7 @@ type ShoppingList struct {
 
 type ShoppingListViewModel struct {
 	ShoppingList
-	Recipes		[]Recipe		`json:"recipes"`
+	Recipes		[]RecipeOnList		`json:"recipes"`
 	Quantity	map[uuid.UUID]int32	`json:"quantity"`
 	
 }
@@ -41,18 +41,8 @@ func GenerateShoppingListViewModel(list db.ShoppingList, recipes []db.GetRecipes
 			UpdatedAt: list.UpdatedAt,
 		},
 		Quantity: make(map[uuid.UUID]int32),
+		Recipes: GetRecipesOnList(recipes),
 	}
-
-	for _, r := range recipes {
-                model.Recipes = append(model.Recipes, Recipe{
-                        ID: r.ID,
-                        Title: r.Title,
-                        Author: r.Author,
-                        UserID: &r.UserID,
-                })
-
-                model.Quantity[r.ID] = r.Quantity
-        }
 	
 	return model
 }

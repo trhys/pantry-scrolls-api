@@ -1,7 +1,6 @@
 package viewmodel
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/google/uuid"
@@ -15,14 +14,14 @@ type User struct{
 
 type PrivateUserViewModel struct{
 	User
-        Email           string 		`json:"email"`
-        CreatedAt       time.Time	`json:"created_at"`
-	Recipes 	[]Recipe 	`json:"recipes"`
+        Email           string 			`json:"email"`
+        CreatedAt       time.Time		`json:"created_at"`
+	Recipes 	[]RecipeCard 		`json:"recipes"`
 }
 
 type PublicUserViewModel struct{
 	User
-	Recipes 	[]Recipe 	`json:"recipes"`
+	Recipes 	[]RecipeCard 	`json:"recipes"`
 }
 
 type SessionViewModel struct{
@@ -40,17 +39,7 @@ func (builder *VMFactory) GeneratePrivateUser(user database.GetUserRow, recipes 
 		},
 		Email:		user.Email,
 		CreatedAt:	user.CreatedAt,
-		Recipes:	make([]Recipe, 0, len(recipes)),
-	}
-
-	for _, r := range recipes {
-		model.Recipes = append(model.Recipes, Recipe{
-			ID:		r.ID,
-			Title:		r.Title,
-			CreatedAt: 	r.CreatedAt,
-			UpdatedAt: 	&r.UpdatedAt,
-			ImageURL:	fmt.Sprintf("%s/%s", builder.S3cdn, r.ImageKey),
-		})
+		Recipes:	builder.GetRecipesForUser(recipes),
 	}
 
 	return model
@@ -62,17 +51,7 @@ func (builder *VMFactory) GeneratePublicUser(user database.GetUserRow, recipes [
 			ID:	user.ID,
 			Name:	user.Name,
 		},
-		Recipes:	make([]Recipe, 0, len(recipes)),
-	}
-
-	for _, r := range recipes {
-		model.Recipes = append(model.Recipes, Recipe{
-			ID:		r.ID,
-			Title:		r.Title,
-			CreatedAt: 	r.CreatedAt,
-			UpdatedAt: 	&r.UpdatedAt,
-			ImageURL:	fmt.Sprintf("%s/%s", builder.S3cdn, r.ImageKey),
-		})
+		Recipes:	builder.GetRecipesForUser(recipes),
 	}
 
 	return model

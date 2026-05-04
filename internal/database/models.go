@@ -27,14 +27,15 @@ type Ingredient struct {
 }
 
 type Recipe struct {
-	ID          uuid.UUID
-	Title       string
-	Author      string
-	Description string
-	ImageKey    string
-	CreatedAt   time.Time
-	UpdatedAt   time.Time
-	UserID      uuid.UUID
+	ID           uuid.UUID
+	Title        string
+	Author       string
+	Description  string
+	ImageKey     string
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
+	UserID       uuid.UUID
+	Instructions string
 }
 
 type RecipeIngredient struct {
