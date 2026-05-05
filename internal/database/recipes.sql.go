@@ -60,6 +60,16 @@ func (q *Queries) CreateRecipe(ctx context.Context, arg CreateRecipeParams) (Rec
 	return i, err
 }
 
+const deleteRecipe = `-- name: DeleteRecipe :exec
+DELETE FROM recipes
+WHERE id = $1
+`
+
+func (q *Queries) DeleteRecipe(ctx context.Context, id uuid.UUID) error {
+	_, err := q.db.ExecContext(ctx, deleteRecipe, id)
+	return err
+}
+
 const getRecipe = `-- name: GetRecipe :one
 SELECT id, title, author, description, image_key, created_at, updated_at, user_id, instructions FROM recipes
 WHERE id = $1
@@ -80,6 +90,18 @@ func (q *Queries) GetRecipe(ctx context.Context, id uuid.UUID) (Recipe, error) {
 		&i.Instructions,
 	)
 	return i, err
+}
+
+const getRecipeImageKey = `-- name: GetRecipeImageKey :one
+SELECT image_key FROM recipes
+WHERE id = $1
+`
+
+func (q *Queries) GetRecipeImageKey(ctx context.Context, id uuid.UUID) (string, error) {
+	row := q.db.QueryRowContext(ctx, getRecipeImageKey, id)
+	var image_key string
+	err := row.Scan(&image_key)
+	return image_key, err
 }
 
 const getRecipeList = `-- name: GetRecipeList :many
@@ -121,6 +143,18 @@ func (q *Queries) GetRecipeList(ctx context.Context) ([]Recipe, error) {
 	return items, nil
 }
 
+const getRecipeOwner = `-- name: GetRecipeOwner :one
+SELECT user_id FROM recipes
+WHERE id = $1
+`
+
+func (q *Queries) GetRecipeOwner(ctx context.Context, id uuid.UUID) (uuid.UUID, error) {
+	row := q.db.QueryRowContext(ctx, getRecipeOwner, id)
+	var user_id uuid.UUID
+	err := row.Scan(&user_id)
+	return user_id, err
+}
+
 const getUsersRecipes = `-- name: GetUsersRecipes :many
 SELECT id, title, author, description, image_key, created_at, updated_at, user_id, instructions FROM recipes
 WHERE user_id = $1
@@ -158,4 +192,46 @@ func (q *Queries) GetUsersRecipes(ctx context.Context, userID uuid.UUID) ([]Reci
 		return nil, err
 	}
 	return items, nil
+}
+
+const updateRecipe = `-- name: UpdateRecipe :one
+UPDATE recipes SET 
+	title = $1,
+	description = $2,
+	image_key = $3,
+	instructions = $4,
+	updated_at = NOW()
+WHERE id = $5
+RETURNING id, title, author, description, image_key, created_at, updated_at, user_id, instructions
+`
+
+type UpdateRecipeParams struct {
+	Title        string
+	Description  string
+	ImageKey     string
+	Instructions string
+	ID           uuid.UUID
+}
+
+func (q *Queries) UpdateRecipe(ctx context.Context, arg UpdateRecipeParams) (Recipe, error) {
+	row := q.db.QueryRowContext(ctx, updateRecipe,
+		arg.Title,
+		arg.Description,
+		arg.ImageKey,
+		arg.Instructions,
+		arg.ID,
+	)
+	var i Recipe
+	err := row.Scan(
+		&i.ID,
+		&i.Title,
+		&i.Author,
+		&i.Description,
+		&i.ImageKey,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.UserID,
+		&i.Instructions,
+	)
+	return i, err
 }

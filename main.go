@@ -118,7 +118,6 @@ func main() {
 	}
 		
 	// Load server
-
 	mux := http.NewServeMux()
 	server := http.Server{
 		Addr: "0.0.0.0:8080",
@@ -140,6 +139,7 @@ func main() {
 	mux.HandleFunc("GET /recipes/{recipe_id}", cfg.handlerGetRecipe)
 	mux.HandleFunc("GET /api/recipes", cfg.handlerGetRecipeList)
 	mux.HandleFunc("POST /api/recipes", cfg.authMiddleware(cfg.handlerCreateRecipe))
+	mux.HandleFunc("UPDATE /api/recipes/{recipe_id}", cfg.authMiddleware(cfg.handlerUpdateRecipe))
 
 	// Ingredient eps
 	mux.HandleFunc("POST /api/ingredients", cfg.handlerCreateIngredient)

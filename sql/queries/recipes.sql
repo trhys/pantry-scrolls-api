@@ -13,6 +13,16 @@ VALUES(
 )
 RETURNING *;
 
+-- name: UpdateRecipe :one
+UPDATE recipes SET 
+	title = $1,
+	description = $2,
+	image_key = $3,
+	instructions = $4,
+	updated_at = NOW()
+WHERE id = $5
+RETURNING *;
+
 -- name: GetRecipe :one
 SELECT * FROM recipes
 WHERE id = $1;
@@ -26,3 +36,15 @@ LIMIT 10;
 SELECT * FROM recipes
 WHERE user_id = $1
 ORDER BY created_at DESC;
+
+-- name: GetRecipeOwner :one
+SELECT user_id FROM recipes
+WHERE id = $1;
+
+-- name: GetRecipeImageKey :one
+SELECT image_key FROM recipes
+WHERE id = $1;
+
+-- name: DeleteRecipe :exec
+DELETE FROM recipes
+WHERE id = $1;

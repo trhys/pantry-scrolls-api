@@ -11,3 +11,7 @@ VALUES (
 SELECT ingredients.name, recipe_ingredients.* FROM ingredients
 INNER JOIN recipe_ingredients ON ingredients.id = recipe_ingredients.ingredient_id
 WHERE recipe_ingredients.recipe_id = $1;
+
+-- name: ClearFromRecipe :exec
+DELETE FROM recipe_ingredients 
+WHERE recipe_id = $1;

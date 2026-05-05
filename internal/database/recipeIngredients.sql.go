@@ -45,6 +45,16 @@ func (q *Queries) AddToRecipe(ctx context.Context, arg AddToRecipeParams) (Recip
 	return i, err
 }
 
+const clearFromRecipe = `-- name: ClearFromRecipe :exec
+DELETE FROM recipe_ingredients 
+WHERE recipe_id = $1
+`
+
+func (q *Queries) ClearFromRecipe(ctx context.Context, recipeID uuid.UUID) error {
+	_, err := q.db.ExecContext(ctx, clearFromRecipe, recipeID)
+	return err
+}
+
 const getIngredientList = `-- name: GetIngredientList :many
 SELECT ingredients.name, recipe_ingredients.recipe_id, recipe_ingredients.ingredient_id, recipe_ingredients.quantity, recipe_ingredients.unit FROM ingredients
 INNER JOIN recipe_ingredients ON ingredients.id = recipe_ingredients.ingredient_id
