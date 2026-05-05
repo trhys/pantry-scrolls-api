@@ -33,7 +33,7 @@ func (q *Queries) AddRecipeToList(ctx context.Context, arg AddRecipeToListParams
 }
 
 const getRecipesFromList = `-- name: GetRecipesFromList :many
-SELECT recipes.id, recipes.title, recipes.author, recipes.description, recipes.image_key, recipes.created_at, recipes.updated_at, recipes.user_id, recipes.instructions, shopping_list_recipes.quantity FROM recipes
+SELECT recipes.id, recipes.title, recipes.author, recipes.description, recipes.instructions, recipes.image_key, recipes.created_at, recipes.updated_at, recipes.user_id, shopping_list_recipes.quantity FROM recipes
 INNER JOIN shopping_list_recipes ON shopping_list_recipes.recipe_id = recipes.id
 WHERE shopping_list_recipes.shopping_list_id = $1
 `
@@ -43,11 +43,11 @@ type GetRecipesFromListRow struct {
 	Title        string
 	Author       string
 	Description  string
+	Instructions string
 	ImageKey     string
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
 	UserID       uuid.UUID
-	Instructions string
 	Quantity     int32
 }
 
@@ -65,11 +65,11 @@ func (q *Queries) GetRecipesFromList(ctx context.Context, shoppingListID uuid.UU
 			&i.Title,
 			&i.Author,
 			&i.Description,
+			&i.Instructions,
 			&i.ImageKey,
 			&i.CreatedAt,
 			&i.UpdatedAt,
 			&i.UserID,
-			&i.Instructions,
 			&i.Quantity,
 		); err != nil {
 			return nil, err

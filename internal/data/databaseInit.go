@@ -8,16 +8,15 @@ import (
 	"log"
 	
 	"github.com/lib/pq"
+	"github.com/google/uuid"
 	"github.com/trhys/Recipe-Repo-2/internal/database"
 	pb "github.com/schollz/progressbar/v3"
 )
 
-//go:embed setup.json
-var setup []byte
+//go:embed ingredientsManifest.json
+var ingredientsManifest []byte
 
-func InitDB(ik string, db *sql.DB, ctx context.Context) error {
-	log.Println("Checking database...")
-
+func InitDBIngredients(ik string, db *sql.DB, ctx context.Context) error {
 	log.Println("Loading ingredients from JSON...")
 	var ings struct {
 		Ingredients []struct{
@@ -30,8 +29,8 @@ func InitDB(ik string, db *sql.DB, ctx context.Context) error {
 		} `json:"ingredients"`
 	}
 
-	if err := json.Unmarshal(setup, &ings); err != nil {
-		log.Panic("Failed to marshal JSON!")
+	if err := json.Unmarshal(ingredientsManifest, &ings); err != nil {
+		log.Panic("Failed to unmarshal JSON!")
 	}
 
 	log.Println("Successfully read file - verifying entries...")
@@ -96,6 +95,79 @@ func InitDB(ik string, db *sql.DB, ctx context.Context) error {
 		bar.Add(1)
 	}
 
-	log.Println("Database verification successful...")
+	return nil
+}
+
+//go:embed recipesManifest.json
+var recipesManifest []byte
+
+func InitDBRecipes(ik string, db *sql.DB, ctx context.Context, userpw string) error {
+	log.Println("Loading recipes from JSON...")
+	var recipes struct {
+		Recipes []struct{
+			Title           string `json:"title"`
+			Description     string `json:"description"`
+			Ingredients     []struct{
+				ID              uuid.UUID `json:"id"`
+				Quantity        float32 `json:"quantity"`
+				Unit            string `json:"unit"`
+			} `json:"ingredients"`
+			Instructions    string `json:"instructions"`			} `json:"recipes"`
+	}
+
+	if err := json.Unmarshal(recipesManifest, &recipes); err != nil {
+		log.Panic("Failed to unmarshal JSON!")
+	}
+
+	log.Println("Successfully read file - verifying entries...")
+
+	dbConn := database.New(db)
+
+	// Create/Verify user
+	user, _ := dbConn.CreateUser(ctx, database.CreateUserParams{
+		Email: "recipereporoot@admin.trr",
+		HashedPw: userpw,
+		Name: "Recipe Repo",
+	})
+
+	bar := pb.Default(int64(len(recipes.Recipes)))
+	for _, r := range recipes.Recipes {
+		_, err := dbConn.CheckIfSeeded(ctx, r.Description)
+		if err == nil {
+			bar.Add(1)
+			continue
+		}
+
+		query := database.CreateRecipeParams{
+			Title: r.Title,
+			Author: user.Name,
+			UserID: user.ID,
+			Description: r.Description,
+			ImageKey: ik,
+			Instructions: r.Instructions,
+		}
+
+		rec, err := dbConn.CreateRecipe(ctx, query)
+		if err != nil {
+			log.Printf("Failed to create recipe: %s ERROR: %v", r.Title, err)
+		}
+
+		for _, ing := range r.Ingredients {
+			query := database.AddToRecipeParams{
+				RecipeID: rec.ID,
+				IngredientID: ing.ID,
+				Quantity: ing.Quantity,
+				Unit: ing.Unit,
+			}
+
+			_, err := dbConn.AddToRecipe(ctx, query)
+			if err != nil {
+				log.Printf("Failed to add ingredient to recipe: %s Ingredient id: %s ERROR: %v", r.Title, ing.ID, err)
+			}
+		}
+
+		bar.Add(1)
+	}
+
 	return nil
 }

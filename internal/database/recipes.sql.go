@@ -11,6 +11,18 @@ import (
 	"github.com/google/uuid"
 )
 
+const checkIfSeeded = `-- name: CheckIfSeeded :one
+SELECT id FROM recipes
+WHERE description = $1
+`
+
+func (q *Queries) CheckIfSeeded(ctx context.Context, description string) (uuid.UUID, error) {
+	row := q.db.QueryRowContext(ctx, checkIfSeeded, description)
+	var id uuid.UUID
+	err := row.Scan(&id)
+	return id, err
+}
+
 const createRecipe = `-- name: CreateRecipe :one
 INSERT INTO recipes (id, title, author, created_at, updated_at, user_id, description, image_key, instructions)
 VALUES(
@@ -24,7 +36,7 @@ VALUES(
 	$5,
 	$6
 )
-RETURNING id, title, author, description, image_key, created_at, updated_at, user_id, instructions
+RETURNING id, title, author, description, instructions, image_key, created_at, updated_at, user_id
 `
 
 type CreateRecipeParams struct {
@@ -51,11 +63,11 @@ func (q *Queries) CreateRecipe(ctx context.Context, arg CreateRecipeParams) (Rec
 		&i.Title,
 		&i.Author,
 		&i.Description,
+		&i.Instructions,
 		&i.ImageKey,
 		&i.CreatedAt,
 		&i.UpdatedAt,
 		&i.UserID,
-		&i.Instructions,
 	)
 	return i, err
 }
@@ -71,7 +83,7 @@ func (q *Queries) DeleteRecipe(ctx context.Context, id uuid.UUID) error {
 }
 
 const getRecipe = `-- name: GetRecipe :one
-SELECT id, title, author, description, image_key, created_at, updated_at, user_id, instructions FROM recipes
+SELECT id, title, author, description, instructions, image_key, created_at, updated_at, user_id FROM recipes
 WHERE id = $1
 `
 
@@ -83,11 +95,11 @@ func (q *Queries) GetRecipe(ctx context.Context, id uuid.UUID) (Recipe, error) {
 		&i.Title,
 		&i.Author,
 		&i.Description,
+		&i.Instructions,
 		&i.ImageKey,
 		&i.CreatedAt,
 		&i.UpdatedAt,
 		&i.UserID,
-		&i.Instructions,
 	)
 	return i, err
 }
@@ -105,7 +117,7 @@ func (q *Queries) GetRecipeImageKey(ctx context.Context, id uuid.UUID) (string, 
 }
 
 const getRecipeList = `-- name: GetRecipeList :many
-SELECT id, title, author, description, image_key, created_at, updated_at, user_id, instructions FROM recipes
+SELECT id, title, author, description, instructions, image_key, created_at, updated_at, user_id FROM recipes
 ORDER BY created_at DESC
 LIMIT 10
 `
@@ -124,11 +136,11 @@ func (q *Queries) GetRecipeList(ctx context.Context) ([]Recipe, error) {
 			&i.Title,
 			&i.Author,
 			&i.Description,
+			&i.Instructions,
 			&i.ImageKey,
 			&i.CreatedAt,
 			&i.UpdatedAt,
 			&i.UserID,
-			&i.Instructions,
 		); err != nil {
 			return nil, err
 		}
@@ -156,7 +168,7 @@ func (q *Queries) GetRecipeOwner(ctx context.Context, id uuid.UUID) (uuid.UUID, 
 }
 
 const getUsersRecipes = `-- name: GetUsersRecipes :many
-SELECT id, title, author, description, image_key, created_at, updated_at, user_id, instructions FROM recipes
+SELECT id, title, author, description, instructions, image_key, created_at, updated_at, user_id FROM recipes
 WHERE user_id = $1
 ORDER BY created_at DESC
 `
@@ -175,11 +187,11 @@ func (q *Queries) GetUsersRecipes(ctx context.Context, userID uuid.UUID) ([]Reci
 			&i.Title,
 			&i.Author,
 			&i.Description,
+			&i.Instructions,
 			&i.ImageKey,
 			&i.CreatedAt,
 			&i.UpdatedAt,
 			&i.UserID,
-			&i.Instructions,
 		); err != nil {
 			return nil, err
 		}
@@ -202,7 +214,7 @@ UPDATE recipes SET
 	instructions = $4,
 	updated_at = NOW()
 WHERE id = $5
-RETURNING id, title, author, description, image_key, created_at, updated_at, user_id, instructions
+RETURNING id, title, author, description, instructions, image_key, created_at, updated_at, user_id
 `
 
 type UpdateRecipeParams struct {
@@ -227,11 +239,11 @@ func (q *Queries) UpdateRecipe(ctx context.Context, arg UpdateRecipeParams) (Rec
 		&i.Title,
 		&i.Author,
 		&i.Description,
+		&i.Instructions,
 		&i.ImageKey,
 		&i.CreatedAt,
 		&i.UpdatedAt,
 		&i.UserID,
-		&i.Instructions,
 	)
 	return i, err
 }

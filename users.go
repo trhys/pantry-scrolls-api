@@ -23,13 +23,13 @@ func (cfg *apiConfig) handlerCreateUser(w http.ResponseWriter, r *http.Request) 
 	}
 
 	if err := util.DecodeRequest(w, r, 1<<20, &req); err != nil {
-		respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed to decode request: ERROR: %v", err))
+		respondFail(w, 400, "Bad request", fmt.Errorf("Failed to decode request - ERROR: %v", err))
 		return
 	}
 
 	hash, err := auth.HashPassword(req.Password)
 	if err != nil {
-		respondFail(w, 500, "Failed to hash password", err)
+		respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed to hash password for user email: %s - ERROR: %v", req.Email, err))
 		return
 	}
 
@@ -41,7 +41,7 @@ func (cfg *apiConfig) handlerCreateUser(w http.ResponseWriter, r *http.Request) 
 
 	user, err := cfg.db.CreateUser(r.Context(), query)
 	if err != nil {
-		respondFail(w, 500, "Database error: failed to create user", err)
+		respondFail(w, 500, "Database error", fmt.Errorf("Failed to perform CreateUser query: %v", err))
 		return
 	}
 
@@ -56,28 +56,28 @@ func (cfg *apiConfig) handlerLogin(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := util.DecodeRequest(w, r, 1<<20, &req); err != nil {
-		respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed to decode request: ERROR: %v", err))
+		respondFail(w, 400, "Bad request", fmt.Errorf("Failed to decode request - ERROR: %v", err))
 		return
 	}
 
 	// get users info
 	user, err := cfg.db.GetUserHash(r.Context(), req.Email)
 	if err != nil {
-		respondFail(w, 404, "User not found", err)
+		respondFail(w, 404, "User not found", fmt.Errorf("Failed to find user with email: %s - ERROR: %v", req.Email, err))
 		return
 	}
 
 	// check the hash
 	match, err := auth.CheckPasswordHash(req.Password, user.HashedPw)
 	if err != nil {
-		respondFail(w, 500, "Something went wrong during authentication", err)
+		respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed to check hash: %v", err))
 		return
 	}
 
 	if match {
 		token, err := auth.MakeJWT(user.ID, cfg.secret, cfg.jwtDuration)
 		if err != nil{
-			respondFail(w, 500, "Failed to generate token", err)
+			respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed to write JWT for user: %s, - ERROR: %v", req.Email, err))
 			return
 		}
 
@@ -86,11 +86,11 @@ func (cfg *apiConfig) handlerLogin(w http.ResponseWriter, r *http.Request) {
 			ID: refreshToken,
 			UserID: user.ID,
 		}); err != nil {
-			respondFail(w, 500, "Couldn't generate refresh token", err)
+			respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed to generate refresh token for user: %s - ERROR: %v", req.Email, err))
 			return
 		}
 
-		respondJSON(w, 201, viewmodel.GenerateSession(user, token, refreshToken)) 
+		respondJSON(w, 200, viewmodel.GenerateSession(user, token, refreshToken)) 
 		return
 	} else {
 		respondFail(w, 401, "Invalid username or password", fmt.Errorf("Failed login attempt for: %s", user.Email))
@@ -103,14 +103,14 @@ func (cfg *apiConfig) handlerGetUserProfile(w http.ResponseWriter, r *http.Reque
 	val := r.PathValue("user_id")
         id, err := uuid.Parse(val)
         if err != nil {
-                respondFail(w, 404, "Invalid uuid", err)
+		respondFail(w, 404, "Invalid uuid", fmt.Errorf("Failed to parse UUID in url: %v", err))
                 return
         }
 
 	// Make sure user exists
         user, err := cfg.db.GetUser(r.Context(), id)
         if err != nil {
-                respondFail(w, 404, "Couldn't find user", err)
+		respondFail(w, 404, "Couldn't find user", fmt.Errorf("Failed to find user with ID: %s, ERROR: %v", val, err))
                 return
         }
 
@@ -124,7 +124,7 @@ func (cfg *apiConfig) handlerGetUserProfile(w http.ResponseWriter, r *http.Reque
 	// Get recipes for user
         recipes, err := cfg.db.GetUsersRecipes(r.Context(), user.ID)
         if err != nil {
-                respondFail(w, 404, "Couldn't find recipes", err)
+		respondFail(w, 404, "Couldn't find recipes", fmt.Errorf("Failed to find recipes for user ID: %s - ERROR: %v", val, err))
                 return
         }
 
@@ -143,7 +143,7 @@ func (cfg *apiConfig) handlerGetUserProfile(w http.ResponseWriter, r *http.Reque
 
         tmpl, err := template.ParseFiles(filepath.Join("app", "templates", "user_page.html"))
         if err != nil {
-                respondFail(w, 500, "Something went wrong", err)
+		respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed to render HTML template: %v", err))
                 return
         }
 

@@ -31,11 +31,11 @@ type Recipe struct {
 	Title        string
 	Author       string
 	Description  string
+	Instructions string
 	ImageKey     string
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
 	UserID       uuid.UUID
-	Instructions string
 }
 
 type RecipeIngredient struct {

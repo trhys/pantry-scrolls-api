@@ -29,3 +29,6 @@ WHERE recipe_ingredients.recipe_id IN (
 	WHERE shopping_list_id = $1
 );
 
+-- name: DeleteShoppingList :exec
+DELETE FROM shopping_lists
+WHERE id = $1;

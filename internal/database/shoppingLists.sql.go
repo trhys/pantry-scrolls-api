@@ -40,6 +40,16 @@ func (q *Queries) CreateShoppingList(ctx context.Context, arg CreateShoppingList
 	return i, err
 }
 
+const deleteShoppingList = `-- name: DeleteShoppingList :exec
+DELETE FROM shopping_lists
+WHERE id = $1
+`
+
+func (q *Queries) DeleteShoppingList(ctx context.Context, id uuid.UUID) error {
+	_, err := q.db.ExecContext(ctx, deleteShoppingList, id)
+	return err
+}
+
 const getListOwner = `-- name: GetListOwner :one
 SELECT name, user_id FROM shopping_lists
 WHERE id = $1

@@ -14,6 +14,7 @@ import (
 	"github.com/trhys/Recipe-Repo-2/internal/database"
 	"github.com/trhys/Recipe-Repo-2/internal/data"
 	"github.com/trhys/Recipe-Repo-2/internal/viewmodel"
+	"github.com/trhys/Recipe-Repo-2/internal/auth"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 	"github.com/aws/aws-sdk-go-v2/config"
 )
@@ -79,6 +80,13 @@ func main() {
 		log.Fatal("Failed to load placehold for images")
 	}
 
+	userpw := os.Getenv("USERPW")
+	if userpw == "" {
+		log.Fatal("Failed to get root user")
+	}
+
+	hash, _ := auth.HashPassword(userpw)
+
 	// Connect to database
 	db, err := sql.Open("postgres", dbUrl)
 	if err != nil {
@@ -113,8 +121,12 @@ func main() {
 	}
 
 	// Check database seeding
-	if err := data.InitDB(imagePlaceholder, db, context.Background()); err != nil {
-		log.Panic("Failed to seed database")
+	if err := data.InitDBIngredients(imagePlaceholder, db, context.Background()); err != nil {
+		log.Panic("Failed to seed database ingredients")
+	}
+
+	if err := data.InitDBRecipes(imagePlaceholder, db, context.Background(), hash); err != nil {
+		log.Panic("Failed to seed database recipes")
 	}
 		
 	// Load server
@@ -142,7 +154,7 @@ func main() {
 	mux.HandleFunc("UPDATE /api/recipes/{recipe_id}", cfg.authMiddleware(cfg.handlerUpdateRecipe))
 
 	// Ingredient eps
-	mux.HandleFunc("POST /api/ingredients", cfg.handlerCreateIngredient)
+	//mux.HandleFunc("POST /api/ingredients", cfg.handlerCreateIngredient)
 	mux.HandleFunc("GET /api/ingredients", cfg.handlerGetIngredientBase)
 	mux.HandleFunc("POST /api/units", cfg.handlerGetUnits)
 

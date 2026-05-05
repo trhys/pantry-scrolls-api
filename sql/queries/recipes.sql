@@ -48,3 +48,7 @@ WHERE id = $1;
 -- name: DeleteRecipe :exec
 DELETE FROM recipes
 WHERE id = $1;
+
+-- name: CheckIfSeeded :one
+SELECT id FROM recipes
+WHERE description = $1;
