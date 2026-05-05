@@ -21,7 +21,6 @@ func (cfg *apiConfig) handlerCreateRecipe(w http.ResponseWriter, r *http.Request
 	r.Body = http.MaxBytesReader(w, r.Body, 10 << 20)
 	var req struct{
 		Title 		string `json:"title"`
-		UserID 		uuid.UUID `json:"user_id"`
 		Description	string `json:"description"`
 		Ingredients 	[]struct{
 			ID		uuid.UUID `json:"id"`
@@ -41,21 +40,9 @@ func (cfg *apiConfig) handlerCreateRecipe(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	// Get username
-	username, err := cfg.db.GetName(r.Context(), req.UserID)
-	if err != nil {
-		respondFail(w, 404, "Invalid user id", err)
-		return
-	}
-
 	// Validate auth from middleware
 	requesterID, ok := r.Context().Value("userID").(uuid.UUID)
 	if !ok {
-                respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
-                return
-        }
-
-	if requesterID != req.UserID {
                 respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
                 return
         }
@@ -112,11 +99,18 @@ func (cfg *apiConfig) handlerCreateRecipe(w http.ResponseWriter, r *http.Request
 		}
 	}
 
+	// Get username
+	username, err := cfg.db.GetName(r.Context(), requesterID)
+	if err != nil {
+		respondFail(w, 404, "Invalid user id", err)
+		return
+	}
+
 	// Query database
 	query := database.CreateRecipeParams{
 		Title: req.Title,
 		Author: username,
-		UserID: req.UserID,
+		UserID: requesterID,
 		Description: req.Description,
 		ImageKey: key,
 		Instructions: req.Instructions,
