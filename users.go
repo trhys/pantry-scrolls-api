@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/trhys/Recipe-Repo-2/internal/database"
@@ -89,6 +90,18 @@ func (cfg *apiConfig) handlerLogin(w http.ResponseWriter, r *http.Request) {
 			respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed to generate refresh token for user: %s - ERROR: %v", req.Email, err))
 			return
 		}
+
+		cookie := http.Cookie{
+			Name:     "jwt",
+			Value:    token,
+			HttpOnly: true,
+			Secure:   true,
+			SameSite: http.SameSiteStrictMode,
+			Path:     "/",
+			Expires:  time.Now().Add(1 * time.Hour),
+		}
+		
+		http.SetCookie(w, &cookie)
 
 		respondJSON(w, 200, viewmodel.GenerateSession(user, token, refreshToken)) 
 		return

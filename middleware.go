@@ -12,14 +12,25 @@ import (
 
 func (cfg *apiConfig) authMiddleware(next http.HandlerFunc) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		token, err := auth.GetBearerToken(r.Header)
-		if err != nil {
-			ip := getClientIP(r)
-			respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt from IP: %s - ERROR: %v", ip, err))
-			return
+		var tokenString string
+		
+		cookie, err := r.Cookie("jwt")
+		if err == nil {
+			tokenString = cookie.Value
 		}
 
-		subject, err := auth.ValidateJWT(token, cfg.secret)
+		if tokenString == "" {
+			token, err := auth.GetBearerToken(r.Header)
+			if err != nil {
+				ip := getClientIP(r)
+				respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt from IP: %s - ERROR: %v", ip, err))
+				return
+			} 
+
+			tokenString = token
+		}
+
+		subject, err := auth.ValidateJWT(tokenString, cfg.secret)
 		if err != nil {
 			ip := getClientIP(r)
 			respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt from IP: %s - ERROR: %v", ip, err))

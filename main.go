@@ -9,6 +9,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/rs/cors"
 	_ "github.com/lib/pq"
         "github.com/joho/godotenv"
 	"github.com/trhys/Recipe-Repo-2/internal/database"
@@ -130,16 +131,19 @@ func main() {
 	}
 		
 	// Load server
+	c := cors.New(cors.Options{
+		AllowedOrigins: []string{"*"},
+	    	AllowedMethods: []string{"GET", "POST", "PUT", "DELETE"},
+	    	AllowedHeaders: []string{"Authorization", "Content-Type", "Accept"},
+	})
+
 	mux := http.NewServeMux()
 	server := http.Server{
 		Addr: "0.0.0.0:8080",
-		Handler: mux,
+		Handler: c.Handler(mux),
 	}
 
-	// JS Fileserver handler
-	appHandler := http.FileServer(http.Dir(appDirectory))
-	mux.Handle("/", appHandler)
-
+	
 	// Handlers :
 
 	// User eps
@@ -152,6 +156,7 @@ func main() {
 	mux.HandleFunc("GET /api/recipes", cfg.handlerGetRecipeList)
 	mux.HandleFunc("POST /api/recipes", cfg.authMiddleware(cfg.handlerCreateRecipe))
 	mux.HandleFunc("UPDATE /api/recipes/{recipe_id}", cfg.authMiddleware(cfg.handlerUpdateRecipe))
+	mux.HandleFunc("DELETE /api/recipes/{recipe_id}", cfg.authMiddleware(cfg.handlerDeleteRecipe))
 
 	// Ingredient eps
 	//mux.HandleFunc("POST /api/ingredients", cfg.handlerCreateIngredient)
@@ -164,6 +169,7 @@ func main() {
 	mux.HandleFunc("POST /api/shoppinglists", cfg.authMiddleware(cfg.handlerCreateShoppingList))
 	mux.HandleFunc("POST /api/shoppinglists/{shopping_list_id}", cfg.authMiddleware(cfg.handlerAddToShoppingList))
 	mux.HandleFunc("GET /shoppinglists/{shopping_list_id}/print", cfg.authMiddleware(cfg.handlerPrintList))
+	mux.HandleFunc("DELETE /api/shoppinglists/{shopping_list_id}", cfg.authMiddleware(cfg.handlerDeleteShoppingList))
 
 	// Token eps
 	mux.HandleFunc("POST /api/tokens/refresh", cfg.handlerRefreshToken)

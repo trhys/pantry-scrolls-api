@@ -29,6 +29,8 @@ Dockerfile saw an edit due to moving setup.json into the internal directory, so 
 END:
 -----------------------------
 
+5/4/26
+
 Commit From: 2490bf0
 
 # SQL:
@@ -45,3 +47,27 @@ Added to the recipe creator form to allow user input into the instructions table
 
 END:
 -----------------------------
+
+5/6/26
+
+Commit From: 28c6dc9
+
+# Internal:
+
+Added a new seeding function on server start to populate some recipes.
+
+# SQL:
+
+Squashed migration history.
+
+# Main:
+
+Made some changes to error logging to make server side messages more informative, and response messages more consistent.
+
+Added update and delete endpoints for recipes.
+
+Removed user_id from handlerCreateRecipe() request shape.
+
+END:
+-------------------------------
+
