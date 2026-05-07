@@ -152,7 +152,7 @@ func main() {
 	mux.HandleFunc("POST /api/sessions", cfg.handlerLogin)
 
 	// Recipe eps
-	mux.HandleFunc("GET /recipes/{recipe_id}", cfg.handlerGetRecipe)
+	mux.HandleFunc("GET /api/recipes/{recipe_id}", cfg.handlerGetRecipe)
 	mux.HandleFunc("GET /api/recipes", cfg.handlerGetRecipeList)
 	mux.HandleFunc("POST /api/recipes", cfg.authMiddleware(cfg.handlerCreateRecipe))
 	mux.HandleFunc("UPDATE /api/recipes/{recipe_id}", cfg.authMiddleware(cfg.handlerUpdateRecipe))

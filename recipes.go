@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"path/filepath"
-	"html/template"
 	"mime"
 	"net/http"
 
@@ -123,7 +121,6 @@ func (cfg *apiConfig) handlerCreateRecipe(w http.ResponseWriter, r *http.Request
 	}
 
 	// Connect all ingredients
-	ingredients := []viewmodel.Ingredient{}
 	for _, ing := range req.Ingredients {
 		query := database.AddToRecipeParams{
 			RecipeID: rec.ID,
@@ -137,22 +134,15 @@ func (cfg *apiConfig) handlerCreateRecipe(w http.ResponseWriter, r *http.Request
 			respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed to add ingredient to recipe: %v", err))
 			return
 		}
-
-		ingName, err := cfg.db.GetIngredientName(r.Context(), ing.ID)
-		if err != nil {
-			respondFail(w, 404, "Couldn't find ingredient", fmt.Errorf("Failed to find ingredient during recipe creation: %v", err))
-			return
-		}
-
-		ingredients = append(ingredients, viewmodel.Ingredient{
-			ID: ing.ID,
-			Name: ingName,
-			Quantity: ing.Quantity,
-			Unit: ing.Unit,
-		})
 	}
 
-	respondJSON(w, 200, cfg.vmf.GenerateRecipeFullViewModel(rec, ingredients))
+	i, err := cfg.db.GetIngredientList(r.Context(), rec.ID)
+	if err != nil {
+		respondFail(w, 404, "Couldn't find ingredients", fmt.Errorf("Failed to find ingredients for recipe id: %s, ERROR: %v", rec.ID, err))
+		return
+	}
+
+	respondJSON(w, 200, cfg.vmf.GenerateRecipeFullViewModel(rec, viewmodel.GenerateIngredientsViewModel(i)))
 }
 
 // Get recipe by ID
@@ -176,25 +166,9 @@ func (cfg *apiConfig) handlerGetRecipe(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	ingredients := []viewmodel.Ingredient{}
-	for _, ing := range i {
-		ingredients = append(ingredients, viewmodel.Ingredient{
-			ID: ing.IngredientID,
-			Name: ing.Name,
-			Quantity: ing.Quantity,
-			Unit: ing.Unit,
-		})
-	}
+	model := cfg.vmf.GenerateRecipeFullViewModel(rec, viewmodel.GenerateIngredientsViewModel(i))
 
-	model := cfg.vmf.GenerateRecipeFullViewModel(rec, ingredients)
-
-	if r.Header.Get("Accept") == "application/json" {
-		respondJSON(w, 200, model)
-		return
-	}
-
-	tmpl, _ := template.ParseFiles(filepath.Join("app", "templates", "recipe-viewer.html"))
-	tmpl.Execute(w, model)
+	respondJSON(w, 200, model)
 }
 
 // Get ten most recent recipes

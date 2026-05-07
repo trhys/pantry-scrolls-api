@@ -30,7 +30,7 @@ type RecipeFull struct {
 	Author      	string          `json:"author"`
 	Description	string          `json:"description"`
 	ImageURL    	string          `json:"image_url"`
-	Ingredients	[]Ingredient	`json:'ingredients"`
+	Ingredients	[]Ingredient	`json:"ingredients"`
 	Instructions	string		`json:"instructions"`
 }
 

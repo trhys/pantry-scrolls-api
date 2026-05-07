@@ -32,3 +32,17 @@ func GenerateUnitsViewModel(conversions []database.Conversion) UnitsViewModel {
 
 	return model
 }
+
+func GenerateIngredientsViewModel(ingredients []database.GetIngredientListRow) []Ingredient {
+	model := make([]Ingredient, 0, len(ingredients))
+	for _, ing := range ingredients {
+                model = append(model, Ingredient{
+                        ID: ing.IngredientID,
+                        Name: ing.Name,
+                        Quantity: ing.Quantity,
+                        Unit: ing.Unit,
+                })
+        }
+
+	return model
+}
