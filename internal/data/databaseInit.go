@@ -8,7 +8,6 @@ import (
 	"log"
 	
 	"github.com/lib/pq"
-	"github.com/google/uuid"
 	"github.com/trhys/Recipe-Repo-2/internal/database"
 	pb "github.com/schollz/progressbar/v3"
 )
@@ -108,7 +107,7 @@ func InitDBRecipes(ik string, db *sql.DB, ctx context.Context, userpw string) er
 			Title           string `json:"title"`
 			Description     string `json:"description"`
 			Ingredients     []struct{
-				ID              uuid.UUID `json:"id"`
+				Name            string  `json:"name"`
 				Quantity        float32 `json:"quantity"`
 				Unit            string `json:"unit"`
 			} `json:"ingredients"`
@@ -153,16 +152,21 @@ func InitDBRecipes(ik string, db *sql.DB, ctx context.Context, userpw string) er
 		}
 
 		for _, ing := range r.Ingredients {
+			id, err := dbConn.GetIngredientFromName(ctx, ing.Name)
+			if err != nil {
+				log.Printf("Failed to fetch ingredient ID during recipe creation - RECIPE: %s - ERROR: %v", r.Title, err)
+				continue
+			}
+
 			query := database.AddToRecipeParams{
 				RecipeID: rec.ID,
-				IngredientID: ing.ID,
+				IngredientID: id,
 				Quantity: ing.Quantity,
 				Unit: ing.Unit,
 			}
 
-			_, err := dbConn.AddToRecipe(ctx, query)
-			if err != nil {
-				log.Printf("Failed to add ingredient to recipe: %s Ingredient id: %s ERROR: %v", r.Title, ing.ID, err)
+			if _, err := dbConn.AddToRecipe(ctx, query); err != nil {
+				log.Printf("Failed to add ingredient to recipe: %s Ingredient id: %s ERROR: %v", r.Title, id, err)
 			}
 		}
 

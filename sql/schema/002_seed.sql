@@ -191,4 +191,4 @@ INSERT INTO retail_units (name) VALUES
 ('Wedge (8oz)');
 
 -- +goose Down
-DELETE FROM conversions; DELETE FROM units; DELETE FROM retail_units;
+DELETE FROM shopping_list_recipes; DELETE FROM recipes; DELETE FROM conversions; DELETE FROM units; DELETE FROM retail_units;
