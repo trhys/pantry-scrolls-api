@@ -29,3 +29,7 @@ WHERE id = $1;
 UPDATE users
 SET admin = true
 WHERE id = $1;
+
+-- name: RefreshUser :one
+SELECT id, name, email FROM users
+WHERE id = $1;

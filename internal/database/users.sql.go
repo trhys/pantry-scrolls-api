@@ -133,3 +133,21 @@ func (q *Queries) MakeAdmin(ctx context.Context, id uuid.UUID) error {
 	_, err := q.db.ExecContext(ctx, makeAdmin, id)
 	return err
 }
+
+const refreshUser = `-- name: RefreshUser :one
+SELECT id, name, email FROM users
+WHERE id = $1
+`
+
+type RefreshUserRow struct {
+	ID    uuid.UUID
+	Name  string
+	Email string
+}
+
+func (q *Queries) RefreshUser(ctx context.Context, id uuid.UUID) (RefreshUserRow, error) {
+	row := q.db.QueryRowContext(ctx, refreshUser, id)
+	var i RefreshUserRow
+	err := row.Scan(&i.ID, &i.Name, &i.Email)
+	return i, err
+}

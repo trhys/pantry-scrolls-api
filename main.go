@@ -132,9 +132,10 @@ func main() {
 		
 	// Load server
 	c := cors.New(cors.Options{
-		AllowedOrigins: []string{"*"},
+		AllowedOrigins: []string{"https://reimagined-adventure-r4vqr94jvvj2xp55-5173.app.github.dev"},
 	    	AllowedMethods: []string{"GET", "POST", "PUT", "DELETE"},
 	    	AllowedHeaders: []string{"Authorization", "Content-Type", "Accept"},
+		AllowCredentials: true,
 	})
 
 	mux := http.NewServeMux()
@@ -147,9 +148,10 @@ func main() {
 	// Handlers :
 
 	// User eps
-	mux.HandleFunc("GET /users/{user_id}", cfg.authMiddleware(cfg.handlerGetUserProfile))
+	mux.HandleFunc("GET /api/users/{user_id}", cfg.authMiddleware(cfg.handlerGetUserProfile))
 	mux.HandleFunc("POST /api/users", cfg.handlerCreateUser)
 	mux.HandleFunc("POST /api/sessions", cfg.handlerLogin)
+	mux.HandleFunc("GET /api/sessions", cfg.authMiddleware(cfg.handlerGetSession))
 
 	// Recipe eps
 	mux.HandleFunc("GET /api/recipes/{recipe_id}", cfg.handlerGetRecipe)

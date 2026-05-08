@@ -31,6 +31,11 @@ type SessionViewModel struct{
 	RT	string	`json:"refresh_token"`
 }
 
+type RefreshViewModel struct {
+	User
+	Email	string	`json:"email"`
+}
+
 func (builder *VMFactory) GeneratePrivateUser(user database.GetUserRow, recipes []database.Recipe) PrivateUserViewModel {
 	model := PrivateUserViewModel{
 		User: User{
@@ -66,5 +71,15 @@ func GenerateSession(user database.GetUserHashRow, token, refreshToken string) S
 		Email:	user.Email,
 		JWT:	token,
 		RT:	refreshToken,
+	}
+}
+
+func RefreshSession(user database.RefreshUserRow) RefreshViewModel {
+	return RefreshViewModel{
+		User: User{
+			ID:	user.ID,
+			Name:	user.Name,
+		},
+		Email:	user.Email,
 	}
 }

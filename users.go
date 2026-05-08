@@ -96,7 +96,7 @@ func (cfg *apiConfig) handlerLogin(w http.ResponseWriter, r *http.Request) {
 			Value:    token,
 			HttpOnly: true,
 			Secure:   true,
-			SameSite: http.SameSiteStrictMode,
+			SameSite: http.SameSiteLaxMode,
 			Path:     "/",
 			Expires:  time.Now().Add(1 * time.Hour),
 		}
@@ -109,6 +109,23 @@ func (cfg *apiConfig) handlerLogin(w http.ResponseWriter, r *http.Request) {
 		respondFail(w, 401, "Invalid username or password", fmt.Errorf("Failed login attempt for: %s", user.Email))
 		return
 	}
+}
+
+// Refresh user session
+func (cfg *apiConfig) handlerGetSession(w http.ResponseWriter, r *http.Request) {
+	id, ok := r.Context().Value("userID").(uuid.UUID)
+	if !ok {
+		respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", id))
+		return
+	}
+
+	user, err := cfg.db.RefreshUser(r.Context(), id)
+	if err != nil {
+		respondFail(w, 404, "Couldn't find user", fmt.Errorf("Databse query failed (RefreshUser) : %v", err))
+		return
+	}
+
+	respondJSON(w, 200, viewmodel.RefreshSession(user))
 }
 
 func (cfg *apiConfig) handlerGetUserProfile(w http.ResponseWriter, r *http.Request) {

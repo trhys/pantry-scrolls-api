@@ -21,13 +21,9 @@ func (cfg *apiConfig) authMiddleware(next http.HandlerFunc) http.HandlerFunc {
 
 		if tokenString == "" {
 			token, err := auth.GetBearerToken(r.Header)
-			if err != nil {
-				ip := getClientIP(r)
-				respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt from IP: %s - ERROR: %v", ip, err))
-				return
+			if err == nil {
+				tokenString = token
 			} 
-
-			tokenString = token
 		}
 
 		subject, err := auth.ValidateJWT(tokenString, cfg.secret)
