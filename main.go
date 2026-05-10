@@ -88,6 +88,12 @@ func main() {
 
 	hash, _ := auth.HashPassword(userpw)
 
+	reacturl := os.Getenv("REACTURL")
+	if reacturl == "" {
+		log.Fatal("Failed to get frontend server")
+	}
+
+
 	// Connect to database
 	db, err := sql.Open("postgres", dbUrl)
 	if err != nil {
@@ -132,7 +138,7 @@ func main() {
 		
 	// Load server
 	c := cors.New(cors.Options{
-		AllowedOrigins: []string{"https://reimagined-adventure-r4vqr94jvvj2xp55-5173.app.github.dev"},
+		AllowedOrigins: []string{reacturl},
 	    	AllowedMethods: []string{"GET", "POST", "PUT", "DELETE"},
 	    	AllowedHeaders: []string{"Authorization", "Content-Type", "Accept"},
 		AllowCredentials: true,
