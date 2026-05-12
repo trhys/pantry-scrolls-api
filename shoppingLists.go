@@ -136,23 +136,16 @@ func (cfg *apiConfig) handlerGetShoppingList(w http.ResponseWriter, r *http.Requ
 
 // List the user's shopping lists
 func (cfg *apiConfig) handlerGetUsersShoppingLists(w http.ResponseWriter, r *http.Request) {
-	val := r.PathValue("user_id")
-	id, err := uuid.Parse(val)
-        if err != nil {
-		respondFail(w, 404, "Invalid uuid", fmt.Errorf("Failed to parse UUID: %v", err))
-                return
-        }
-
-        user, err := cfg.db.GetUser(r.Context(), id)
-        if err != nil {
-		respondFail(w, 404, "Couldn't find user", fmt.Errorf("Failed to find user with ID: %s ERROR: %v", val, err))
-                return
-        }
-
 	// Authorization
-        _, ok := r.Context().Value("userID").(uuid.UUID)
+        id, ok := r.Context().Value("userID").(uuid.UUID)
         if !ok {
-                respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", val))
+                respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", id))
+                return
+        }
+
+	user, err := cfg.db.GetUser(r.Context(), id)
+        if err != nil {
+		respondFail(w, 404, "Couldn't find user", fmt.Errorf("Failed to find user with ID: %s ERROR: %v", id, err))
                 return
         }
 
@@ -165,18 +158,7 @@ func (cfg *apiConfig) handlerGetUsersShoppingLists(w http.ResponseWriter, r *htt
 
 	model := viewmodel.GenerateUserListsViewModel(user.Name, lists)
 
-	if r.Header.Get("Accept") == "application/json" {
-                respondJSON(w, 200, model)
-                return
-        }
-
-        tmpl, err := template.ParseFiles(filepath.Join("app", "templates", "user_shopping_lists.html"))
-        if err != nil {
-		respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed to render HTML template: %v", err))
-                return
-        }
-
-        tmpl.Execute(w, model)
+        respondJSON(w, 200, model)
 }
 
 // Print the shopping lists ingredients in converted retail units
@@ -212,18 +194,7 @@ func (cfg *apiConfig) handlerPrintList(w http.ResponseWriter, r *http.Request) {
 
 	model := viewmodel.GeneratePrintViewModel(list.Name, printed)
 
-	if r.Header.Get("Accept") == "application/json" {
-		respondJSON(w, 200, model)
-		return
-	}
-
-	tmpl, err := template.ParseFiles(filepath.Join("app", "templates", "print_list.html"))
-        if err != nil {
-		respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed to render HTML template: %v", err))
-                return
-        }
-
-        tmpl.Execute(w, model)
+	respondJSON(w, 200, model)
 }
 
 // Delete shopping list
