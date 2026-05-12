@@ -50,16 +50,6 @@ func main() {
 	}
 	jwtDuration := time.Duration(convDur)*time.Second
 
-
-	appDirectory := os.Getenv("APP_DIR")
-	if appDirectory == "" {
-		log.Fatal("Failed to load app directory")
-	}
-
-	adminDir := os.Getenv("ADMIN_DIR")
-	if adminDir == "" {
-		log.Fatal("Failed to load admin directory")
-	}
 	
 	s3bucket := os.Getenv("S3_BUCKET")
 	if s3bucket == "" {

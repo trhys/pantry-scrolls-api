@@ -9,7 +9,6 @@ WORKDIR /app
 COPY --from=builder app/reciperepo reciperepo
 COPY --from=builder /go/bin/goose goose
 
-COPY app/ app/
 COPY sql/schema sql/schema
 COPY entrypoint.sh entrypoint.sh
 RUN chmod +x entrypoint.sh
