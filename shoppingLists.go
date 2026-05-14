@@ -2,8 +2,6 @@ package main
 
 import (
 	"fmt"
-	"html/template"
-	"path/filepath"
 	"net/http"
 
 	"github.com/google/uuid"
@@ -53,7 +51,6 @@ func (cfg *apiConfig) handlerCreateShoppingList(w http.ResponseWriter, r *http.R
 // Add recipe to shopping list
 func (cfg *apiConfig) handlerAddToShoppingList(w http.ResponseWriter, r *http.Request) {
 	var req struct{
-		ShoppingListID	uuid.UUID `json:"shopping_list_id"`
 		RecipeID	uuid.UUID `json:"recipe_id"`
 		Quantity	int32	  `json:"quantity"`
 	}
@@ -65,6 +62,14 @@ func (cfg *apiConfig) handlerAddToShoppingList(w http.ResponseWriter, r *http.Re
                 return
         }
 
+	// Get list id
+	val := r.PathValue("shopping_list_id")
+	id, err := uuid.Parse(val)
+	if err != nil {
+		respondFail(w, 404, "Invalid uuid", fmt.Errorf("Failed to parse uuid from path: %v", err))
+		return
+	}
+
 	// Decode body
 	if err := util.DecodeRequest(w, r, 1<<20, &req); err != nil {
 		respondFail(w, 400, "Something went wrong", fmt.Errorf("Failed to decode request: ERROR: %v", err))
@@ -73,7 +78,7 @@ func (cfg *apiConfig) handlerAddToShoppingList(w http.ResponseWriter, r *http.Re
 
 	// Link recipe to list by ID
 	if err := cfg.db.AddRecipeToList(r.Context(), database.AddRecipeToListParams{
-		ShoppingListID: req.ShoppingListID,
+		ShoppingListID: id,
 		RecipeID: req.RecipeID,
 		Quantity: req.Quantity,
 	}); err != nil {
@@ -120,18 +125,7 @@ func (cfg *apiConfig) handlerGetShoppingList(w http.ResponseWriter, r *http.Requ
 
 	model := viewmodel.GenerateShoppingListViewModel(shoppingList, shoppingListRecipes)	
 
-	if r.Header.Get("Accept") == "application/json" {
-		respondJSON(w, 200, model)
-		return
-	}
-
-	tmpl, err := template.ParseFiles(filepath.Join("app", "templates", "shopping_list.html"))
-        if err != nil {
-		respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed to render HTML template: %v", err))
-                return
-        }
-
-        tmpl.Execute(w, model)
+	respondJSON(w, 200, model)
 }
 
 // List the user's shopping lists
@@ -156,7 +150,7 @@ func (cfg *apiConfig) handlerGetUsersShoppingLists(w http.ResponseWriter, r *htt
 		return
 	}
 
-	model := viewmodel.GenerateUserListsViewModel(user.Name, lists)
+	model := viewmodel.GenerateUserListsViewModel(lists)
 
         respondJSON(w, 200, model)
 }
@@ -192,7 +186,7 @@ func (cfg *apiConfig) handlerPrintList(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	model := viewmodel.GeneratePrintViewModel(list.Name, printed)
+	model := viewmodel.GeneratePrintViewModel(list.Name, printed, cfg.db)
 
 	respondJSON(w, 200, model)
 }

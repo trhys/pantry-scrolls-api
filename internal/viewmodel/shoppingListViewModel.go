@@ -1,6 +1,8 @@
 package viewmodel
 
 import (
+	"context"
+	"log"
 	"math"
 	"time"
 
@@ -17,13 +19,10 @@ type ShoppingList struct {
 
 type ShoppingListViewModel struct {
 	ShoppingList
-	Recipes		[]RecipeOnList		`json:"recipes"`
-	Quantity	map[uuid.UUID]int32	`json:"quantity"`
-	
+	Recipes		[]RecipeOnList	`json:"recipes"`
 }
 
 type UserListsViewModel struct {
-	UserName	string		`json:"username"`
 	UserLists	[]ShoppingList	`json:"shopping_lists"`
 }
 
@@ -32,6 +31,7 @@ type PrintViewModel struct {
 	Ingredients	[]Ingredient	`json:"items"`
 }
 
+// Display for viewing a single list with it's recipes
 func GenerateShoppingListViewModel(list db.ShoppingList, recipes []db.GetRecipesFromListRow) ShoppingListViewModel {
 	model := ShoppingListViewModel {
 		ShoppingList: ShoppingList {
@@ -40,16 +40,15 @@ func GenerateShoppingListViewModel(list db.ShoppingList, recipes []db.GetRecipes
 			CreatedAt: list.CreatedAt,
 			UpdatedAt: list.UpdatedAt,
 		},
-		Quantity: make(map[uuid.UUID]int32),
 		Recipes: GetRecipesOnList(recipes),
 	}
 	
 	return model
 }
 
-func GenerateUserListsViewModel(username string, lists []db.ShoppingList) UserListsViewModel {
+// Display for all of the user's lists
+func GenerateUserListsViewModel(lists []db.ShoppingList) UserListsViewModel {
 	model := UserListsViewModel{
-		UserName: username,
 		UserLists: make([]ShoppingList, 0, len(lists)),
 	}
 
@@ -65,21 +64,85 @@ func GenerateUserListsViewModel(username string, lists []db.ShoppingList) UserLi
 	return model
 }
 
-func GeneratePrintViewModel(listName string, printout []db.PrintListRow) PrintViewModel {
+// Display all the items(ingredients) on a list
+func GeneratePrintViewModel(listName string, printout []db.PrintListRow, dbConn *db.Queries) PrintViewModel {
 	model := PrintViewModel{
 		Name: listName,
 	}
 
+	type agg struct {
+		id uuid.UUID
+		universal_unit string
+	}
+
+	total := make(map[agg]struct {
+		name string
+		quantity float32
+	})
+
 	for _, p := range printout {
-		conversion := math.Ceil(float64(p.Quantity * p.Ratio))
-		unit := p.ToUnit
+		key := agg{id: p.IngredientID, universal_unit: p.ToUnit}
+		conversion := p.Quantity * p.Ratio
+
+		item := total[key]
+		item.name = p.Name
+		item.quantity += conversion
+		total[key] = item
+	}
+
+	for key, item := range total {
+		retailConversions, err := dbConn.GetRetailConversion(context.Background(), db.GetRetailConversionParams{
+			IngredientID: key.id,
+			UniversalUnit: key.universal_unit,
+		})
+		if err != nil {
+			log.Printf("Failed to get retail conversions during shopping list print out. Ingedient: %s - ERROR: %v", item.name, err)
+			continue
+		}
+
+		bestUnit, bestQuantity := getBestFit(retailConversions, item.quantity)
+
 		model.Ingredients = append(model.Ingredients, Ingredient{
-			ID: p.IngredientID,
-			Name: p.Name,
-			Quantity: float32(conversion),
-			Unit: unit,
+			ID: key.id,
+			Name: item.name,
+			Quantity: bestQuantity,
+			Unit: bestUnit,
 		})
 	}
 
 		return model
 }
+
+// Print list helper
+func getBestFit(conversions []db.RetailConversion, quantity float32) (string, float32) {
+	if len(conversions) == 0 {
+		return "unknown", quantity
+	}
+
+	if len(conversions) == 1 {
+		convQuantity := float32(math.Ceil(float64(quantity / conversions[0].Ratio)))
+		return conversions[0].RetailUnit, convQuantity
+	}
+
+	var bestUnit string
+	var bestQuantity float32
+	min := float32(math.MaxFloat32)
+
+	for _, conv := range conversions {
+		packages := float32(math.Ceil(float64(quantity / conv.Ratio)))
+		totalVolume := packages * conv.Ratio
+
+		if totalVolume < min {
+			min = totalVolume
+			bestQuantity = packages
+			bestUnit = conv.RetailUnit
+		} else if totalVolume == min {
+			if packages < bestQuantity || bestQuantity == 0 {
+				bestQuantity = packages
+				bestUnit = conv.RetailUnit
+			}
+		}
+	}
+
+	return bestUnit, bestQuantity
+}	

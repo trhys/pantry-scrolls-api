@@ -1,0 +1,6716 @@
+{
+  "units": [
+    {
+      "name": "Cup",
+      "abbreviation": "c"
+    },
+    {
+      "name": "Tablespoon",
+      "abbreviation": "tbsp"
+    },
+    {
+      "name": "Teaspoon",
+      "abbreviation": "tsp"
+    },
+    {
+      "name": "Pound",
+      "abbreviation": "lb"
+    },
+    {
+      "name": "Ounce",
+      "abbreviation": "oz"
+    },
+    {
+      "name": "Count",
+      "abbreviation": "ct"
+    }
+  ],
+  "universal_units": [
+    {
+      "name": "ml"
+    },
+    {
+      "name": "g"
+    },
+    {
+      "name": "each"
+    }
+  ],
+  "retail_units": [
+    {
+      "name": "Bag (1lb)"
+    },
+    {
+      "name": "Bag (2lb)"
+    },
+    {
+      "name": "Bag (4lb)"
+    },
+    {
+      "name": "Bag (5lb)"
+    },
+    {
+      "name": "Bag (8oz)"
+    },
+    {
+      "name": "Bag (10oz)"
+    },
+    {
+      "name": "Bag (12oz)"
+    },
+    {
+      "name": "Bag (14oz)"
+    },
+    {
+      "name": "Bag (16oz)"
+    },
+    {
+      "name": "Bag (20oz)"
+    },
+    {
+      "name": "Bag (24oz)"
+    },
+    {
+      "name": "Bag (4ct)"
+    },
+    {
+      "name": "Bag (6ct)"
+    },
+    {
+      "name": "Bag (8ct)"
+    },
+    {
+      "name": "Ball (8oz)"
+    },
+    {
+      "name": "Block (8oz)"
+    },
+    {
+      "name": "Block (14oz)"
+    },
+    {
+      "name": "Bottle (5oz)"
+    },
+    {
+      "name": "Bottle (6oz)"
+    },
+    {
+      "name": "Bottle (9oz)"
+    },
+    {
+      "name": "Bottle (10oz)"
+    },
+    {
+      "name": "Bottle (12oz)"
+    },
+    {
+      "name": "Bottle (14oz)"
+    },
+    {
+      "name": "Bottle (16oz)"
+    },
+    {
+      "name": "Bottle (16.9oz)"
+    },
+    {
+      "name": "Bottle (17oz)"
+    },
+    {
+      "name": "Bottle (18oz)"
+    },
+    {
+      "name": "Bottle (20oz)"
+    },
+    {
+      "name": "Bottle (32oz)"
+    },
+    {
+      "name": "Bottle (48oz)"
+    },
+    {
+      "name": "Bottle (64oz)"
+    },
+    {
+      "name": "Bottle (500ml)"
+    },
+    {
+      "name": "Bottle (750ml)"
+    },
+    {
+      "name": "Box (1lb)"
+    },
+    {
+      "name": "Box (4oz)"
+    },
+    {
+      "name": "Box (8oz)"
+    },
+    {
+      "name": "Box (10oz)"
+    },
+    {
+      "name": "Box (2 sheets)"
+    },
+    {
+      "name": "Bunch"
+    },
+    {
+      "name": "Bunch (5ct)"
+    },
+    {
+      "name": "Can (5oz)"
+    },
+    {
+      "name": "Can (6oz)"
+    },
+    {
+      "name": "Can (8oz)"
+    },
+    {
+      "name": "Can (10.75oz)"
+    },
+    {
+      "name": "Can (12oz)"
+    },
+    {
+      "name": "Can (13.5oz)"
+    },
+    {
+      "name": "Can (14oz)"
+    },
+    {
+      "name": "Can (14.5oz)"
+    },
+    {
+      "name": "Can (15oz)"
+    },
+    {
+      "name": "Can (20oz)"
+    },
+    {
+      "name": "Can (28oz)"
+    },
+    {
+      "name": "Canister (8oz)"
+    },
+    {
+      "name": "Canister (15oz)"
+    },
+    {
+      "name": "Canister (18oz)"
+    },
+    {
+      "name": "Canister (26oz)"
+    },
+    {
+      "name": "Carton (6oz)"
+    },
+    {
+      "name": "Carton (12oz)"
+    },
+    {
+      "name": "Carton (16oz)"
+    },
+    {
+      "name": "Carton (32oz)"
+    },
+    {
+      "name": "Carton (52oz)"
+    },
+    {
+      "name": "Container (5oz)"
+    },
+    {
+      "name": "Container (6oz)"
+    },
+    {
+      "name": "Container (10oz)"
+    },
+    {
+      "name": "Container (12oz)"
+    },
+    {
+      "name": "Container (15oz)"
+    },
+    {
+      "name": "Container (16oz)"
+    },
+    {
+      "name": "Container (32oz)"
+    },
+    {
+      "name": "Count"
+    },
+    {
+      "name": "Gallon"
+    },
+    {
+      "name": "Head"
+    },
+    {
+      "name": "Jar (0.1oz)"
+    },
+    {
+      "name": "Jar (0.5oz)"
+    },
+    {
+      "name": "Jar (0.7oz)"
+    },
+    {
+      "name": "Jar (0.75oz)"
+    },
+    {
+      "name": "Jar (1.5oz)"
+    },
+    {
+      "name": "Jar (1.8oz)"
+    },
+    {
+      "name": "Jar (2oz)"
+    },
+    {
+      "name": "Jar (2.3oz)"
+    },
+    {
+      "name": "Jar (3oz)"
+    },
+    {
+      "name": "Jar (3.5oz)"
+    },
+    {
+      "name": "Jar (4oz)"
+    },
+    {
+      "name": "Jar (6oz)"
+    },
+    {
+      "name": "Jar (8oz)"
+    },
+    {
+      "name": "Jar (10oz)"
+    },
+    {
+      "name": "Jar (12oz)"
+    },
+    {
+      "name": "Jar (16oz)"
+    },
+    {
+      "name": "Jar (25ct)"
+    },
+    {
+      "name": "Jar (32oz)"
+    },
+    {
+      "name": "Link (9oz)"
+    },
+    {
+      "name": "Loaf (24oz)"
+    },
+    {
+      "name": "Log (4oz)"
+    },
+    {
+      "name": "Pack (0.25oz)"
+    },
+    {
+      "name": "Pack (0.75oz)"
+    },
+    {
+      "name": "Pack (1lb)"
+    },
+    {
+      "name": "Pack (1.3lb)"
+    },
+    {
+      "name": "Pack (1.5lb)"
+    },
+    {
+      "name": "Pack (2lb)"
+    },
+    {
+      "name": "Pack (2ct)"
+    },
+    {
+      "name": "Pack (4ct)"
+    },
+    {
+      "name": "Pack (4oz)"
+    },
+    {
+      "name": "Pack (6ct)"
+    },
+    {
+      "name": "Pack (8ct)"
+    },
+    {
+      "name": "Pack (8oz)"
+    },
+    {
+      "name": "Pack (10ct)"
+    },
+    {
+      "name": "Pack (12ct)"
+    },
+    {
+      "name": "Pack (16oz)"
+    },
+    {
+      "name": "Pack (19oz)"
+    },
+    {
+      "name": "Pack (30ct)"
+    },
+    {
+      "name": "Pint"
+    },
+    {
+      "name": "Quart"
+    },
+    {
+      "name": "Root"
+    },
+    {
+      "name": "Stick"
+    },
+    {
+      "name": "Tin (2oz)"
+    },
+    {
+      "name": "Tub (17.6oz)"
+    },
+    {
+      "name": "Wedge (8oz)"
+    },
+    {
+      "name": "Canister (16oz)"
+    },
+    {
+      "name": "Pack (14oz)"
+    },
+    {
+      "name": "Bag (0.5oz)"
+    },
+    {
+      "name": "Bottle (2oz)"
+    },
+    {
+      "name": "Bottle (4oz)"
+    },
+    {
+      "name": "Jar (14oz)"
+    },
+    {
+      "name": "Can (48oz)"
+    },
+    {
+      "name": "Bottle (8oz)"
+    },
+    {
+      "name": "Jar (30oz)"
+    },
+    {
+      "name": "Can (14.75oz)"
+    },
+    {
+      "name": "Block (12.3oz)"
+    },
+    {
+      "name": "Bag (3lb)"
+    },
+    {
+      "name": "Bag (3ct)"
+    },
+    {
+      "name": "Bag (5oz)"
+    },
+    {
+      "name": "Jar (8.5oz)"
+    },
+    {
+      "name": "Bag (13oz)"
+    }
+  ],
+  "retail_conversions": [
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Bottle (500ml)",
+      "ratio": 500.0
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Bottle (750ml)",
+      "ratio": 750.0
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Bottle (5oz)",
+      "ratio": 147.9
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Bottle (6oz)",
+      "ratio": 177.4
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Bottle (9oz)",
+      "ratio": 266.2
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Bottle (10oz)",
+      "ratio": 295.7
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Bottle (12oz)",
+      "ratio": 354.9
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Bottle (14oz)",
+      "ratio": 414.0
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Bottle (16oz)",
+      "ratio": 473.2
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Bottle (16.9oz)",
+      "ratio": 500.0
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Bottle (17oz)",
+      "ratio": 502.8
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Bottle (18oz)",
+      "ratio": 532.0
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Bottle (20oz)",
+      "ratio": 591.5
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Bottle (32oz)",
+      "ratio": 946.4
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Bottle (48oz)",
+      "ratio": 1419.5
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Bottle (64oz)",
+      "ratio": 1892.7
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Can (5oz)",
+      "ratio": 147.9
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Can (6oz)",
+      "ratio": 177.4
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Can (8oz)",
+      "ratio": 236.6
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Can (10.75oz)",
+      "ratio": 318.0
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Can (12oz)",
+      "ratio": 354.9
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Can (13.5oz)",
+      "ratio": 399.5
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Can (14oz)",
+      "ratio": 414.0
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Can (14.5oz)",
+      "ratio": 429.0
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Can (15oz)",
+      "ratio": 443.6
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Can (20oz)",
+      "ratio": 591.5
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Can (28oz)",
+      "ratio": 828.1
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Carton (6oz)",
+      "ratio": 177.4
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Carton (12oz)",
+      "ratio": 354.9
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Carton (16oz)",
+      "ratio": 473.2
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Carton (32oz)",
+      "ratio": 946.4
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Carton (52oz)",
+      "ratio": 1538.0
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Container (5oz)",
+      "ratio": 147.9
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Container (6oz)",
+      "ratio": 177.4
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Container (10oz)",
+      "ratio": 295.7
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Container (12oz)",
+      "ratio": 354.9
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Container (15oz)",
+      "ratio": 443.6
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Container (16oz)",
+      "ratio": 473.2
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Container (32oz)",
+      "ratio": 946.4
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Gallon",
+      "ratio": 3785.4
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Jar (4oz)",
+      "ratio": 118.3
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Jar (6oz)",
+      "ratio": 177.4
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Jar (8oz)",
+      "ratio": 236.6
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Jar (10oz)",
+      "ratio": 295.7
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Jar (12oz)",
+      "ratio": 354.9
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Jar (16oz)",
+      "ratio": 473.2
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Jar (32oz)",
+      "ratio": 946.4
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Pint",
+      "ratio": 473.2
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Quart",
+      "ratio": 946.4
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Tub (17.6oz)",
+      "ratio": 520.8
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Bag (1lb)",
+      "ratio": 453.6
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Bag (2lb)",
+      "ratio": 907.2
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Bag (4lb)",
+      "ratio": 1814.4
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Bag (5lb)",
+      "ratio": 2268.0
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Bag (8oz)",
+      "ratio": 226.8
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Bag (10oz)",
+      "ratio": 283.5
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Bag (12oz)",
+      "ratio": 340.2
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Bag (14oz)",
+      "ratio": 396.9
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Bag (16oz)",
+      "ratio": 453.6
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Bag (20oz)",
+      "ratio": 567.0
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Bag (24oz)",
+      "ratio": 680.4
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Ball (8oz)",
+      "ratio": 226.8
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Block (8oz)",
+      "ratio": 226.8
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Block (14oz)",
+      "ratio": 396.9
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Box (1lb)",
+      "ratio": 453.6
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Box (4oz)",
+      "ratio": 113.4
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Box (8oz)",
+      "ratio": 226.8
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Box (10oz)",
+      "ratio": 283.5
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Box (2 sheets)",
+      "ratio": 510.3
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Can (5oz)",
+      "ratio": 141.7
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Can (6oz)",
+      "ratio": 170.1
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Can (14oz)",
+      "ratio": 396.9
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Can (14.5oz)",
+      "ratio": 411.1
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Can (15oz)",
+      "ratio": 425.2
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Can (20oz)",
+      "ratio": 567.0
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Can (28oz)",
+      "ratio": 793.8
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Canister (8oz)",
+      "ratio": 226.8
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Canister (15oz)",
+      "ratio": 425.2
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Canister (18oz)",
+      "ratio": 510.3
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Canister (26oz)",
+      "ratio": 737.1
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Container (5oz)",
+      "ratio": 141.7
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Container (6oz)",
+      "ratio": 170.1
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Container (15oz)",
+      "ratio": 425.2
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Container (16oz)",
+      "ratio": 453.6
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Jar (0.1oz)",
+      "ratio": 2.8
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Jar (0.5oz)",
+      "ratio": 14.2
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Jar (0.7oz)",
+      "ratio": 19.8
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Jar (0.75oz)",
+      "ratio": 21.3
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Jar (1.5oz)",
+      "ratio": 42.5
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Jar (1.8oz)",
+      "ratio": 51.0
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Jar (2oz)",
+      "ratio": 56.7
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Jar (2.3oz)",
+      "ratio": 65.2
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Jar (3oz)",
+      "ratio": 85.0
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Jar (3.5oz)",
+      "ratio": 99.2
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Jar (4oz)",
+      "ratio": 113.4
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Jar (6oz)",
+      "ratio": 170.1
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Jar (8oz)",
+      "ratio": 226.8
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Jar (10oz)",
+      "ratio": 283.5
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Jar (12oz)",
+      "ratio": 340.2
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Jar (16oz)",
+      "ratio": 453.6
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Link (9oz)",
+      "ratio": 255.1
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Loaf (24oz)",
+      "ratio": 680.4
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Log (4oz)",
+      "ratio": 113.4
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Pack (0.25oz)",
+      "ratio": 7.1
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Pack (0.75oz)",
+      "ratio": 21.3
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Pack (1lb)",
+      "ratio": 453.6
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Pack (1.3lb)",
+      "ratio": 589.7
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Pack (1.5lb)",
+      "ratio": 680.4
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Pack (2lb)",
+      "ratio": 907.2
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Pack (4oz)",
+      "ratio": 113.4
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Pack (8oz)",
+      "ratio": 226.8
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Pack (16oz)",
+      "ratio": 453.6
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Pack (19oz)",
+      "ratio": 539.0
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Tin (2oz)",
+      "ratio": 56.7
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Wedge (8oz)",
+      "ratio": 226.8
+    },
+    {
+      "universal_unit": "each",
+      "retail_unit": "Bunch",
+      "ratio": 1.0
+    },
+    {
+      "universal_unit": "each",
+      "retail_unit": "Bunch (5ct)",
+      "ratio": 5.0
+    },
+    {
+      "universal_unit": "each",
+      "retail_unit": "Count",
+      "ratio": 1.0
+    },
+    {
+      "universal_unit": "each",
+      "retail_unit": "Head",
+      "ratio": 1.0
+    },
+    {
+      "universal_unit": "each",
+      "retail_unit": "Pack (2ct)",
+      "ratio": 2.0
+    },
+    {
+      "universal_unit": "each",
+      "retail_unit": "Pack (4ct)",
+      "ratio": 4.0
+    },
+    {
+      "universal_unit": "each",
+      "retail_unit": "Pack (6ct)",
+      "ratio": 6.0
+    },
+    {
+      "universal_unit": "each",
+      "retail_unit": "Pack (8ct)",
+      "ratio": 8.0
+    },
+    {
+      "universal_unit": "each",
+      "retail_unit": "Pack (10ct)",
+      "ratio": 10.0
+    },
+    {
+      "universal_unit": "each",
+      "retail_unit": "Pack (12ct)",
+      "ratio": 12.0
+    },
+    {
+      "universal_unit": "each",
+      "retail_unit": "Pack (30ct)",
+      "ratio": 30.0
+    },
+    {
+      "universal_unit": "each",
+      "retail_unit": "Bag (4ct)",
+      "ratio": 4.0
+    },
+    {
+      "universal_unit": "each",
+      "retail_unit": "Bag (6ct)",
+      "ratio": 6.0
+    },
+    {
+      "universal_unit": "each",
+      "retail_unit": "Bag (8ct)",
+      "ratio": 8.0
+    },
+    {
+      "universal_unit": "each",
+      "retail_unit": "Jar (25ct)",
+      "ratio": 25.0
+    },
+    {
+      "universal_unit": "each",
+      "retail_unit": "Root",
+      "ratio": 1.0
+    },
+    {
+      "universal_unit": "each",
+      "retail_unit": "Stick",
+      "ratio": 1.0
+    },
+    {
+      "universal_unit": "each",
+      "retail_unit": "Pint",
+      "ratio": 1.0
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Canister (16oz)",
+      "ratio": 473.2
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Bottle (2oz)",
+      "ratio": 59.1
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Bottle (4oz)",
+      "ratio": 118.3
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Bottle (8oz)",
+      "ratio": 236.6
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Jar (14oz)",
+      "ratio": 414.0
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Jar (30oz)",
+      "ratio": 887.2
+    },
+    {
+      "universal_unit": "ml",
+      "retail_unit": "Can (48oz)",
+      "ratio": 1419.5
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Canister (16oz)",
+      "ratio": 453.6
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Pack (14oz)",
+      "ratio": 396.9
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Bag (0.5oz)",
+      "ratio": 14.2
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Jar (14oz)",
+      "ratio": 396.9
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Can (14.75oz)",
+      "ratio": 418.0
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Block (12.3oz)",
+      "ratio": 348.7
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Bag (3lb)",
+      "ratio": 1360.8
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Bag (5oz)",
+      "ratio": 141.7
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Jar (8.5oz)",
+      "ratio": 241.0
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Bag (13oz)",
+      "ratio": 368.5
+    },
+    {
+      "universal_unit": "g",
+      "retail_unit": "Jar (30oz)",
+      "ratio": 850.5
+    },
+    {
+      "universal_unit": "each",
+      "retail_unit": "Bag (3ct)",
+      "ratio": 3.0
+    },
+    {
+      "universal_unit": "each",
+      "retail_unit": "Bag (3lb)",
+      "ratio": 1.0
+    }
+  ],
+  "ingredients": [
+    {
+      "name": "Brown Sugar",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 200.0
+        },
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Bag (2lb)",
+        "Bag (4lb)"
+      ]
+    },
+    {
+      "name": "Light Brown Sugar",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 200.0
+        },
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Bag (2lb)",
+        "Bag (4lb)"
+      ]
+    },
+    {
+      "name": "Dark Brown Sugar",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 220.0
+        },
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Bag (2lb)",
+        "Bag (4lb)"
+      ]
+    },
+    {
+      "name": "Granulated Sugar",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 200.0
+        },
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Bag (4lb)",
+        "Bag (2lb)"
+      ]
+    },
+    {
+      "name": "Powdered Sugar",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 120.0
+        },
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Bag (2lb)",
+        "Bag (4lb)"
+      ]
+    },
+    {
+      "name": "All-Purpose Flour",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 125.0
+        },
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Bag (5lb)",
+        "Bag (2lb)"
+      ]
+    },
+    {
+      "name": "Bread Flour",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 127.0
+        },
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Bag (5lb)"
+      ]
+    },
+    {
+      "name": "Whole Wheat Flour",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 120.0
+        },
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Bag (5lb)"
+      ]
+    },
+    {
+      "name": "Almond Flour",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 96.0
+        },
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Bag (1lb)",
+        "Bag (2lb)"
+      ]
+    },
+    {
+      "name": "Coconut Flour",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 128.0
+        },
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Bag (1lb)"
+      ]
+    },
+    {
+      "name": "Cornmeal",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 138.0
+        },
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Bag (24oz)"
+      ]
+    },
+    {
+      "name": "Tapioca Starch",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 120.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 10.0
+        }
+      ],
+      "retail_units": [
+        "Bag (20oz)"
+      ]
+    },
+    {
+      "name": "Corn Starch",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 8.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 128.0
+        }
+      ],
+      "retail_units": [
+        "Container (16oz)",
+        "Canister (16oz)"
+      ]
+    },
+    {
+      "name": "Cocoa Powder",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 85.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 5.3
+        }
+      ],
+      "retail_units": [
+        "Canister (8oz)"
+      ]
+    },
+    {
+      "name": "Rolled Oats",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 90.0
+        },
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Canister (18oz)",
+        "Bag (2lb)"
+      ]
+    },
+    {
+      "name": "Long Grain White Rice",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 185.0
+        },
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Bag (2lb)",
+        "Bag (5lb)"
+      ]
+    },
+    {
+      "name": "Brown Rice",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 190.0
+        },
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Bag (2lb)",
+        "Bag (5lb)"
+      ]
+    },
+    {
+      "name": "Jasmine Rice",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 185.0
+        },
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Bag (2lb)",
+        "Bag (5lb)"
+      ]
+    },
+    {
+      "name": "Basmati Rice",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 180.0
+        },
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Bag (2lb)",
+        "Bag (5lb)"
+      ]
+    },
+    {
+      "name": "Arborio Rice",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 200.0
+        },
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Bag (2lb)"
+      ]
+    },
+    {
+      "name": "Quinoa",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 170.0
+        },
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Bag (1lb)",
+        "Bag (2lb)"
+      ]
+    },
+    {
+      "name": "Farro",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 200.0
+        },
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Bag (1lb)"
+      ]
+    },
+    {
+      "name": "Barley",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 200.0
+        },
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Bag (1lb)"
+      ]
+    },
+    {
+      "name": "Couscous",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 175.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Box (10oz)"
+      ]
+    },
+    {
+      "name": "Breadcrumbs",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 108.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Canister (15oz)"
+      ]
+    },
+    {
+      "name": "Panko Breadcrumbs",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 60.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Box (8oz)"
+      ]
+    },
+    {
+      "name": "Spaghetti",
+      "conversions": [
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        },
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Box (1lb)"
+      ]
+    },
+    {
+      "name": "Penne Pasta",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 105.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Box (1lb)"
+      ]
+    },
+    {
+      "name": "Elbow Pasta",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 100.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Box (1lb)"
+      ]
+    },
+    {
+      "name": "Rotini Pasta",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 100.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Box (1lb)"
+      ]
+    },
+    {
+      "name": "Fettuccine",
+      "conversions": [
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        },
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Box (1lb)"
+      ]
+    },
+    {
+      "name": "Lasagna Noodles",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "g",
+          "ratio": 20.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Box (1lb)"
+      ]
+    },
+    {
+      "name": "Linguine",
+      "conversions": [
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        },
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Box (1lb)"
+      ]
+    },
+    {
+      "name": "Rigatoni",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 100.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Box (1lb)"
+      ]
+    },
+    {
+      "name": "Orzo",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 200.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Box (1lb)"
+      ]
+    },
+    {
+      "name": "Ditalini Pasta",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 100.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Box (1lb)"
+      ]
+    },
+    {
+      "name": "Egg Noodles",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 80.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Bag (12oz)"
+      ]
+    },
+    {
+      "name": "Rice Noodles",
+      "conversions": [
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 70.0
+        }
+      ],
+      "retail_units": [
+        "Pack (14oz)",
+        "Bag (1lb)"
+      ]
+    },
+    {
+      "name": "Black Beans",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 172.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Can (15oz)",
+        "Can (28oz)",
+        "Bag (1lb)"
+      ]
+    },
+    {
+      "name": "Pinto Beans",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 171.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Can (15oz)",
+        "Bag (1lb)"
+      ]
+    },
+    {
+      "name": "Chickpeas",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 164.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Can (15oz)",
+        "Bag (1lb)"
+      ]
+    },
+    {
+      "name": "Kidney Beans",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 177.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Can (15oz)",
+        "Bag (1lb)"
+      ]
+    },
+    {
+      "name": "Cannellini Beans",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 179.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Can (15oz)",
+        "Bag (1lb)"
+      ]
+    },
+    {
+      "name": "Green Lentils",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 192.0
+        },
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Bag (1lb)"
+      ]
+    },
+    {
+      "name": "Red Lentils",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 192.0
+        },
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Bag (1lb)"
+      ]
+    },
+    {
+      "name": "Peanut Butter",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 258.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 16.0
+        }
+      ],
+      "retail_units": [
+        "Jar (16oz)",
+        "Jar (12oz)"
+      ]
+    },
+    {
+      "name": "Almond Butter",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 250.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 16.0
+        }
+      ],
+      "retail_units": [
+        "Jar (16oz)"
+      ]
+    },
+    {
+      "name": "Tahini",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 240.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 15.0
+        }
+      ],
+      "retail_units": [
+        "Jar (16oz)"
+      ]
+    },
+    {
+      "name": "Chocolate Chips",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 170.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Bag (12oz)"
+      ]
+    },
+    {
+      "name": "Unsweetened Chocolate",
+      "conversions": [
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Box (4oz)"
+      ]
+    },
+    {
+      "name": "Semi-Sweet Baking Chocolate",
+      "conversions": [
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Box (4oz)"
+      ]
+    },
+    {
+      "name": "Walnuts",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 117.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Bag (8oz)",
+        "Bag (16oz)"
+      ]
+    },
+    {
+      "name": "Almonds",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 143.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Bag (8oz)",
+        "Bag (16oz)"
+      ]
+    },
+    {
+      "name": "Pecans",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 99.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Bag (8oz)"
+      ]
+    },
+    {
+      "name": "Cashews",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 130.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Bag (8oz)",
+        "Bag (16oz)"
+      ]
+    },
+    {
+      "name": "Peanuts",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 146.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Bag (16oz)"
+      ]
+    },
+    {
+      "name": "Hazelnuts",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 115.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Bag (8oz)"
+      ]
+    },
+    {
+      "name": "Pistachios",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 123.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Bag (8oz)",
+        "Bag (16oz)"
+      ]
+    },
+    {
+      "name": "Macadamia Nuts",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 134.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Bag (8oz)"
+      ]
+    },
+    {
+      "name": "Pine Nuts",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 8.5
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 135.0
+        }
+      ],
+      "retail_units": [
+        "Bag (8oz)"
+      ]
+    },
+    {
+      "name": "Sunflower Seeds",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 128.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Bag (8oz)"
+      ]
+    },
+    {
+      "name": "Pumpkin Seeds",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 129.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Bag (8oz)"
+      ]
+    },
+    {
+      "name": "Sesame Seeds",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 9.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 144.0
+        }
+      ],
+      "retail_units": [
+        "Jar (3.5oz)",
+        "Bag (8oz)"
+      ]
+    },
+    {
+      "name": "Chia Seeds",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 12.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 192.0
+        }
+      ],
+      "retail_units": [
+        "Bag (12oz)"
+      ]
+    },
+    {
+      "name": "Flax Seeds",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 10.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 160.0
+        }
+      ],
+      "retail_units": [
+        "Bag (12oz)"
+      ]
+    },
+    {
+      "name": "Hemp Seeds",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 10.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 160.0
+        }
+      ],
+      "retail_units": [
+        "Bag (8oz)"
+      ]
+    },
+    {
+      "name": "Raisins",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 165.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Box (1lb)",
+        "Bag (12oz)"
+      ]
+    },
+    {
+      "name": "Dried Cranberries",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 120.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Bag (8oz)",
+        "Bag (12oz)"
+      ]
+    },
+    {
+      "name": "Dates",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 178.0
+        },
+        {
+          "from_unit": "Count",
+          "to_unit": "g",
+          "ratio": 24.0
+        }
+      ],
+      "retail_units": [
+        "Bag (8oz)"
+      ]
+    },
+    {
+      "name": "Shredded Coconut (Sweetened)",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 93.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Bag (14oz)"
+      ]
+    },
+    {
+      "name": "Coconut Flakes (Unsweetened)",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 80.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Bag (8oz)"
+      ]
+    },
+    {
+      "name": "Kosher Salt",
+      "conversions": [
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "g",
+          "ratio": 6.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 18.0
+        }
+      ],
+      "retail_units": [
+        "Canister (26oz)",
+        "Box (1lb)"
+      ]
+    },
+    {
+      "name": "Fine Sea Salt",
+      "conversions": [
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "g",
+          "ratio": 6.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 18.0
+        }
+      ],
+      "retail_units": [
+        "Canister (26oz)"
+      ]
+    },
+    {
+      "name": "Ground Black Pepper",
+      "conversions": [
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "g",
+          "ratio": 2.3
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 6.9
+        }
+      ],
+      "retail_units": [
+        "Jar (3oz)",
+        "Jar (2oz)"
+      ]
+    },
+    {
+      "name": "Whole Black Peppercorns",
+      "conversions": [
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "g",
+          "ratio": 3.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 95.0
+        }
+      ],
+      "retail_units": [
+        "Jar (4oz)",
+        "Jar (3oz)"
+      ]
+    },
+    {
+      "name": "Ground Cinnamon",
+      "conversions": [
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "g",
+          "ratio": 2.6
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 7.8
+        }
+      ],
+      "retail_units": [
+        "Jar (2.3oz)",
+        "Jar (2oz)"
+      ]
+    },
+    {
+      "name": "Ground Cumin",
+      "conversions": [
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "g",
+          "ratio": 2.1
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 6.3
+        }
+      ],
+      "retail_units": [
+        "Jar (1.8oz)",
+        "Jar (2oz)"
+      ]
+    },
+    {
+      "name": "Garlic Powder",
+      "conversions": [
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "g",
+          "ratio": 2.8
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 8.4
+        }
+      ],
+      "retail_units": [
+        "Jar (3oz)",
+        "Jar (2oz)"
+      ]
+    },
+    {
+      "name": "Onion Powder",
+      "conversions": [
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "g",
+          "ratio": 2.4
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 7.2
+        }
+      ],
+      "retail_units": [
+        "Jar (3oz)",
+        "Jar (2oz)"
+      ]
+    },
+    {
+      "name": "Smoked Paprika",
+      "conversions": [
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "g",
+          "ratio": 2.3
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 6.9
+        }
+      ],
+      "retail_units": [
+        "Jar (2oz)"
+      ]
+    },
+    {
+      "name": "Sweet Paprika",
+      "conversions": [
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "g",
+          "ratio": 2.3
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 6.9
+        }
+      ],
+      "retail_units": [
+        "Jar (2oz)"
+      ]
+    },
+    {
+      "name": "Cayenne Pepper",
+      "conversions": [
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "g",
+          "ratio": 1.8
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 5.4
+        }
+      ],
+      "retail_units": [
+        "Jar (2oz)"
+      ]
+    },
+    {
+      "name": "Red Pepper Flakes",
+      "conversions": [
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "g",
+          "ratio": 2.7
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 8.1
+        }
+      ],
+      "retail_units": [
+        "Jar (1.5oz)",
+        "Jar (2oz)"
+      ]
+    },
+    {
+      "name": "Chili Powder",
+      "conversions": [
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "g",
+          "ratio": 2.7
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 8.1
+        }
+      ],
+      "retail_units": [
+        "Jar (2oz)",
+        "Jar (2.3oz)"
+      ]
+    },
+    {
+      "name": "Curry Powder",
+      "conversions": [
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "g",
+          "ratio": 2.5
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 7.5
+        }
+      ],
+      "retail_units": [
+        "Jar (2oz)"
+      ]
+    },
+    {
+      "name": "Garam Masala",
+      "conversions": [
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "g",
+          "ratio": 2.5
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 7.5
+        }
+      ],
+      "retail_units": [
+        "Jar (2oz)"
+      ]
+    },
+    {
+      "name": "Ground Turmeric",
+      "conversions": [
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "g",
+          "ratio": 3.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 9.0
+        }
+      ],
+      "retail_units": [
+        "Jar (2oz)"
+      ]
+    },
+    {
+      "name": "Ground Ginger",
+      "conversions": [
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "g",
+          "ratio": 1.8
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 5.4
+        }
+      ],
+      "retail_units": [
+        "Jar (1.5oz)",
+        "Jar (2oz)"
+      ]
+    },
+    {
+      "name": "Ground Nutmeg",
+      "conversions": [
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "g",
+          "ratio": 2.2
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 6.6
+        }
+      ],
+      "retail_units": [
+        "Jar (1.8oz)"
+      ]
+    },
+    {
+      "name": "Ground Cloves",
+      "conversions": [
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "g",
+          "ratio": 2.1
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 6.3
+        }
+      ],
+      "retail_units": [
+        "Jar (1.8oz)"
+      ]
+    },
+    {
+      "name": "Ground Allspice",
+      "conversions": [
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "g",
+          "ratio": 1.9
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 5.7
+        }
+      ],
+      "retail_units": [
+        "Jar (1.8oz)"
+      ]
+    },
+    {
+      "name": "Ground Cardamom",
+      "conversions": [
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "g",
+          "ratio": 2.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 6.0
+        }
+      ],
+      "retail_units": [
+        "Jar (2.3oz)"
+      ]
+    },
+    {
+      "name": "Ground Coriander",
+      "conversions": [
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "g",
+          "ratio": 1.8
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 5.4
+        }
+      ],
+      "retail_units": [
+        "Jar (1.8oz)"
+      ]
+    },
+    {
+      "name": "Dried Oregano",
+      "conversions": [
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "g",
+          "ratio": 1.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 3.0
+        }
+      ],
+      "retail_units": [
+        "Jar (0.5oz)",
+        "Jar (0.75oz)"
+      ]
+    },
+    {
+      "name": "Dried Basil",
+      "conversions": [
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "g",
+          "ratio": 0.7
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 2.1
+        }
+      ],
+      "retail_units": [
+        "Jar (0.5oz)",
+        "Jar (0.75oz)"
+      ]
+    },
+    {
+      "name": "Dried Parsley",
+      "conversions": [
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "g",
+          "ratio": 0.5
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 1.5
+        }
+      ],
+      "retail_units": [
+        "Jar (0.5oz)",
+        "Jar (0.75oz)"
+      ]
+    },
+    {
+      "name": "Dried Thyme",
+      "conversions": [
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "g",
+          "ratio": 0.8
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 2.4
+        }
+      ],
+      "retail_units": [
+        "Jar (0.7oz)",
+        "Jar (0.75oz)"
+      ]
+    },
+    {
+      "name": "Dried Rosemary",
+      "conversions": [
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "g",
+          "ratio": 1.2
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 3.6
+        }
+      ],
+      "retail_units": [
+        "Jar (0.7oz)",
+        "Jar (0.75oz)"
+      ]
+    },
+    {
+      "name": "Italian Seasoning",
+      "conversions": [
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "g",
+          "ratio": 1.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 3.0
+        }
+      ],
+      "retail_units": [
+        "Jar (0.75oz)",
+        "Jar (2oz)"
+      ]
+    },
+    {
+      "name": "Bay Leaves",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "g",
+          "ratio": 0.6
+        }
+      ],
+      "retail_units": [
+        "Jar (0.1oz)",
+        "Bag (0.5oz)"
+      ]
+    },
+    {
+      "name": "Baking Soda",
+      "conversions": [
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "g",
+          "ratio": 6.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 18.0
+        }
+      ],
+      "retail_units": [
+        "Canister (16oz)",
+        "Box (1lb)"
+      ]
+    },
+    {
+      "name": "Baking Powder",
+      "conversions": [
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "g",
+          "ratio": 4.6
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 13.8
+        }
+      ],
+      "retail_units": [
+        "Canister (8oz)"
+      ]
+    },
+    {
+      "name": "Cream of Tartar",
+      "conversions": [
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "g",
+          "ratio": 3.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 9.0
+        }
+      ],
+      "retail_units": [
+        "Jar (1.5oz)"
+      ]
+    },
+    {
+      "name": "Active Dry Yeast",
+      "conversions": [
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "g",
+          "ratio": 3.1
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 9.3
+        }
+      ],
+      "retail_units": [
+        "Pack (0.25oz)",
+        "Jar (4oz)"
+      ]
+    },
+    {
+      "name": "Instant Yeast",
+      "conversions": [
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "g",
+          "ratio": 3.1
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 9.3
+        }
+      ],
+      "retail_units": [
+        "Pack (0.25oz)",
+        "Jar (4oz)"
+      ]
+    },
+    {
+      "name": "Gelatin",
+      "conversions": [
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "g",
+          "ratio": 2.8
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 8.4
+        }
+      ],
+      "retail_units": [
+        "Pack (0.25oz)",
+        "Jar (4oz)"
+      ]
+    },
+    {
+      "name": "Nutritional Yeast",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 5.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 80.0
+        }
+      ],
+      "retail_units": [
+        "Canister (8oz)"
+      ]
+    },
+    {
+      "name": "Vanilla Extract",
+      "conversions": [
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "ml",
+          "ratio": 4.9
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 14.8
+        }
+      ],
+      "retail_units": [
+        "Bottle (2oz)",
+        "Bottle (4oz)"
+      ]
+    },
+    {
+      "name": "Extra Virgin Olive Oil",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 14.8
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 236.6
+        }
+      ],
+      "retail_units": [
+        "Bottle (500ml)",
+        "Bottle (16.9oz)"
+      ]
+    },
+    {
+      "name": "Canola Oil",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 236.6
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 14.8
+        }
+      ],
+      "retail_units": [
+        "Bottle (48oz)",
+        "Bottle (32oz)"
+      ]
+    },
+    {
+      "name": "Vegetable Oil",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 236.6
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 14.8
+        }
+      ],
+      "retail_units": [
+        "Bottle (48oz)",
+        "Bottle (32oz)"
+      ]
+    },
+    {
+      "name": "Coconut Oil",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 218.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 13.6
+        }
+      ],
+      "retail_units": [
+        "Jar (14oz)",
+        "Jar (16oz)"
+      ]
+    },
+    {
+      "name": "Sesame Oil",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 14.8
+        },
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "ml",
+          "ratio": 4.9
+        }
+      ],
+      "retail_units": [
+        "Bottle (5oz)",
+        "Bottle (9oz)"
+      ]
+    },
+    {
+      "name": "Shortening",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 218.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 13.6
+        }
+      ],
+      "retail_units": [
+        "Can (48oz)",
+        "Container (16oz)"
+      ]
+    },
+    {
+      "name": "Whole Milk",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        }
+      ],
+      "retail_units": [
+        "Gallon",
+        "Carton (32oz)"
+      ]
+    },
+    {
+      "name": "2% Milk",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        }
+      ],
+      "retail_units": [
+        "Gallon",
+        "Carton (32oz)"
+      ]
+    },
+    {
+      "name": "Skim Milk",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        }
+      ],
+      "retail_units": [
+        "Gallon",
+        "Carton (32oz)"
+      ]
+    },
+    {
+      "name": "Half-and-Half",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        }
+      ],
+      "retail_units": [
+        "Carton (32oz)",
+        "Carton (16oz)"
+      ]
+    },
+    {
+      "name": "Heavy Cream",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 238.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 14.8
+        }
+      ],
+      "retail_units": [
+        "Carton (16oz)"
+      ]
+    },
+    {
+      "name": "Whipping Cream",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 238.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 14.8
+        }
+      ],
+      "retail_units": [
+        "Carton (16oz)"
+      ]
+    },
+    {
+      "name": "Evaporated Milk",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        }
+      ],
+      "retail_units": [
+        "Can (12oz)"
+      ]
+    },
+    {
+      "name": "Condensed Milk",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 306.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 19.1
+        }
+      ],
+      "retail_units": [
+        "Can (14oz)"
+      ]
+    },
+    {
+      "name": "Sour Cream",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        }
+      ],
+      "retail_units": [
+        "Container (16oz)",
+        "Container (32oz)"
+      ]
+    },
+    {
+      "name": "Greek Yogurt",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 245.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.3
+        }
+      ],
+      "retail_units": [
+        "Container (32oz)",
+        "Container (16oz)"
+      ]
+    },
+    {
+      "name": "Orange Juice",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        }
+      ],
+      "retail_units": [
+        "Carton (52oz)",
+        "Carton (32oz)"
+      ]
+    },
+    {
+      "name": "Apple Juice",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        }
+      ],
+      "retail_units": [
+        "Bottle (64oz)",
+        "Bottle (32oz)"
+      ]
+    },
+    {
+      "name": "Cranberry Juice",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        }
+      ],
+      "retail_units": [
+        "Bottle (64oz)",
+        "Bottle (32oz)"
+      ]
+    },
+    {
+      "name": "Chicken Broth",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        }
+      ],
+      "retail_units": [
+        "Carton (32oz)",
+        "Can (14.5oz)"
+      ]
+    },
+    {
+      "name": "Beef Broth",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        }
+      ],
+      "retail_units": [
+        "Carton (32oz)",
+        "Can (14.5oz)"
+      ]
+    },
+    {
+      "name": "Vegetable Broth",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        }
+      ],
+      "retail_units": [
+        "Carton (32oz)",
+        "Can (14.5oz)"
+      ]
+    },
+    {
+      "name": "Chicken Stock",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        }
+      ],
+      "retail_units": [
+        "Carton (32oz)",
+        "Can (14.5oz)"
+      ]
+    },
+    {
+      "name": "Beef Stock",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        }
+      ],
+      "retail_units": [
+        "Carton (32oz)",
+        "Can (14.5oz)"
+      ]
+    },
+    {
+      "name": "Coconut Milk",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        }
+      ],
+      "retail_units": [
+        "Can (13.5oz)"
+      ]
+    },
+    {
+      "name": "Lite Coconut Milk",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        }
+      ],
+      "retail_units": [
+        "Can (13.5oz)"
+      ]
+    },
+    {
+      "name": "Dry White Wine",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        }
+      ],
+      "retail_units": [
+        "Bottle (750ml)"
+      ]
+    },
+    {
+      "name": "Dry Red Wine",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        }
+      ],
+      "retail_units": [
+        "Bottle (750ml)"
+      ]
+    },
+    {
+      "name": "Clam Juice",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        }
+      ],
+      "retail_units": [
+        "Bottle (8oz)"
+      ]
+    },
+    {
+      "name": "Soy Sauce",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        }
+      ],
+      "retail_units": [
+        "Bottle (10oz)",
+        "Bottle (16oz)"
+      ]
+    },
+    {
+      "name": "Coconut Aminos",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        }
+      ],
+      "retail_units": [
+        "Bottle (8oz)",
+        "Bottle (16oz)"
+      ]
+    },
+    {
+      "name": "Fish Sauce",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        },
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "ml",
+          "ratio": 5.0
+        }
+      ],
+      "retail_units": [
+        "Bottle (6oz)"
+      ]
+    },
+    {
+      "name": "Worcestershire Sauce",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        },
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "ml",
+          "ratio": 5.0
+        }
+      ],
+      "retail_units": [
+        "Bottle (10oz)"
+      ]
+    },
+    {
+      "name": "Hot Sauce",
+      "conversions": [
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "ml",
+          "ratio": 5.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        }
+      ],
+      "retail_units": [
+        "Bottle (12oz)"
+      ]
+    },
+    {
+      "name": "Sriracha",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        },
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "ml",
+          "ratio": 5.0
+        }
+      ],
+      "retail_units": [
+        "Bottle (17oz)"
+      ]
+    },
+    {
+      "name": "Hoisin Sauce",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 16.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 256.0
+        }
+      ],
+      "retail_units": [
+        "Jar (8oz)"
+      ]
+    },
+    {
+      "name": "Oyster Sauce",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 16.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 256.0
+        }
+      ],
+      "retail_units": [
+        "Bottle (9oz)"
+      ]
+    },
+    {
+      "name": "Teriyaki Sauce",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        }
+      ],
+      "retail_units": [
+        "Bottle (10oz)"
+      ]
+    },
+    {
+      "name": "Barbecue Sauce",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        }
+      ],
+      "retail_units": [
+        "Bottle (18oz)"
+      ]
+    },
+    {
+      "name": "Ketchup",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        }
+      ],
+      "retail_units": [
+        "Bottle (20oz)"
+      ]
+    },
+    {
+      "name": "Mayonnaise",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 220.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 13.8
+        }
+      ],
+      "retail_units": [
+        "Jar (30oz)",
+        "Jar (16oz)"
+      ]
+    },
+    {
+      "name": "Dijon Mustard",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        },
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "ml",
+          "ratio": 5.0
+        }
+      ],
+      "retail_units": [
+        "Jar (12oz)"
+      ]
+    },
+    {
+      "name": "Yellow Mustard",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        },
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "ml",
+          "ratio": 5.0
+        }
+      ],
+      "retail_units": [
+        "Bottle (14oz)"
+      ]
+    },
+    {
+      "name": "Ranch Dressing",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        }
+      ],
+      "retail_units": [
+        "Bottle (16oz)"
+      ]
+    },
+    {
+      "name": "Italian Dressing",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        }
+      ],
+      "retail_units": [
+        "Bottle (16oz)"
+      ]
+    },
+    {
+      "name": "Salsa",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        }
+      ],
+      "retail_units": [
+        "Jar (16oz)"
+      ]
+    },
+    {
+      "name": "Guacamole",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        }
+      ],
+      "retail_units": [
+        "Container (12oz)"
+      ]
+    },
+    {
+      "name": "Hummus",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        }
+      ],
+      "retail_units": [
+        "Container (10oz)"
+      ]
+    },
+    {
+      "name": "Miso Paste",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 17.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 272.0
+        }
+      ],
+      "retail_units": [
+        "Container (16oz)"
+      ]
+    },
+    {
+      "name": "Gochujang",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 17.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 272.0
+        }
+      ],
+      "retail_units": [
+        "Tub (17.6oz)"
+      ]
+    },
+    {
+      "name": "Harissa",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        },
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "ml",
+          "ratio": 5.0
+        }
+      ],
+      "retail_units": [
+        "Jar (10oz)"
+      ]
+    },
+    {
+      "name": "Apple Cider Vinegar",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        }
+      ],
+      "retail_units": [
+        "Bottle (16oz)",
+        "Bottle (32oz)"
+      ]
+    },
+    {
+      "name": "Red Wine Vinegar",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        }
+      ],
+      "retail_units": [
+        "Bottle (12oz)"
+      ]
+    },
+    {
+      "name": "Balsamic Vinegar",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        }
+      ],
+      "retail_units": [
+        "Bottle (16.9oz)"
+      ]
+    },
+    {
+      "name": "White Wine Vinegar",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        }
+      ],
+      "retail_units": [
+        "Bottle (12oz)"
+      ]
+    },
+    {
+      "name": "Sherry Vinegar",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        }
+      ],
+      "retail_units": [
+        "Bottle (16.9oz)"
+      ]
+    },
+    {
+      "name": "Rice Vinegar",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        }
+      ],
+      "retail_units": [
+        "Bottle (12oz)"
+      ]
+    },
+    {
+      "name": "Honey",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 21.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 336.0
+        }
+      ],
+      "retail_units": [
+        "Jar (12oz)",
+        "Jar (16oz)"
+      ]
+    },
+    {
+      "name": "Maple Syrup",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 322.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 20.0
+        }
+      ],
+      "retail_units": [
+        "Bottle (12oz)",
+        "Bottle (32oz)"
+      ]
+    },
+    {
+      "name": "Agave Nectar",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 21.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 336.0
+        }
+      ],
+      "retail_units": [
+        "Bottle (12oz)"
+      ]
+    },
+    {
+      "name": "Molasses",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 20.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 320.0
+        }
+      ],
+      "retail_units": [
+        "Jar (12oz)"
+      ]
+    },
+    {
+      "name": "Tomato Paste",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 16.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "ml",
+          "ratio": 29.6
+        }
+      ],
+      "retail_units": [
+        "Can (6oz)"
+      ]
+    },
+    {
+      "name": "Diced Tomatoes",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "ml",
+          "ratio": 29.6
+        }
+      ],
+      "retail_units": [
+        "Can (14.5oz)",
+        "Can (28oz)"
+      ]
+    },
+    {
+      "name": "Crushed Tomatoes",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "ml",
+          "ratio": 29.6
+        }
+      ],
+      "retail_units": [
+        "Can (28oz)",
+        "Can (14.5oz)"
+      ]
+    },
+    {
+      "name": "Tomato Sauce",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "ml",
+          "ratio": 29.6
+        }
+      ],
+      "retail_units": [
+        "Can (8oz)",
+        "Can (15oz)"
+      ]
+    },
+    {
+      "name": "Tomato Soup",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "ml",
+          "ratio": 29.6
+        }
+      ],
+      "retail_units": [
+        "Can (10.75oz)"
+      ]
+    },
+    {
+      "name": "Canned Corn",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "ml",
+          "ratio": 29.6
+        }
+      ],
+      "retail_units": [
+        "Can (15oz)"
+      ]
+    },
+    {
+      "name": "Canned Pumpkin",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "ml",
+          "ratio": 29.6
+        }
+      ],
+      "retail_units": [
+        "Can (15oz)"
+      ]
+    },
+    {
+      "name": "Pineapple (Canned)",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "ml",
+          "ratio": 29.6
+        }
+      ],
+      "retail_units": [
+        "Can (20oz)"
+      ]
+    },
+    {
+      "name": "Canned Salmon",
+      "conversions": [
+        {
+          "from_unit": "Ounce",
+          "to_unit": "ml",
+          "ratio": 29.6
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        }
+      ],
+      "retail_units": [
+        "Can (14.75oz)"
+      ]
+    },
+    {
+      "name": "Canned Tuna",
+      "conversions": [
+        {
+          "from_unit": "Ounce",
+          "to_unit": "ml",
+          "ratio": 29.6
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        }
+      ],
+      "retail_units": [
+        "Can (5oz)"
+      ]
+    },
+    {
+      "name": "Pickle Relish",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        }
+      ],
+      "retail_units": [
+        "Jar (10oz)"
+      ]
+    },
+    {
+      "name": "Unsalted Butter",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 14.2
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 227.0
+        }
+      ],
+      "retail_units": [
+        "Pack (1lb)",
+        "Stick"
+      ]
+    },
+    {
+      "name": "Salted Butter",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 14.2
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 227.0
+        }
+      ],
+      "retail_units": [
+        "Pack (1lb)",
+        "Stick"
+      ]
+    },
+    {
+      "name": "Cream Cheese",
+      "conversions": [
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 14.5
+        }
+      ],
+      "retail_units": [
+        "Block (8oz)"
+      ]
+    },
+    {
+      "name": "Shredded Cheddar Cheese",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 113.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Bag (8oz)",
+        "Bag (16oz)"
+      ]
+    },
+    {
+      "name": "Shredded Mozzarella Cheese",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 113.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Bag (8oz)",
+        "Bag (16oz)"
+      ]
+    },
+    {
+      "name": "Mozzarella Cheese",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 113.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Ball (8oz)"
+      ]
+    },
+    {
+      "name": "Parmesan Cheese",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 100.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Wedge (8oz)"
+      ]
+    },
+    {
+      "name": "Parmesan (Grated, Shaker)",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 5.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 80.0
+        }
+      ],
+      "retail_units": [
+        "Canister (8oz)"
+      ]
+    },
+    {
+      "name": "Ricotta Cheese",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 246.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Container (15oz)"
+      ]
+    },
+    {
+      "name": "Feta Cheese",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 150.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Container (6oz)"
+      ]
+    },
+    {
+      "name": "Goat Cheese",
+      "conversions": [
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 14.5
+        }
+      ],
+      "retail_units": [
+        "Log (4oz)"
+      ]
+    },
+    {
+      "name": "Gruyere Cheese",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 110.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Wedge (8oz)"
+      ]
+    },
+    {
+      "name": "Large Eggs",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        }
+      ],
+      "retail_units": [
+        "Pack (12ct)",
+        "Pack (6ct)"
+      ]
+    },
+    {
+      "name": "Chicken Breast",
+      "conversions": [
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        },
+        {
+          "from_unit": "Count",
+          "to_unit": "g",
+          "ratio": 170.0
+        }
+      ],
+      "retail_units": [
+        "Pack (1.5lb)",
+        "Pack (2lb)"
+      ]
+    },
+    {
+      "name": "Chicken Thighs (Boneless)",
+      "conversions": [
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        },
+        {
+          "from_unit": "Count",
+          "to_unit": "g",
+          "ratio": 113.0
+        }
+      ],
+      "retail_units": [
+        "Pack (1.5lb)",
+        "Pack (2lb)"
+      ]
+    },
+    {
+      "name": "Chicken Drumsticks",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "g",
+          "ratio": 110.0
+        },
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Pack (4ct)"
+      ]
+    },
+    {
+      "name": "Whole Chicken",
+      "conversions": [
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        },
+        {
+          "from_unit": "Count",
+          "to_unit": "g",
+          "ratio": 2268.0
+        }
+      ],
+      "retail_units": [
+        "Count"
+      ]
+    },
+    {
+      "name": "Turkey Breast",
+      "conversions": [
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        },
+        {
+          "from_unit": "Count",
+          "to_unit": "g",
+          "ratio": 1360.0
+        }
+      ],
+      "retail_units": [
+        "Pack (1.5lb)"
+      ]
+    },
+    {
+      "name": "Ground Turkey",
+      "conversions": [
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Pack (1lb)",
+        "Pack (1.3lb)"
+      ]
+    },
+    {
+      "name": "Ground Beef",
+      "conversions": [
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Pack (1lb)",
+        "Pack (2lb)"
+      ]
+    },
+    {
+      "name": "Ground Pork",
+      "conversions": [
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Pack (1lb)",
+        "Pack (2lb)"
+      ]
+    },
+    {
+      "name": "Beef Stew Meat",
+      "conversions": [
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Pack (1lb)",
+        "Pack (2lb)"
+      ]
+    },
+    {
+      "name": "Pork Chops",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "g",
+          "ratio": 170.0
+        },
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Pack (4ct)"
+      ]
+    },
+    {
+      "name": "Pork Tenderloin",
+      "conversions": [
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        },
+        {
+          "from_unit": "Count",
+          "to_unit": "g",
+          "ratio": 680.0
+        }
+      ],
+      "retail_units": [
+        "Pack (1.5lb)"
+      ]
+    },
+    {
+      "name": "Italian Sausage",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "g",
+          "ratio": 100.0
+        },
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Pack (19oz)"
+      ]
+    },
+    {
+      "name": "Chorizo",
+      "conversions": [
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        },
+        {
+          "from_unit": "Count",
+          "to_unit": "g",
+          "ratio": 255.0
+        }
+      ],
+      "retail_units": [
+        "Link (9oz)",
+        "Pack (2ct)"
+      ]
+    },
+    {
+      "name": "Bacon",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "g",
+          "ratio": 28.0
+        },
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Pack (16oz)"
+      ]
+    },
+    {
+      "name": "Pancetta",
+      "conversions": [
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 113.0
+        }
+      ],
+      "retail_units": [
+        "Pack (4oz)"
+      ]
+    },
+    {
+      "name": "Lamb Chops",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "g",
+          "ratio": 170.0
+        },
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Pack (4ct)"
+      ]
+    },
+    {
+      "name": "Salmon Fillet",
+      "conversions": [
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Pack (1lb)",
+        "Pack (1.5lb)"
+      ]
+    },
+    {
+      "name": "Tilapia Fillet",
+      "conversions": [
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        },
+        {
+          "from_unit": "Count",
+          "to_unit": "g",
+          "ratio": 227.0
+        }
+      ],
+      "retail_units": [
+        "Pack (1lb)"
+      ]
+    },
+    {
+      "name": "Cod Fillet",
+      "conversions": [
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Pack (1lb)"
+      ]
+    },
+    {
+      "name": "Shrimp (Frozen)",
+      "conversions": [
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        },
+        {
+          "from_unit": "Count",
+          "to_unit": "g",
+          "ratio": 20.0
+        }
+      ],
+      "retail_units": [
+        "Bag (1lb)",
+        "Bag (2lb)"
+      ]
+    },
+    {
+      "name": "Anchovies",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "g",
+          "ratio": 4.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 8.0
+        }
+      ],
+      "retail_units": [
+        "Tin (2oz)"
+      ]
+    },
+    {
+      "name": "Tofu (Extra Firm)",
+      "conversions": [
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        },
+        {
+          "from_unit": "Count",
+          "to_unit": "g",
+          "ratio": 396.9
+        }
+      ],
+      "retail_units": [
+        "Block (14oz)"
+      ]
+    },
+    {
+      "name": "Tofu (Silken)",
+      "conversions": [
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 262.0
+        }
+      ],
+      "retail_units": [
+        "Block (12.3oz)"
+      ]
+    },
+    {
+      "name": "Tempeh",
+      "conversions": [
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        },
+        {
+          "from_unit": "Count",
+          "to_unit": "g",
+          "ratio": 226.8
+        }
+      ],
+      "retail_units": [
+        "Pack (8oz)"
+      ]
+    },
+    {
+      "name": "Yellow Onion",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 160.0
+        }
+      ],
+      "retail_units": [
+        "Count",
+        "Bag (3lb)"
+      ]
+    },
+    {
+      "name": "Red Onion",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 160.0
+        }
+      ],
+      "retail_units": [
+        "Count"
+      ]
+    },
+    {
+      "name": "Shallot",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 10.0
+        }
+      ],
+      "retail_units": [
+        "Count"
+      ]
+    },
+    {
+      "name": "Garlic",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        },
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "g",
+          "ratio": 2.8
+        }
+      ],
+      "retail_units": [
+        "Head",
+        "Bag (3ct)"
+      ]
+    },
+    {
+      "name": "Green Onions",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 50.0
+        }
+      ],
+      "retail_units": [
+        "Bunch"
+      ]
+    },
+    {
+      "name": "Fresh Parsley",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 60.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 3.8
+        }
+      ],
+      "retail_units": [
+        "Bunch"
+      ]
+    },
+    {
+      "name": "Fresh Cilantro",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 16.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 1.0
+        }
+      ],
+      "retail_units": [
+        "Bunch"
+      ]
+    },
+    {
+      "name": "Fresh Basil",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 24.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 1.5
+        }
+      ],
+      "retail_units": [
+        "Pack (0.75oz)"
+      ]
+    },
+    {
+      "name": "Fresh Mint",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 20.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 1.3
+        }
+      ],
+      "retail_units": [
+        "Bunch"
+      ]
+    },
+    {
+      "name": "Fresh Dill",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 8.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 0.5
+        }
+      ],
+      "retail_units": [
+        "Pack (0.75oz)"
+      ]
+    },
+    {
+      "name": "Fresh Rosemary",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 1.7
+        },
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "g",
+          "ratio": 0.6
+        }
+      ],
+      "retail_units": [
+        "Pack (0.75oz)"
+      ]
+    },
+    {
+      "name": "Fresh Thyme",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 2.4
+        },
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "g",
+          "ratio": 0.8
+        }
+      ],
+      "retail_units": [
+        "Pack (0.75oz)"
+      ]
+    },
+    {
+      "name": "Fresh Sage",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 2.0
+        },
+        {
+          "from_unit": "Count",
+          "to_unit": "g",
+          "ratio": 0.8
+        }
+      ],
+      "retail_units": [
+        "Pack (0.75oz)"
+      ]
+    },
+    {
+      "name": "Fresh Ginger",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 6.0
+        },
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "g",
+          "ratio": 2.0
+        }
+      ],
+      "retail_units": [
+        "Root"
+      ]
+    },
+    {
+      "name": "Carrots",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 128.0
+        }
+      ],
+      "retail_units": [
+        "Bag (2lb)",
+        "Bunch"
+      ]
+    },
+    {
+      "name": "Celery",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 101.0
+        }
+      ],
+      "retail_units": [
+        "Bunch"
+      ]
+    },
+    {
+      "name": "Bell Pepper",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 149.0
+        }
+      ],
+      "retail_units": [
+        "Count",
+        "Bag (3ct)"
+      ]
+    },
+    {
+      "name": "Green Bell Pepper",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 149.0
+        }
+      ],
+      "retail_units": [
+        "Count",
+        "Bag (3ct)"
+      ]
+    },
+    {
+      "name": "Jalapeno",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        }
+      ],
+      "retail_units": [
+        "Count",
+        "Bag (8ct)"
+      ]
+    },
+    {
+      "name": "Serrano Pepper",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        }
+      ],
+      "retail_units": [
+        "Count",
+        "Bag (6ct)"
+      ]
+    },
+    {
+      "name": "Spinach",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 30.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Bag (10oz)",
+        "Bag (5oz)"
+      ]
+    },
+    {
+      "name": "Baby Spinach",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 30.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Container (5oz)",
+        "Bag (10oz)"
+      ]
+    },
+    {
+      "name": "Kale",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 67.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Bunch"
+      ]
+    },
+    {
+      "name": "Broccoli",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 91.0
+        },
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Head",
+        "Bag (12oz)"
+      ]
+    },
+    {
+      "name": "Cauliflower",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 107.0
+        },
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Head"
+      ]
+    },
+    {
+      "name": "Cabbage",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 89.0
+        },
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Head"
+      ]
+    },
+    {
+      "name": "Brussels Sprouts",
+      "conversions": [
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 88.0
+        }
+      ],
+      "retail_units": [
+        "Bag (1lb)"
+      ]
+    },
+    {
+      "name": "Asparagus",
+      "conversions": [
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        },
+        {
+          "from_unit": "Count",
+          "to_unit": "g",
+          "ratio": 20.0
+        }
+      ],
+      "retail_units": [
+        "Bunch"
+      ]
+    },
+    {
+      "name": "Green Beans (Fresh)",
+      "conversions": [
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 100.0
+        }
+      ],
+      "retail_units": [
+        "Bag (12oz)"
+      ]
+    },
+    {
+      "name": "Green Beans (Canned)",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "ml",
+          "ratio": 29.6
+        }
+      ],
+      "retail_units": [
+        "Can (14.5oz)"
+      ]
+    },
+    {
+      "name": "Cucumber",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 119.0
+        }
+      ],
+      "retail_units": [
+        "Count"
+      ]
+    },
+    {
+      "name": "Zucchini",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 113.0
+        }
+      ],
+      "retail_units": [
+        "Count"
+      ]
+    },
+    {
+      "name": "Yellow Squash",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 113.0
+        }
+      ],
+      "retail_units": [
+        "Count"
+      ]
+    },
+    {
+      "name": "Eggplant",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 82.0
+        }
+      ],
+      "retail_units": [
+        "Count"
+      ]
+    },
+    {
+      "name": "Mushrooms (White)",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 70.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Pack (8oz)",
+        "Pack (16oz)"
+      ]
+    },
+    {
+      "name": "Cremini Mushrooms",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 70.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Pack (8oz)",
+        "Pack (16oz)"
+      ]
+    },
+    {
+      "name": "Shiitake Mushrooms",
+      "conversions": [
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 70.0
+        }
+      ],
+      "retail_units": [
+        "Pack (4oz)"
+      ]
+    },
+    {
+      "name": "Portobello Mushrooms",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Pack (2ct)"
+      ]
+    },
+    {
+      "name": "Cherry Tomatoes",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 149.0
+        },
+        {
+          "from_unit": "Count",
+          "to_unit": "g",
+          "ratio": 17.0
+        }
+      ],
+      "retail_units": [
+        "Pint"
+      ]
+    },
+    {
+      "name": "Roma Tomato",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 180.0
+        }
+      ],
+      "retail_units": [
+        "Count",
+        "Pack (4ct)"
+      ]
+    },
+    {
+      "name": "Beefsteak Tomato",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 180.0
+        }
+      ],
+      "retail_units": [
+        "Count"
+      ]
+    },
+    {
+      "name": "Sun-Dried Tomatoes",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 54.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Jar (8.5oz)"
+      ]
+    },
+    {
+      "name": "Roasted Red Peppers",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 150.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Jar (16oz)"
+      ]
+    },
+    {
+      "name": "Capers",
+      "conversions": [
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "g",
+          "ratio": 9.0
+        },
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "g",
+          "ratio": 3.0
+        }
+      ],
+      "retail_units": [
+        "Jar (3.5oz)"
+      ]
+    },
+    {
+      "name": "Kalamata Olives",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 134.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Jar (6oz)"
+      ]
+    },
+    {
+      "name": "Marinated Artichoke Hearts",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 150.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Jar (12oz)"
+      ]
+    },
+    {
+      "name": "Artichoke Hearts (Canned)",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 150.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Can (14oz)"
+      ]
+    },
+    {
+      "name": "Dill Pickles",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 150.0
+        }
+      ],
+      "retail_units": [
+        "Jar (32oz)"
+      ]
+    },
+    {
+      "name": "Russet Potato",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        },
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Bag (5lb)",
+        "Count"
+      ]
+    },
+    {
+      "name": "Yukon Gold Potato",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        },
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Bag (5lb)",
+        "Count"
+      ]
+    },
+    {
+      "name": "Sweet Potato",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        },
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Count"
+      ]
+    },
+    {
+      "name": "Corn on the Cob",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        }
+      ],
+      "retail_units": [
+        "Count",
+        "Bag (4ct)"
+      ]
+    },
+    {
+      "name": "Avocado",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 230.0
+        }
+      ],
+      "retail_units": [
+        "Count",
+        "Bag (4ct)"
+      ]
+    },
+    {
+      "name": "Butternut Squash",
+      "conversions": [
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 140.0
+        }
+      ],
+      "retail_units": [
+        "Count"
+      ]
+    },
+    {
+      "name": "Acorn Squash",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 140.0
+        }
+      ],
+      "retail_units": [
+        "Count"
+      ]
+    },
+    {
+      "name": "Leek",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 89.0
+        }
+      ],
+      "retail_units": [
+        "Bunch"
+      ]
+    },
+    {
+      "name": "Fennel Bulb",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 87.0
+        }
+      ],
+      "retail_units": [
+        "Count"
+      ]
+    },
+    {
+      "name": "Frozen Peas",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 145.0
+        },
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Bag (12oz)",
+        "Bag (16oz)"
+      ]
+    },
+    {
+      "name": "Frozen Corn",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 154.0
+        },
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Bag (12oz)",
+        "Bag (16oz)"
+      ]
+    },
+    {
+      "name": "Frozen Blueberries",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 148.0
+        },
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Bag (12oz)"
+      ]
+    },
+    {
+      "name": "Frozen Spinach",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 170.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Box (10oz)"
+      ]
+    },
+    {
+      "name": "Frozen Edamame",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 155.0
+        },
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Bag (12oz)"
+      ]
+    },
+    {
+      "name": "Banana",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        }
+      ],
+      "retail_units": [
+        "Count",
+        "Bunch (5ct)"
+      ]
+    },
+    {
+      "name": "Apple",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        }
+      ],
+      "retail_units": [
+        "Count",
+        "Bag (3lb)"
+      ]
+    },
+    {
+      "name": "Pear",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        }
+      ],
+      "retail_units": [
+        "Count"
+      ]
+    },
+    {
+      "name": "Peach",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 154.0
+        }
+      ],
+      "retail_units": [
+        "Count"
+      ]
+    },
+    {
+      "name": "Mango",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 165.0
+        }
+      ],
+      "retail_units": [
+        "Count"
+      ]
+    },
+    {
+      "name": "Pineapple",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 165.0
+        }
+      ],
+      "retail_units": [
+        "Count"
+      ]
+    },
+    {
+      "name": "Blueberries (Fresh)",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 148.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Pint"
+      ]
+    },
+    {
+      "name": "Strawberries (Fresh)",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 152.0
+        },
+        {
+          "from_unit": "Count",
+          "to_unit": "g",
+          "ratio": 18.0
+        }
+      ],
+      "retail_units": [
+        "Quart",
+        "Pint"
+      ]
+    },
+    {
+      "name": "Raspberries (Fresh)",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 123.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Container (6oz)"
+      ]
+    },
+    {
+      "name": "Blackberries (Fresh)",
+      "conversions": [
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 144.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Container (6oz)"
+      ]
+    },
+    {
+      "name": "Orange",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        }
+      ],
+      "retail_units": [
+        "Count",
+        "Bag (4lb)"
+      ]
+    },
+    {
+      "name": "Grapefruit",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        }
+      ],
+      "retail_units": [
+        "Count",
+        "Bag (4ct)"
+      ]
+    },
+    {
+      "name": "Lemon",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        }
+      ],
+      "retail_units": [
+        "Count",
+        "Bag (2lb)"
+      ]
+    },
+    {
+      "name": "Lime",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        },
+        {
+          "from_unit": "Tablespoon",
+          "to_unit": "ml",
+          "ratio": 15.0
+        }
+      ],
+      "retail_units": [
+        "Count",
+        "Bag (2lb)"
+      ]
+    },
+    {
+      "name": "Tortilla Chips",
+      "conversions": [
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        },
+        {
+          "from_unit": "Cup",
+          "to_unit": "g",
+          "ratio": 28.0
+        }
+      ],
+      "retail_units": [
+        "Bag (13oz)"
+      ]
+    },
+    {
+      "name": "Flour Tortillas",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        }
+      ],
+      "retail_units": [
+        "Pack (10ct)",
+        "Pack (8ct)"
+      ]
+    },
+    {
+      "name": "Corn Tortillas",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        }
+      ],
+      "retail_units": [
+        "Pack (30ct)",
+        "Pack (12ct)"
+      ]
+    },
+    {
+      "name": "Sandwich Bread",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        }
+      ],
+      "retail_units": [
+        "Loaf (24oz)"
+      ]
+    },
+    {
+      "name": "Hamburger Buns",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        }
+      ],
+      "retail_units": [
+        "Pack (8ct)",
+        "Pack (6ct)"
+      ]
+    },
+    {
+      "name": "Hot Dog Buns",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        }
+      ],
+      "retail_units": [
+        "Pack (8ct)"
+      ]
+    },
+    {
+      "name": "Pita Bread",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        }
+      ],
+      "retail_units": [
+        "Pack (6ct)",
+        "Pack (12ct)"
+      ]
+    },
+    {
+      "name": "Naan",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        }
+      ],
+      "retail_units": [
+        "Pack (2ct)",
+        "Pack (4ct)"
+      ]
+    },
+    {
+      "name": "Pie Crust",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        }
+      ],
+      "retail_units": [
+        "Pack (2ct)"
+      ]
+    },
+    {
+      "name": "Puff Pastry",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        },
+        {
+          "from_unit": "Ounce",
+          "to_unit": "g",
+          "ratio": 28.3
+        }
+      ],
+      "retail_units": [
+        "Box (2 sheets)"
+      ]
+    },
+    {
+      "name": "Phyllo Dough",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        },
+        {
+          "from_unit": "Pound",
+          "to_unit": "g",
+          "ratio": 453.6
+        }
+      ],
+      "retail_units": [
+        "Box (1lb)"
+      ]
+    },
+    {
+      "name": "Chicken Bouillon",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        },
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "g",
+          "ratio": 3.0
+        }
+      ],
+      "retail_units": [
+        "Jar (25ct)"
+      ]
+    },
+    {
+      "name": "Beef Bouillon",
+      "conversions": [
+        {
+          "from_unit": "Count",
+          "to_unit": "each",
+          "ratio": 1.0
+        },
+        {
+          "from_unit": "Teaspoon",
+          "to_unit": "g",
+          "ratio": 3.0
+        }
+      ],
+      "retail_units": [
+        "Jar (25ct)"
+      ]
+    }
+  ]
+}

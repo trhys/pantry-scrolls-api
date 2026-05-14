@@ -11,7 +11,75 @@ import (
 	"github.com/google/uuid"
 )
 
-const createConversion = `-- name: CreateConversion :exec
+const createIngredientRetailUnit = `-- name: CreateIngredientRetailUnit :exec
+INSERT INTO ingredient_retail_units (ingredient_id, retail_unit)
+VALUES (
+	$1,
+	$2
+)
+`
+
+type CreateIngredientRetailUnitParams struct {
+	IngredientID uuid.UUID
+	RetailUnit   string
+}
+
+func (q *Queries) CreateIngredientRetailUnit(ctx context.Context, arg CreateIngredientRetailUnitParams) error {
+	_, err := q.db.ExecContext(ctx, createIngredientRetailUnit, arg.IngredientID, arg.RetailUnit)
+	return err
+}
+
+const createRetailConversion = `-- name: CreateRetailConversion :exec
+INSERT INTO retail_conversions (universal_unit, retail_unit, ratio)
+VALUES (
+	$1,
+	$2,
+	$3
+)
+`
+
+type CreateRetailConversionParams struct {
+	UniversalUnit string
+	RetailUnit    string
+	Ratio         float32
+}
+
+func (q *Queries) CreateRetailConversion(ctx context.Context, arg CreateRetailConversionParams) error {
+	_, err := q.db.ExecContext(ctx, createRetailConversion, arg.UniversalUnit, arg.RetailUnit, arg.Ratio)
+	return err
+}
+
+const createRetailUnit = `-- name: CreateRetailUnit :exec
+INSERT INTO retail_units (name)
+VALUES (
+	$1
+)
+`
+
+func (q *Queries) CreateRetailUnit(ctx context.Context, name string) error {
+	_, err := q.db.ExecContext(ctx, createRetailUnit, name)
+	return err
+}
+
+const createUnit = `-- name: CreateUnit :exec
+INSERT INTO units (name, abbreviation)
+VALUES (
+	$1,
+	$2
+)
+`
+
+type CreateUnitParams struct {
+	Name         string
+	Abbreviation string
+}
+
+func (q *Queries) CreateUnit(ctx context.Context, arg CreateUnitParams) error {
+	_, err := q.db.ExecContext(ctx, createUnit, arg.Name, arg.Abbreviation)
+	return err
+}
+
+const createUniversalConversion = `-- name: CreateUniversalConversion :exec
 INSERT INTO conversions (ingredient_id, from_unit, to_unit, ratio)
 VALUES (
 	$1,
@@ -21,20 +89,32 @@ VALUES (
 )
 `
 
-type CreateConversionParams struct {
+type CreateUniversalConversionParams struct {
 	IngredientID uuid.UUID
 	FromUnit     string
 	ToUnit       string
 	Ratio        float32
 }
 
-func (q *Queries) CreateConversion(ctx context.Context, arg CreateConversionParams) error {
-	_, err := q.db.ExecContext(ctx, createConversion,
+func (q *Queries) CreateUniversalConversion(ctx context.Context, arg CreateUniversalConversionParams) error {
+	_, err := q.db.ExecContext(ctx, createUniversalConversion,
 		arg.IngredientID,
 		arg.FromUnit,
 		arg.ToUnit,
 		arg.Ratio,
 	)
+	return err
+}
+
+const createUniversalUnit = `-- name: CreateUniversalUnit :exec
+INSERT INTO universal_units (name)
+VALUES(
+	$1
+)
+`
+
+func (q *Queries) CreateUniversalUnit(ctx context.Context, name string) error {
+	_, err := q.db.ExecContext(ctx, createUniversalUnit, name)
 	return err
 }
 
@@ -58,6 +138,42 @@ func (q *Queries) GetConversionsByID(ctx context.Context, ingredientID uuid.UUID
 			&i.ToUnit,
 			&i.Ratio,
 		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getRetailConversion = `-- name: GetRetailConversion :many
+SELECT universal_unit, retail_unit, ratio FROM retail_conversions
+WHERE retail_unit IN (
+	SELECT retail_unit FROM ingredient_retail_units
+	WHERE ingredient_id = $1)
+AND universal_unit = $2
+`
+
+type GetRetailConversionParams struct {
+	IngredientID  uuid.UUID
+	UniversalUnit string
+}
+
+func (q *Queries) GetRetailConversion(ctx context.Context, arg GetRetailConversionParams) ([]RetailConversion, error) {
+	rows, err := q.db.QueryContext(ctx, getRetailConversion, arg.IngredientID, arg.UniversalUnit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []RetailConversion
+	for rows.Next() {
+		var i RetailConversion
+		if err := rows.Scan(&i.UniversalUnit, &i.RetailUnit, &i.Ratio); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
