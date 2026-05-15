@@ -55,6 +55,8 @@ func InitDBIngredients(ik string, db *sql.DB, ctx context.Context) error {
 
 	bar := pb.Default(int64(len(seed.Units) + len(seed.Universal) + len(seed.Retail) + len(seed.RetailConversions)))
 	for _, u := range seed.Units {
+		if _, err := dbConn.GetUnit(ctx, u.Name); err == nil { continue }
+
 		if err := dbConn.CreateUnit(ctx, database.CreateUnitParams{
 			Name: u.Name,
 			Abbreviation: u.Abbr,
@@ -65,6 +67,8 @@ func InitDBIngredients(ik string, db *sql.DB, ctx context.Context) error {
 	}
 
 	for _, v := range seed.Universal {
+		if _, err := dbConn.GetUniversalUnit(ctx, v.Name); err == nil { continue }
+
 		if err := dbConn.CreateUniversalUnit(ctx, v.Name); err != nil {
 			log.Printf("Failed to create universal unit: %v", err)
 		}
@@ -72,6 +76,8 @@ func InitDBIngredients(ik string, db *sql.DB, ctx context.Context) error {
 	}
 
 	for _, r := range seed.Retail {
+		if _, err := dbConn.GetRetailUnit(ctx, r.Name); err == nil { continue }
+
 		if err := dbConn.CreateRetailUnit(ctx, r.Name); err != nil {
 			log.Printf("Failed to create retail unit: %v", err)
 		}
@@ -79,6 +85,11 @@ func InitDBIngredients(ik string, db *sql.DB, ctx context.Context) error {
 	}
 
 	for _, rc := range seed.RetailConversions {
+		if _, err := dbConn.CheckRetailConversion(ctx, database.CheckRetailConversionParams{
+			UniversalUnit: rc.UnivUnit,
+			RetailUnit: rc.RetUnit,
+		}); err == nil { continue }
+
 		if err := dbConn.CreateRetailConversion(ctx, database.CreateRetailConversionParams{
 			UniversalUnit: rc.UnivUnit,
 			RetailUnit: rc.RetUnit,
@@ -188,11 +199,17 @@ func InitDBRecipes(ik string, db *sql.DB, ctx context.Context, userpw string) er
 	dbConn := database.New(db)
 
 	// Create/Verify user
-	user, _ := dbConn.CreateUser(ctx, database.CreateUserParams{
+	dbConn.CreateUser(ctx, database.CreateUserParams{
 		Email: "recipereporoot@admin.trr",
 		HashedPw: userpw,
 		Name: "Recipe Repo",
 	})
+
+	user, err := dbConn.GetUserByEmail(ctx, "recipereporoot@admin.trr")
+	if err != nil {
+		log.Printf("Error getting root user: %v", err)
+		return err
+	}
 
 	bar := pb.Default(int64(len(recipes.Recipes)))
 	for _, r := range recipes.Recipes {

@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"os"
 	"mime"
 	"net/http"
@@ -228,15 +229,15 @@ func (cfg *apiConfig) handlerUpdateRecipe(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	// Request is valid - begin processing image file
-	file, fileHeader, err := r.FormFile("image")
-
 	// Get existing key
 	key, err := cfg.db.GetRecipeImageKey(r.Context(), recipe_id)
 	if err != nil {
+		log.Printf("Failed to get image key for recipe PUT: id - %s error: %v", recipe_id, err)
 		key = uuid.New().String()
 	}
 
+	// Begin processing image file
+	file, fileHeader, err := r.FormFile("image")
 	if err == nil {
 		defer file.Close()
 
@@ -300,7 +301,7 @@ func (cfg *apiConfig) handlerUpdateRecipe(w http.ResponseWriter, r *http.Request
 
 	rec, err := cfg.db.UpdateRecipe(r.Context(), query)
 	if err != nil {
-		respondFail(w, 404, "Couldn't update recipe", fmt.Errorf("Database error: %v", err))
+		respondFail(w, 500, "Couldn't update recipe", fmt.Errorf("Database error: %v", err))
 		return
 	}
 
@@ -310,7 +311,6 @@ func (cfg *apiConfig) handlerUpdateRecipe(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	ingredients := []viewmodel.Ingredient{}
 	for _, ing := range req.Ingredients {
 		query := database.AddToRecipeParams{
 			RecipeID: rec.ID,
@@ -324,22 +324,9 @@ func (cfg *apiConfig) handlerUpdateRecipe(w http.ResponseWriter, r *http.Request
 			respondFail(w, 500, "Failed to add ingredient", fmt.Errorf("Couldn't perform AddToRecipe query: %v", err))
 			return
 		}
-
-		ingName, err := cfg.db.GetIngredientName(r.Context(), ing.ID)
-		if err != nil {
-			respondFail(w, 404, "Couldn't fetch ingredient name", fmt.Errorf("Failed to find ingredient: %s, for recipe id: %s ERROR: %v", ingName, requested, err))
-			return
-		}
-
-		ingredients = append(ingredients, viewmodel.Ingredient{
-			ID: ing.ID,
-			Name: ingName,
-			Quantity: ing.Quantity,
-			Unit: ing.Unit,
-		})
 	}
 
-	respondJSON(w, 200, cfg.vmf.GenerateRecipeFullViewModel(rec, ingredients))
+	respondJSON(w, 204, nil)
 }
 
 // Delete recipe

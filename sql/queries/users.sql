@@ -42,3 +42,7 @@ WHERE id = $1;
 -- name: GetUserImageKey :one
 SELECT image_key FROM users
 WHERE id = $1;
+
+-- name: GetUserByEmail :one
+SELECT id, name, email FROM users
+WHERE email = $1;

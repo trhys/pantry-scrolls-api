@@ -51,3 +51,19 @@ WHERE retail_unit IN (
 	SELECT retail_unit FROM ingredient_retail_units
 	WHERE ingredient_id = $1)
 AND universal_unit = $2;
+
+-- name: GetUnit :one
+SELECT name FROM units
+WHERE name = $1;
+
+-- name: GetUniversalUnit :one
+SELECT name FROM universal_units
+WHERE name = $1;
+
+-- name: GetRetailUnit :one
+SELECT name FROM retail_units
+WHERE name = $1;
+
+-- name: CheckRetailConversion :one
+SELECT universal_unit, retail_unit FROM retail_conversions
+WHERE universal_unit = $1 AND retail_unit = $2;

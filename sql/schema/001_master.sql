@@ -106,7 +106,7 @@ CREATE TABLE shopping_list_recipes (
         recipe_id UUID NOT NULL,
         quantity INT NOT NULL,
         FOREIGN KEY (shopping_list_id) REFERENCES shopping_lists(id) ON DELETE CASCADE,
-        FOREIGN KEY (recipe_id) REFERENCES recipes(id),
+        FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON DELETE CASCADE,
         PRIMARY KEY (shopping_list_id, recipe_id)
 );
 

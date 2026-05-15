@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/google/uuid"
+	"github.com/lib/pq"
 	"github.com/trhys/Recipe-Repo-2/internal/database"
 	"github.com/trhys/Recipe-Repo-2/internal/viewmodel"
 	util "github.com/trhys/Recipe-Repo-2/internal/utility"
@@ -82,8 +83,16 @@ func (cfg *apiConfig) handlerAddToShoppingList(w http.ResponseWriter, r *http.Re
 		RecipeID: req.RecipeID,
 		Quantity: req.Quantity,
 	}); err != nil {
-		respondFail(w, 500, "Database error", fmt.Errorf("Failed to perform AddRecipeToList query: %v", err))
-		return
+		if err.(*pq.Error).Code == "23505" {
+			if err := cfg.db.UpdateShoppingListRecipe(r.Context(), database.UpdateShoppingListRecipeParams{
+				ShoppingListID: id,
+				RecipeID: req.RecipeID,
+				Quantity: req.Quantity,
+			}); err != nil {
+				respondFail(w, 500, "Database error", fmt.Errorf("Failed to perform AddRecipeToList query: %v", err))
+				return
+			}
+		}
 	}
 
 	respondJSON(w, 204, nil)

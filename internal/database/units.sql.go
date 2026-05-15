@@ -11,6 +11,28 @@ import (
 	"github.com/google/uuid"
 )
 
+const checkRetailConversion = `-- name: CheckRetailConversion :one
+SELECT universal_unit, retail_unit FROM retail_conversions
+WHERE universal_unit = $1 AND retail_unit = $2
+`
+
+type CheckRetailConversionParams struct {
+	UniversalUnit string
+	RetailUnit    string
+}
+
+type CheckRetailConversionRow struct {
+	UniversalUnit string
+	RetailUnit    string
+}
+
+func (q *Queries) CheckRetailConversion(ctx context.Context, arg CheckRetailConversionParams) (CheckRetailConversionRow, error) {
+	row := q.db.QueryRowContext(ctx, checkRetailConversion, arg.UniversalUnit, arg.RetailUnit)
+	var i CheckRetailConversionRow
+	err := row.Scan(&i.UniversalUnit, &i.RetailUnit)
+	return i, err
+}
+
 const createIngredientRetailUnit = `-- name: CreateIngredientRetailUnit :exec
 INSERT INTO ingredient_retail_units (ingredient_id, retail_unit)
 VALUES (
@@ -185,4 +207,37 @@ func (q *Queries) GetRetailConversion(ctx context.Context, arg GetRetailConversi
 		return nil, err
 	}
 	return items, nil
+}
+
+const getRetailUnit = `-- name: GetRetailUnit :one
+SELECT name FROM retail_units
+WHERE name = $1
+`
+
+func (q *Queries) GetRetailUnit(ctx context.Context, name string) (string, error) {
+	row := q.db.QueryRowContext(ctx, getRetailUnit, name)
+	err := row.Scan(&name)
+	return name, err
+}
+
+const getUnit = `-- name: GetUnit :one
+SELECT name FROM units
+WHERE name = $1
+`
+
+func (q *Queries) GetUnit(ctx context.Context, name string) (string, error) {
+	row := q.db.QueryRowContext(ctx, getUnit, name)
+	err := row.Scan(&name)
+	return name, err
+}
+
+const getUniversalUnit = `-- name: GetUniversalUnit :one
+SELECT name FROM universal_units
+WHERE name = $1
+`
+
+func (q *Queries) GetUniversalUnit(ctx context.Context, name string) (string, error) {
+	row := q.db.QueryRowContext(ctx, getUniversalUnit, name)
+	err := row.Scan(&name)
+	return name, err
 }
