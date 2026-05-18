@@ -172,8 +172,8 @@ func main() {
 	mux.HandleFunc("DELETE /api/shoppinglists/{shopping_list_id}", cfg.authMiddleware(cfg.handlerDeleteShoppingList))
 
 	// Token eps
-	mux.HandleFunc("POST /api/tokens/refresh", cfg.handlerRefreshToken)
-	mux.HandleFunc("POST /api/tokens/revoke", cfg.handlerRevokeToken)
+	mux.HandleFunc("GET /api/tokens/refresh", cfg.handlerRefreshToken)
+	mux.HandleFunc("GET /api/tokens/revoke", cfg.handlerRevokeToken)
 
 	// :
 

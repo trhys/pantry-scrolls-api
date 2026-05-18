@@ -105,6 +105,18 @@ func (cfg *apiConfig) handlerLogin(w http.ResponseWriter, r *http.Request) {
 		
 		http.SetCookie(w, &cookie)
 
+        refreshCookie := http.Cookie{
+          Name:     "refresh_token",
+          Value:    refreshToken,
+          HttpOnly: true,
+          Secure:   true,
+          SameSite: http.SameSiteLaxMode,
+          Path:     "/",
+          Expires:  time.Now().Add(30 * (24 * time.Hour)),
+        }
+
+        http.SetCookie(w, &refreshCookie)
+
 		respondJSON(w, 200, cfg.vmf.GenerateSession(user, token, refreshToken)) 
 		return
 	} else {
@@ -123,7 +135,7 @@ func (cfg *apiConfig) handlerGetSession(w http.ResponseWriter, r *http.Request) 
 
 	user, err := cfg.db.RefreshUser(r.Context(), id)
 	if err != nil {
-		respondFail(w, 401, "Couldn't find user", fmt.Errorf("Database query failed (RefreshUser) : %v", err))
+		respondFail(w, 404, "Couldn't find user", fmt.Errorf("Database query failed (RefreshUser) : %v", err))
 		return
 	}
 

@@ -2,18 +2,29 @@ package main
 
 import (
 	"net/http"
+    "time"
 
 	"github.com/trhys/Recipe-Repo-2/internal/auth"
 )
 
 func (cfg *apiConfig) handlerRefreshToken(w http.ResponseWriter, r *http.Request) {
-	token, err := auth.GetBearerToken(r.Header)
-	if err != nil {
-		respondFail(w, 401, "Invalid header", err)
-		return
-	}
+    var tokenString string
+    token, err := r.Cookie("refresh_token")
+    if err == nil {
+      tokenString = token.Value
+    }
 
-	user, err := cfg.db.GetRefreshToken(r.Context(), token)
+    if tokenString == "" {
+      token, err := auth.GetBearerToken(r.Header)
+	  if err != nil {
+	  	  respondFail(w, 401, "Invalid header", err)
+		  return
+	  } else {
+        tokenString = token
+      }
+    }
+
+	user, err := cfg.db.GetRefreshToken(r.Context(), tokenString)
 	if err != nil {
 		respondFail(w, 401, "Invalid token", err)
 		return
@@ -37,16 +48,51 @@ func (cfg *apiConfig) handlerRefreshToken(w http.ResponseWriter, r *http.Request
 }
 
 func (cfg *apiConfig) handlerRevokeToken(w http.ResponseWriter, r *http.Request) {
-	token, err := auth.GetBearerToken(r.Header)
-	if err != nil {
-		respondFail(w, 401, "Invalid header", err)
-		return
-	}
+	var tokenString string
+    token, err := r.Cookie("refresh_token")
+    if err == nil {
+      tokenString = token.Value
+    }
 
-	if err := cfg.db.RevokeToken(r.Context(), token); err != nil {
+    if tokenString == "" {
+      token, err := auth.GetBearerToken(r.Header)
+	  if err != nil {
+	  	  respondFail(w, 401, "Invalid header", err)
+		  return
+	  } else {
+        tokenString = token
+      }
+    }
+
+	if err := cfg.db.RevokeToken(r.Context(), tokenString); err != nil {
 		respondFail(w, 401, "Invalid token", err)
 		return
 	}
 
+    jwtCookie := http.Cookie{
+      Name: "jwt",
+      Value: "",
+      Path: "/",
+      HttpOnly: true,
+      Secure: true,
+      SameSite: http.SameSiteLaxMode,
+      MaxAge: -1,
+      Expires: time.Unix(0,0),
+    }
+
+    rtCookie := http.Cookie{
+      Name: "refresh_token",
+      Value: "",
+      Path: "/",
+      HttpOnly: true,
+      Secure: true,
+      SameSite: http.SameSiteLaxMode,
+      MaxAge: -1,
+      Expires: time.Unix(0,0),
+    }
+
+    http.SetCookie(w, &jwtCookie)
+    http.SetCookie(w, &rtCookie)
+  
 	respondJSON(w, 204, nil)
 }
