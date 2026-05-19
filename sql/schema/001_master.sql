@@ -42,6 +42,10 @@ CREATE TABLE retail_units (
         name TEXT PRIMARY KEY
 );
 
+CREATE TABLE universal_units (
+	name TEXT PRIMARY KEY
+);
+
 CREATE TABLE conversions (
         ingredient_id UUID NOT NULL,
         from_unit TEXT NOT NULL,
@@ -49,9 +53,19 @@ CREATE TABLE conversions (
         ratio REAL NOT NULL,
         FOREIGN KEY (ingredient_id) REFERENCES ingredients(id),
         FOREIGN KEY (from_unit) REFERENCES units(name),
-        FOREIGN KEY (to_unit) REFERENCES retail_units(name),
+        FOREIGN KEY (to_unit) REFERENCES universal_units(name),
         PRIMARY KEY (ingredient_id, from_unit, to_unit)
 );
+
+CREATE TABLE retail_conversions (
+	universal_unit TEXT NOT NULL,
+	retail_unit TEXT NOT NULL,
+	ratio REAL NOT NULL,
+	FOREIGN KEY (universal_unit) REFERENCES universal_units(name),
+	FOREIGN KEY (retail_unit) REFERENCES retail_units(name),
+	PRIMARY KEY (universal_unit, retail_unit)
+);
+
 
 CREATE TABLE refresh_tokens(
         id TEXT PRIMARY KEY,
@@ -92,9 +106,9 @@ CREATE TABLE shopping_list_recipes (
         recipe_id UUID NOT NULL,
         quantity INT NOT NULL,
         FOREIGN KEY (shopping_list_id) REFERENCES shopping_lists(id) ON DELETE CASCADE,
-        FOREIGN KEY (recipe_id) REFERENCES recipes(id),
+        FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON DELETE CASCADE,
         PRIMARY KEY (shopping_list_id, recipe_id)
 );
 
 -- +goose Down
-DROP TABLE conversions, retail_units, units, shopping_list_recipes, shopping_lists, recipe_ingredients, refresh_tokens, ingredients, recipes, users;
+DROP TABLE retail_conversions, conversions, universal_units, retail_units, units, shopping_list_recipes, shopping_lists, recipe_ingredients, refresh_tokens, ingredients, recipes, users;

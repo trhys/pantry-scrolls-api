@@ -74,7 +74,7 @@ func (q *Queries) GetName(ctx context.Context, id uuid.UUID) (string, error) {
 }
 
 const getUser = `-- name: GetUser :one
-SELECT id, created_at, updated_at, email, name FROM USERS
+SELECT id, created_at, updated_at, email, name, image_key FROM USERS
 WHERE id = $1
 `
 
@@ -84,6 +84,7 @@ type GetUserRow struct {
 	UpdatedAt time.Time
 	Email     string
 	Name      string
+	ImageKey  string
 }
 
 func (q *Queries) GetUser(ctx context.Context, id uuid.UUID) (GetUserRow, error) {
@@ -95,12 +96,31 @@ func (q *Queries) GetUser(ctx context.Context, id uuid.UUID) (GetUserRow, error)
 		&i.UpdatedAt,
 		&i.Email,
 		&i.Name,
+		&i.ImageKey,
 	)
 	return i, err
 }
 
+const getUserByEmail = `-- name: GetUserByEmail :one
+SELECT id, name, email FROM users
+WHERE email = $1
+`
+
+type GetUserByEmailRow struct {
+	ID    uuid.UUID
+	Name  string
+	Email string
+}
+
+func (q *Queries) GetUserByEmail(ctx context.Context, email string) (GetUserByEmailRow, error) {
+	row := q.db.QueryRowContext(ctx, getUserByEmail, email)
+	var i GetUserByEmailRow
+	err := row.Scan(&i.ID, &i.Name, &i.Email)
+	return i, err
+}
+
 const getUserHash = `-- name: GetUserHash :one
-SELECT id, email, name, hashed_pw FROM users
+SELECT id, email, name, hashed_pw, image_key FROM users
 WHERE email = $1
 `
 
@@ -109,6 +129,7 @@ type GetUserHashRow struct {
 	Email    string
 	Name     string
 	HashedPw string
+	ImageKey string
 }
 
 func (q *Queries) GetUserHash(ctx context.Context, email string) (GetUserHashRow, error) {
@@ -119,8 +140,21 @@ func (q *Queries) GetUserHash(ctx context.Context, email string) (GetUserHashRow
 		&i.Email,
 		&i.Name,
 		&i.HashedPw,
+		&i.ImageKey,
 	)
 	return i, err
+}
+
+const getUserImageKey = `-- name: GetUserImageKey :one
+SELECT image_key FROM users
+WHERE id = $1
+`
+
+func (q *Queries) GetUserImageKey(ctx context.Context, id uuid.UUID) (string, error) {
+	row := q.db.QueryRowContext(ctx, getUserImageKey, id)
+	var image_key string
+	err := row.Scan(&image_key)
+	return image_key, err
 }
 
 const makeAdmin = `-- name: MakeAdmin :exec
@@ -131,5 +165,45 @@ WHERE id = $1
 
 func (q *Queries) MakeAdmin(ctx context.Context, id uuid.UUID) error {
 	_, err := q.db.ExecContext(ctx, makeAdmin, id)
+	return err
+}
+
+const refreshUser = `-- name: RefreshUser :one
+SELECT id, name, email, image_key FROM users
+WHERE id = $1
+`
+
+type RefreshUserRow struct {
+	ID       uuid.UUID
+	Name     string
+	Email    string
+	ImageKey string
+}
+
+func (q *Queries) RefreshUser(ctx context.Context, id uuid.UUID) (RefreshUserRow, error) {
+	row := q.db.QueryRowContext(ctx, refreshUser, id)
+	var i RefreshUserRow
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.Email,
+		&i.ImageKey,
+	)
+	return i, err
+}
+
+const setUserImageKey = `-- name: SetUserImageKey :exec
+UPDATE users
+SET image_key = $2
+WHERE id = $1
+`
+
+type SetUserImageKeyParams struct {
+	ID       uuid.UUID
+	ImageKey string
+}
+
+func (q *Queries) SetUserImageKey(ctx context.Context, arg SetUserImageKeyParams) error {
+	_, err := q.db.ExecContext(ctx, setUserImageKey, arg.ID, arg.ImageKey)
 	return err
 }

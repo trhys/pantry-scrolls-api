@@ -30,7 +30,7 @@ type RecipeFull struct {
 	Author      	string          `json:"author"`
 	Description	string          `json:"description"`
 	ImageURL    	string          `json:"image_url"`
-	Ingredients	[]Ingredient	`json:'ingredients"`
+	Ingredients	[]Ingredient	`json:"ingredients"`
 	Instructions	string		`json:"instructions"`
 }
 
@@ -39,6 +39,7 @@ type RecipeOnList struct {
 	Recipe
 	UserID		uuid.UUID	`json:"user_id"`
 	Author		string		`json:"author"`
+	Quantity	int32		`json:"quantity"`
 }
 
 type RecipeCardViewModel struct {
@@ -93,6 +94,7 @@ func GetRecipesOnList(recipes []database.GetRecipesFromListRow) []RecipeOnList {
 			},
 			UserID:		r.UserID,
 			Author:		r.Author,
+			Quantity:	r.Quantity,
 		})
 	}
 

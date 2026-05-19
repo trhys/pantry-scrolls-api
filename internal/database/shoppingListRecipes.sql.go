@@ -84,3 +84,20 @@ func (q *Queries) GetRecipesFromList(ctx context.Context, shoppingListID uuid.UU
 	}
 	return items, nil
 }
+
+const updateShoppingListRecipe = `-- name: UpdateShoppingListRecipe :exec
+UPDATE shopping_list_recipes
+SET quantity = $1
+WHERE shopping_list_id = $2 AND recipe_id = $3
+`
+
+type UpdateShoppingListRecipeParams struct {
+	Quantity       int32
+	ShoppingListID uuid.UUID
+	RecipeID       uuid.UUID
+}
+
+func (q *Queries) UpdateShoppingListRecipe(ctx context.Context, arg UpdateShoppingListRecipeParams) error {
+	_, err := q.db.ExecContext(ctx, updateShoppingListRecipe, arg.Quantity, arg.ShoppingListID, arg.RecipeID)
+	return err
+}

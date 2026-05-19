@@ -1,17 +1,20 @@
 package main
 
 import (
-	"path/filepath"
 	"fmt"
-	"html/template"
+	"io"
+	"os"
 	"log"
+	"mime"
 	"net/http"
+	"time"
 
 	"github.com/google/uuid"
+	"github.com/aws/aws-sdk-go-v2/service/s3"
 	"github.com/trhys/Recipe-Repo-2/internal/database"
 	"github.com/trhys/Recipe-Repo-2/internal/auth"
 	util "github.com/trhys/Recipe-Repo-2/internal/utility"
-	"github.com/trhys/Recipe-Repo-2/internal/viewmodel"
+	_ "github.com/trhys/Recipe-Repo-2/internal/viewmodel"
 )
 
 func (cfg *apiConfig) handlerCreateUser(w http.ResponseWriter, r *http.Request) {
@@ -90,12 +93,53 @@ func (cfg *apiConfig) handlerLogin(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		respondJSON(w, 200, viewmodel.GenerateSession(user, token, refreshToken)) 
+		cookie := http.Cookie{
+			Name:     "jwt",
+			Value:    token,
+			HttpOnly: true,
+			Secure:   true,
+			SameSite: http.SameSiteLaxMode,
+			Path:     "/",
+			Expires:  time.Now().Add(1 * time.Hour),
+		}
+		
+		http.SetCookie(w, &cookie)
+
+        refreshCookie := http.Cookie{
+          Name:     "refresh_token",
+          Value:    refreshToken,
+          HttpOnly: true,
+          Secure:   true,
+          SameSite: http.SameSiteLaxMode,
+          Path:     "/",
+          Expires:  time.Now().Add(30 * (24 * time.Hour)),
+        }
+
+        http.SetCookie(w, &refreshCookie)
+
+		respondJSON(w, 200, cfg.vmf.GenerateSession(user, token, refreshToken)) 
 		return
 	} else {
 		respondFail(w, 401, "Invalid username or password", fmt.Errorf("Failed login attempt for: %s", user.Email))
 		return
 	}
+}
+
+// Refresh user session
+func (cfg *apiConfig) handlerGetSession(w http.ResponseWriter, r *http.Request) {
+	id, ok := r.Context().Value("userID").(uuid.UUID)
+	if !ok {
+		respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", id))
+		return
+	}
+
+	user, err := cfg.db.RefreshUser(r.Context(), id)
+	if err != nil {
+		respondFail(w, 404, "Couldn't find user", fmt.Errorf("Database query failed (RefreshUser) : %v", err))
+		return
+	}
+
+	respondJSON(w, 200, cfg.vmf.RefreshSession(user))
 }
 
 func (cfg *apiConfig) handlerGetUserProfile(w http.ResponseWriter, r *http.Request) {
@@ -136,16 +180,88 @@ func (cfg *apiConfig) handlerGetUserProfile(w http.ResponseWriter, r *http.Reque
 		viewModel = cfg.vmf.GeneratePublicUser(user, recipes)
 	}
 
-        if r.Header.Get("Accept") == "application/json" {
-                respondJSON(w, 200, viewModel)
-                return
+        respondJSON(w, 200, viewModel)
+}
+
+// Upload user profile image
+func (cfg *apiConfig) handlerUploadUserImage(w http.ResponseWriter, r *http.Request) {
+	requesterID, ok := r.Context().Value("userID").(uuid.UUID)
+	if !ok {
+		respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
+		return
+	}
+
+        key, err := cfg.db.GetUserImageKey(r.Context(), requesterID)
+	if err != nil {
+		respondFail(w, 404, "Couldn't get user image key", fmt.Errorf("Failed to get user image key. UserID: %s - ERROR: %v", requesterID, err))
+		return
+	}
+
+	firstUpload := false
+	if key == "" {
+		key = "/users" + uuid.New().String()
+		firstUpload = true
+	}
+
+	file, fileHeader, err := r.FormFile("image")
+        if err == nil {
+                defer file.Close()
+
+                mediaType, _, err := mime.ParseMediaType(fileHeader.Header.Get("Content-Type"))
+                if err != nil {
+                        respondFail(w, 401, "Couldn't parse media type", fmt.Errorf("Bad mime type in formfile: %v", err))
+                        return
+                }
+
+                if mediaType != "image/jpeg" && mediaType != "image/png" {
+                        respondFail(w, 401, "Invalid media type", fmt.Errorf("Must be jpg or png. Got: %s", mediaType))
+                        return
+                }
+
+                tmp, err := os.CreateTemp("", "image_upload")
+                if err != nil {
+                        respondFail(w, 500, "Something went wrong", fmt.Errorf("IO failure during image upload: %v", err))
+                        return
+                }
+                defer os.Remove(tmp.Name())
+                defer tmp.Close()
+
+                _, fail := io.Copy(tmp, file)
+                if fail != nil {
+                        respondFail(w, 500, "Something went wrong", fmt.Errorf("IO failure during image upload: %v", err))
+                        return
+                }
+
+                tmp.Seek(0, io.SeekStart)
+
+                // Upload to s3
+                if _, err := cfg.s3client.PutObject(r.Context(), &s3.PutObjectInput{
+                        Bucket: &cfg.s3bucket,
+                        Key: &key,
+                        Body: tmp,
+                        ContentType: &mediaType,
+                }); err != nil {
+                        respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed S3 put: %v", err))
+                        return
+                }
+
+        } else if err != nil {
+                if err != http.ErrMissingFile {
+                        respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed image upload: %v", err))
+                        return
+                }
         }
 
-        tmpl, err := template.ParseFiles(filepath.Join("app", "templates", "user_page.html"))
-        if err != nil {
-		respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed to render HTML template: %v", err))
-                return
-        }
+	// If this is the first upload, set image key in user database
+	if firstUpload {
+		if err := cfg.db.SetUserImageKey(r.Context(), database.SetUserImageKeyParams{
+			ID: requesterID,
+			ImageKey: key,
+		}); err != nil {
+			respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed to set key in user database: %v", err))
+			return
+		}
+	}
 
-        tmpl.Execute(w, viewModel)
+	respondJSON(w, 204, nil)
 }

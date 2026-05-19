@@ -9,6 +9,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/rs/cors"
 	_ "github.com/lib/pq"
         "github.com/joho/godotenv"
 	"github.com/trhys/Recipe-Repo-2/internal/database"
@@ -49,16 +50,6 @@ func main() {
 	}
 	jwtDuration := time.Duration(convDur)*time.Second
 
-
-	appDirectory := os.Getenv("APP_DIR")
-	if appDirectory == "" {
-		log.Fatal("Failed to load app directory")
-	}
-
-	adminDir := os.Getenv("ADMIN_DIR")
-	if adminDir == "" {
-		log.Fatal("Failed to load admin directory")
-	}
 	
 	s3bucket := os.Getenv("S3_BUCKET")
 	if s3bucket == "" {
@@ -86,6 +77,12 @@ func main() {
 	}
 
 	hash, _ := auth.HashPassword(userpw)
+
+	reacturl := os.Getenv("REACTURL")
+	if reacturl == "" {
+		log.Fatal("Failed to get frontend server")
+	}
+
 
 	// Connect to database
 	db, err := sql.Open("postgres", dbUrl)
@@ -116,6 +113,7 @@ func main() {
 		s3cdn: s3cdn,
 		imagePlaceholder: imagePlaceholder,
 		vmf: viewmodel.VMFactory{
+			DB: database.New(db),
 			S3cdn: s3cdn,
 		},
 	}
@@ -130,44 +128,52 @@ func main() {
 	}
 		
 	// Load server
+	c := cors.New(cors.Options{
+		AllowedOrigins: []string{reacturl},
+	    	AllowedMethods: []string{"GET", "POST", "PUT", "DELETE"},
+	    	AllowedHeaders: []string{"Authorization", "Content-Type", "Accept"},
+		AllowCredentials: true,
+	})
+
 	mux := http.NewServeMux()
 	server := http.Server{
 		Addr: "0.0.0.0:8080",
-		Handler: mux,
+		Handler: c.Handler(mux),
 	}
 
-	// JS Fileserver handler
-	appHandler := http.FileServer(http.Dir(appDirectory))
-	mux.Handle("/", appHandler)
-
+	
 	// Handlers :
 
 	// User eps
-	mux.HandleFunc("GET /users/{user_id}", cfg.authMiddleware(cfg.handlerGetUserProfile))
+	mux.HandleFunc("GET /api/users/{user_id}", cfg.authMiddleware(cfg.handlerGetUserProfile))
 	mux.HandleFunc("POST /api/users", cfg.handlerCreateUser)
 	mux.HandleFunc("POST /api/sessions", cfg.handlerLogin)
+	mux.HandleFunc("GET /api/sessions", cfg.authMiddleware(cfg.handlerGetSession))
+	mux.HandleFunc("PUT /api/users", cfg.authMiddleware(cfg.handlerUploadUserImage))
 
 	// Recipe eps
-	mux.HandleFunc("GET /recipes/{recipe_id}", cfg.handlerGetRecipe)
+	mux.HandleFunc("GET /api/recipes/{recipe_id}", cfg.handlerGetRecipe)
 	mux.HandleFunc("GET /api/recipes", cfg.handlerGetRecipeList)
 	mux.HandleFunc("POST /api/recipes", cfg.authMiddleware(cfg.handlerCreateRecipe))
-	mux.HandleFunc("UPDATE /api/recipes/{recipe_id}", cfg.authMiddleware(cfg.handlerUpdateRecipe))
+	mux.HandleFunc("PUT /api/recipes/{recipe_id}", cfg.authMiddleware(cfg.handlerUpdateRecipe))
+	mux.HandleFunc("DELETE /api/recipes/{recipe_id}", cfg.authMiddleware(cfg.handlerDeleteRecipe))
 
 	// Ingredient eps
 	//mux.HandleFunc("POST /api/ingredients", cfg.handlerCreateIngredient)
 	mux.HandleFunc("GET /api/ingredients", cfg.handlerGetIngredientBase)
-	mux.HandleFunc("POST /api/units", cfg.handlerGetUnits)
+	mux.HandleFunc("GET /api/ingredients/{ingredient_id}/units", cfg.handlerGetUnits)
 
 	// Shopping list eps
-	mux.HandleFunc("GET /shoppinglists/{shopping_list_id}", cfg.authMiddleware(cfg.handlerGetShoppingList))
-	mux.HandleFunc("GET /users/{user_id}/shoppinglists", cfg.authMiddleware(cfg.handlerGetUsersShoppingLists))
+	mux.HandleFunc("GET /api/shoppinglists/{shopping_list_id}", cfg.authMiddleware(cfg.handlerGetShoppingList))
+	mux.HandleFunc("GET /api/shoppinglists", cfg.authMiddleware(cfg.handlerGetUsersShoppingLists))
 	mux.HandleFunc("POST /api/shoppinglists", cfg.authMiddleware(cfg.handlerCreateShoppingList))
 	mux.HandleFunc("POST /api/shoppinglists/{shopping_list_id}", cfg.authMiddleware(cfg.handlerAddToShoppingList))
-	mux.HandleFunc("GET /shoppinglists/{shopping_list_id}/print", cfg.authMiddleware(cfg.handlerPrintList))
+	mux.HandleFunc("GET /api/shoppinglists/{shopping_list_id}/print", cfg.authMiddleware(cfg.handlerPrintList))
+	mux.HandleFunc("DELETE /api/shoppinglists/{shopping_list_id}", cfg.authMiddleware(cfg.handlerDeleteShoppingList))
 
 	// Token eps
-	mux.HandleFunc("POST /api/tokens/refresh", cfg.handlerRefreshToken)
-	mux.HandleFunc("POST /api/tokens/revoke", cfg.handlerRevokeToken)
+	mux.HandleFunc("GET /api/tokens/refresh", cfg.handlerRefreshToken)
+	mux.HandleFunc("GET /api/tokens/revoke", cfg.handlerRevokeToken)
 
 	// :
 

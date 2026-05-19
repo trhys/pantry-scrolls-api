@@ -4,9 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"os"
-	"path/filepath"
-	"html/template"
 	"mime"
 	"net/http"
 
@@ -123,7 +122,6 @@ func (cfg *apiConfig) handlerCreateRecipe(w http.ResponseWriter, r *http.Request
 	}
 
 	// Connect all ingredients
-	ingredients := []viewmodel.Ingredient{}
 	for _, ing := range req.Ingredients {
 		query := database.AddToRecipeParams{
 			RecipeID: rec.ID,
@@ -137,22 +135,15 @@ func (cfg *apiConfig) handlerCreateRecipe(w http.ResponseWriter, r *http.Request
 			respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed to add ingredient to recipe: %v", err))
 			return
 		}
-
-		ingName, err := cfg.db.GetIngredientName(r.Context(), ing.ID)
-		if err != nil {
-			respondFail(w, 404, "Couldn't find ingredient", fmt.Errorf("Failed to find ingredient during recipe creation: %v", err))
-			return
-		}
-
-		ingredients = append(ingredients, viewmodel.Ingredient{
-			ID: ing.ID,
-			Name: ingName,
-			Quantity: ing.Quantity,
-			Unit: ing.Unit,
-		})
 	}
 
-	respondJSON(w, 200, cfg.vmf.GenerateRecipeFullViewModel(rec, ingredients))
+	i, err := cfg.db.GetIngredientList(r.Context(), rec.ID)
+	if err != nil {
+		respondFail(w, 404, "Couldn't find ingredients", fmt.Errorf("Failed to find ingredients for recipe id: %s, ERROR: %v", rec.ID, err))
+		return
+	}
+
+	respondJSON(w, 200, cfg.vmf.GenerateRecipeFullViewModel(rec, viewmodel.GenerateIngredientsViewModel(i)))
 }
 
 // Get recipe by ID
@@ -176,25 +167,9 @@ func (cfg *apiConfig) handlerGetRecipe(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	ingredients := []viewmodel.Ingredient{}
-	for _, ing := range i {
-		ingredients = append(ingredients, viewmodel.Ingredient{
-			ID: ing.IngredientID,
-			Name: ing.Name,
-			Quantity: ing.Quantity,
-			Unit: ing.Unit,
-		})
-	}
+	model := cfg.vmf.GenerateRecipeFullViewModel(rec, viewmodel.GenerateIngredientsViewModel(i))
 
-	model := cfg.vmf.GenerateRecipeFullViewModel(rec, ingredients)
-
-	if r.Header.Get("Accept") == "application/json" {
-		respondJSON(w, 200, model)
-		return
-	}
-
-	tmpl, _ := template.ParseFiles(filepath.Join("app", "templates", "recipe-viewer.html"))
-	tmpl.Execute(w, model)
+	respondJSON(w, 200, model)
 }
 
 // Get ten most recent recipes
@@ -254,15 +229,15 @@ func (cfg *apiConfig) handlerUpdateRecipe(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	// Request is valid - begin processing image file
-	file, fileHeader, err := r.FormFile("image")
-
 	// Get existing key
 	key, err := cfg.db.GetRecipeImageKey(r.Context(), recipe_id)
 	if err != nil {
+		log.Printf("Failed to get image key for recipe PUT: id - %s error: %v", recipe_id, err)
 		key = uuid.New().String()
 	}
 
+	// Begin processing image file
+	file, fileHeader, err := r.FormFile("image")
 	if err == nil {
 		defer file.Close()
 
@@ -326,7 +301,7 @@ func (cfg *apiConfig) handlerUpdateRecipe(w http.ResponseWriter, r *http.Request
 
 	rec, err := cfg.db.UpdateRecipe(r.Context(), query)
 	if err != nil {
-		respondFail(w, 404, "Couldn't update recipe", fmt.Errorf("Database error: %v", err))
+		respondFail(w, 500, "Couldn't update recipe", fmt.Errorf("Database error: %v", err))
 		return
 	}
 
@@ -336,7 +311,6 @@ func (cfg *apiConfig) handlerUpdateRecipe(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	ingredients := []viewmodel.Ingredient{}
 	for _, ing := range req.Ingredients {
 		query := database.AddToRecipeParams{
 			RecipeID: rec.ID,
@@ -350,22 +324,9 @@ func (cfg *apiConfig) handlerUpdateRecipe(w http.ResponseWriter, r *http.Request
 			respondFail(w, 500, "Failed to add ingredient", fmt.Errorf("Couldn't perform AddToRecipe query: %v", err))
 			return
 		}
-
-		ingName, err := cfg.db.GetIngredientName(r.Context(), ing.ID)
-		if err != nil {
-			respondFail(w, 404, "Couldn't fetch ingredient name", fmt.Errorf("Failed to find ingredient: %s, for recipe id: %s ERROR: %v", ingName, requested, err))
-			return
-		}
-
-		ingredients = append(ingredients, viewmodel.Ingredient{
-			ID: ing.ID,
-			Name: ingName,
-			Quantity: ing.Quantity,
-			Unit: ing.Unit,
-		})
 	}
 
-	respondJSON(w, 200, cfg.vmf.GenerateRecipeFullViewModel(rec, ingredients))
+	respondJSON(w, 204, nil)
 }
 
 // Delete recipe

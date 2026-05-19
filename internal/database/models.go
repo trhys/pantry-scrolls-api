@@ -26,6 +26,11 @@ type Ingredient struct {
 	UpdatedAt time.Time
 }
 
+type IngredientRetailUnit struct {
+	IngredientID uuid.UUID
+	RetailUnit   string
+}
+
 type Recipe struct {
 	ID           uuid.UUID
 	Title        string
@@ -53,6 +58,12 @@ type RefreshToken struct {
 	UserID    uuid.UUID
 }
 
+type RetailConversion struct {
+	UniversalUnit string
+	RetailUnit    string
+	Ratio         float32
+}
+
 type RetailUnit struct {
 	Name string
 }
@@ -76,6 +87,10 @@ type Unit struct {
 	Abbreviation string
 }
 
+type UniversalUnit struct {
+	Name string
+}
+
 type User struct {
 	ID        uuid.UUID
 	Name      string
@@ -84,4 +99,5 @@ type User struct {
 	Email     string
 	HashedPw  string
 	Admin     bool
+	ImageKey  string
 }

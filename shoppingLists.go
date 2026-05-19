@@ -2,11 +2,10 @@ package main
 
 import (
 	"fmt"
-	"html/template"
-	"path/filepath"
 	"net/http"
 
 	"github.com/google/uuid"
+	"github.com/lib/pq"
 	"github.com/trhys/Recipe-Repo-2/internal/database"
 	"github.com/trhys/Recipe-Repo-2/internal/viewmodel"
 	util "github.com/trhys/Recipe-Repo-2/internal/utility"
@@ -53,7 +52,6 @@ func (cfg *apiConfig) handlerCreateShoppingList(w http.ResponseWriter, r *http.R
 // Add recipe to shopping list
 func (cfg *apiConfig) handlerAddToShoppingList(w http.ResponseWriter, r *http.Request) {
 	var req struct{
-		ShoppingListID	uuid.UUID `json:"shopping_list_id"`
 		RecipeID	uuid.UUID `json:"recipe_id"`
 		Quantity	int32	  `json:"quantity"`
 	}
@@ -65,6 +63,14 @@ func (cfg *apiConfig) handlerAddToShoppingList(w http.ResponseWriter, r *http.Re
                 return
         }
 
+	// Get list id
+	val := r.PathValue("shopping_list_id")
+	id, err := uuid.Parse(val)
+	if err != nil {
+		respondFail(w, 404, "Invalid uuid", fmt.Errorf("Failed to parse uuid from path: %v", err))
+		return
+	}
+
 	// Decode body
 	if err := util.DecodeRequest(w, r, 1<<20, &req); err != nil {
 		respondFail(w, 400, "Something went wrong", fmt.Errorf("Failed to decode request: ERROR: %v", err))
@@ -73,12 +79,20 @@ func (cfg *apiConfig) handlerAddToShoppingList(w http.ResponseWriter, r *http.Re
 
 	// Link recipe to list by ID
 	if err := cfg.db.AddRecipeToList(r.Context(), database.AddRecipeToListParams{
-		ShoppingListID: req.ShoppingListID,
+		ShoppingListID: id,
 		RecipeID: req.RecipeID,
 		Quantity: req.Quantity,
 	}); err != nil {
-		respondFail(w, 500, "Database error", fmt.Errorf("Failed to perform AddRecipeToList query: %v", err))
-		return
+		if err.(*pq.Error).Code == "23505" {
+			if err := cfg.db.UpdateShoppingListRecipe(r.Context(), database.UpdateShoppingListRecipeParams{
+				ShoppingListID: id,
+				RecipeID: req.RecipeID,
+				Quantity: req.Quantity,
+			}); err != nil {
+				respondFail(w, 500, "Database error", fmt.Errorf("Failed to perform AddRecipeToList query: %v", err))
+				return
+			}
+		}
 	}
 
 	respondJSON(w, 204, nil)
@@ -120,39 +134,21 @@ func (cfg *apiConfig) handlerGetShoppingList(w http.ResponseWriter, r *http.Requ
 
 	model := viewmodel.GenerateShoppingListViewModel(shoppingList, shoppingListRecipes)	
 
-	if r.Header.Get("Accept") == "application/json" {
-		respondJSON(w, 200, model)
-		return
-	}
-
-	tmpl, err := template.ParseFiles(filepath.Join("app", "templates", "shopping_list.html"))
-        if err != nil {
-		respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed to render HTML template: %v", err))
-                return
-        }
-
-        tmpl.Execute(w, model)
+	respondJSON(w, 200, model)
 }
 
 // List the user's shopping lists
 func (cfg *apiConfig) handlerGetUsersShoppingLists(w http.ResponseWriter, r *http.Request) {
-	val := r.PathValue("user_id")
-	id, err := uuid.Parse(val)
-        if err != nil {
-		respondFail(w, 404, "Invalid uuid", fmt.Errorf("Failed to parse UUID: %v", err))
-                return
-        }
-
-        user, err := cfg.db.GetUser(r.Context(), id)
-        if err != nil {
-		respondFail(w, 404, "Couldn't find user", fmt.Errorf("Failed to find user with ID: %s ERROR: %v", val, err))
-                return
-        }
-
 	// Authorization
-        _, ok := r.Context().Value("userID").(uuid.UUID)
+        id, ok := r.Context().Value("userID").(uuid.UUID)
         if !ok {
-                respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", val))
+                respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", id))
+                return
+        }
+
+	user, err := cfg.db.GetUser(r.Context(), id)
+        if err != nil {
+		respondFail(w, 404, "Couldn't find user", fmt.Errorf("Failed to find user with ID: %s ERROR: %v", id, err))
                 return
         }
 
@@ -163,20 +159,9 @@ func (cfg *apiConfig) handlerGetUsersShoppingLists(w http.ResponseWriter, r *htt
 		return
 	}
 
-	model := viewmodel.GenerateUserListsViewModel(user.Name, lists)
+	model := viewmodel.GenerateUserListsViewModel(lists)
 
-	if r.Header.Get("Accept") == "application/json" {
-                respondJSON(w, 200, model)
-                return
-        }
-
-        tmpl, err := template.ParseFiles(filepath.Join("app", "templates", "user_shopping_lists.html"))
-        if err != nil {
-		respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed to render HTML template: %v", err))
-                return
-        }
-
-        tmpl.Execute(w, model)
+        respondJSON(w, 200, model)
 }
 
 // Print the shopping lists ingredients in converted retail units
@@ -210,20 +195,9 @@ func (cfg *apiConfig) handlerPrintList(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	model := viewmodel.GeneratePrintViewModel(list.Name, printed)
+	model := viewmodel.GeneratePrintViewModel(list.Name, printed, cfg.db)
 
-	if r.Header.Get("Accept") == "application/json" {
-		respondJSON(w, 200, model)
-		return
-	}
-
-	tmpl, err := template.ParseFiles(filepath.Join("app", "templates", "print_list.html"))
-        if err != nil {
-		respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed to render HTML template: %v", err))
-                return
-        }
-
-        tmpl.Execute(w, model)
+	respondJSON(w, 200, model)
 }
 
 // Delete shopping list
