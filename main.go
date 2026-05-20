@@ -157,6 +157,7 @@ func main() {
 	mux.HandleFunc("POST /api/recipes", cfg.authMiddleware(cfg.handlerCreateRecipe))
 	mux.HandleFunc("PUT /api/recipes/{recipe_id}", cfg.authMiddleware(cfg.handlerUpdateRecipe))
 	mux.HandleFunc("DELETE /api/recipes/{recipe_id}", cfg.authMiddleware(cfg.handlerDeleteRecipe))
+    mux.HandleFunc("GET /api/recipes/explore", cfg.handlerExploreFeed)
 
 	// Ingredient eps
 	//mux.HandleFunc("POST /api/ingredients", cfg.handlerCreateIngredient)

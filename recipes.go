@@ -8,6 +8,7 @@ import (
 	"os"
 	"mime"
 	"net/http"
+    "strings"
 
 	"github.com/google/uuid"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
@@ -359,4 +360,17 @@ func (cfg *apiConfig) handlerDeleteRecipe(w http.ResponseWriter, r *http.Request
 	}
 
 	respondJSON(w, 204, nil)
+}
+
+func (cfg *apiConfig) handlerExploreFeed(w http.ResponseWriter, r *http.Request) {
+  query := r.URL.Query().Get("search")
+  if query != "" {
+    feed, err := cfg.db.GetRecipesFromQuery(r.Context(), strings.ToLower(query))
+    if err != nil {
+      respondFail(w, 404, "No recipes matched the query params", fmt.Errorf("recipes query error: %v", err))
+      return
+    }
+
+    respondJSON(w, 200, cfg.vmf.GenerateRecipeCardViewModel(feed))
+  }
 }

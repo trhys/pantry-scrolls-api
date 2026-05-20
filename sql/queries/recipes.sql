@@ -32,6 +32,10 @@ SELECT * FROM recipes
 ORDER BY created_at DESC
 LIMIT 10;
 
+-- name: GetRecipesFromQuery :many
+SELECT * FROM recipes
+WHERE LOWER(title) LIKE '%' || $1::text || '%';
+
 -- name: GetUsersRecipes :many
 SELECT * FROM recipes
 WHERE user_id = $1
