@@ -1,0 +1,11 @@
+localhost {
+  handle /api/* {
+    reverse_proxy app:8080
+  }
+
+  handle {
+    reverse_proxy 172.18.0.1:5173
+  }
+
+  tls internal
+}
