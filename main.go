@@ -20,6 +20,44 @@ import (
 	"github.com/aws/aws-sdk-go-v2/config"
 )
 
+func getRouter(cfg *apiConfig) *http.ServeMux {
+	mux := http.NewServeMux()
+
+	// User eps
+	mux.HandleFunc("GET /api/users/{user_id}", cfg.authMiddleware(cfg.handlerGetUserProfile))
+	mux.HandleFunc("POST /api/users", cfg.handlerCreateUser)
+	mux.HandleFunc("POST /api/sessions", cfg.handlerLogin)
+	mux.HandleFunc("GET /api/sessions", cfg.authMiddleware(cfg.handlerGetSession))
+	mux.HandleFunc("PUT /api/users", cfg.authMiddleware(cfg.handlerUploadUserImage))
+
+	// Recipe eps
+	mux.HandleFunc("GET /api/recipes/{recipe_id}", cfg.handlerGetRecipe)
+	mux.HandleFunc("GET /api/recipes", cfg.handlerGetRecipeList)
+	mux.HandleFunc("POST /api/recipes", cfg.authMiddleware(cfg.handlerCreateRecipe))
+	mux.HandleFunc("PUT /api/recipes/{recipe_id}", cfg.authMiddleware(cfg.handlerUpdateRecipe))
+	mux.HandleFunc("DELETE /api/recipes/{recipe_id}", cfg.authMiddleware(cfg.handlerDeleteRecipe))
+    mux.HandleFunc("GET /api/recipes/explore", cfg.handlerExploreFeed)
+
+	// Ingredient eps
+	//mux.HandleFunc("POST /api/ingredients", cfg.handlerCreateIngredient)
+	mux.HandleFunc("GET /api/ingredients", cfg.handlerGetIngredientBase)
+	mux.HandleFunc("GET /api/ingredients/{ingredient_id}/units", cfg.handlerGetUnits)
+
+	// Shopping list eps
+	mux.HandleFunc("GET /api/shoppinglists/{shopping_list_id}", cfg.authMiddleware(cfg.handlerGetShoppingList))
+	mux.HandleFunc("GET /api/shoppinglists", cfg.authMiddleware(cfg.handlerGetUsersShoppingLists))
+	mux.HandleFunc("POST /api/shoppinglists", cfg.authMiddleware(cfg.handlerCreateShoppingList))
+	mux.HandleFunc("POST /api/shoppinglists/{shopping_list_id}", cfg.authMiddleware(cfg.handlerAddToShoppingList))
+	mux.HandleFunc("GET /api/shoppinglists/{shopping_list_id}/print", cfg.authMiddleware(cfg.handlerPrintList))
+	mux.HandleFunc("DELETE /api/shoppinglists/{shopping_list_id}", cfg.authMiddleware(cfg.handlerDeleteShoppingList))
+
+	// Token eps
+	mux.HandleFunc("GET /api/tokens/refresh", cfg.handlerRefreshToken)
+	mux.HandleFunc("GET /api/tokens/revoke", cfg.handlerRevokeToken)
+
+	return mux
+}
+
 func main() {
 	godotenv.Load()
 
@@ -83,7 +121,6 @@ func main() {
 		log.Fatal("Failed to get frontend server")
 	}
 
-
 	// Connect to database
 	db, err := sql.Open("postgres", dbUrl)
 	if err != nil {
@@ -130,53 +167,16 @@ func main() {
 	// Load server
 	c := cors.New(cors.Options{
 		AllowedOrigins: []string{reacturl},
-	    	AllowedMethods: []string{"GET", "POST", "PUT", "DELETE"},
-	    	AllowedHeaders: []string{"Authorization", "Content-Type", "Accept"},
+	    AllowedMethods: []string{"GET", "POST", "PUT", "DELETE"},
+	    AllowedHeaders: []string{"Authorization", "Content-Type", "Accept"},
 		AllowCredentials: true,
 	})
 
-	mux := http.NewServeMux()
+	mux := getRouter(cfg)
 	server := http.Server{
 		Addr: "0.0.0.0:8080",
 		Handler: c.Handler(mux),
 	}
-
-	
-	// Handlers :
-
-	// User eps
-	mux.HandleFunc("GET /api/users/{user_id}", cfg.authMiddleware(cfg.handlerGetUserProfile))
-	mux.HandleFunc("POST /api/users", cfg.handlerCreateUser)
-	mux.HandleFunc("POST /api/sessions", cfg.handlerLogin)
-	mux.HandleFunc("GET /api/sessions", cfg.authMiddleware(cfg.handlerGetSession))
-	mux.HandleFunc("PUT /api/users", cfg.authMiddleware(cfg.handlerUploadUserImage))
-
-	// Recipe eps
-	mux.HandleFunc("GET /api/recipes/{recipe_id}", cfg.handlerGetRecipe)
-	mux.HandleFunc("GET /api/recipes", cfg.handlerGetRecipeList)
-	mux.HandleFunc("POST /api/recipes", cfg.authMiddleware(cfg.handlerCreateRecipe))
-	mux.HandleFunc("PUT /api/recipes/{recipe_id}", cfg.authMiddleware(cfg.handlerUpdateRecipe))
-	mux.HandleFunc("DELETE /api/recipes/{recipe_id}", cfg.authMiddleware(cfg.handlerDeleteRecipe))
-    mux.HandleFunc("GET /api/recipes/explore", cfg.handlerExploreFeed)
-
-	// Ingredient eps
-	//mux.HandleFunc("POST /api/ingredients", cfg.handlerCreateIngredient)
-	mux.HandleFunc("GET /api/ingredients", cfg.handlerGetIngredientBase)
-	mux.HandleFunc("GET /api/ingredients/{ingredient_id}/units", cfg.handlerGetUnits)
-
-	// Shopping list eps
-	mux.HandleFunc("GET /api/shoppinglists/{shopping_list_id}", cfg.authMiddleware(cfg.handlerGetShoppingList))
-	mux.HandleFunc("GET /api/shoppinglists", cfg.authMiddleware(cfg.handlerGetUsersShoppingLists))
-	mux.HandleFunc("POST /api/shoppinglists", cfg.authMiddleware(cfg.handlerCreateShoppingList))
-	mux.HandleFunc("POST /api/shoppinglists/{shopping_list_id}", cfg.authMiddleware(cfg.handlerAddToShoppingList))
-	mux.HandleFunc("GET /api/shoppinglists/{shopping_list_id}/print", cfg.authMiddleware(cfg.handlerPrintList))
-	mux.HandleFunc("DELETE /api/shoppinglists/{shopping_list_id}", cfg.authMiddleware(cfg.handlerDeleteShoppingList))
-
-	// Token eps
-	mux.HandleFunc("GET /api/tokens/refresh", cfg.handlerRefreshToken)
-	mux.HandleFunc("GET /api/tokens/revoke", cfg.handlerRevokeToken)
-
-	// :
 
 	log.Print("Successfully loaded server...")
 
