@@ -58,7 +58,7 @@ func getRouter(cfg *apiConfig) *http.ServeMux {
 	return mux
 }
 
-func main() {
+func getConfig() *apiConfig {
 	godotenv.Load()
 
 	dbUrl := os.Getenv("DB")
@@ -114,8 +114,6 @@ func main() {
 		log.Fatal("Failed to get root user")
 	}
 
-	hash, _ := auth.HashPassword(userpw)
-
 	reacturl := os.Getenv("REACTURL")
 	if reacturl == "" {
 		log.Fatal("Failed to get frontend server")
@@ -127,17 +125,11 @@ func main() {
 		log.Fatal("Failed to load database: connection failed")
 	}
 
-	log.Print("Successfully loaded database...")
-
 	// Load S3 client
 	s3cfg, err := config.LoadDefaultConfig(context.TODO(), config.WithRegion(s3region))
 	if err != nil {
 		log.Fatal("Failed to load s3 config")
 	}
-
-	log.Print("Successfully loaded s3 config...")
-
-	// Load api config
 	
 	cfg := apiConfig{
 		db: database.New(db),
@@ -155,18 +147,26 @@ func main() {
 		},
 	}
 
+	return cfg
+}
+
+func main() {
+	cfg := getConfig()
+	
 	// Check database seeding
-	if err := data.InitDBIngredients(imagePlaceholder, db, context.Background()); err != nil {
+	if err := data.InitDBIngredients(cfg.imagePlaceholder, cfg.db, context.Background()); err != nil {
 		log.Panic("Failed to seed database ingredients")
 	}
 
-	if err := data.InitDBRecipes(imagePlaceholder, db, context.Background(), hash); err != nil {
+	hash, _ := auth.HashPassword(cfg.userpw)
+	
+	if err := data.InitDBRecipes(cfg.imagePlaceholder, cfg.db, context.Background(), hash); err != nil {
 		log.Panic("Failed to seed database recipes")
 	}
 		
 	// Load server
 	c := cors.New(cors.Options{
-		AllowedOrigins: []string{reacturl},
+		AllowedOrigins: []string{cfg.reacturl},
 	    AllowedMethods: []string{"GET", "POST", "PUT", "DELETE"},
 	    AllowedHeaders: []string{"Authorization", "Content-Type", "Accept"},
 		AllowCredentials: true,
