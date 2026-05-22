@@ -132,6 +132,7 @@ func GetConfig() *apiConfig {
 	
 	cfg := apiConfig{
 		db: database.New(db),
+		dbConn: db,
 		platform: platform,
 		secret: secret,
 		jwtDuration: jwtDuration,
