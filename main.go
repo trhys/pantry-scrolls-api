@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-	cfg := server.getConfig()
+	cfg := server.GetConfig()
 	
 	// Check database seeding
 	if err := data.InitDBIngredients(cfg.imagePlaceholder, cfg.db, context.Background()); err != nil {
@@ -34,7 +34,7 @@ func main() {
 		AllowCredentials: true,
 	})
 
-	mux := server.getRouter(cfg)
+	mux := server.GetRouter(cfg)
 	server := http.Server{
 		Addr: "0.0.0.0:8080",
 		Handler: c.Handler(mux),
