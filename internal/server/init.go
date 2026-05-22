@@ -19,7 +19,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/config"
 )
 
-func getRouter(cfg *apiConfig) *http.ServeMux {
+func GetRouter(cfg *apiConfig) *http.ServeMux {
 	mux := http.NewServeMux()
 
 	// User eps
@@ -57,7 +57,7 @@ func getRouter(cfg *apiConfig) *http.ServeMux {
 	return mux
 }
 
-func getConfig() *apiConfig {
+func GetConfig() *apiConfig {
 	godotenv.Load()
 
 	dbUrl := os.Getenv("DB")
