@@ -2,6 +2,7 @@ package server
 
 import (
 	"time"
+	"database/sql"
 
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 	"github.com/trhys/Recipe-Repo-2/internal/database"
@@ -10,7 +11,8 @@ import (
 )
 
 type apiConfig struct {
-	db		*database.Queries
+	db			*database.Queries
+	dbConn		*sql.DB
 	platform	string
 	secret		string
 	jwtDuration	time.Duration
