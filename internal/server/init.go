@@ -10,16 +10,14 @@ import (
 	"time"
 
 	_ "github.com/lib/pq"
-  "github.com/joho/godotenv"
+    "github.com/joho/godotenv"
 	"github.com/trhys/Recipe-Repo-2/internal/database"
-	"github.com/trhys/Recipe-Repo-2/internal/data"
 	"github.com/trhys/Recipe-Repo-2/internal/viewmodel"
-	"github.com/trhys/Recipe-Repo-2/internal/auth"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 	"github.com/aws/aws-sdk-go-v2/config"
 )
 
-func GetRouter(cfg *apiConfig) *http.ServeMux {
+func GetRouter(cfg *ApiConfig) *http.ServeMux {
 	mux := http.NewServeMux()
 
 	// User eps
@@ -57,17 +55,12 @@ func GetRouter(cfg *apiConfig) *http.ServeMux {
 	return mux
 }
 
-func GetConfig() *apiConfig {
+func GetConfig() *ApiConfig {
 	godotenv.Load()
 
 	dbUrl := os.Getenv("DB")
 	if dbUrl == "" {
 		log.Fatal("Failed to load database: url missing")
-	}
-
-	platform := os.Getenv("PLATFORM")
-	if platform == "" {
-		log.Fatal("Failed to load platform config")
 	}
 
 	secret := os.Getenv("SECRET")
@@ -113,8 +106,8 @@ func GetConfig() *apiConfig {
 		log.Fatal("Failed to get root user")
 	}
 
-	reacturl := os.Getenv("REACTURL")
-	if reacturl == "" {
+	reactUrl := os.Getenv("REACTURL")
+	if reactUrl == "" {
 		log.Fatal("Failed to get frontend server")
 	}
 
@@ -130,22 +123,26 @@ func GetConfig() *apiConfig {
 		log.Fatal("Failed to load s3 config")
 	}
 	
-	cfg := apiConfig{
-		db: database.New(db),
-		dbConn: db,
-		platform: platform,
-		secret: secret,
-		jwtDuration: jwtDuration,
-		s3client: s3.NewFromConfig(s3cfg) ,
-		s3bucket: s3bucket,
-		s3region: s3region,
-		s3cdn: s3cdn,
-		imagePlaceholder: imagePlaceholder,
-		vmf: viewmodel.VMFactory{
+	cfg := ApiConfig{
+		DB: database.New(db),
+		DBConn: db,
+		Secret: secret,
+		JwtDuration: jwtDuration,
+		S3client: s3.NewFromConfig(s3cfg) ,
+		S3bucket: s3bucket,
+		S3region: s3region,
+		S3cdn: s3cdn,
+		ImagePlaceholder: imagePlaceholder,
+		Vmf: viewmodel.VMFactory{
 			DB: database.New(db),
 			S3cdn: s3cdn,
 		},
+        Root: adminCredentials{
+          Email: "recipereporoot@admin.trr",
+          Pass: userpw,
+        },
+        React: reactUrl,
 	}
 
-	return cfg
+	return &cfg
 }

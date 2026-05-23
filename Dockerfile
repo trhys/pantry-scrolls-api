@@ -1,19 +1,25 @@
-FROM golang:latest AS builder
+FROM golang:1.26 AS builder
 WORKDIR /app
-COPY . .
-RUN go build -o reciperepo .
+
+COPY go.mod go.sum ./
+RUN go mod download
+
 RUN go install github.com/pressly/goose/v3/cmd/goose@latest
+
+COPY . .
+RUN CGO_ENABLED=0 GOOS=linux go build -o reciperepo .
 
 FROM debian:stable-slim
 WORKDIR /app
-COPY --from=builder app/reciperepo reciperepo
-COPY --from=builder /go/bin/goose goose
 
-COPY sql/schema sql/schema
-COPY entrypoint.sh entrypoint.sh
+RUN apt-get update && apt-get upgrade -y && rm -rf /var/lib/apt/lists/*
+
+COPY --from=builder /app/reciperepo ./reciperepo
+COPY --from=builder /go/bin/goose ./goose
+
+COPY sql/schema ./sql/schema
+COPY entrypoint.sh ./entrypoint.sh
 RUN chmod +x entrypoint.sh
 
-RUN apt update
-RUN apt upgrade -y
-
 CMD ["./entrypoint.sh"]
+

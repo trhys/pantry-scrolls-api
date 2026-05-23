@@ -16,19 +16,19 @@ func main() {
 	cfg := server.GetConfig()
 	
 	// Check database seeding
-	if err := data.InitDBIngredients(cfg.imagePlaceholder, cfg.db, context.Background()); err != nil {
+	if err := data.InitDBIngredients(cfg.ImagePlaceholder, cfg.DBConn, context.Background()); err != nil {
 		log.Panic("Failed to seed database ingredients")
 	}
 
-	hash, _ := auth.HashPassword(cfg.userpw)
+	hash, _ := auth.HashPassword(cfg.Root.Pass)
 	
-	if err := data.InitDBRecipes(cfg.imagePlaceholder, cfg.db, context.Background(), hash); err != nil {
+	if err := data.InitDBRecipes(cfg.ImagePlaceholder, cfg.DBConn, context.Background(), hash); err != nil {
 		log.Panic("Failed to seed database recipes")
 	}
 		
 	// Load server
 	c := cors.New(cors.Options{
-		AllowedOrigins: []string{cfg.reacturl},
+		AllowedOrigins: []string{cfg.React},
 	    AllowedMethods: []string{"GET", "POST", "PUT", "DELETE"},
 	    AllowedHeaders: []string{"Authorization", "Content-Type", "Accept"},
 		AllowCredentials: true,

@@ -1,19 +1,20 @@
 package server
 
 import (
+  "bytes"
   "testing"
   "net/http/httptest"
 )
 
 func TestCreateUser(t *testing.T) {
   cfg := GetConfig()
-  tx, err := cfg.dbConn.Begin()
+  tx, err := cfg.DBConn.Begin()
   if err != nil {
     t.Fatalf("Failed to start transaction: %v", err)
   }
   defer tx.Rollback()
 
-  cfg.db = cfg.db.WithTx(tx)
+  cfg.DB = cfg.DB.WithTx(tx)
 
   router := GetRouter(cfg)
 
@@ -21,7 +22,7 @@ func TestCreateUser(t *testing.T) {
     input  []byte
     want   int
   }{
-    "basic": { input: byte[]('{"email": "tim@test.com", "password": "password", "username": "tim"}'), want: 201 },
+    "basic": { input: []byte(`{"email": "tim@test.com", "password": "password", "name": "tim"}`), want: 201 },
   }
     
   for name, tc := range tests {

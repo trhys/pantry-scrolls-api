@@ -10,17 +10,23 @@ import (
 
 )
 
-type apiConfig struct {
-	db			*database.Queries
-	dbConn		*sql.DB
-	platform	string
-	secret		string
-	jwtDuration	time.Duration
-	s3client	*s3.Client
-	s3bucket	string
-	s3region	string
-	s3cdn		string
-	imagePlaceholder string
+type ApiConfig struct {
+	DB			*database.Queries
+	DBConn		*sql.DB
+	Secret		string
+	JwtDuration	time.Duration
+	S3client	*s3.Client
+	S3bucket	string
+	S3region	string
+	S3cdn		string
+	ImagePlaceholder string
 
-	vmf		viewmodel.VMFactory
+	Vmf		viewmodel.VMFactory
+    Root    adminCredentials
+    React   string
+}
+
+type adminCredentials struct {
+  Email string
+  Pass  string
 }

@@ -7,7 +7,7 @@ import (
 	"github.com/trhys/Recipe-Repo-2/internal/auth"
 )
 
-func (cfg *apiConfig) handlerRefreshToken(w http.ResponseWriter, r *http.Request) {
+func (cfg *ApiConfig) handlerRefreshToken(w http.ResponseWriter, r *http.Request) {
     var tokenString string
     token, err := r.Cookie("refresh_token")
     if err == nil {
@@ -24,13 +24,13 @@ func (cfg *apiConfig) handlerRefreshToken(w http.ResponseWriter, r *http.Request
       }
     }
 
-	user, err := cfg.db.GetRefreshToken(r.Context(), tokenString)
+	user, err := cfg.DB.GetRefreshToken(r.Context(), tokenString)
 	if err != nil {
 		respondFail(w, 401, "Invalid token", err)
 		return
 	}
 	
-	jwt, err := auth.MakeJWT(user, cfg.secret, cfg.jwtDuration)
+	jwt, err := auth.MakeJWT(user, cfg.Secret, cfg.JwtDuration)
 	if err != nil {
 		respondFail(w, 500, "Failed to write JWT", err)
 		return
@@ -47,7 +47,7 @@ func (cfg *apiConfig) handlerRefreshToken(w http.ResponseWriter, r *http.Request
 	respondJSON(w, 200, resp)
 }
 
-func (cfg *apiConfig) handlerRevokeToken(w http.ResponseWriter, r *http.Request) {
+func (cfg *ApiConfig) handlerRevokeToken(w http.ResponseWriter, r *http.Request) {
 	var tokenString string
     token, err := r.Cookie("refresh_token")
     if err == nil {
@@ -64,7 +64,7 @@ func (cfg *apiConfig) handlerRevokeToken(w http.ResponseWriter, r *http.Request)
       }
     }
 
-	if err := cfg.db.RevokeToken(r.Context(), tokenString); err != nil {
+	if err := cfg.DB.RevokeToken(r.Context(), tokenString); err != nil {
 		respondFail(w, 401, "Invalid token", err)
 		return
 	}

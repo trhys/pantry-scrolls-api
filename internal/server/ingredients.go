@@ -17,7 +17,7 @@ import (
 )
 
 
-// NOTE: Probably will be removing creation here in some capacity in the future. Right now its useless, if i have ingredients to add im more likely to go ahead and write a migration with a large number of them. May allow users to create their own but for now it breaks the intention of integrating shopping apis.
+// NOTE: Probably will be removing creation here in some capacity in the future. Right now its useless, if i have ingredients to add im more likely to go ahead and write a migration with a large number of them. May allow users to create their own but for now it breaks the intention of integrating shopping Apis.
 
 type ingredient struct {
         ID              uuid.UUID `json:"id"`
@@ -27,7 +27,7 @@ type ingredient struct {
         UpdatedAt       time.Time `json:"updated_at"`
 }
 
-func (cfg *apiConfig) handlerCreateIngredient(w http.ResponseWriter, r *http.Request) {
+func (cfg *ApiConfig) handlerCreateIngredient(w http.ResponseWriter, r *http.Request) {
 	// Authorization
         token, err := auth.GetBearerToken(r.Header)
         if err != nil {
@@ -35,13 +35,13 @@ func (cfg *apiConfig) handlerCreateIngredient(w http.ResponseWriter, r *http.Req
                 return
         }
 
-        subject, err := auth.ValidateJWT(token, cfg.secret)
+        subject, err := auth.ValidateJWT(token, cfg.Secret)
         if err != nil {
                 respondFail(w, 401, "Couldn't validate token", err)
                 return
         }
 
-	admin, err := cfg.db.CheckAdmin(r.Context(), subject)
+	admin, err := cfg.DB.CheckAdmin(r.Context(), subject)
 	if err != nil {
 		respondFail(w, 500, "Something went wrong", err)
 		return
@@ -98,8 +98,8 @@ func (cfg *apiConfig) handlerCreateIngredient(w http.ResponseWriter, r *http.Req
                 tmp.Seek(0, io.SeekStart)
 
                 // Upload to s3
-                if _, err := cfg.s3client.PutObject(r.Context(), &s3.PutObjectInput{
-                        Bucket: &cfg.s3bucket,
+                if _, err := cfg.S3client.PutObject(r.Context(), &s3.PutObjectInput{
+                        Bucket: &cfg.S3bucket,
                         Key: &key,
                         Body: tmp,
                         ContentType: &mediaType,
@@ -120,7 +120,7 @@ func (cfg *apiConfig) handlerCreateIngredient(w http.ResponseWriter, r *http.Req
 		ImageKey: key,
 	}
 
-	ing, err := cfg.db.CreateIngredient(r.Context(), query)
+	ing, err := cfg.DB.CreateIngredient(r.Context(), query)
 	if err != nil {
 		respondFail(w, 500, "Database error during write", err)
 		return
@@ -139,8 +139,8 @@ func (cfg *apiConfig) handlerCreateIngredient(w http.ResponseWriter, r *http.Req
 
 
 // Grabs the full collection of ingredients 
-func (cfg *apiConfig) handlerGetIngredientBase(w http.ResponseWriter, r *http.Request) {
-	ingredients, err := cfg.db.GetIngredients(r.Context())
+func (cfg *ApiConfig) handlerGetIngredientBase(w http.ResponseWriter, r *http.Request) {
+	ingredients, err := cfg.DB.GetIngredients(r.Context())
 	if err != nil {
 		respondFail(w, 404, "Failed to retrieve ingredients from database", err)
 		return
@@ -162,7 +162,7 @@ func (cfg *apiConfig) handlerGetIngredientBase(w http.ResponseWriter, r *http.Re
 }
 
 // Gets collection of units for ingredient by id
-func (cfg *apiConfig) handlerGetUnits(w http.ResponseWriter, r *http.Request) {
+func (cfg *ApiConfig) handlerGetUnits(w http.ResponseWriter, r *http.Request) {
 	val := r.PathValue("ingredient_id")
 	id, err := uuid.Parse(val)
 	if err != nil {
@@ -170,7 +170,7 @@ func (cfg *apiConfig) handlerGetUnits(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	conversions, err := cfg.db.GetConversionsByID(r.Context(), id)
+	conversions, err := cfg.DB.GetConversionsByID(r.Context(), id)
 	if err != nil {
 		respondFail(w, 404, "Couldn't find units", fmt.Errorf("Failed to get units for ingredient: %v", err))
 		return

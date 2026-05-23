@@ -10,7 +10,7 @@ import (
 	"github.com/trhys/Recipe-Repo-2/internal/auth"
 )
 
-func (cfg *apiConfig) authMiddleware(next http.HandlerFunc) http.HandlerFunc {
+func (cfg *ApiConfig) authMiddleware(next http.HandlerFunc) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		var tokenString string
 		
@@ -26,7 +26,7 @@ func (cfg *apiConfig) authMiddleware(next http.HandlerFunc) http.HandlerFunc {
 			} 
 		}
 
-		subject, err := auth.ValidateJWT(tokenString, cfg.secret)
+		subject, err := auth.ValidateJWT(tokenString, cfg.Secret)
 		if err != nil {
 			ip := getClientIP(r)
 			respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt from IP: %s - ERROR: %v", ip, err))

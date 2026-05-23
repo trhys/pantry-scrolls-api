@@ -12,7 +12,7 @@ import (
 )
 
 // Create a new, empty shopping list
-func (cfg *apiConfig) handlerCreateShoppingList(w http.ResponseWriter, r *http.Request) {
+func (cfg *ApiConfig) handlerCreateShoppingList(w http.ResponseWriter, r *http.Request) {
 	var req struct{
 		Name	string `json:"name"`
 	}
@@ -31,7 +31,7 @@ func (cfg *apiConfig) handlerCreateShoppingList(w http.ResponseWriter, r *http.R
 	}
 
 	// Create list
-	list, err := cfg.db.CreateShoppingList(r.Context(), database.CreateShoppingListParams{
+	list, err := cfg.DB.CreateShoppingList(r.Context(), database.CreateShoppingListParams{
 		Name: req.Name,
 		UserID: requesterID,
 	})
@@ -50,7 +50,7 @@ func (cfg *apiConfig) handlerCreateShoppingList(w http.ResponseWriter, r *http.R
 }
 
 // Add recipe to shopping list
-func (cfg *apiConfig) handlerAddToShoppingList(w http.ResponseWriter, r *http.Request) {
+func (cfg *ApiConfig) handlerAddToShoppingList(w http.ResponseWriter, r *http.Request) {
 	var req struct{
 		RecipeID	uuid.UUID `json:"recipe_id"`
 		Quantity	int32	  `json:"quantity"`
@@ -78,13 +78,13 @@ func (cfg *apiConfig) handlerAddToShoppingList(w http.ResponseWriter, r *http.Re
 	}
 
 	// Link recipe to list by ID
-	if err := cfg.db.AddRecipeToList(r.Context(), database.AddRecipeToListParams{
+	if err := cfg.DB.AddRecipeToList(r.Context(), database.AddRecipeToListParams{
 		ShoppingListID: id,
 		RecipeID: req.RecipeID,
 		Quantity: req.Quantity,
 	}); err != nil {
 		if err.(*pq.Error).Code == "23505" {
-			if err := cfg.db.UpdateShoppingListRecipe(r.Context(), database.UpdateShoppingListRecipeParams{
+			if err := cfg.DB.UpdateShoppingListRecipe(r.Context(), database.UpdateShoppingListRecipeParams{
 				ShoppingListID: id,
 				RecipeID: req.RecipeID,
 				Quantity: req.Quantity,
@@ -99,7 +99,7 @@ func (cfg *apiConfig) handlerAddToShoppingList(w http.ResponseWriter, r *http.Re
 }
 
 // Get shopping list by ID
-func (cfg *apiConfig) handlerGetShoppingList(w http.ResponseWriter, r *http.Request) {
+func (cfg *ApiConfig) handlerGetShoppingList(w http.ResponseWriter, r *http.Request) {
 	val := r.PathValue("shopping_list_id")
 	listID, err := uuid.Parse(val) 
 	if err != nil {
@@ -114,7 +114,7 @@ func (cfg *apiConfig) handlerGetShoppingList(w http.ResponseWriter, r *http.Requ
                 return
         }
 
-	shoppingList, err := cfg.db.GetShoppingList(r.Context(), listID)
+	shoppingList, err := cfg.DB.GetShoppingList(r.Context(), listID)
 	if err != nil {
 		respondFail(w, 404, "Couldn't find shopping list", fmt.Errorf("Failed to find shopping list with ID: %s, ERROR: %V", val, err))
 		return
@@ -126,7 +126,7 @@ func (cfg *apiConfig) handlerGetShoppingList(w http.ResponseWriter, r *http.Requ
         }
 
 	// Get recipes from list
-	shoppingListRecipes, err := cfg.db.GetRecipesFromList(r.Context(), shoppingList.ID)
+	shoppingListRecipes, err := cfg.DB.GetRecipesFromList(r.Context(), shoppingList.ID)
 	if err != nil {
 		respondFail(w, 404, "couldnt find recipes from list", fmt.Errorf("Failed to get recipes from shopping list id: %s, ERROR: %v", val, err))
 		return
@@ -138,7 +138,7 @@ func (cfg *apiConfig) handlerGetShoppingList(w http.ResponseWriter, r *http.Requ
 }
 
 // List the user's shopping lists
-func (cfg *apiConfig) handlerGetUsersShoppingLists(w http.ResponseWriter, r *http.Request) {
+func (cfg *ApiConfig) handlerGetUsersShoppingLists(w http.ResponseWriter, r *http.Request) {
 	// Authorization
         id, ok := r.Context().Value("userID").(uuid.UUID)
         if !ok {
@@ -146,14 +146,14 @@ func (cfg *apiConfig) handlerGetUsersShoppingLists(w http.ResponseWriter, r *htt
                 return
         }
 
-	user, err := cfg.db.GetUser(r.Context(), id)
+	user, err := cfg.DB.GetUser(r.Context(), id)
         if err != nil {
 		respondFail(w, 404, "Couldn't find user", fmt.Errorf("Failed to find user with ID: %s ERROR: %v", id, err))
                 return
         }
 
 	// Get lists
-	lists, err := cfg.db.GetUserLists(r.Context(), user.ID)
+	lists, err := cfg.DB.GetUserLists(r.Context(), user.ID)
 	if err != nil {
 		respondFail(w, 404, "Couldn't retrieve user's shopping lists", fmt.Errorf("Failed to get lists from database: %v", err))
 		return
@@ -165,7 +165,7 @@ func (cfg *apiConfig) handlerGetUsersShoppingLists(w http.ResponseWriter, r *htt
 }
 
 // Print the shopping lists ingredients in converted retail units
-func (cfg *apiConfig) handlerPrintList(w http.ResponseWriter, r *http.Request) {
+func (cfg *ApiConfig) handlerPrintList(w http.ResponseWriter, r *http.Request) {
 	// AUTH
         requesterID, ok := r.Context().Value("userID").(uuid.UUID)
         if !ok {
@@ -182,26 +182,26 @@ func (cfg *apiConfig) handlerPrintList(w http.ResponseWriter, r *http.Request) {
         }
 
 	// Verify ownership against JWT subject
-	list, err := cfg.db.GetListOwner(r.Context(), id)
+	list, err := cfg.DB.GetListOwner(r.Context(), id)
 	if err != nil || list.UserID != requesterID {
 		respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
 		return
 	}
 
 	// Get list
-	printed, err := cfg.db.PrintList(r.Context(), id)
+	printed, err := cfg.DB.PrintList(r.Context(), id)
 	if err != nil {
 		respondFail(w, 404, "Couldn't locate list", fmt.Errorf("Failed to get list from database: %v", err))
 		return
 	}
 
-	model := viewmodel.GeneratePrintViewModel(list.Name, printed, cfg.db)
+	model := viewmodel.GeneratePrintViewModel(list.Name, printed, cfg.DB)
 
 	respondJSON(w, 200, model)
 }
 
 // Delete shopping list
-func (cfg *apiConfig) handlerDeleteShoppingList(w http.ResponseWriter, r *http.Request) {
+func (cfg *ApiConfig) handlerDeleteShoppingList(w http.ResponseWriter, r *http.Request) {
 	// Get list ID
 	val := r.PathValue("shopping_list_id")
 	id, err := uuid.Parse(val)
@@ -218,14 +218,14 @@ func (cfg *apiConfig) handlerDeleteShoppingList(w http.ResponseWriter, r *http.R
         }
 
 	// Verify ownership against JWT subject
-	list, err := cfg.db.GetListOwner(r.Context(), id)
+	list, err := cfg.DB.GetListOwner(r.Context(), id)
 	if err != nil || list.UserID != requesterID {
 		respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
 		return
 	}
 
 	// Authorized - delete list
-	if err := cfg.db.DeleteShoppingList(r.Context(), id); err != nil {
+	if err := cfg.DB.DeleteShoppingList(r.Context(), id); err != nil {
 		respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed to delete list from database: %v", err))
 		return
 	}

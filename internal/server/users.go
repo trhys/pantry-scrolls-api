@@ -17,7 +17,7 @@ import (
 	_ "github.com/trhys/Recipe-Repo-2/internal/viewmodel"
 )
 
-func (cfg *apiConfig) handlerCreateUser(w http.ResponseWriter, r *http.Request) {
+func (cfg *ApiConfig) handlerCreateUser(w http.ResponseWriter, r *http.Request) {
 	// Decode request
 	var req struct {
 		Email		string `json:"email"`
@@ -42,17 +42,17 @@ func (cfg *apiConfig) handlerCreateUser(w http.ResponseWriter, r *http.Request) 
 		Name: req.Name,
 	}
 
-	user, err := cfg.db.CreateUser(r.Context(), query)
+	user, err := cfg.DB.CreateUser(r.Context(), query)
 	if err != nil {
 		respondFail(w, 500, "Database error", fmt.Errorf("Failed to perform CreateUser query: %v", err))
 		return
 	}
 
 	log.Printf("User created with email: %s", user.Email)
-	respondJSON(w, 204, nil)
+	respondJSON(w, 201, nil)
 }
 
-func (cfg *apiConfig) handlerLogin(w http.ResponseWriter, r *http.Request) {
+func (cfg *ApiConfig) handlerLogin(w http.ResponseWriter, r *http.Request) {
 	var req struct {
 		Email		string `json:"email"`
 		Password	string `json:"password"`
@@ -64,7 +64,7 @@ func (cfg *apiConfig) handlerLogin(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// get users info
-	user, err := cfg.db.GetUserHash(r.Context(), req.Email)
+	user, err := cfg.DB.GetUserHash(r.Context(), req.Email)
 	if err != nil {
 		respondFail(w, 404, "User not found", fmt.Errorf("Failed to find user with email: %s - ERROR: %v", req.Email, err))
 		return
@@ -78,14 +78,14 @@ func (cfg *apiConfig) handlerLogin(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if match {
-		token, err := auth.MakeJWT(user.ID, cfg.secret, cfg.jwtDuration)
+		token, err := auth.MakeJWT(user.ID, cfg.Secret, cfg.JwtDuration)
 		if err != nil{
 			respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed to write JWT for user: %s, - ERROR: %v", req.Email, err))
 			return
 		}
 
 		refreshToken := auth.MakeRefreshToken()
-		if _, err := cfg.db.CreateRefreshToken(r.Context(), database.CreateRefreshTokenParams{
+		if _, err := cfg.DB.CreateRefreshToken(r.Context(), database.CreateRefreshTokenParams{
 			ID: refreshToken,
 			UserID: user.ID,
 		}); err != nil {
@@ -117,7 +117,7 @@ func (cfg *apiConfig) handlerLogin(w http.ResponseWriter, r *http.Request) {
 
         http.SetCookie(w, &refreshCookie)
 
-		respondJSON(w, 200, cfg.vmf.GenerateSession(user, token, refreshToken)) 
+		respondJSON(w, 200, cfg.Vmf.GenerateSession(user, token, refreshToken)) 
 		return
 	} else {
 		respondFail(w, 401, "Invalid username or password", fmt.Errorf("Failed login attempt for: %s", user.Email))
@@ -126,23 +126,23 @@ func (cfg *apiConfig) handlerLogin(w http.ResponseWriter, r *http.Request) {
 }
 
 // Refresh user session
-func (cfg *apiConfig) handlerGetSession(w http.ResponseWriter, r *http.Request) {
+func (cfg *ApiConfig) handlerGetSession(w http.ResponseWriter, r *http.Request) {
 	id, ok := r.Context().Value("userID").(uuid.UUID)
 	if !ok {
 		respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", id))
 		return
 	}
 
-	user, err := cfg.db.RefreshUser(r.Context(), id)
+	user, err := cfg.DB.RefreshUser(r.Context(), id)
 	if err != nil {
 		respondFail(w, 404, "Couldn't find user", fmt.Errorf("Database query failed (RefreshUser) : %v", err))
 		return
 	}
 
-	respondJSON(w, 200, cfg.vmf.RefreshSession(user))
+	respondJSON(w, 200, cfg.Vmf.RefreshSession(user))
 }
 
-func (cfg *apiConfig) handlerGetUserProfile(w http.ResponseWriter, r *http.Request) {
+func (cfg *ApiConfig) handlerGetUserProfile(w http.ResponseWriter, r *http.Request) {
 	// Get user id from path
 	val := r.PathValue("user_id")
         id, err := uuid.Parse(val)
@@ -152,7 +152,7 @@ func (cfg *apiConfig) handlerGetUserProfile(w http.ResponseWriter, r *http.Reque
         }
 
 	// Make sure user exists
-        user, err := cfg.db.GetUser(r.Context(), id)
+        user, err := cfg.DB.GetUser(r.Context(), id)
         if err != nil {
 		respondFail(w, 404, "Couldn't find user", fmt.Errorf("Failed to find user with ID: %s, ERROR: %v", val, err))
                 return
@@ -166,7 +166,7 @@ func (cfg *apiConfig) handlerGetUserProfile(w http.ResponseWriter, r *http.Reque
 	}
 
 	// Get recipes for user
-        recipes, err := cfg.db.GetUsersRecipes(r.Context(), user.ID)
+        recipes, err := cfg.DB.GetUsersRecipes(r.Context(), user.ID)
         if err != nil {
 		respondFail(w, 404, "Couldn't find recipes", fmt.Errorf("Failed to find recipes for user ID: %s - ERROR: %v", val, err))
                 return
@@ -175,23 +175,23 @@ func (cfg *apiConfig) handlerGetUserProfile(w http.ResponseWriter, r *http.Reque
 	// Branch on public/private view based on whether the requester is the user being requested
 	var viewModel any
 	if requesterID == user.ID {
-		viewModel = cfg.vmf.GeneratePrivateUser(user, recipes)
+		viewModel = cfg.Vmf.GeneratePrivateUser(user, recipes)
 	} else {
-		viewModel = cfg.vmf.GeneratePublicUser(user, recipes)
+		viewModel = cfg.Vmf.GeneratePublicUser(user, recipes)
 	}
 
         respondJSON(w, 200, viewModel)
 }
 
 // Upload user profile image
-func (cfg *apiConfig) handlerUploadUserImage(w http.ResponseWriter, r *http.Request) {
+func (cfg *ApiConfig) handlerUploadUserImage(w http.ResponseWriter, r *http.Request) {
 	requesterID, ok := r.Context().Value("userID").(uuid.UUID)
 	if !ok {
 		respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
 		return
 	}
 
-        key, err := cfg.db.GetUserImageKey(r.Context(), requesterID)
+        key, err := cfg.DB.GetUserImageKey(r.Context(), requesterID)
 	if err != nil {
 		respondFail(w, 404, "Couldn't get user image key", fmt.Errorf("Failed to get user image key. UserID: %s - ERROR: %v", requesterID, err))
 		return
@@ -235,8 +235,8 @@ func (cfg *apiConfig) handlerUploadUserImage(w http.ResponseWriter, r *http.Requ
                 tmp.Seek(0, io.SeekStart)
 
                 // Upload to s3
-                if _, err := cfg.s3client.PutObject(r.Context(), &s3.PutObjectInput{
-                        Bucket: &cfg.s3bucket,
+                if _, err := cfg.S3client.PutObject(r.Context(), &s3.PutObjectInput{
+                        Bucket: &cfg.S3bucket,
                         Key: &key,
                         Body: tmp,
                         ContentType: &mediaType,
@@ -254,7 +254,7 @@ func (cfg *apiConfig) handlerUploadUserImage(w http.ResponseWriter, r *http.Requ
 
 	// If this is the first upload, set image key in user database
 	if firstUpload {
-		if err := cfg.db.SetUserImageKey(r.Context(), database.SetUserImageKeyParams{
+		if err := cfg.DB.SetUserImageKey(r.Context(), database.SetUserImageKeyParams{
 			ID: requesterID,
 			ImageKey: key,
 		}); err != nil {
