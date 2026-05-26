@@ -1,4 +1,4 @@
-package server
+package server_test
 
 import (
   "log"
@@ -8,7 +8,7 @@ import (
 )
 
 func TestMain(m *testing.M) {
-  if err := godotenv.Load("../../.env"); err != nil {
+  if err := godotenv.Load("../../../.env"); err != nil {
     log.Fatal("ENV not found")
   }
 

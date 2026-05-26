@@ -7,9 +7,11 @@ import (
 	"log"
 	"mime"
 	"net/http"
+    "net/mail"
 	"time"
 
-	"github.com/google/uuid"
+	"github.com/lib/pq"
+    "github.com/google/uuid"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 	"github.com/trhys/Recipe-Repo-2/internal/database"
 	"github.com/trhys/Recipe-Repo-2/internal/auth"
@@ -30,6 +32,12 @@ func (cfg *ApiConfig) handlerCreateUser(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
+    // Verify valid email address
+    if _, err := mail.ParseAddress(req.Email); err != nil {
+      respondFail(w, 400, "Invalid email address", fmt.Errorf("Bad email in create user request: %v", err))
+      return
+    }
+
 	hash, err := auth.HashPassword(req.Password)
 	if err != nil {
 		respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed to hash password for user email: %s - ERROR: %v", req.Email, err))
@@ -44,6 +52,10 @@ func (cfg *ApiConfig) handlerCreateUser(w http.ResponseWriter, r *http.Request) 
 
 	user, err := cfg.DB.CreateUser(r.Context(), query)
 	if err != nil {
+      if err.(*pq.Error).Code  == "23505" {
+        respondFail(w, 400, "Email address is already associated with a user account!", fmt.Errorf("Duplicate user query: %v", err))
+        return
+      }
 		respondFail(w, 500, "Database error", fmt.Errorf("Failed to perform CreateUser query: %v", err))
 		return
 	}
