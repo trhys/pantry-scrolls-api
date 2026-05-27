@@ -38,6 +38,9 @@ func (cfg *ApiConfig) handlerCreateUser(w http.ResponseWriter, r *http.Request) 
       return
     }
 
+	// Enforce case insensitivity
+	req.Email = strings.ToLower(strings.TrimSpace(req.Email))
+
 	hash, err := auth.HashPassword(req.Password)
 	if err != nil {
 		respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed to hash password for user email: %s - ERROR: %v", req.Email, err))
@@ -75,10 +78,19 @@ func (cfg *ApiConfig) handlerLogin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Validate fields
+	if req.Email == "" || req.Password == "" {
+		respondFail(w, 400, "Missing email or password", fmt.Errorf("Bad request missing email or password (Login)"))
+		return
+	}
+
+	// Enforce case insensitivity
+	req.Email = strings.ToLower(strings.TrimSpace(req.Email))
+
 	// get users info
 	user, err := cfg.DB.GetUserHash(r.Context(), req.Email)
 	if err != nil {
-		respondFail(w, 404, "User not found", fmt.Errorf("Failed to find user with email: %s - ERROR: %v", req.Email, err))
+		respondFail(w, 401, "Invalid email or password", fmt.Errorf("Failed to find user with email: %s - ERROR: %v", req.Email, err))
 		return
 	}
 
