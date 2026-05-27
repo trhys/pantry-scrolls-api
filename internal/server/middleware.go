@@ -26,8 +26,19 @@ func (cfg *ApiConfig) authMiddleware(next http.HandlerFunc) http.HandlerFunc {
 			} 
 		}
 
+		if tokenString == "" {
+			ctx := context.WithValue(r.Context(), "userID", "")
+			next.ServeHTTP(w, r.WithContext(ctx))
+			return
+		}
+
 		subject, err := auth.ValidateJWT(tokenString, cfg.Secret)
 		if err != nil {
+			if errors.Is(err, jwt.ErrTokenExpired) {
+				w.Header().Set("WWW-Authenticate", `Bearer error="invalid_token", error_description="token is expired"`)
+				respondFail(w, 401, "Expired token", nil)
+				return
+			}
 			ip := getClientIP(r)
 			respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt from IP: %s - ERROR: %v", ip, err))
 			return
