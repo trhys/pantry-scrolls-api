@@ -4,10 +4,11 @@ import (
   "bytes"
   "encoding/json"
   "testing"
+  "net/http"
   "net/http/httptest"
 
   "github.com/trhys/Recipe-Repo-2/internal/server"
-  "github.com/trhys/Recipe-Repo-2/internal/viewmodel"
+  vm "github.com/trhys/Recipe-Repo-2/internal/viewmodel"
 )
 
 func TestCreateUser(t *testing.T) {
@@ -28,15 +29,15 @@ func TestCreateUser(t *testing.T) {
   }{
     "basic": { 
 		  input: []byte(`{"email": "tim@test.com", "password": "password", "name": "tim"}`), 
-		  want: 201 
+		  want: 201, 
 	  },
     "bad email": { 
 		input: []byte(`{"email": "not an email", "password": "pass", "name": "a name"}`), 
-	   want: 400 
+	   want: 400, 
 	  },
     "sql injection": { 
 		input: []byte(`{"email": "'--1=1", "password": "'--1=1", "name": "a name"}`), 
-	   want: 400 
+	   want: 400, 
 	  },
 	"missing email field": {
 		input: []byte(`{"password": "password", "name": "tim"}`),
@@ -238,19 +239,20 @@ func TestUserSession(t *testing.T) {
 
 	// Get session cookies
 	response := w.Result()
-	jwt, err := response.Cookie("jwt")
-	if err != nil {
-		t.Errorf("failed to get token: %v", err)
-	}
-
-	rt, err := response.Cookie("refresh_token")
-	if err != nil {
-		t.Errorf("failed to get token: %v", err)
-	}
+    cookies := response.Cookies()
+    var jwt *http.Cookie 
+    var rt *http.Cookie
+    for _, c := range cookies {
+      if c.Name == "jwt" {
+        jwt = c
+      } else if c.Name == "refresh_token" {
+          rt = c
+      }
+    }
 
 	// Test private user view
 	t.Run("private user view", func(t *testing.T) {
-		url := "/api/users/" + user.ID
+		url := "/api/users/" + user.ID.String()
 		req = httptest.NewRequest("GET", url, nil)
 		req.AddCookie(jwt)
 		req.AddCookie(rt)
@@ -277,7 +279,7 @@ func TestUserSession(t *testing.T) {
 
 	// Test public user view
 	t.Run("public user view", func(t *testing.T) {
-		url := "/api/users/" + user.ID
+		url := "/api/users/" + user.ID.String()
 		req = httptest.NewRequest("GET", url, nil) 
 		w = httptest.NewRecorder()
 		router.ServeHTTP(w, req)
