@@ -89,64 +89,48 @@ func TestCreateRecipe(t *testing.T) {
     }
   }
 
-  testIngredients := []struct {
-      Name     string
-      Quantity float64
-      Unit     string
-  }{
-      {"Spaghetti", 12, "Ounce"},
-      {"Ground Beef", 1, "Pound"},
-      {"Yellow Onion", 1, "Count"},
-      {"Garlic", 4, "Count"},
-      {"Carrots", 1, "Count"},
-      {"Celery", 2, "Count"},
-      {"Crushed Tomatoes", 1, "Cup"},
-      {"Tomato Paste", 2, "Tablespoon"},
-      {"Extra Virgin Olive Oil", 2, "Tablespoon"},
-      {"Dried Oregano", 1, "Teaspoon"},
-      {"Kosher Salt", 1, "Teaspoon"},
-      {"Ground Black Pepper", 0.5, "Teaspoon"},
-      {"Parmesan Cheese", 0.5, "Cup"},
-  }
+  recipePayload := struct {
+	Title string `json:"title"`
+	Desc  string `json:"description"`
+	Ing   []struct {
+		ID       uuid.UUID `json:"id"`
+		Quantity float32   `json:"quantity"`
+		Unit     string    `json:"unit"`
+	} `json:"ingredients"`
+	Inst string `json:"instructions"`
+}{
+	Title: "Classic Spaghetti Bolognese",
+	Desc:  "A hearty Italian meat sauce slow-simmered with tomatoes and aromatics, served over al dente spaghetti.",
+	Inst:  "1. Cook spaghetti... 2. Brown beef...",
+}
 
-  ingredientUUIDs := make(map[string]string)
+for _, ing := range testIngredients {
+	id, err := cfg.DB.GetIngredientFromName(context.Background(), ing.Name)
+	if err != nil {
+		t.Fatalf("Failed to resolve UUID for ingredient %s: %v", ing.Name, err)
+	}
 
-  for _, ing := range testIngredients {
-      id, err := cfg.DB.GetIngredientFromName(context.Background(), ing.Name)
-      if err != nil {
-          t.Fatalf("Failed to resolve UUID for ingredient %s: %v", ing.Name, err)
-      }
-      
-      ingredientUUIDs[ing.Name] = id
-  }
+	recipePayload.Ing = append(recipePayload.Ing, struct {
+		ID       uuid.UUID `json:"id"`
+		Quantity float32   `json:"quantity"`
+		Unit     string    `json:"unit"`
+	}{
+		ID:       id,
+		Quantity: ing.Quantity,
+		Unit:     ing.Unit,
+	})
+}
 
-  recipePayload := fmt.Sprint(`
-    {
-	    "title": "Classic Spaghetti Bolognese",
-	    "description": "A hearty Italian meat sauce slow-simmered with tomatoes and aromatics, served over al dente spaghetti.",
-	    "ingredients": [
-	      { "name": "Spaghetti", "quantity": 12, "unit": "Ounce" },
-	      { "name": "Ground Beef", "quantity": 1, "unit": "Pound" },
-	      { "name": "Yellow Onion", "quantity": 1, "unit": "Count" },
-	      { "name": "Garlic", "quantity": 4, "unit": "Count" },
-	      { "name": "Carrots", "quantity": 1, "unit": "Count" },
-	      { "name": "Celery", "quantity": 2, "unit": "Count" },
-	      { "name": "Crushed Tomatoes", "quantity": 1, "unit": "Cup" },
-	      { "name": "Tomato Paste", "quantity": 2, "unit": "Tablespoon" },
-	      { "name": "Extra Virgin Olive Oil", "quantity": 2, "unit": "Tablespoon" },
-	      { "name": "Dried Oregano", "quantity": 1, "unit": "Teaspoon" },
-	      { "name": "Kosher Salt", "quantity": 1, "unit": "Teaspoon" },
-	      { "name": "Ground Black Pepper", "quantity": 0.5, "unit": "Teaspoon" },
-	      { "name": "Parmesan Cheese", "quantity": 0.5, "unit": "Cup" }
-	    ],
-	    "instructions": "1. Bring a large pot of salted water to a boil. Cook spaghetti according to package directions until al dente; drain and set aside.\n2. Heat olive oil in a large skillet or Dutch oven over medium-high heat. Add ground beef and cook, breaking it apart, until browned, about 8 minutes. Drain excess fat.\n3. Add diced yellow onion, minced garlic, and diced carrot and celery to the pot. Cook, stirring frequently, until vegetables are softened, about 5 minutes.\n4. Stir in tomato paste and cook for 2 minutes until it darkens slightly.\n5. Add crushed tomatoes, dried oregano, salt, and pepper. Stir to combine.\n6. Reduce heat to low and simmer uncovered for 25–30 minutes, stirring occasionally, until the sauce has thickened.\n7. Toss the cooked spaghetti with the sauce and serve topped with grated Parmesan cheese."
-	  }`)
-
+payloadJSON, err := json.Marshal(recipePayload)
+if err != nil {
+	t.Fatalf("Failed to marshal recipe payload: %v", err)
+}
+		
   // Write multipart form data
   body := &bytes.Buffer{}
   writer := multipart.NewWriter(body)
 
-  if err := writer.WriteField("payload", recipePayload); err != nil {
+  if err := writer.WriteField("payload", string(payloadJSON)); err != nil {
       t.Fatalf("failed to write payload field: %v", err)
   }
 
