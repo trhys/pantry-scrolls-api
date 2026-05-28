@@ -1,13 +1,20 @@
-package integration_tests
+package server_test
 
 import (
   "bytes"
   "context"
   "encoding/json"
+  "fmt"
+  "mime/multipart"
   "testing"
   "net/http"
   "net/http/httptest"
+  "net/textproto"
 
+  "github.com/aws/aws-sdk-go-v2/aws"
+  "github.com/aws/aws-sdk-go-v2/config"
+  "github.com/aws/aws-sdk-go-v2/service/s3"
+  "github.com/aws/aws-sdk-go-v2/credentials"
   "github.com/trhys/Recipe-Repo-2/internal/server"
   vm "github.com/trhys/Recipe-Repo-2/internal/viewmodel"
 )
@@ -22,6 +29,24 @@ func TestCreateRecipe(t *testing.T) {
 
   cfg.DB = cfg.DB.WithTx(tx)
   router := server.GetRouter(cfg)
+
+  ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+      w.WriteHeader(http.StatusOK)
+  }))
+  defer ts.Close()
+
+  mockAwsCfg, err := config.LoadDefaultConfig(context.Background(),
+      config.WithRegion("us-east-1"),
+      config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider("mockadmin", "mockpassword", "")),
+  )
+  if err != nil {
+      t.Fatalf("failed to build mock aws config: %v", err)
+  }
+
+  cfg.S3client = s3.NewFromConfig(mockAwsCfg, func(o *s3.Options) {
+      o.BaseEndpoint = aws.String(ts.URL)
+      o.UsePathStyle = true
+  })
 
   testUser := struct {
     input []byte
@@ -38,21 +63,21 @@ func TestCreateRecipe(t *testing.T) {
   }
 
   // Login test user
-	login := []byte(`{"email":"tim@test.com", "password": "password"}`)
-	req = httptest.NewRequest("POST", "/api/sessions", bytes.NewBuffer(login))
-	w = httptest.NewRecorder()
-	router.ServeHTTP(w, req)
-	if w.Code != 200 {
-		t.Fatalf("Failed to login test user")
-	}
+  login := []byte(`{"email":"tim@test.com", "password": "password"}`)
+  req = httptest.NewRequest("POST", "/api/sessions", bytes.NewBuffer(login))
+  w = httptest.NewRecorder()
+  router.ServeHTTP(w, req)
+  if w.Code != 200 {
+      t.Fatalf("Failed to login test user")
+  }
 
   var user vm.SessionViewModel
-	if err := json.NewDecoder(w.Body).Decode(&user); err != nil {
-		t.Fatalf("failed to decode JSON response: %v", err)
-	}
+  if err := json.NewDecoder(w.Body).Decode(&user); err != nil {
+      t.Fatalf("failed to decode JSON response: %v", err)
+  }
 
-	// Get session cookies
-	response := w.Result()
+  // Get session cookies
+  response := w.Result()
   cookies := response.Cookies()
   var jwt *http.Cookie 
   var rt *http.Cookie
@@ -64,7 +89,38 @@ func TestCreateRecipe(t *testing.T) {
     }
   }
 
-  recipePayload = []byte(`
+  testIngredients := []struct {
+      Name     string
+      Quantity float64
+      Unit     string
+  }{
+      {"Spaghetti", 12, "Ounce"},
+      {"Ground Beef", 1, "Pound"},
+      {"Yellow Onion", 1, "Count"},
+      {"Garlic", 4, "Count"},
+      {"Carrots", 1, "Count"},
+      {"Celery", 2, "Count"},
+      {"Crushed Tomatoes", 1, "Cup"},
+      {"Tomato Paste", 2, "Tablespoon"},
+      {"Extra Virgin Olive Oil", 2, "Tablespoon"},
+      {"Dried Oregano", 1, "Teaspoon"},
+      {"Kosher Salt", 1, "Teaspoon"},
+      {"Ground Black Pepper", 0.5, "Teaspoon"},
+      {"Parmesan Cheese", 0.5, "Cup"},
+  }
+
+  ingredientUUIDs := make(map[string]string)
+
+  for _, ing := range testIngredients {
+      id, err := cfg.DB.GetIngredientFromName(context.Background(), ing.Name)
+      if err != nil {
+          t.Fatalf("Failed to resolve UUID for ingredient %s: %v", ing.Name, err)
+      }
+      
+      ingredientUUIDs[ing.Name] = id
+  }
+
+  recipePayload := fmt.Sprint(`
     {
 	    "title": "Classic Spaghetti Bolognese",
 	    "description": "A hearty Italian meat sauce slow-simmered with tomatoes and aromatics, served over al dente spaghetti.",
@@ -88,27 +144,27 @@ func TestCreateRecipe(t *testing.T) {
 
   // Write multipart form data
   body := &bytes.Buffer{}
-	writer := multipart.NewWriter(body)
+  writer := multipart.NewWriter(body)
 
   if err := writer.WriteField("payload", recipePayload); err != nil {
-		t.Fatalf("failed to write payload field: %v", err)
-	}
+      t.Fatalf("failed to write payload field: %v", err)
+  }
 
-	h := make(textproto.MIMEHeader)
-	h.Set("Content-Disposition", `form-data; name="image"; filename="Spaghetti.png"`)
-	h.Set("Content-Type", "image/png") 
+  h := make(textproto.MIMEHeader)
+  h.Set("Content-Disposition", `form-data; name="image"; filename="Spaghetti.png"`)
+  h.Set("Content-Type", "image/png") 
 
-	fileWriter, err := writer.CreatePart(h)
-	if err != nil {
-		t.Fatalf("failed to create file part: %v", err)
-	}
+  fileWriter, err := writer.CreatePart(h)
+  if err != nil {
+      t.Fatalf("failed to create file part: %v", err)
+  }
 
-	mockImageBytes := []byte("\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR...")
-	if _, err := fileWriter.Write(mockImageBytes); err != nil {
-		t.Fatalf("failed to write mock image bytes: %v", err)
-	}
+  mockImageBytes := []byte("\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR...")
+  if _, err := fileWriter.Write(mockImageBytes); err != nil {
+      t.Fatalf("failed to write mock image bytes: %v", err)
+  }
 
-	writer.Close()
+  writer.Close()
 
   // run
   t.Run("create recipe", func (t *testing.T) {
@@ -116,7 +172,10 @@ func TestCreateRecipe(t *testing.T) {
     req.Header.Set("Content-Type", writer.FormDataContentType())
 
     ctx := context.WithValue(req.Context(), "userID", user.ID)
-	  req = req.WithContext(ctx)
+    req = req.WithContext(ctx)
+
+    req.AddCookie(jwt)
+    req.AddCookie(rt)
 
     w = httptest.NewRecorder()
 		router.ServeHTTP(w, req)
@@ -126,9 +185,9 @@ func TestCreateRecipe(t *testing.T) {
 		}
     
     responseResult := w.Result()
-	  defer responseResult.Body.Close()
+    defer responseResult.Body.Close()
 
-  	var responseBody vm.RecipeFullViewModel 
+  	var responseBody vm.RecipeFull 
   	decoder := json.NewDecoder(responseResult.Body)
   	decoder.DisallowUnknownFields()
   

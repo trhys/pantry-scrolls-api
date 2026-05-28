@@ -8,6 +8,7 @@ import (
 	"mime"
 	"net/http"
     "net/mail"
+    "strings"
 	"time"
 
 	"github.com/lib/pq"
@@ -40,6 +41,18 @@ func (cfg *ApiConfig) handlerCreateUser(w http.ResponseWriter, r *http.Request) 
 
 	// Enforce case insensitivity
 	req.Email = strings.ToLower(strings.TrimSpace(req.Email))
+
+    // Verify password length
+    if len(req.Password) < 5 {
+      respondFail(w, 400, "Password too short", fmt.Errorf("Password too short (Create User)"))
+      return
+    }
+
+    // Verify user name length
+    if len(req.Name) > 30 {
+      respondFail(w, 400, "Username too long", fmt.Errorf("Username too long (Create User)"))
+      return
+    }
 
 	hash, err := auth.HashPassword(req.Password)
 	if err != nil {
@@ -183,11 +196,12 @@ func (cfg *ApiConfig) handlerGetUserProfile(w http.ResponseWriter, r *http.Reque
         }
 
 	// Validate auth from middleware
-	requesterID, ok := r.Context().Value("userID").(uuid.UUID)
-	if !ok {
-		respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", val))
-		return
-	}
+	requesterID := r.Context().Value("userID")
+    //_, ok := requesterID.(uuid.UUID)
+	//if !ok {
+	//	respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", val))
+	//	return
+	//}
 
 	// Get recipes for user
         recipes, err := cfg.DB.GetUsersRecipes(r.Context(), user.ID)

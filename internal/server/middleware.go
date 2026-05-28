@@ -2,11 +2,13 @@ package server
 
 import (
 	"context"
+    "errors"
 	"fmt"
 	"net"
 	"net/http"
 	"strings"
 
+    "github.com/golang-jwt/jwt/v5"
 	"github.com/trhys/Recipe-Repo-2/internal/auth"
 )
 
