@@ -170,6 +170,8 @@ func TestCRUDRecipe(t *testing.T) {
 
   writer.Close()
 
+  var testRecipeID uuid.UUID
+
   // Create
   t.Run("create recipe", func (t *testing.T) {
     req := httptest.NewRequest("POST", "/api/recipes", body)
@@ -198,10 +200,15 @@ func TestCRUDRecipe(t *testing.T) {
   	if err := decoder.Decode(&responseBody); err != nil {
   		t.Errorf("Response structural validation failed: %v", err)
   	}
+
+	  // get id for next tests
+	  testRecipeID = responseBody.ID
   })
 
   // Read
   t.Run("get recipe", func (t *testing.T) {
+	  // we're getting the 10 most recent recipes at this endpoint
+	  // newest should be index 0
     req := httptest.NewRequest("GET", "/api/recipes", nil)
 
     w = httptest.NewRecorder()
@@ -225,5 +232,98 @@ func TestCRUDRecipe(t *testing.T) {
     if responseBody.Recipes[0].Title != recipePayload.Title {
       t.Errorf("Expected recipe title: %s got %s", recipePayload.Title, responseBody.Recipes[0].Title)
     }
+  })
+
+// Update
+  t.Run("update recipe", func (t *testing.T) {
+	url := "/api/recipes/" + testRecipeID.String()
+    req := httptest.NewRequest("GET", url, nil)
+	  
+    w = httptest.NewRecorder()
+    router.ServeHTTP(w, req)
+    if w.Code != 200 {
+        t.Errorf("Failed to get recipe: got status %d", w.Code)
+        return
+    }
+
+    responseResult := w.Result()
+    defer responseResult.Body.Close()
+
+  	var responseBody vm.RecipeFull 
+  	decoder := json.NewDecoder(responseResult.Body)
+  	decoder.DisallowUnknownFields()
+  
+  	if err := decoder.Decode(&responseBody); err != nil {
+  		t.Errorf("Response structural validation failed: %v", err)
+  	}
+
+    if responseBody.ID != testRecipeID {
+      t.Errorf("Expected recipe id: %v got %v", testRecipeID, responseBody.ID)
+    }
+
+	responseBody.Title = "new title"
+
+	  // write update body
+	  body := &bytes.Buffer{}
+	  writer := multipart.NewWriter(body)
+	
+	  if err := writer.WriteField("payload", string(responseBody)); err != nil {
+		  t.Fatalf("failed to write payload field: %v", err)
+	  }
+	
+	  h := make(textproto.MIMEHeader)
+	  h.Set("Content-Disposition", `form-data; name="image"; filename="Spaghetti.png"`)
+	  h.Set("Content-Type", "image/png") 
+	
+	  fileWriter, err := writer.CreatePart(h)
+	  if err != nil {
+		  t.Fatalf("failed to create file part: %v", err)
+	  }
+	
+	  mockImageBytes := []byte("\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR...")
+	  if _, err := fileWriter.Write(mockImageBytes); err != nil {
+		  t.Fatalf("failed to write mock image bytes: %v", err)
+	  }
+	
+	  writer.Close()
+
+	  // send update
+	req = httptest.NewRequest("PUT", url, body)
+    req.Header.Set("Content-Type", writer.FormDataContentType())
+
+  	req.AddCookie(jwt)
+    req.AddCookie(rt)
+
+	w = httptest.NewRecorder()
+    router.ServeHTTP(w, req)
+    if w.Code != 204 {
+        t.Errorf("Failed to update recipe: got status %d", w.Code)
+        return
+    }
+
+	  // get recipe again to verify changed title
+	req = httptest.NewRequest("GET", url, nil)
+	  
+    w = httptest.NewRecorder()
+    router.ServeHTTP(w, req)
+    if w.Code != 200 {
+        t.Errorf("Failed to get recipe: got status %d", w.Code)
+        return
+    }
+
+  	updateResult := w.Result()
+    defer updateResult.Body.Close()
+
+  	var updateBody vm.RecipeFull 
+  	newDecoder := json.NewDecoder(updateResult.Body)
+  	newDecoder.DisallowUnknownFields()
+  
+  	if err := newDecoder.Decode(&updateBody); err != nil {
+  		t.Errorf("Response structural validation failed: %v", err)
+  	}
+
+	if updateBody.Title != "new title" {
+		t.Errorf("Failed update verification. expected title: 'new title' got: %s", updateBody.Title)
+	}
   })
 }
