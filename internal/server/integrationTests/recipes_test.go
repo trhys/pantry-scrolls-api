@@ -4,13 +4,13 @@ import (
   "bytes"
   "context"
   "encoding/json"
-  "fmt"
   "mime/multipart"
   "testing"
   "net/http"
   "net/http/httptest"
   "net/textproto"
 
+  "github.com/google/uuid"
   "github.com/aws/aws-sdk-go-v2/aws"
   "github.com/aws/aws-sdk-go-v2/config"
   "github.com/aws/aws-sdk-go-v2/service/s3"
@@ -19,7 +19,7 @@ import (
   vm "github.com/trhys/Recipe-Repo-2/internal/viewmodel"
 )
 
-func TestCreateRecipe(t *testing.T) {
+func TestCRUDRecipe(t *testing.T) {
   cfg := server.GetConfig()
   tx, err := cfg.DBConn.Begin()
   if err != nil {
@@ -98,17 +98,37 @@ func TestCreateRecipe(t *testing.T) {
 		Unit     string    `json:"unit"`
 	} `json:"ingredients"`
 	Inst string `json:"instructions"`
-}{
-	Title: "Classic Spaghetti Bolognese",
-	Desc:  "A hearty Italian meat sauce slow-simmered with tomatoes and aromatics, served over al dente spaghetti.",
-	Inst:  "1. Cook spaghetti... 2. Brown beef...",
-}
+  }{
+      Title: "Classic Spaghetti Bolognese",
+      Desc:  "A hearty Italian meat sauce slow-simmered with tomatoes and aromatics, served over al dente spaghetti.",
+      Inst:  "1. Cook spaghetti... 2. Brown beef...",
+  }
 
-for _, ing := range testIngredients {
-	id, err := cfg.DB.GetIngredientFromName(context.Background(), ing.Name)
-	if err != nil {
-		t.Fatalf("Failed to resolve UUID for ingredient %s: %v", ing.Name, err)
-	}
+  testIngredients := []struct {
+	Name     string
+	Quantity float32
+	Unit     string
+  }{
+      {"Spaghetti", 12, "Ounce"},
+      {"Ground Beef", 1, "Pound"},
+      {"Yellow Onion", 1, "Count"},
+      {"Garlic", 4, "Count"},
+      {"Carrots", 1, "Count"},
+      {"Celery", 2, "Count"},
+      {"Crushed Tomatoes", 1, "Cup"},
+      {"Tomato Paste", 2, "Tablespoon"},
+      {"Extra Virgin Olive Oil", 2, "Tablespoon"},
+      {"Dried Oregano", 1, "Teaspoon"},
+      {"Kosher Salt", 1, "Teaspoon"},
+      {"Ground Black Pepper", 0.5, "Teaspoon"},
+      {"Parmesan Cheese", 0.5, "Cup"},
+  }
+
+  for _, ing := range testIngredients {
+      id, err := cfg.DB.GetIngredientFromName(context.Background(), ing.Name)
+      if err != nil {
+          t.Fatalf("Failed to resolve UUID for ingredient %s: %v", ing.Name, err)
+    }
 
 	recipePayload.Ing = append(recipePayload.Ing, struct {
 		ID       uuid.UUID `json:"id"`
@@ -119,12 +139,12 @@ for _, ing := range testIngredients {
 		Quantity: ing.Quantity,
 		Unit:     ing.Unit,
 	})
-}
+  }
 
-payloadJSON, err := json.Marshal(recipePayload)
-if err != nil {
-	t.Fatalf("Failed to marshal recipe payload: %v", err)
-}
+  payloadJSON, err := json.Marshal(recipePayload)
+  if err != nil {
+      t.Fatalf("Failed to marshal recipe payload: %v", err)
+  }
 		
   // Write multipart form data
   body := &bytes.Buffer{}
@@ -150,7 +170,7 @@ if err != nil {
 
   writer.Close()
 
-  // run
+  // Create
   t.Run("create recipe", func (t *testing.T) {
     req := httptest.NewRequest("POST", "/api/recipes", body)
     req.Header.Set("Content-Type", writer.FormDataContentType())
@@ -162,11 +182,11 @@ if err != nil {
     req.AddCookie(rt)
 
     w = httptest.NewRecorder()
-		router.ServeHTTP(w, req)
-		if w.Code != 200 {
-			t.Errorf("Failed to create recipe: got status %d", w.Code)
-			return
-		}
+    router.ServeHTTP(w, req)
+    if w.Code != 200 {
+        t.Errorf("Failed to create recipe: got status %d", w.Code)
+        return
+    }
     
     responseResult := w.Result()
     defer responseResult.Body.Close()
@@ -178,5 +198,32 @@ if err != nil {
   	if err := decoder.Decode(&responseBody); err != nil {
   		t.Errorf("Response structural validation failed: %v", err)
   	}
+  })
+
+  // Read
+  t.Run("get recipe", func (t *testing.T) {
+    req := httptest.NewRequest("GET", "/api/recipes", nil)
+
+    w = httptest.NewRecorder()
+    router.ServeHTTP(w, req)
+    if w.Code != 200 {
+        t.Errorf("Failed to get recipes: got status %d", w.Code)
+        return
+    }
+
+    responseResult := w.Result()
+    defer responseResult.Body.Close()
+
+  	var responseBody vm.RecipeCardViewModel 
+  	decoder := json.NewDecoder(responseResult.Body)
+  	decoder.DisallowUnknownFields()
+  
+  	if err := decoder.Decode(&responseBody); err != nil {
+  		t.Errorf("Response structural validation failed: %v", err)
+  	}
+
+    if responseBody.Recipes[0].Title != recipePayload.Title {
+      t.Errorf("Expected recipe title: %s got %s", recipePayload.Title, responseBody.Recipes[0].Title)
+    }
   })
 }
