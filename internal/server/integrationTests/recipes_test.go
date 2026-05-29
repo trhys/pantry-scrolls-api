@@ -326,4 +326,30 @@ func TestCRUDRecipe(t *testing.T) {
 		t.Errorf("Failed update verification. expected title: 'new title' got: %s", updateBody.Title)
 	}
   })
+
+	// delete recipe
+	t.Run("update recipe", func (t *testing.T) {
+		url := "/api/recipes/" + testRecipeID.String()
+		req = httptest.NewRequest("DELETE", url, nil)
+	
+	  	req.AddCookie(jwt)
+	    req.AddCookie(rt)
+	
+		w = httptest.NewRecorder()
+	    router.ServeHTTP(w, req)
+	    if w.Code != 204 {
+	        t.Errorf("Failed to delete recipe: got status %d", w.Code)
+	        return
+	    }
+
+		// verify 404 status
+		req = httptest.NewRequest("GET", url, nil)
+	  
+	    w = httptest.NewRecorder()
+	    router.ServeHTTP(w, req)
+	    if w.Code != 404 {
+	        t.Errorf("Expected 404: got status %d", w.Code)
+	        return
+	    }
+	})
 }
