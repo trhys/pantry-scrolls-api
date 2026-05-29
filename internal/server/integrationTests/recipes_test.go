@@ -328,7 +328,7 @@ func TestCRUDRecipe(t *testing.T) {
   })
 
 	// delete recipe
-	t.Run("update recipe", func (t *testing.T) {
+	t.Run("delete recipe", func (t *testing.T) {
 		url := "/api/recipes/" + testRecipeID.String()
 		req = httptest.NewRequest("DELETE", url, nil)
 	
