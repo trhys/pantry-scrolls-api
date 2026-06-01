@@ -262,12 +262,13 @@ func TestCRUDRecipe(t *testing.T) {
     }
 
 	responseBody.Title = "new title"
+    data, _ := json.Marshal(responseBody)
 
 	  // write update body
 	  body := &bytes.Buffer{}
 	  writer := multipart.NewWriter(body)
 	
-	  if err := writer.WriteField("payload", string(responseBody)); err != nil {
+	  if err := writer.WriteField("payload", string(data)); err != nil {
 		  t.Fatalf("failed to write payload field: %v", err)
 	  }
 	

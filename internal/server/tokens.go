@@ -44,6 +44,18 @@ func (cfg *ApiConfig) handlerRefreshToken(w http.ResponseWriter, r *http.Request
 		Token: jwt,
 	}
 
+    jwtCookie := http.Cookie{
+      Name: "jwt",
+      Value: jwt,
+      HttpOnly: true,
+      Secure:   true,
+      SameSite: http.SameSiteLaxMode,
+      Path:     "/",
+      Expires:  time.Now().Add(1 * time.Hour),
+    }
+
+    http.SetCookie(w, &jwtCookie)
+
 	respondJSON(w, 200, resp)
 }
 
