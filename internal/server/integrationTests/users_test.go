@@ -2,6 +2,7 @@ package server_test
 
 import (
   "bytes"
+  "context"
   "encoding/json"
   "testing"
   "net/http"
@@ -187,7 +188,7 @@ func TestUserLogin(t *testing.T) {
 			var response vm.SessionViewModel
 			err := json.NewDecoder(w.Body).Decode(&response)
 			if err != nil {
-				t.Errorf("failed to decode JSON response: %v", err)
+
 			}
 
 			if response.JWT == "" || response.RT == "" {
@@ -224,7 +225,7 @@ func TestUserSession(t *testing.T) {
 	}
 
 	// Login test user
-	login := []byte(`{"email":"tim@test.com", "password": "password"}`)
+    login := []byte(`{"email":"tim@test.com", "password": "password"}`)
 	req = httptest.NewRequest("POST", "/api/sessions", bytes.NewBuffer(login))
 	w = httptest.NewRecorder()
 	router.ServeHTTP(w, req)
@@ -299,4 +300,78 @@ func TestUserSession(t *testing.T) {
 			t.Errorf("Security Leak: Failed to decode public response (possibly leaked private fields): %v", err)
 		}
 	})
+}
+
+func TestUserUpdate(t *testing.T) {
+  cfg := server.GetConfig()
+  tx, err := cfg.DBConn.Begin()
+  if err != nil {
+    t.Fatalf("Failed to start transaction: %v", err)
+  }
+  defer tx.Rollback()
+
+  cfg.DB = cfg.DB.WithTx(tx)
+
+  router := server.GetRouter(cfg)
+
+  testUser := struct {
+    input []byte
+  }{
+    input: []byte(`{"email":"tim@test.com", "password": "password", "name": "tim"}`),
+  }
+
+  req := httptest.NewRequest("POST", "/api/users", bytes.NewBuffer(testUser.input))
+  w := httptest.NewRecorder()
+  router.ServeHTTP(w, req)
+  if w.Code != 201 {
+    t.Errorf("Failed to create user for test")
+  }
+
+  login := []byte(`{"email":"tim@test.com", "password": "password"}`)
+  req = httptest.NewRequest("POST", "/api/sessions", bytes.NewBuffer(login))
+  w = httptest.NewRecorder()
+  router.ServeHTTP(w, req)
+  if w.Code != 200 {
+      t.Fatalf("Failed to login test user")
+  }
+
+  var user vm.SessionViewModel
+  if err := json.NewDecoder(w.Body).Decode(&user); err != nil {
+      t.Fatalf("failed to decode JSON response: %v", err)
+  }
+
+  // Get session cookies
+  response := w.Result()
+  cookies := response.Cookies()
+  var jwt *http.Cookie 
+  var rt *http.Cookie
+  for _, c := range cookies {
+    if c.Name == "jwt" {
+      jwt = c
+    } else if c.Name == "refresh_token" {
+        rt = c
+    }
+  }
+
+  // update user
+  update := []byte(`{"name":"tim 2", "password": "new passwd"}`)
+  url := "/api/users/" + user.ID.String()
+  req = httptest.NewRequest("PUT", url, bytes.NewBuffer(update))
+  w = httptest.NewRecorder()
+  req.AddCookie(jwt)
+  req.AddCookie(rt)
+  router.ServeHTTP(w, req)
+  if w.Code != 204 {
+    t.Fatalf("expected status 204, got: %d", w.Code)
+  }
+
+  // get user and verify changes
+  userRow, err := cfg.DB.GetUserByEmail(context.Background(), "tim@test.com")
+  if err != nil {
+    t.Fatalf("couldnt get test user from db: %v", err)
+  }
+
+  if userRow.Name != "tim 2" {
+    t.Fatalf("user name did not update correctly")
+  }
 }

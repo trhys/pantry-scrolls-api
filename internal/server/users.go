@@ -77,6 +77,25 @@ func (cfg *ApiConfig) handlerCreateUser(w http.ResponseWriter, r *http.Request) 
 	}
 
 	log.Printf("User created with email: %s", user.Email)
+
+    // send verification email
+    verificationToken := auth.MakeRefreshToken() // reuse refresh token method here - it does the same thing we want
+    if err := cfg.SendVerificationEmail(req.Email, verificationToken); err != nil {
+      respondFail(w, 500, "Failed to verify email", fmt.Errorf("Couldnt send verification email to %s - ERROR: %v", req.Email, err))
+      return
+    }
+
+    // add token to db
+    query2 := database.CreateVerificationParams{
+      Email: req.Email,
+      Token: verificationToken,
+    }
+    
+    if err := cfg.DB.CreateVerification(r.Context(), query2); err != nil {
+      respondFail(w, 500, "Failed to log verification token", fmt.Errorf("Couldnt add verification token for email: %s ERROR %v", req.Email, err))
+      return
+    }
+
 	respondJSON(w, 201, nil)
 }
 
@@ -182,11 +201,11 @@ func (cfg *ApiConfig) handlerGetSession(w http.ResponseWriter, r *http.Request) 
 func (cfg *ApiConfig) handlerGetUserProfile(w http.ResponseWriter, r *http.Request) {
 	// Get user id from path
 	val := r.PathValue("user_id")
-        id, err := uuid.Parse(val)
-        if err != nil {
-		respondFail(w, 404, "Invalid uuid", fmt.Errorf("Failed to parse UUID in url: %v", err))
-                return
-        }
+    id, err := uuid.Parse(val)
+    if err != nil {
+    respondFail(w, 404, "Invalid uuid", fmt.Errorf("Failed to parse UUID in url: %v", err))
+            return
+    }
 
 	// Make sure user exists
         user, err := cfg.DB.GetUser(r.Context(), id)
@@ -197,11 +216,6 @@ func (cfg *ApiConfig) handlerGetUserProfile(w http.ResponseWriter, r *http.Reque
 
 	// Validate auth from middleware
 	requesterID := r.Context().Value("userID")
-    //_, ok := requesterID.(uuid.UUID)
-	//if !ok {
-	//	respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", val))
-	//	return
-	//}
 
 	// Get recipes for user
         recipes, err := cfg.DB.GetUsersRecipes(r.Context(), user.ID)
@@ -302,4 +316,88 @@ func (cfg *ApiConfig) handlerUploadUserImage(w http.ResponseWriter, r *http.Requ
 	}
 
 	respondJSON(w, 204, nil)
+}
+
+// Update user
+func (cfg *ApiConfig) handlerUpdateUser(w http.ResponseWriter, r *http.Request) {
+  // auth
+  val := r.PathValue("user_id")
+  id, err := uuid.Parse(val)
+  if err != nil {
+    respondFail(w, 404, "Invalid uuid", fmt.Errorf("Failed to parse UUID in url: %v", err))
+    return
+  }
+  requesterID := r.Context().Value("userID")
+
+  if requesterID != id {
+    respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized user update request for user id: %s", id.String()))
+    return
+  }
+
+  // request
+  var req struct {
+    Username    string  `json:"name"`
+    Password    string  `json:"password"`
+  }
+
+  if err := util.DecodeRequest(w, r, 1<<20, &req); err != nil {
+      respondFail(w, 400, "Bad request", fmt.Errorf("Failed to decode request - ERROR: %v", err))
+      return
+  }
+
+  // Verify password length
+  if len(req.Password) < 5 {
+    respondFail(w, 400, "Password too short", fmt.Errorf("Password too short (Create User)"))
+    return
+  }
+
+  // Verify user name length
+  if len(req.Username) > 30 {
+    respondFail(w, 400, "Username too long", fmt.Errorf("Username too long (Create User)"))
+    return
+  }
+
+  hash, err := auth.HashPassword(req.Password)
+  if err != nil {
+      respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed to hash password for user: %s - ERROR: %v", id.String(), err))
+      return
+  }
+
+  // query
+  query := database.UpdateUserParams{
+    ID: id,
+    Name: req.Username,
+    HashedPw: hash,
+  }
+
+  if err := cfg.DB.UpdateUser(r.Context(), query); err != nil {
+    respondFail(w, 500, "Something went wrong", fmt.Errorf("Database query failed (UpdateUser): %v", err))
+    return
+  }
+
+  respondJSON(w, 204, nil)
+}
+
+// Verify email addy
+func (cfg *ApiConfig) handlerVerifyEmail(w http.ResponseWriter, r *http.Request) {
+  val := r.PathValue("token")
+
+  // get email from token
+  email, err := cfg.DB.GetVerification(r.Context(), val)
+  if err != nil {
+    respondFail(w, 404, "Invalid token", fmt.Errorf("Invalid verification token attempt"))
+    return
+  }
+
+  if email.ExpiresAt.After(time.Now()) {
+    respondFail(w, 401, "Token expired", fmt.Errorf("Expired token access for email: %s", email.Email))
+    return
+  }
+
+  if err := cfg.DB.VerifyEmail(r.Context(), email.Email); err != nil {
+    respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed to verify email %s ERROR %v", email.Email, err))
+    return
+  }
+
+  respondJSON(w, 200, nil)
 }

@@ -207,3 +207,31 @@ func (q *Queries) SetUserImageKey(ctx context.Context, arg SetUserImageKeyParams
 	_, err := q.db.ExecContext(ctx, setUserImageKey, arg.ID, arg.ImageKey)
 	return err
 }
+
+const updateUser = `-- name: UpdateUser :exec
+UPDATE users
+SET name = $2, hashed_pw = $3, updated_at = NOW()
+WHERE id = $1
+`
+
+type UpdateUserParams struct {
+	ID       uuid.UUID
+	Name     string
+	HashedPw string
+}
+
+func (q *Queries) UpdateUser(ctx context.Context, arg UpdateUserParams) error {
+	_, err := q.db.ExecContext(ctx, updateUser, arg.ID, arg.Name, arg.HashedPw)
+	return err
+}
+
+const verifyEmail = `-- name: VerifyEmail :exec
+UPDATE users
+SET is_verified = TRUE
+WHERE email = $1
+`
+
+func (q *Queries) VerifyEmail(ctx context.Context, email string) error {
+	_, err := q.db.ExecContext(ctx, verifyEmail, email)
+	return err
+}

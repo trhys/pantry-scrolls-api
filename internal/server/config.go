@@ -5,6 +5,7 @@ import (
 	"database/sql"
 
 	"github.com/aws/aws-sdk-go-v2/service/s3"
+    "github.com/aws/aws-sdk-go-v2/service/ses"
 	"github.com/trhys/Recipe-Repo-2/internal/database"
 	"github.com/trhys/Recipe-Repo-2/internal/viewmodel"
 
@@ -15,6 +16,7 @@ type ApiConfig struct {
 	DBConn		*sql.DB
 	Secret		string
 	JwtDuration	time.Duration
+    SESClient   *ses.Client
 	S3client	*s3.Client
 	S3bucket	string
 	S3region	string
