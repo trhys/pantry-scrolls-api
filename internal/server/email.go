@@ -10,7 +10,7 @@ import (
 )
 
 func (cfg *ApiConfig) SendVerificationEmail(targetEmail string, token string) error {
-	verificationURL := fmt.Sprintf("https://pantryscrolls.com/verify/%s", token)
+	verificationURL := fmt.Sprintf("%s/verify/%s", cfg.React, token)
 
 	sender := "no-reply@pantryscrolls.com"
 	subject := "Verify your email address"
@@ -19,7 +19,7 @@ func (cfg *ApiConfig) SendVerificationEmail(targetEmail string, token string) er
 		<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px;">
 			<h2 style="color: #333333;">Welcome!</h2>
 			<p style="color: #555555; font-size: 16px; line-height: 1.5;">
-				Please verify your email address to activate your account. This link will expire in 15 minutes.
+				Please verify your email address to activate your account. This link will expire in 30 minutes.
 			</p>
 			<div style="margin: 30px 0; text-align: center;">
 				<a href="%s" style="background-color: #007bff; color: white; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 4px; display: inline-block;">
