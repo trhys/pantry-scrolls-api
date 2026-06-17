@@ -366,10 +366,19 @@ func (cfg *ApiConfig) handlerUpdateUser(w http.ResponseWriter, r *http.Request) 
 
 // Update password
 func (cfg *ApiConfig) handlerUpdatePassword(w http.ResponseWriter, r *http.Request) {
-   val := r.PathValue("token")
+// request
+  var req struct {
+    Token       string  `json:"token"`
+    Password    string  `json:"password"`
+  }
+
+  if err := util.DecodeRequest(w, r, 1<<20, &req); err != nil {
+      respondFail(w, 400, "Bad request", fmt.Errorf("Failed to decode request - ERROR: %v", err))
+      return
+  }
 
   // get email from token
-  email, err := cfg.DB.GetVerification(r.Context(), val)
+  email, err := cfg.DB.GetVerification(r.Context(), req.Token)
   if err != nil {
     respondFail(w, 404, "Invalid token", fmt.Errorf("Invalid verification token attempt"))
     return
@@ -378,16 +387,6 @@ func (cfg *ApiConfig) handlerUpdatePassword(w http.ResponseWriter, r *http.Reque
   if email.ExpiresAt.After(time.Now()) {
     respondFail(w, 401, "Token expired", fmt.Errorf("Expired token access for email: %s", email.Email))
     return
-  }
-
-  // request
-  var req struct {
-    Password    string  `json:"password"`
-  }
-
-  if err := util.DecodeRequest(w, r, 1<<20, &req); err != nil {
-      respondFail(w, 400, "Bad request", fmt.Errorf("Failed to decode request - ERROR: %v", err))
-      return
   }
 
   // Verify password length
