@@ -337,6 +337,51 @@ func (cfg *ApiConfig) handlerUpdateUser(w http.ResponseWriter, r *http.Request) 
   // request
   var req struct {
     Username    string  `json:"name"`
+  }
+
+  if err := util.DecodeRequest(w, r, 1<<20, &req); err != nil {
+      respondFail(w, 400, "Bad request", fmt.Errorf("Failed to decode request - ERROR: %v", err))
+      return
+  }
+
+  // Verify user name length
+  if len(req.Username) > 30 {
+    respondFail(w, 400, "Username too long", fmt.Errorf("Username too long (Create User)"))
+    return
+  }
+
+  // query
+  query := database.UpdateUserParams{
+    ID: id,
+    Name: req.Username,
+  }
+
+  if err := cfg.DB.UpdateUser(r.Context(), query); err != nil {
+    respondFail(w, 500, "Something went wrong", fmt.Errorf("Database query failed (UpdateUser): %v", err))
+    return
+  }
+
+  respondJSON(w, 204, nil)
+}
+
+// Update password
+func (cfg *ApiConfig) handlerUpdatePassword(w http.ResponseWriter, r *http.Request) {
+   val := r.PathValue("token")
+
+  // get email from token
+  email, err := cfg.DB.GetVerification(r.Context(), val)
+  if err != nil {
+    respondFail(w, 404, "Invalid token", fmt.Errorf("Invalid verification token attempt"))
+    return
+  }
+
+  if email.ExpiresAt.After(time.Now()) {
+    respondFail(w, 401, "Token expired", fmt.Errorf("Expired token access for email: %s", email.Email))
+    return
+  }
+
+  // request
+  var req struct {
     Password    string  `json:"password"`
   }
 
@@ -347,31 +392,24 @@ func (cfg *ApiConfig) handlerUpdateUser(w http.ResponseWriter, r *http.Request) 
 
   // Verify password length
   if len(req.Password) < 5 {
-    respondFail(w, 400, "Password too short", fmt.Errorf("Password too short (Create User)"))
+    respondFail(w, 400, "Password too short", fmt.Errorf("Password too short (Update password"))
     return
   }
 
-  // Verify user name length
-  if len(req.Username) > 30 {
-    respondFail(w, 400, "Username too long", fmt.Errorf("Username too long (Create User)"))
-    return
-  }
-
-  hash, err := auth.HashPassword(req.Password)
+hash, err := auth.HashPassword(req.Password)
   if err != nil {
       respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed to hash password for user: %s - ERROR: %v", id.String(), err))
       return
   }
 
   // query
-  query := database.UpdateUserParams{
-    ID: id,
-    Name: req.Username,
-    HashedPw: hash,
+  query := database.UpdatePasswordHashParams{
+    Email: email.Email,
+    HashedPw: req.Password,
   }
 
-  if err := cfg.DB.UpdateUser(r.Context(), query); err != nil {
-    respondFail(w, 500, "Something went wrong", fmt.Errorf("Database query failed (UpdateUser): %v", err))
+  if err := cfg.DB.UpdatePasswordHash(r.Context(), query); err != nil {
+    respondFail(w, 500, "Something went wrong", fmt.Errorf("Database query failed (Update password): %v", err))
     return
   }
 
