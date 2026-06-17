@@ -401,3 +401,46 @@ func (cfg *ApiConfig) handlerVerifyEmail(w http.ResponseWriter, r *http.Request)
 
   respondJSON(w, 200, nil)
 }
+
+func (cfg *ApiConfig) handlerResetPassword(w http.ResponseWriter, r *http.Request) {
+  // auth
+  val := r.PathValue("user_id")
+  id, err := uuid.Parse(val)
+  if err != nil {
+    respondFail(w, 404, "Invalid uuid", fmt.Errorf("Failed to parse UUID in url: %v", err))
+    return
+  }
+  requesterID := r.Context().Value("userID")
+
+  if requesterID != id {
+    respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized user update request for user id: %s", id.String()))
+    return
+  }
+
+  // get user email
+  email, err := cfg.DB.GetUserEmail(r.Context(), requesterID)
+  if err != nil {
+    respondFail(w, 401, "Unauthorized", fmt.Errorf("Failed to get user email: %v", err))
+    return 
+  }
+
+  // send reset email - well reuse the verification email structure as much as possible 
+    verificationToken := auth.MakeRefreshToken()
+    if err := cfg.SendPasswordResetEmail(email, verificationToken); err != nil {
+      respondFail(w, 500, "Failed to send request email", fmt.Errorf("Couldnt send password reset request email to %s - ERROR: %v", email, err))
+      return
+    }
+
+    // add token to db
+    query2 := database.CreateVerificationParams{
+      Email: email,
+      Token: verificationToken,
+    }
+    
+    if err := cfg.DB.CreateVerification(r.Context(), query2); err != nil {
+      respondFail(w, 500, "Failed to log verification token", fmt.Errorf("Couldnt add verification token for email: %s ERROR %v", email, err))
+      return
+    }
+
+  respondJSON(w, 204, nil)
+}
