@@ -56,3 +56,7 @@ WHERE id = $1;
 UPDATE users
 SET is_verified = TRUE
 WHERE email = $1;
+
+-- name: GetUserEmail :one
+SELECT email FROM users
+WHERE id = $1;
