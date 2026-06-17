@@ -11,38 +11,38 @@ import (
 )
 
 type ShoppingList struct {
-        ID              uuid.UUID       `json:"id"`
-        Name            string          `json:"name"`
-	CreatedAt       time.Time       `json:"created_at"`
-        UpdatedAt       time.Time       `json:"updated_at"`
+	ID        uuid.UUID `json:"id"`
+	Name      string    `json:"name"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
 type ShoppingListViewModel struct {
 	ShoppingList
-	Recipes		[]RecipeOnList	`json:"recipes"`
+	Recipes []RecipeOnList `json:"recipes"`
 }
 
 type UserListsViewModel struct {
-	UserLists	[]ShoppingList	`json:"shopping_lists"`
+	UserLists []ShoppingList `json:"shopping_lists"`
 }
 
 type PrintViewModel struct {
-	Name            string          `json:"name"`
-	Ingredients	[]Ingredient	`json:"items"`
+	Name        string       `json:"name"`
+	Ingredients []Ingredient `json:"items"`
 }
 
 // Display for viewing a single list with it's recipes
 func GenerateShoppingListViewModel(list db.ShoppingList, recipes []db.GetRecipesFromListRow) ShoppingListViewModel {
-	model := ShoppingListViewModel {
-		ShoppingList: ShoppingList {
-			ID: list.ID,
-			Name: list.Name,
+	model := ShoppingListViewModel{
+		ShoppingList: ShoppingList{
+			ID:        list.ID,
+			Name:      list.Name,
 			CreatedAt: list.CreatedAt,
 			UpdatedAt: list.UpdatedAt,
 		},
 		Recipes: GetRecipesOnList(recipes),
 	}
-	
+
 	return model
 }
 
@@ -53,13 +53,13 @@ func GenerateUserListsViewModel(lists []db.ShoppingList) UserListsViewModel {
 	}
 
 	for _, list := range lists {
-                model.UserLists = append(model.UserLists, ShoppingList{
-                        ID: list.ID,
-                        Name: list.Name,
-                        CreatedAt: list.CreatedAt,
-                        UpdatedAt: list.UpdatedAt,
-                })
-        }
+		model.UserLists = append(model.UserLists, ShoppingList{
+			ID:        list.ID,
+			Name:      list.Name,
+			CreatedAt: list.CreatedAt,
+			UpdatedAt: list.UpdatedAt,
+		})
+	}
 
 	return model
 }
@@ -71,12 +71,12 @@ func GeneratePrintViewModel(listName string, printout []db.PrintListRow, dbConn 
 	}
 
 	type agg struct {
-		id uuid.UUID
+		id             uuid.UUID
 		universal_unit string
 	}
 
 	total := make(map[agg]struct {
-		name string
+		name     string
 		quantity float32
 	})
 
@@ -92,7 +92,7 @@ func GeneratePrintViewModel(listName string, printout []db.PrintListRow, dbConn 
 
 	for key, item := range total {
 		retailConversions, err := dbConn.GetRetailConversion(context.Background(), db.GetRetailConversionParams{
-			IngredientID: key.id,
+			IngredientID:  key.id,
 			UniversalUnit: key.universal_unit,
 		})
 		if err != nil {
@@ -103,14 +103,14 @@ func GeneratePrintViewModel(listName string, printout []db.PrintListRow, dbConn 
 		bestUnit, bestQuantity := getBestFit(retailConversions, item.quantity)
 
 		model.Ingredients = append(model.Ingredients, Ingredient{
-			ID: key.id,
-			Name: item.name,
+			ID:       key.id,
+			Name:     item.name,
 			Quantity: bestQuantity,
-			Unit: bestUnit,
+			Unit:     bestUnit,
 		})
 	}
 
-		return model
+	return model
 }
 
 // Print list helper
@@ -145,4 +145,4 @@ func getBestFit(conversions []db.RetailConversion, quantity float32) (string, fl
 	}
 
 	return bestUnit, bestQuantity
-}	
+}

@@ -92,12 +92,19 @@ type UniversalUnit struct {
 }
 
 type User struct {
-	ID        uuid.UUID
-	Name      string
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	ID         uuid.UUID
+	Name       string
+	CreatedAt  time.Time
+	UpdatedAt  time.Time
+	Email      string
+	HashedPw   string
+	Admin      bool
+	ImageKey   string
+	IsVerified sql.NullBool
+}
+
+type VerificationToken struct {
 	Email     string
-	HashedPw  string
-	Admin     bool
-	ImageKey  string
+	Token     string
+	ExpiresAt time.Time
 }

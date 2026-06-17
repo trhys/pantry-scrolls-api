@@ -6,10 +6,10 @@ import (
 	_ "embed"
 	"encoding/json"
 	"log"
-	
+
 	"github.com/lib/pq"
-	"github.com/trhys/Recipe-Repo-2/internal/database"
 	pb "github.com/schollz/progressbar/v3"
+	"github.com/trhys/Recipe-Repo-2/internal/database"
 )
 
 //go:embed seedManifest.json
@@ -19,26 +19,26 @@ func InitDBIngredients(ik string, db *sql.DB, ctx context.Context) error {
 	log.Println("Loading seed from JSON...")
 
 	var seed struct {
-		Units []struct{
+		Units []struct {
 			Name string `json:"name"`
 			Abbr string `json:"abbreviation"`
 		} `json:"units"`
-		Universal []struct{
+		Universal []struct {
 			Name string `json:"name"`
 		} `json:"universal_units"`
-		Retail []struct{
+		Retail []struct {
 			Name string `json:"name"`
 		} `json:"retail_units"`
-		RetailConversions []struct{
-			UnivUnit string `json:"universal_unit"`
-			RetUnit string `json:"retail_unit"`
-			Ratio float32 `json:"ratio"`
+		RetailConversions []struct {
+			UnivUnit string  `json:"universal_unit"`
+			RetUnit  string  `json:"retail_unit"`
+			Ratio    float32 `json:"ratio"`
 		} `json:"retail_conversions"`
-		Ingredients []struct{
-			Name string `json:"name"`
+		Ingredients []struct {
+			Name        string `json:"name"`
 			Conversions []struct {
-				From string `json:"from_unit"`
-				To string `json:"to_unit"`
+				From  string  `json:"from_unit"`
+				To    string  `json:"to_unit"`
 				Ratio float32 `json:"ratio"`
 			} `json:"conversions"`
 			RetailUnits []string `json:"retail_units"`
@@ -55,10 +55,12 @@ func InitDBIngredients(ik string, db *sql.DB, ctx context.Context) error {
 
 	bar := pb.Default(int64(len(seed.Units) + len(seed.Universal) + len(seed.Retail) + len(seed.RetailConversions)))
 	for _, u := range seed.Units {
-		if _, err := dbConn.GetUnit(ctx, u.Name); err == nil { continue }
+		if _, err := dbConn.GetUnit(ctx, u.Name); err == nil {
+			continue
+		}
 
 		if err := dbConn.CreateUnit(ctx, database.CreateUnitParams{
-			Name: u.Name,
+			Name:         u.Name,
 			Abbreviation: u.Abbr,
 		}); err != nil {
 			log.Printf("Failed to create unit: %v", err)
@@ -67,7 +69,9 @@ func InitDBIngredients(ik string, db *sql.DB, ctx context.Context) error {
 	}
 
 	for _, v := range seed.Universal {
-		if _, err := dbConn.GetUniversalUnit(ctx, v.Name); err == nil { continue }
+		if _, err := dbConn.GetUniversalUnit(ctx, v.Name); err == nil {
+			continue
+		}
 
 		if err := dbConn.CreateUniversalUnit(ctx, v.Name); err != nil {
 			log.Printf("Failed to create universal unit: %v", err)
@@ -76,7 +80,9 @@ func InitDBIngredients(ik string, db *sql.DB, ctx context.Context) error {
 	}
 
 	for _, r := range seed.Retail {
-		if _, err := dbConn.GetRetailUnit(ctx, r.Name); err == nil { continue }
+		if _, err := dbConn.GetRetailUnit(ctx, r.Name); err == nil {
+			continue
+		}
 
 		if err := dbConn.CreateRetailUnit(ctx, r.Name); err != nil {
 			log.Printf("Failed to create retail unit: %v", err)
@@ -87,13 +93,15 @@ func InitDBIngredients(ik string, db *sql.DB, ctx context.Context) error {
 	for _, rc := range seed.RetailConversions {
 		if _, err := dbConn.CheckRetailConversion(ctx, database.CheckRetailConversionParams{
 			UniversalUnit: rc.UnivUnit,
-			RetailUnit: rc.RetUnit,
-		}); err == nil { continue }
+			RetailUnit:    rc.RetUnit,
+		}); err == nil {
+			continue
+		}
 
 		if err := dbConn.CreateRetailConversion(ctx, database.CreateRetailConversionParams{
 			UniversalUnit: rc.UnivUnit,
-			RetailUnit: rc.RetUnit,
-			Ratio: rc.Ratio,
+			RetailUnit:    rc.RetUnit,
+			Ratio:         rc.Ratio,
 		}); err != nil {
 			log.Printf("Failed to create retail conversion: %v", err)
 		}
@@ -112,11 +120,11 @@ func InitDBIngredients(ik string, db *sql.DB, ctx context.Context) error {
 				for index, conv := range i.Conversions {
 					queryB := database.CreateUniversalConversionParams{
 						IngredientID: ingID,
-						FromUnit: conv.From,
-						ToUnit: conv.To,
-						Ratio: conv.Ratio,
+						FromUnit:     conv.From,
+						ToUnit:       conv.To,
+						Ratio:        conv.Ratio,
 					}
-				
+
 					if err := dbConn.CreateUniversalConversion(ctx, queryB); err != nil {
 						if pqErr, ok := err.(*pq.Error); ok {
 							if pqErr.Code == "23505" {
@@ -133,11 +141,11 @@ func InitDBIngredients(ik string, db *sql.DB, ctx context.Context) error {
 		}
 
 		queryA := database.CreateIngredientParams{
-			Name: i.Name,
+			Name:     i.Name,
 			ImageKey: ik,
 		}
 
-		ingredient, err := dbConn.CreateIngredient(ctx, queryA) 
+		ingredient, err := dbConn.CreateIngredient(ctx, queryA)
 		if err != nil {
 			log.Printf("Failed on ingredient: %s - ERROR: %v", i.Name, err)
 			log.Panic("Couldn't create ingredient during setup")
@@ -146,9 +154,9 @@ func InitDBIngredients(ik string, db *sql.DB, ctx context.Context) error {
 		for index, conv := range i.Conversions {
 			queryB := database.CreateUniversalConversionParams{
 				IngredientID: ingredient.ID,
-				FromUnit: conv.From,
-				ToUnit: conv.To,
-				Ratio: conv.Ratio,
+				FromUnit:     conv.From,
+				ToUnit:       conv.To,
+				Ratio:        conv.Ratio,
 			}
 
 			if err := dbConn.CreateUniversalConversion(ctx, queryB); err != nil {
@@ -159,7 +167,7 @@ func InitDBIngredients(ik string, db *sql.DB, ctx context.Context) error {
 		for _, retail_unit := range i.RetailUnits {
 			queryC := database.CreateIngredientRetailUnitParams{
 				IngredientID: ingredient.ID,
-				RetailUnit: retail_unit,
+				RetailUnit:   retail_unit,
 			}
 
 			if err := dbConn.CreateIngredientRetailUnit(ctx, queryC); err != nil {
@@ -179,15 +187,16 @@ var recipesManifest []byte
 func InitDBRecipes(ik string, db *sql.DB, ctx context.Context, userpw string) error {
 	log.Println("Loading recipes from JSON...")
 	var recipes struct {
-		Recipes []struct{
-			Title           string `json:"title"`
-			Description     string `json:"description"`
-			Ingredients     []struct{
-				Name            string  `json:"name"`
-				Quantity        float32 `json:"quantity"`
-				Unit            string `json:"unit"`
+		Recipes []struct {
+			Title       string `json:"title"`
+			Description string `json:"description"`
+			Ingredients []struct {
+				Name     string  `json:"name"`
+				Quantity float32 `json:"quantity"`
+				Unit     string  `json:"unit"`
 			} `json:"ingredients"`
-			Instructions    string `json:"instructions"`			} `json:"recipes"`
+			Instructions string `json:"instructions"`
+		} `json:"recipes"`
 	}
 
 	if err := json.Unmarshal(recipesManifest, &recipes); err != nil {
@@ -200,9 +209,9 @@ func InitDBRecipes(ik string, db *sql.DB, ctx context.Context, userpw string) er
 
 	// Create/Verify user
 	dbConn.CreateUser(ctx, database.CreateUserParams{
-		Email: "recipereporoot@admin.trr",
+		Email:    "recipereporoot@admin.trr",
 		HashedPw: userpw,
-		Name: "Recipe Repo",
+		Name:     "Recipe Repo",
 	})
 
 	user, err := dbConn.GetUserByEmail(ctx, "recipereporoot@admin.trr")
@@ -220,11 +229,11 @@ func InitDBRecipes(ik string, db *sql.DB, ctx context.Context, userpw string) er
 		}
 
 		query := database.CreateRecipeParams{
-			Title: r.Title,
-			Author: user.Name,
-			UserID: user.ID,
-			Description: r.Description,
-			ImageKey: ik,
+			Title:        r.Title,
+			Author:       user.Name,
+			UserID:       user.ID,
+			Description:  r.Description,
+			ImageKey:     ik,
 			Instructions: r.Instructions,
 		}
 
@@ -241,10 +250,10 @@ func InitDBRecipes(ik string, db *sql.DB, ctx context.Context, userpw string) er
 			}
 
 			query := database.AddToRecipeParams{
-				RecipeID: rec.ID,
+				RecipeID:     rec.ID,
 				IngredientID: id,
-				Quantity: ing.Quantity,
-				Unit: ing.Unit,
+				Quantity:     ing.Quantity,
+				Unit:         ing.Unit,
 			}
 
 			if _, err := dbConn.AddToRecipe(ctx, query); err != nil {

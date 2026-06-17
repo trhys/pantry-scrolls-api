@@ -46,3 +46,22 @@ WHERE id = $1;
 -- name: GetUserByEmail :one
 SELECT id, name, email FROM users
 WHERE email = $1;
+
+-- name: UpdateUser :exec
+UPDATE users
+SET name = $2, updated_at = NOW()
+WHERE id = $1;
+
+-- name: UpdatePasswordHash :exec
+UPDATE users 
+SET hashed_pw = $2, updated_at = NOW()
+WHERE email = $1;
+
+-- name: VerifyEmail :exec
+UPDATE users
+SET is_verified = TRUE
+WHERE email = $1;
+
+-- name: GetUserEmail :one
+SELECT email FROM users
+WHERE id = $1;

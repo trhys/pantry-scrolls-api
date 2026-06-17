@@ -1,0 +1,102 @@
+package server
+
+import (
+	"context"
+	"fmt"
+	"log"
+
+	"github.com/aws/aws-sdk-go-v2/service/ses"
+	"github.com/aws/aws-sdk-go-v2/service/ses/types"
+)
+
+func (cfg *ApiConfig) SendVerificationEmail(targetEmail string, token string) error {
+	verificationURL := fmt.Sprintf("%s/verify/%s", cfg.React, token)
+
+	sender := "no-reply@pantryscrolls.com"
+	subject := "Verify your email address"
+
+	htmlBody := fmt.Sprintf(`
+		<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px;">
+			<h2 style="color: #333333;">Welcome!</h2>
+			<p style="color: #555555; font-size: 16px; line-height: 1.5;">
+				Please verify your email address to activate your account. This link will expire in 30 minutes.
+			</p>
+			<div style="margin: 30px 0; text-align: center;">
+				<a href="%s" style="background-color: #007bff; color: white; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 4px; display: inline-block;">
+					Verify Email Address
+				</a>
+			</div>
+		</div>
+	`, verificationURL)
+
+	input := &ses.SendEmailInput{
+		Source: &sender,
+		Destination: &types.Destination{
+			ToAddresses: []string{targetEmail},
+		},
+		Message: &types.Message{
+			Subject: &types.Content{
+				Data: &subject,
+			},
+			Body: &types.Body{
+				Html: &types.Content{
+					Data: &htmlBody,
+				},
+			},
+		},
+	}
+
+	_, err := cfg.SESClient.SendEmail(context.TODO(), input)
+	if err != nil {
+		return fmt.Errorf("failed to send email via AWS SES: %w", err)
+	}
+
+	log.Printf("Successfully sent verification email to %s", targetEmail)
+	return nil
+}
+
+func (cfg *ApiConfig) SendPasswordReset(targetEmail string, token string) error {
+	resetURL := fmt.Sprintf("%s/resetpassword/%s", cfg.React, token)
+
+	sender := "no-reply@pantryscrolls.com"
+	subject := "Password Reset Request"
+
+	htmlBody := fmt.Sprintf(`
+		<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px;">
+			<h2 style="color: #333333;">Welcome!</h2>
+			<p style="color: #555555; font-size: 16px; line-height: 1.5;">
+				Please click the link to reset your password. This link will expire in 30 minutes.
+			</p>
+			<div style="margin: 30px 0; text-align: center;">
+				<a href="%s" style="background-color: #007bff; color: white; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 4px; display: inline-block;">
+					Reset Password
+				</a>
+			</div>
+		</div>
+	`, resetURL)
+
+	input := &ses.SendEmailInput{
+		Source: &sender,
+		Destination: &types.Destination{
+			ToAddresses: []string{targetEmail},
+		},
+		Message: &types.Message{
+			Subject: &types.Content{
+				Data: &subject,
+			},
+			Body: &types.Body{
+				Html: &types.Content{
+					Data: &htmlBody,
+				},
+			},
+		},
+	}
+
+	_, err := cfg.SESClient.SendEmail(context.TODO(), input)
+	if err != nil {
+		return fmt.Errorf("failed to send email via AWS SES: %w", err)
+	}
+
+	log.Printf("Successfully sent password reset email to %s", targetEmail)
+	return nil
+}

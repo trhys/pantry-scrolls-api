@@ -33,6 +33,16 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
+  test-runner:
+    image: golang:latest
+    volumes: 
+      - .:/app
+      - go-modules:/go/pkg/mod
+    working_dir: /app
+    depends_on:
+      - db
+
 volumes:
   caddy_data:
   postgres_data:
+  go-modules:

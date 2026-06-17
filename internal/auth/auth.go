@@ -28,7 +28,7 @@ func CheckPasswordHash(password, hash string) (bool, error) {
 		return false, err
 	}
 
-	if match { 
+	if match {
 		return true, nil
 	} else {
 		return false, nil
@@ -37,12 +37,11 @@ func CheckPasswordHash(password, hash string) (bool, error) {
 
 func MakeJWT(userID uuid.UUID, tokenSecret string, expiresIn time.Duration) (string, error) {
 	claims := jwt.RegisteredClaims{
-		Issuer: "recipe-repo-2-access",
-		IssuedAt: jwt.NewNumericDate(time.Now().UTC()),
+		Issuer:    "recipe-repo-2-access",
+		IssuedAt:  jwt.NewNumericDate(time.Now().UTC()),
 		ExpiresAt: jwt.NewNumericDate(time.Now().UTC().Add(expiresIn)),
-		Subject: userID.String(),
+		Subject:   userID.String(),
 	}
-
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	ss, err := token.SignedString([]byte(tokenSecret))
@@ -81,7 +80,7 @@ func ValidateJWT(tokenString, tokenSecret string) (uuid.UUID, error) {
 		return uuid.Nil, err
 	} else if issuer != "recipe-repo-2-access" {
 		return uuid.Nil, fmt.Errorf("Invalid token issuer")
-	}	
+	}
 
 	return uID, nil
 }
