@@ -2,20 +2,20 @@ package server
 
 import (
 	"context"
-    "errors"
+	"errors"
 	"fmt"
 	"net"
 	"net/http"
 	"strings"
 
-    "github.com/golang-jwt/jwt/v5"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/trhys/Recipe-Repo-2/internal/auth"
 )
 
 func (cfg *ApiConfig) authMiddleware(next http.HandlerFunc) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		var tokenString string
-		
+
 		cookie, err := r.Cookie("jwt")
 		if err == nil {
 			tokenString = cookie.Value
@@ -25,7 +25,7 @@ func (cfg *ApiConfig) authMiddleware(next http.HandlerFunc) http.HandlerFunc {
 			token, err := auth.GetBearerToken(r.Header)
 			if err == nil {
 				tokenString = token
-			} 
+			}
 		}
 
 		if tokenString == "" {
@@ -52,20 +52,20 @@ func (cfg *ApiConfig) authMiddleware(next http.HandlerFunc) http.HandlerFunc {
 }
 
 func getClientIP(r *http.Request) string {
-    if xff := r.Header.Get("X-Forwarded-For"); xff != "" {
-        parts := strings.Split(xff, ",")
-        if len(parts) > 0 {
-            return strings.TrimSpace(parts[0])
-        }
-    }
+	if xff := r.Header.Get("X-Forwarded-For"); xff != "" {
+		parts := strings.Split(xff, ",")
+		if len(parts) > 0 {
+			return strings.TrimSpace(parts[0])
+		}
+	}
 
-    if xri := r.Header.Get("X-Real-IP"); xri != "" {
-        return strings.TrimSpace(xri)
-    }
+	if xri := r.Header.Get("X-Real-IP"); xri != "" {
+		return strings.TrimSpace(xri)
+	}
 
-    host, _, err := net.SplitHostPort(r.RemoteAddr)
-    if err != nil {
-        return r.RemoteAddr
-    }
-    return host
+	host, _, err := net.SplitHostPort(r.RemoteAddr)
+	if err != nil {
+		return r.RemoteAddr
+	}
+	return host
 }

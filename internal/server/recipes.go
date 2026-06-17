@@ -5,33 +5,32 @@ import (
 	"fmt"
 	"io"
 	"log"
-	"os"
 	"mime"
 	"net/http"
-    "strings"
+	"os"
+	"strings"
 
-	"github.com/google/uuid"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
+	"github.com/google/uuid"
 	"github.com/trhys/Recipe-Repo-2/internal/database"
 	"github.com/trhys/Recipe-Repo-2/internal/viewmodel"
 )
 
 func (cfg *ApiConfig) handlerCreateRecipe(w http.ResponseWriter, r *http.Request) {
 	// Request
-	r.Body = http.MaxBytesReader(w, r.Body, 10 << 20)
-	var req struct{
-		Title 		string `json:"title"`
-		Description	string `json:"description"`
-		Ingredients 	[]struct{
-			ID		uuid.UUID `json:"id"`
-			Quantity 	float32 `json:"quantity"`
-			Unit		string `json:"unit"`
+	r.Body = http.MaxBytesReader(w, r.Body, 10<<20)
+	var req struct {
+		Title       string `json:"title"`
+		Description string `json:"description"`
+		Ingredients []struct {
+			ID       uuid.UUID `json:"id"`
+			Quantity float32   `json:"quantity"`
+			Unit     string    `json:"unit"`
 		} `json:"ingredients"`
-		Instructions 	string `json:"instructions"`
-
+		Instructions string `json:"instructions"`
 	}
 
-	// Get request payload 
+	// Get request payload
 	jsonString := r.FormValue("payload")
 
 	// Unmarshal JSON
@@ -43,16 +42,16 @@ func (cfg *ApiConfig) handlerCreateRecipe(w http.ResponseWriter, r *http.Request
 	// Validate auth from middleware
 	requesterID, ok := r.Context().Value("userID").(uuid.UUID)
 	if !ok {
-                respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
-                return
-        }
+		respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
+		return
+	}
 
 	// Request is valid - begin processing image file
 	file, fileHeader, err := r.FormFile("image")
 	key := cfg.ImagePlaceholder
 	if err == nil {
 		defer file.Close()
-	
+
 		mediaType, _, err := mime.ParseMediaType(fileHeader.Header.Get("Content-Type"))
 		if err != nil {
 			respondFail(w, 401, "Couldn't parse media type", fmt.Errorf("Bad mime type in formfile: %v", err))
@@ -83,9 +82,9 @@ func (cfg *ApiConfig) handlerCreateRecipe(w http.ResponseWriter, r *http.Request
 		// Upload to s3
 		key = uuid.New().String()
 		if _, err := cfg.S3client.PutObject(r.Context(), &s3.PutObjectInput{
-			Bucket: &cfg.S3bucket,
-			Key: &key,
-			Body: tmp,
+			Bucket:      &cfg.S3bucket,
+			Key:         &key,
+			Body:        tmp,
 			ContentType: &mediaType,
 		}); err != nil {
 			respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed S3 put: %v", err))
@@ -108,11 +107,11 @@ func (cfg *ApiConfig) handlerCreateRecipe(w http.ResponseWriter, r *http.Request
 
 	// Query database
 	query := database.CreateRecipeParams{
-		Title: req.Title,
-		Author: username,
-		UserID: requesterID,
-		Description: req.Description,
-		ImageKey: key,
+		Title:        req.Title,
+		Author:       username,
+		UserID:       requesterID,
+		Description:  req.Description,
+		ImageKey:     key,
 		Instructions: req.Instructions,
 	}
 
@@ -125,10 +124,10 @@ func (cfg *ApiConfig) handlerCreateRecipe(w http.ResponseWriter, r *http.Request
 	// Connect all ingredients
 	for _, ing := range req.Ingredients {
 		query := database.AddToRecipeParams{
-			RecipeID: rec.ID,
+			RecipeID:     rec.ID,
 			IngredientID: ing.ID,
-			Quantity: ing.Quantity,
-			Unit: ing.Unit,
+			Quantity:     ing.Quantity,
+			Unit:         ing.Unit,
 		}
 
 		_, err := cfg.DB.AddToRecipe(r.Context(), query)
@@ -194,20 +193,19 @@ func (cfg *ApiConfig) handlerUpdateRecipe(w http.ResponseWriter, r *http.Request
 	}
 
 	// Request
-	r.Body = http.MaxBytesReader(w, r.Body, 10 << 20)
-	var req struct{
-		Title 		string `json:"title"`
-		Description	string `json:"description"`
-		Ingredients 	[]struct{
-			ID		uuid.UUID `json:"id"`
-			Quantity 	float32 `json:"quantity"`
-			Unit		string `json:"unit"`
+	r.Body = http.MaxBytesReader(w, r.Body, 10<<20)
+	var req struct {
+		Title       string `json:"title"`
+		Description string `json:"description"`
+		Ingredients []struct {
+			ID       uuid.UUID `json:"id"`
+			Quantity float32   `json:"quantity"`
+			Unit     string    `json:"unit"`
 		} `json:"ingredients"`
-		Instructions 	string `json:"instructions"`
-
+		Instructions string `json:"instructions"`
 	}
 
-	// Get request payload 
+	// Get request payload
 	jsonString := r.FormValue("payload")
 
 	// Unmarshal JSON
@@ -219,9 +217,9 @@ func (cfg *ApiConfig) handlerUpdateRecipe(w http.ResponseWriter, r *http.Request
 	// Validate auth from middleware
 	requesterID, ok := r.Context().Value("userID").(uuid.UUID)
 	if !ok {
-                respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
-                return
-        }
+		respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
+		return
+	}
 
 	// Verify ownership
 	owner, err := cfg.DB.GetRecipeOwner(r.Context(), recipe_id)
@@ -275,9 +273,9 @@ func (cfg *ApiConfig) handlerUpdateRecipe(w http.ResponseWriter, r *http.Request
 		}
 
 		if _, err := cfg.S3client.PutObject(r.Context(), &s3.PutObjectInput{
-			Bucket: &cfg.S3bucket,
-			Key: &key,
-			Body: tmp,
+			Bucket:      &cfg.S3bucket,
+			Key:         &key,
+			Body:        tmp,
 			ContentType: &mediaType,
 		}); err != nil {
 			respondFail(w, 500, "Something went wrong", fmt.Errorf("S3 Put object error: %v", err))
@@ -293,11 +291,11 @@ func (cfg *ApiConfig) handlerUpdateRecipe(w http.ResponseWriter, r *http.Request
 
 	// Query database
 	query := database.UpdateRecipeParams{
-		Title: req.Title,
-		Description: req.Description,
-		ImageKey: key,
+		Title:        req.Title,
+		Description:  req.Description,
+		ImageKey:     key,
 		Instructions: req.Instructions,
-		ID: recipe_id,
+		ID:           recipe_id,
 	}
 
 	rec, err := cfg.DB.UpdateRecipe(r.Context(), query)
@@ -314,10 +312,10 @@ func (cfg *ApiConfig) handlerUpdateRecipe(w http.ResponseWriter, r *http.Request
 
 	for _, ing := range req.Ingredients {
 		query := database.AddToRecipeParams{
-			RecipeID: rec.ID,
+			RecipeID:     rec.ID,
 			IngredientID: ing.ID,
-			Quantity: ing.Quantity,
-			Unit: ing.Unit,
+			Quantity:     ing.Quantity,
+			Unit:         ing.Unit,
 		}
 
 		_, err := cfg.DB.AddToRecipe(r.Context(), query)
@@ -342,9 +340,9 @@ func (cfg *ApiConfig) handlerDeleteRecipe(w http.ResponseWriter, r *http.Request
 	// Validate auth from middleware
 	requesterID, ok := r.Context().Value("userID").(uuid.UUID)
 	if !ok {
-                respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
-                return
-        }
+		respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
+		return
+	}
 
 	// Verify ownership
 	owner, err := cfg.DB.GetRecipeOwner(r.Context(), recipe_id)
@@ -363,14 +361,14 @@ func (cfg *ApiConfig) handlerDeleteRecipe(w http.ResponseWriter, r *http.Request
 }
 
 func (cfg *ApiConfig) handlerExploreFeed(w http.ResponseWriter, r *http.Request) {
-  query := r.URL.Query().Get("search")
-  if query != "" {
-    feed, err := cfg.DB.GetRecipesFromQuery(r.Context(), strings.ToLower(query))
-    if err != nil {
-      respondFail(w, 404, "No recipes matched the query params", fmt.Errorf("recipes query error: %v", err))
-      return
-    }
+	query := r.URL.Query().Get("search")
+	if query != "" {
+		feed, err := cfg.DB.GetRecipesFromQuery(r.Context(), strings.ToLower(query))
+		if err != nil {
+			respondFail(w, 404, "No recipes matched the query params", fmt.Errorf("recipes query error: %v", err))
+			return
+		}
 
-    respondJSON(w, 200, cfg.Vmf.GenerateRecipeCardViewModel(feed))
-  }
+		respondJSON(w, 200, cfg.Vmf.GenerateRecipeCardViewModel(feed))
+	}
 }

@@ -7,22 +7,22 @@ import (
 	"github.com/google/uuid"
 	"github.com/lib/pq"
 	"github.com/trhys/Recipe-Repo-2/internal/database"
-	"github.com/trhys/Recipe-Repo-2/internal/viewmodel"
 	util "github.com/trhys/Recipe-Repo-2/internal/utility"
+	"github.com/trhys/Recipe-Repo-2/internal/viewmodel"
 )
 
 // Create a new, empty shopping list
 func (cfg *ApiConfig) handlerCreateShoppingList(w http.ResponseWriter, r *http.Request) {
-	var req struct{
-		Name	string `json:"name"`
+	var req struct {
+		Name string `json:"name"`
 	}
 
 	// AUTH
 	requesterID, ok := r.Context().Value("userID").(uuid.UUID)
-        if !ok {
-                respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
-                return
-        }
+	if !ok {
+		respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
+		return
+	}
 
 	// Decode request body
 	if err := util.DecodeRequest(w, r, 1<<20, &req); err != nil {
@@ -32,7 +32,7 @@ func (cfg *ApiConfig) handlerCreateShoppingList(w http.ResponseWriter, r *http.R
 
 	// Create list
 	list, err := cfg.DB.CreateShoppingList(r.Context(), database.CreateShoppingListParams{
-		Name: req.Name,
+		Name:   req.Name,
 		UserID: requesterID,
 	})
 
@@ -42,8 +42,8 @@ func (cfg *ApiConfig) handlerCreateShoppingList(w http.ResponseWriter, r *http.R
 	}
 
 	respondJSON(w, 200, viewmodel.ShoppingList{
-		ID: list.ID,
-		Name: list.Name,
+		ID:        list.ID,
+		Name:      list.Name,
 		CreatedAt: list.CreatedAt,
 		UpdatedAt: list.UpdatedAt,
 	})
@@ -51,17 +51,17 @@ func (cfg *ApiConfig) handlerCreateShoppingList(w http.ResponseWriter, r *http.R
 
 // Add recipe to shopping list
 func (cfg *ApiConfig) handlerAddToShoppingList(w http.ResponseWriter, r *http.Request) {
-	var req struct{
-		RecipeID	uuid.UUID `json:"recipe_id"`
-		Quantity	int32	  `json:"quantity"`
+	var req struct {
+		RecipeID uuid.UUID `json:"recipe_id"`
+		Quantity int32     `json:"quantity"`
 	}
 
 	// AUTH
-        requesterID, ok := r.Context().Value("userID").(uuid.UUID)
-        if !ok {
-                respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
-                return
-        }
+	requesterID, ok := r.Context().Value("userID").(uuid.UUID)
+	if !ok {
+		respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
+		return
+	}
 
 	// Get list id
 	val := r.PathValue("shopping_list_id")
@@ -80,14 +80,14 @@ func (cfg *ApiConfig) handlerAddToShoppingList(w http.ResponseWriter, r *http.Re
 	// Link recipe to list by ID
 	if err := cfg.DB.AddRecipeToList(r.Context(), database.AddRecipeToListParams{
 		ShoppingListID: id,
-		RecipeID: req.RecipeID,
-		Quantity: req.Quantity,
+		RecipeID:       req.RecipeID,
+		Quantity:       req.Quantity,
 	}); err != nil {
 		if err.(*pq.Error).Code == "23505" {
 			if err := cfg.DB.UpdateShoppingListRecipe(r.Context(), database.UpdateShoppingListRecipeParams{
 				ShoppingListID: id,
-				RecipeID: req.RecipeID,
-				Quantity: req.Quantity,
+				RecipeID:       req.RecipeID,
+				Quantity:       req.Quantity,
 			}); err != nil {
 				respondFail(w, 500, "Database error", fmt.Errorf("Failed to perform AddRecipeToList query: %v", err))
 				return
@@ -101,18 +101,18 @@ func (cfg *ApiConfig) handlerAddToShoppingList(w http.ResponseWriter, r *http.Re
 // Get shopping list by ID
 func (cfg *ApiConfig) handlerGetShoppingList(w http.ResponseWriter, r *http.Request) {
 	val := r.PathValue("shopping_list_id")
-	listID, err := uuid.Parse(val) 
+	listID, err := uuid.Parse(val)
 	if err != nil {
 		respondFail(w, 404, "invalid uuid", fmt.Errorf("Failed to parse UUID: %v", err))
 		return
 	}
 
 	// AUTH
-        requesterID, ok := r.Context().Value("userID").(uuid.UUID)
-        if !ok {
-                respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
-                return
-        }
+	requesterID, ok := r.Context().Value("userID").(uuid.UUID)
+	if !ok {
+		respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
+		return
+	}
 
 	shoppingList, err := cfg.DB.GetShoppingList(r.Context(), listID)
 	if err != nil {
@@ -122,8 +122,8 @@ func (cfg *ApiConfig) handlerGetShoppingList(w http.ResponseWriter, r *http.Requ
 
 	if requesterID != shoppingList.UserID {
 		respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
-                return
-        }
+		return
+	}
 
 	// Get recipes from list
 	shoppingListRecipes, err := cfg.DB.GetRecipesFromList(r.Context(), shoppingList.ID)
@@ -132,7 +132,7 @@ func (cfg *ApiConfig) handlerGetShoppingList(w http.ResponseWriter, r *http.Requ
 		return
 	}
 
-	model := viewmodel.GenerateShoppingListViewModel(shoppingList, shoppingListRecipes)	
+	model := viewmodel.GenerateShoppingListViewModel(shoppingList, shoppingListRecipes)
 
 	respondJSON(w, 200, model)
 }
@@ -140,17 +140,17 @@ func (cfg *ApiConfig) handlerGetShoppingList(w http.ResponseWriter, r *http.Requ
 // List the user's shopping lists
 func (cfg *ApiConfig) handlerGetUsersShoppingLists(w http.ResponseWriter, r *http.Request) {
 	// Authorization
-        id, ok := r.Context().Value("userID").(uuid.UUID)
-        if !ok {
-                respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", id))
-                return
-        }
+	id, ok := r.Context().Value("userID").(uuid.UUID)
+	if !ok {
+		respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", id))
+		return
+	}
 
 	user, err := cfg.DB.GetUser(r.Context(), id)
-        if err != nil {
+	if err != nil {
 		respondFail(w, 404, "Couldn't find user", fmt.Errorf("Failed to find user with ID: %s ERROR: %v", id, err))
-                return
-        }
+		return
+	}
 
 	// Get lists
 	lists, err := cfg.DB.GetUserLists(r.Context(), user.ID)
@@ -161,25 +161,25 @@ func (cfg *ApiConfig) handlerGetUsersShoppingLists(w http.ResponseWriter, r *htt
 
 	model := viewmodel.GenerateUserListsViewModel(lists)
 
-        respondJSON(w, 200, model)
+	respondJSON(w, 200, model)
 }
 
 // Print the shopping lists ingredients in converted retail units
 func (cfg *ApiConfig) handlerPrintList(w http.ResponseWriter, r *http.Request) {
 	// AUTH
-        requesterID, ok := r.Context().Value("userID").(uuid.UUID)
-        if !ok {
-                respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
-                return
-        }
+	requesterID, ok := r.Context().Value("userID").(uuid.UUID)
+	if !ok {
+		respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
+		return
+	}
 
 	// Get list ID
 	val := r.PathValue("shopping_list_id")
 	id, err := uuid.Parse(val)
-        if err != nil {
+	if err != nil {
 		respondFail(w, 404, "Invalid uuid", fmt.Errorf("Failed to parse UUID: %v", err))
-                return
-        }
+		return
+	}
 
 	// Verify ownership against JWT subject
 	list, err := cfg.DB.GetListOwner(r.Context(), id)
@@ -205,17 +205,17 @@ func (cfg *ApiConfig) handlerDeleteShoppingList(w http.ResponseWriter, r *http.R
 	// Get list ID
 	val := r.PathValue("shopping_list_id")
 	id, err := uuid.Parse(val)
-        if err != nil {
+	if err != nil {
 		respondFail(w, 404, "Invalid uuid", fmt.Errorf("Failed to parse UUID: %v", err))
-                return
-        }
+		return
+	}
 
 	// AUTH
-        requesterID, ok := r.Context().Value("userID").(uuid.UUID)
-        if !ok {
-                respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
-                return
-        }
+	requesterID, ok := r.Context().Value("userID").(uuid.UUID)
+	if !ok {
+		respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
+		return
+	}
 
 	// Verify ownership against JWT subject
 	list, err := cfg.DB.GetListOwner(r.Context(), id)

@@ -14,7 +14,7 @@ func (cfg *ApiConfig) SendVerificationEmail(targetEmail string, token string) er
 
 	sender := "no-reply@pantryscrolls.com"
 	subject := "Verify your email address"
-	
+
 	htmlBody := fmt.Sprintf(`
 		<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px;">
 			<h2 style="color: #333333;">Welcome!</h2>
@@ -35,14 +35,14 @@ func (cfg *ApiConfig) SendVerificationEmail(targetEmail string, token string) er
 			ToAddresses: []string{targetEmail},
 		},
 		Message: &types.Message{
-            Subject: &types.Content{
-                Data: &subject,
-            },
-            Body: &types.Body{
-                Html: &types.Content{
-                    Data: &htmlBody,
-                },
-            },
+			Subject: &types.Content{
+				Data: &subject,
+			},
+			Body: &types.Body{
+				Html: &types.Content{
+					Data: &htmlBody,
+				},
+			},
 		},
 	}
 
@@ -56,11 +56,11 @@ func (cfg *ApiConfig) SendVerificationEmail(targetEmail string, token string) er
 }
 
 func (cfg *ApiConfig) SendPasswordReset(targetEmail string, token string) error {
-  resetURL := fmt.Sprintf("%s/resetpassword/%s", cfg.React, token)
+	resetURL := fmt.Sprintf("%s/resetpassword/%s", cfg.React, token)
 
 	sender := "no-reply@pantryscrolls.com"
 	subject := "Password Reset Request"
-	
+
 	htmlBody := fmt.Sprintf(`
 		<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px;">
 			<h2 style="color: #333333;">Welcome!</h2>
@@ -81,14 +81,14 @@ func (cfg *ApiConfig) SendPasswordReset(targetEmail string, token string) error 
 			ToAddresses: []string{targetEmail},
 		},
 		Message: &types.Message{
-            Subject: &types.Content{
-                Data: &subject,
-            },
-            Body: &types.Body{
-                Html: &types.Content{
-                    Data: &htmlBody,
-                },
-            },
+			Subject: &types.Content{
+				Data: &subject,
+			},
+			Body: &types.Body{
+				Html: &types.Content{
+					Data: &htmlBody,
+				},
+			},
 		},
 	}
 

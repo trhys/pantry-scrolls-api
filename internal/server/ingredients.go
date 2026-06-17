@@ -9,37 +9,36 @@ import (
 	"os"
 	"time"
 
+	"github.com/aws/aws-sdk-go-v2/service/s3"
 	"github.com/google/uuid"
-    "github.com/aws/aws-sdk-go-v2/service/s3"
-    "github.com/trhys/Recipe-Repo-2/internal/database"
-    "github.com/trhys/Recipe-Repo-2/internal/auth"
+	"github.com/trhys/Recipe-Repo-2/internal/auth"
+	"github.com/trhys/Recipe-Repo-2/internal/database"
 	"github.com/trhys/Recipe-Repo-2/internal/viewmodel"
 )
-
 
 // NOTE: Probably will be removing creation here in some capacity in the future. Right now its useless, if i have ingredients to add im more likely to go ahead and write a migration with a large number of them. May allow users to create their own but for now it breaks the intention of integrating shopping Apis.
 
 type ingredient struct {
-        ID              uuid.UUID `json:"id"`
-        Name            string `json:"name"`
-		ImageKey	string `json:"image_key"`
-        CreatedAt       time.Time `json:"created_at"`
-        UpdatedAt       time.Time `json:"updated_at"`
+	ID        uuid.UUID `json:"id"`
+	Name      string    `json:"name"`
+	ImageKey  string    `json:"image_key"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
 func (cfg *ApiConfig) handlerCreateIngredient(w http.ResponseWriter, r *http.Request) {
 	// Authorization
-        token, err := auth.GetBearerToken(r.Header)
-        if err != nil {
-                respondFail(w, 401, "Failed to retrieve bearer token", err)
-                return
-        }
+	token, err := auth.GetBearerToken(r.Header)
+	if err != nil {
+		respondFail(w, 401, "Failed to retrieve bearer token", err)
+		return
+	}
 
-        subject, err := auth.ValidateJWT(token, cfg.Secret)
-        if err != nil {
-                respondFail(w, 401, "Couldn't validate token", err)
-                return
-        }
+	subject, err := auth.ValidateJWT(token, cfg.Secret)
+	if err != nil {
+		respondFail(w, 401, "Couldn't validate token", err)
+		return
+	}
 
 	admin, err := cfg.DB.CheckAdmin(r.Context(), subject)
 	if err != nil {
@@ -51,72 +50,72 @@ func (cfg *ApiConfig) handlerCreateIngredient(w http.ResponseWriter, r *http.Req
 	}
 
 	// User is admin --- proceed
-        
-	var req struct{
+
+	var req struct {
 		Name string `json:"name"`
 	}
 
-	// Get request payload 
-        jsonString := r.FormValue("payload")
+	// Get request payload
+	jsonString := r.FormValue("payload")
 
-        // Unmarshal JSON
-        if err := json.Unmarshal([]byte(jsonString), &req); err != nil {
-                respondFail(w, 500, "Failed to unmarshal payload", err)
-                return
-        }
+	// Unmarshal JSON
+	if err := json.Unmarshal([]byte(jsonString), &req); err != nil {
+		respondFail(w, 500, "Failed to unmarshal payload", err)
+		return
+	}
 
 	file, fileHeader, err := r.FormFile("image")
-        key := uuid.New().String()
-        if err == nil {
-                defer file.Close()
+	key := uuid.New().String()
+	if err == nil {
+		defer file.Close()
 
-                mediaType, _, err := mime.ParseMediaType(fileHeader.Header.Get("Content-Type"))
-                if err != nil {
-                        respondFail(w, 400, "Couldn't parse media type", err)
-                        return
-                }
+		mediaType, _, err := mime.ParseMediaType(fileHeader.Header.Get("Content-Type"))
+		if err != nil {
+			respondFail(w, 400, "Couldn't parse media type", err)
+			return
+		}
 
-                if mediaType != "image/jpeg" && mediaType != "image/png" {
-                        respondFail(w, 400, "Invalid media type", fmt.Errorf("Must be jpg or png. Got: %s", mediaType))
-                        return
-                }
+		if mediaType != "image/jpeg" && mediaType != "image/png" {
+			respondFail(w, 400, "Invalid media type", fmt.Errorf("Must be jpg or png. Got: %s", mediaType))
+			return
+		}
 
-                tmp, err := os.CreateTemp("", "image_upload")
-                if err != nil {
-                        respondFail(w, 500, "Something went wrong", err)
-                        return
-                }
-                defer os.Remove(tmp.Name())
-                defer tmp.Close()
+		tmp, err := os.CreateTemp("", "image_upload")
+		if err != nil {
+			respondFail(w, 500, "Something went wrong", err)
+			return
+		}
+		defer os.Remove(tmp.Name())
+		defer tmp.Close()
 
-                _, fail := io.Copy(tmp, file)
-                if fail != nil {
-                        respondFail(w, 500, "Couldn't save image", err)
-                        return
-                }
+		_, fail := io.Copy(tmp, file)
+		if fail != nil {
+			respondFail(w, 500, "Couldn't save image", err)
+			return
+		}
 
-                tmp.Seek(0, io.SeekStart)
+		tmp.Seek(0, io.SeekStart)
 
-                // Upload to s3
-                if _, err := cfg.S3client.PutObject(r.Context(), &s3.PutObjectInput{
-                        Bucket: &cfg.S3bucket,
-                        Key: &key,
-                        Body: tmp,
-                        ContentType: &mediaType,
-                }); err != nil {
-                        respondFail(w, 500, "Failed to upload to s3 bucket", err)
-                        return
-                }
+		// Upload to s3
+		if _, err := cfg.S3client.PutObject(r.Context(), &s3.PutObjectInput{
+			Bucket:      &cfg.S3bucket,
+			Key:         &key,
+			Body:        tmp,
+			ContentType: &mediaType,
+		}); err != nil {
+			respondFail(w, 500, "Failed to upload to s3 bucket", err)
+			return
+		}
 
-        } else if err != nil {
-                if err != http.ErrMissingFile {
-                        respondFail(w, 400, "Something went wrong during upload", err)
-                        return
-                }
-        }
+	} else if err != nil {
+		if err != http.ErrMissingFile {
+			respondFail(w, 400, "Something went wrong during upload", err)
+			return
+		}
+	}
 
 	query := database.CreateIngredientParams{
-		Name: req.Name,
+		Name:     req.Name,
 		ImageKey: key,
 	}
 
@@ -127,9 +126,9 @@ func (cfg *ApiConfig) handlerCreateIngredient(w http.ResponseWriter, r *http.Req
 	}
 
 	res := ingredient{
-		ID: ing.ID,
-		Name: ing.Name,
-		ImageKey: ing.ImageKey,
+		ID:        ing.ID,
+		Name:      ing.Name,
+		ImageKey:  ing.ImageKey,
 		CreatedAt: ing.CreatedAt,
 		UpdatedAt: ing.UpdatedAt,
 	}
@@ -137,8 +136,7 @@ func (cfg *ApiConfig) handlerCreateIngredient(w http.ResponseWriter, r *http.Req
 	respondJSON(w, 200, res)
 }
 
-
-// Grabs the full collection of ingredients 
+// Grabs the full collection of ingredients
 func (cfg *ApiConfig) handlerGetIngredientBase(w http.ResponseWriter, r *http.Request) {
 	ingredients, err := cfg.DB.GetIngredients(r.Context())
 	if err != nil {
@@ -146,14 +144,14 @@ func (cfg *ApiConfig) handlerGetIngredientBase(w http.ResponseWriter, r *http.Re
 		return
 	}
 
-	type resp struct{
+	type resp struct {
 		Ingredients []ingredient `json:"ingredients"`
 	}
 
 	res := resp{}
 	for _, i := range ingredients {
 		res.Ingredients = append(res.Ingredients, ingredient{
-			ID: i.ID,
+			ID:   i.ID,
 			Name: i.Name,
 		})
 	}

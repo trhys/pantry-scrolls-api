@@ -9,7 +9,7 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
-	"://github.com"
+	"github.com/trhys/Recipe-Repo-2/internal/database"
 	"github.com/trhys/Recipe-Repo-2/internal/server"
 	vm "github.com/trhys/Recipe-Repo-2/internal/viewmodel"
 )
@@ -23,6 +23,10 @@ func TestCRUDShoppingList(t *testing.T) {
 	defer tx.Rollback()
 
 	cfg.DB = cfg.DB.WithTx(tx)
+
+	mockSES := &MockSESClient{}
+	cfg.SESClient = mockSES
+
 	router := server.GetRouter(cfg)
 
 	testUser := struct {
@@ -67,13 +71,13 @@ func TestCRUDShoppingList(t *testing.T) {
 	}
 
 	// Pre-seed a test recipe to link against downstream shopping list tests
-	testRecipeID := uuid.New()
-	_, err = cfg.DB.CreateRecipe(context.Background(), database.CreateRecipeParams{
-		ID:       testRecipeID,
-		Title:    "Classic Spaghetti Bolognese",
-		Author:   user.Name,
-		UserID:   user.ID,
-		ImageKey: "placeholder-key.png",
+	recipe, err := cfg.DB.CreateRecipe(context.Background(), database.CreateRecipeParams{
+		Title:        "Classic Spaghetti Bolognese",
+		Author:       user.Name,
+		UserID:       user.ID,
+		Description:  "test",
+		Instructions: "test",
+		ImageKey:     "placeholder-key.png",
 	})
 	if err != nil {
 		t.Fatalf("Failed to seed prerequisite test recipe: %v", err)
@@ -122,14 +126,13 @@ func TestCRUDShoppingList(t *testing.T) {
 			RecipeID uuid.UUID `json:"recipe_id"`
 			Quantity int32     `json:"quantity"`
 		}{
-			RecipeID: testRecipeID,
+			RecipeID: recipe.ID,
 			Quantity: 2,
 		}
 		data, _ := json.Marshal(bodyPayload)
 
-		url := "/api/shopping-lists/" + testListID.String() + "/recipes"
+		url := "/api/shoppinglists/" + testListID.String()
 		req := httptest.NewRequest("POST", url, bytes.NewBuffer(data))
-		req.SetPathValue("shopping_list_id", testListID.String())
 
 		ctx := context.WithValue(req.Context(), "userID", user.ID)
 		req = req.WithContext(ctx)
@@ -145,7 +148,7 @@ func TestCRUDShoppingList(t *testing.T) {
 
 	// Get Shopping List with Recipes Expanded
 	t.Run("get shopping list by id", func(t *testing.T) {
-		url := "/api/shopping-lists/" + testListID.String()
+		url := "/api/shoppinglists/" + testListID.String()
 		req := httptest.NewRequest("GET", url, nil)
 		req.SetPathValue("shopping_list_id", testListID.String())
 
@@ -164,8 +167,7 @@ func TestCRUDShoppingList(t *testing.T) {
 		responseResult := w.Result()
 		defer responseResult.Body.Close()
 
-		// Uses GenerateShoppingListViewModel mapped type
-		var responseBody vm.ShoppingListFullViewModel 
+		var responseBody vm.ShoppingListViewModel
 		decoder := json.NewDecoder(responseResult.Body)
 		decoder.DisallowUnknownFields()
 
@@ -176,7 +178,7 @@ func TestCRUDShoppingList(t *testing.T) {
 
 	// List User's Shopping Lists
 	t.Run("get user shopping lists", func(t *testing.T) {
-		req := httptest.NewRequest("GET", "/api/shopping-lists", nil)
+		req := httptest.NewRequest("GET", "/api/shoppinglists", nil)
 
 		ctx := context.WithValue(req.Context(), "userID", user.ID)
 		req = req.WithContext(ctx)
@@ -193,7 +195,6 @@ func TestCRUDShoppingList(t *testing.T) {
 		responseResult := w.Result()
 		defer responseResult.Body.Close()
 
-		// Uses GenerateUserListsViewModel mapped type
 		var responseBody vm.UserListsViewModel
 		decoder := json.NewDecoder(responseResult.Body)
 		decoder.DisallowUnknownFields()
@@ -205,7 +206,7 @@ func TestCRUDShoppingList(t *testing.T) {
 
 	// Delete Shopping List
 	t.Run("delete shopping list", func(t *testing.T) {
-		url := "/api/shopping-lists/" + testListID.String()
+		url := "/api/shoppinglists/" + testListID.String()
 		req := httptest.NewRequest("DELETE", url, nil)
 		req.SetPathValue("shopping_list_id", testListID.String())
 

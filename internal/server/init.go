@@ -9,13 +9,13 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/service/s3"
+	"github.com/aws/aws-sdk-go-v2/service/ses"
+	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
-    "github.com/joho/godotenv"
 	"github.com/trhys/Recipe-Repo-2/internal/database"
 	"github.com/trhys/Recipe-Repo-2/internal/viewmodel"
-	"github.com/aws/aws-sdk-go-v2/service/s3"
-    "github.com/aws/aws-sdk-go-v2/service/ses"
-	"github.com/aws/aws-sdk-go-v2/config"
 )
 
 func GetRouter(cfg *ApiConfig) *http.ServeMux {
@@ -27,10 +27,10 @@ func GetRouter(cfg *ApiConfig) *http.ServeMux {
 	mux.HandleFunc("POST /api/sessions", cfg.handlerLogin)
 	mux.HandleFunc("GET /api/sessions", cfg.authMiddleware(cfg.handlerGetSession))
 	mux.HandleFunc("PUT /api/users", cfg.authMiddleware(cfg.handlerUploadUserImage))
-    mux.HandleFunc("PUT /api/users/{user_id}", cfg.authMiddleware(cfg.handlerUpdateUser))
-    mux.HandleFunc("GET /api/verify/{token}", cfg.handlerVerifyEmail)
-  mux.HandleFunc("POST /api/resetpassword", cfg.handlerResetPassword)
-  mux.HandleFunc("PUT /api/resetpassword", cfg.handlerUpdatePassword)
+	mux.HandleFunc("PUT /api/users/{user_id}", cfg.authMiddleware(cfg.handlerUpdateUser))
+	mux.HandleFunc("GET /api/verify/{token}", cfg.handlerVerifyEmail)
+	mux.HandleFunc("POST /api/resetpassword", cfg.handlerResetPassword)
+	mux.HandleFunc("PUT /api/resetpassword", cfg.handlerUpdatePassword)
 
 	// Recipe eps
 	mux.HandleFunc("GET /api/recipes/{recipe_id}", cfg.handlerGetRecipe)
@@ -38,7 +38,7 @@ func GetRouter(cfg *ApiConfig) *http.ServeMux {
 	mux.HandleFunc("POST /api/recipes", cfg.authMiddleware(cfg.handlerCreateRecipe))
 	mux.HandleFunc("PUT /api/recipes/{recipe_id}", cfg.authMiddleware(cfg.handlerUpdateRecipe))
 	mux.HandleFunc("DELETE /api/recipes/{recipe_id}", cfg.authMiddleware(cfg.handlerDeleteRecipe))
-    mux.HandleFunc("GET /api/recipes/explore", cfg.handlerExploreFeed)
+	mux.HandleFunc("GET /api/recipes/explore", cfg.handlerExploreFeed)
 
 	// Ingredient eps
 	//mux.HandleFunc("POST /api/ingredients", cfg.handlerCreateIngredient)
@@ -83,9 +83,8 @@ func GetConfig() *ApiConfig {
 		log.Print("Failed to load jwt duration - defaulting to 3600")
 		convDur = 3600
 	}
-	jwtDuration := time.Duration(convDur)*time.Second
+	jwtDuration := time.Duration(convDur) * time.Second
 
-	
 	s3bucket := os.Getenv("S3_BUCKET")
 	if s3bucket == "" {
 		log.Fatal("Failed to load s3 bucket")
@@ -128,43 +127,43 @@ func GetConfig() *ApiConfig {
 		log.Fatal("Failed to load s3 config")
 	}
 
-    // Load SES cfg
-    sesCfg, err := config.LoadDefaultConfig(context.TODO(), config.WithRegion(s3region))
-    if err != nil {
-      log.Fatal("Failed to load SES config")
-    }
-	
-    // load iam secrets
-    accessKey := os.Getenv("AWS_ACCESS_KEY_ID")
-    if accessKey == "" {
-      log.Fatal("Failed to get IAM access key")
-    }
+	// Load SES cfg
+	sesCfg, err := config.LoadDefaultConfig(context.TODO(), config.WithRegion(s3region))
+	if err != nil {
+		log.Fatal("Failed to load SES config")
+	}
 
-    secretKey := os.Getenv("AWS_SECRET_ACCESS_KEY")
-    if secretKey == "" {
-      log.Fatal("Failed to get IAM secret")
-    }
+	// load iam secrets
+	accessKey := os.Getenv("AWS_ACCESS_KEY_ID")
+	if accessKey == "" {
+		log.Fatal("Failed to get IAM access key")
+	}
+
+	secretKey := os.Getenv("AWS_SECRET_ACCESS_KEY")
+	if secretKey == "" {
+		log.Fatal("Failed to get IAM secret")
+	}
 
 	cfg := ApiConfig{
-		DB: database.New(db),
-		DBConn: db,
-		Secret: secret,
-		JwtDuration: jwtDuration,
-        SESClient: ses.NewFromConfig(sesCfg),
-		S3client: s3.NewFromConfig(s3cfg) ,
-		S3bucket: s3bucket,
-		S3region: s3region,
-		S3cdn: s3cdn,
+		DB:               database.New(db),
+		DBConn:           db,
+		Secret:           secret,
+		JwtDuration:      jwtDuration,
+		SESClient:        ses.NewFromConfig(sesCfg),
+		S3client:         s3.NewFromConfig(s3cfg),
+		S3bucket:         s3bucket,
+		S3region:         s3region,
+		S3cdn:            s3cdn,
 		ImagePlaceholder: imagePlaceholder,
 		Vmf: viewmodel.VMFactory{
-			DB: database.New(db),
+			DB:    database.New(db),
 			S3cdn: s3cdn,
 		},
-        Root: adminCredentials{
-          Email: "recipereporoot@admin.trr",
-          Pass: userpw,
-        },
-        React: reactUrl,
+		Root: adminCredentials{
+			Email: "recipereporoot@admin.trr",
+			Pass:  userpw,
+		},
+		React: reactUrl,
 	}
 
 	return &cfg

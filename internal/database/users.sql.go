@@ -119,6 +119,18 @@ func (q *Queries) GetUserByEmail(ctx context.Context, email string) (GetUserByEm
 	return i, err
 }
 
+const getUserEmail = `-- name: GetUserEmail :one
+SELECT email FROM users
+WHERE id = $1
+`
+
+func (q *Queries) GetUserEmail(ctx context.Context, id uuid.UUID) (string, error) {
+	row := q.db.QueryRowContext(ctx, getUserEmail, id)
+	var email string
+	err := row.Scan(&email)
+	return email, err
+}
+
 const getUserHash = `-- name: GetUserHash :one
 SELECT id, email, name, hashed_pw, image_key FROM users
 WHERE email = $1
@@ -208,20 +220,35 @@ func (q *Queries) SetUserImageKey(ctx context.Context, arg SetUserImageKeyParams
 	return err
 }
 
+const updatePasswordHash = `-- name: UpdatePasswordHash :exec
+UPDATE users 
+SET hashed_pw = $2, updated_at = NOW()
+WHERE email = $1
+`
+
+type UpdatePasswordHashParams struct {
+	Email    string
+	HashedPw string
+}
+
+func (q *Queries) UpdatePasswordHash(ctx context.Context, arg UpdatePasswordHashParams) error {
+	_, err := q.db.ExecContext(ctx, updatePasswordHash, arg.Email, arg.HashedPw)
+	return err
+}
+
 const updateUser = `-- name: UpdateUser :exec
 UPDATE users
-SET name = $2, hashed_pw = $3, updated_at = NOW()
+SET name = $2, updated_at = NOW()
 WHERE id = $1
 `
 
 type UpdateUserParams struct {
-	ID       uuid.UUID
-	Name     string
-	HashedPw string
+	ID   uuid.UUID
+	Name string
 }
 
 func (q *Queries) UpdateUser(ctx context.Context, arg UpdateUserParams) error {
-	_, err := q.db.ExecContext(ctx, updateUser, arg.ID, arg.Name, arg.HashedPw)
+	_, err := q.db.ExecContext(ctx, updateUser, arg.ID, arg.Name)
 	return err
 }
 
