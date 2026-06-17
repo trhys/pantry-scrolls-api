@@ -28,7 +28,9 @@ func GetRouter(cfg *ApiConfig) *http.ServeMux {
 	mux.HandleFunc("GET /api/sessions", cfg.authMiddleware(cfg.handlerGetSession))
 	mux.HandleFunc("PUT /api/users", cfg.authMiddleware(cfg.handlerUploadUserImage))
     mux.HandleFunc("PUT /api/users/{user_id}", cfg.authMiddleware(cfg.handlerUpdateUser))
-    mux.HandleFunc("GET /verify/{token}", cfg.handlerVerifyEmail)
+    mux.HandleFunc("GET /api/verify/{token}", cfg.handlerVerifyEmail)
+  mux.HandleFunc("POST /api/resetpassword", cfg.handlerResetPassword)
+  mux.HandleFunc("PUT /api/resetpassword", cfg.handlerUpdatePassword)
 
 	// Recipe eps
 	mux.HandleFunc("GET /api/recipes/{recipe_id}", cfg.handlerGetRecipe)
