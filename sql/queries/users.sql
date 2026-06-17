@@ -49,9 +49,13 @@ WHERE email = $1;
 
 -- name: UpdateUser :exec
 UPDATE users
-SET name = $2, hashed_pw = $3, updated_at = NOW()
+SET name = $2, updated_at = NOW()
 WHERE id = $1;
 
+-- name: UpdatePasswordHash :exec
+UPDATE users 
+SET hashed_pw = $2, updated_at = NOW()
+WHERE id = $1;
 -- name: VerifyEmail :exec
 UPDATE users
 SET is_verified = TRUE
