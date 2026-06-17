@@ -426,7 +426,7 @@ func (cfg *ApiConfig) handlerResetPassword(w http.ResponseWriter, r *http.Reques
 
   // send reset email - well reuse the verification email structure as much as possible 
     verificationToken := auth.MakeRefreshToken()
-    if err := cfg.SendPasswordResetEmail(email, verificationToken); err != nil {
+    if err := cfg.SendPasswordReset(email, verificationToken); err != nil {
       respondFail(w, 500, "Failed to send request email", fmt.Errorf("Couldnt send password reset request email to %s - ERROR: %v", email, err))
       return
     }
