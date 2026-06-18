@@ -2,8 +2,9 @@ package main
 
 import (
 	"context"
-	"log"
+	"log/slog
 	"net/http"
+	"os"
 
 	_ "github.com/lib/pq"
 	"github.com/rs/cors"
@@ -13,17 +14,23 @@ import (
 )
 
 func main() {
+	// initialize logger
+	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
+	slog.SetDefault(logger)
+	
 	cfg := server.GetConfig()
 
 	// Check database seeding
 	if err := data.InitDBIngredients(cfg.ImagePlaceholder, cfg.DBConn, context.Background()); err != nil {
-		log.Panic("Failed to seed database ingredients")
+		slog.Error("Seed failure", "error", err)
+		os.Exit(1)
 	}
 
 	hash, _ := auth.HashPassword(cfg.Root.Pass)
 
 	if err := data.InitDBRecipes(cfg.ImagePlaceholder, cfg.DBConn, context.Background(), hash); err != nil {
-		log.Panic("Failed to seed database recipes")
+		slog.Error("Seed failure", "error", err)
+		os.Exit(1)
 	}
 
 	// Load server
@@ -40,9 +47,10 @@ func main() {
 		Handler: c.Handler(mux),
 	}
 
-	log.Print("Successfully loaded server...")
+	slog.Info("Successfully loaded server...")
 
 	if err := server.ListenAndServe(); err != nil {
-		log.Fatal(err)
+		slog.Error("Listener crashed!", "error", err)
+		os.Exit(1)
 	}
 }
