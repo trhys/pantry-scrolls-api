@@ -121,6 +121,12 @@ func GetConfig() *ApiConfig {
 		log.Fatal("Failed to load database: connection failed")
 	}
 
+	// set db connection pool TODO: benchmark and adjust if needed
+	db.SetMaxOpenConns(25)
+	db.SetMaxIdleConns(25)
+	db.SetConnMaxLifetime(5 * time.Minute)
+	db.SetConnMaxIdleTime(2 * time.Minute)
+
 	// Load S3 cfg
 	s3cfg, err := config.LoadDefaultConfig(context.TODO(), config.WithRegion(s3region))
 	if err != nil {
