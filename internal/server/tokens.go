@@ -17,7 +17,7 @@ func (cfg *ApiConfig) handlerRefreshToken(w http.ResponseWriter, r *http.Request
 	if tokenString == "" {
 		token, err := auth.GetBearerToken(r.Header)
 		if err != nil {
-			respondFail(w, 401, "Invalid header", err)
+			respondFail(r, w, 401, "Invalid header", err)
 			return
 		} else {
 			tokenString = token
@@ -26,13 +26,13 @@ func (cfg *ApiConfig) handlerRefreshToken(w http.ResponseWriter, r *http.Request
 
 	user, err := cfg.DB.GetRefreshToken(r.Context(), tokenString)
 	if err != nil {
-		respondFail(w, 401, "Invalid token", err)
+		respondFail(r, w, 401, "Invalid token", err)
 		return
 	}
 
 	jwt, err := auth.MakeJWT(user, cfg.Secret, cfg.JwtDuration)
 	if err != nil {
-		respondFail(w, 500, "Failed to write JWT", err)
+		respondFail(r, w, 500, "Failed to write JWT", err)
 		return
 	}
 
@@ -69,7 +69,7 @@ func (cfg *ApiConfig) handlerRevokeToken(w http.ResponseWriter, r *http.Request)
 	if tokenString == "" {
 		token, err := auth.GetBearerToken(r.Header)
 		if err != nil {
-			respondFail(w, 401, "Invalid header", err)
+			respondFail(r, w, 401, "Invalid header", err)
 			return
 		} else {
 			tokenString = token
@@ -77,7 +77,7 @@ func (cfg *ApiConfig) handlerRevokeToken(w http.ResponseWriter, r *http.Request)
 	}
 
 	if err := cfg.DB.RevokeToken(r.Context(), tokenString); err != nil {
-		respondFail(w, 401, "Invalid token", err)
+		respondFail(r, w, 401, "Invalid token", err)
 		return
 	}
 
