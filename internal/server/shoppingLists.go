@@ -20,13 +20,13 @@ func (cfg *ApiConfig) handlerCreateShoppingList(w http.ResponseWriter, r *http.R
 	// AUTH
 	requesterID, ok := r.Context().Value("userID").(uuid.UUID)
 	if !ok {
-		respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
+		respondFail(r, w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
 		return
 	}
 
 	// Decode request body
 	if err := util.DecodeRequest(w, r, 1<<20, &req); err != nil {
-		respondFail(w, 400, "Bad request", fmt.Errorf("Failed to decode request: ERROR: %v", err))
+		respondFail(r, w, 400, "Bad request", fmt.Errorf("Failed to decode request: ERROR: %v", err))
 		return
 	}
 
@@ -37,7 +37,7 @@ func (cfg *ApiConfig) handlerCreateShoppingList(w http.ResponseWriter, r *http.R
 	})
 
 	if err != nil {
-		respondFail(w, 500, "Database error", fmt.Errorf("Failed to perform CreateShoppingList query: %v", err))
+		respondFail(r, w, 500, "Database error", fmt.Errorf("Failed to perform CreateShoppingList query: %v", err))
 		return
 	}
 
@@ -59,7 +59,7 @@ func (cfg *ApiConfig) handlerAddToShoppingList(w http.ResponseWriter, r *http.Re
 	// AUTH
 	requesterID, ok := r.Context().Value("userID").(uuid.UUID)
 	if !ok {
-		respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
+		respondFail(r, w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
 		return
 	}
 
@@ -67,13 +67,13 @@ func (cfg *ApiConfig) handlerAddToShoppingList(w http.ResponseWriter, r *http.Re
 	val := r.PathValue("shopping_list_id")
 	id, err := uuid.Parse(val)
 	if err != nil {
-		respondFail(w, 404, "Invalid uuid", fmt.Errorf("Failed to parse uuid from path: %v", err))
+		respondFail(r, w, 404, "Invalid uuid", fmt.Errorf("Failed to parse uuid from path: %v", err))
 		return
 	}
 
 	// Decode body
 	if err := util.DecodeRequest(w, r, 1<<20, &req); err != nil {
-		respondFail(w, 400, "Something went wrong", fmt.Errorf("Failed to decode request: ERROR: %v", err))
+		respondFail(r, w, 400, "Something went wrong", fmt.Errorf("Failed to decode request: ERROR: %v", err))
 		return
 	}
 
@@ -89,7 +89,7 @@ func (cfg *ApiConfig) handlerAddToShoppingList(w http.ResponseWriter, r *http.Re
 				RecipeID:       req.RecipeID,
 				Quantity:       req.Quantity,
 			}); err != nil {
-				respondFail(w, 500, "Database error", fmt.Errorf("Failed to perform AddRecipeToList query: %v", err))
+				respondFail(r, w, 500, "Database error", fmt.Errorf("Failed to perform AddRecipeToList query: %v", err))
 				return
 			}
 		}
@@ -103,32 +103,32 @@ func (cfg *ApiConfig) handlerGetShoppingList(w http.ResponseWriter, r *http.Requ
 	val := r.PathValue("shopping_list_id")
 	listID, err := uuid.Parse(val)
 	if err != nil {
-		respondFail(w, 404, "invalid uuid", fmt.Errorf("Failed to parse UUID: %v", err))
+		respondFail(r, w, 404, "invalid uuid", fmt.Errorf("Failed to parse UUID: %v", err))
 		return
 	}
 
 	// AUTH
 	requesterID, ok := r.Context().Value("userID").(uuid.UUID)
 	if !ok {
-		respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
+		respondFail(r, w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
 		return
 	}
 
 	shoppingList, err := cfg.DB.GetShoppingList(r.Context(), listID)
 	if err != nil {
-		respondFail(w, 404, "Couldn't find shopping list", fmt.Errorf("Failed to find shopping list with ID: %s, ERROR: %V", val, err))
+		respondFail(r, w, 404, "Couldn't find shopping list", fmt.Errorf("Failed to find shopping list with ID: %s, ERROR: %V", val, err))
 		return
 	}
 
 	if requesterID != shoppingList.UserID {
-		respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
+		respondFail(r, w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
 		return
 	}
 
 	// Get recipes from list
 	shoppingListRecipes, err := cfg.DB.GetRecipesFromList(r.Context(), shoppingList.ID)
 	if err != nil {
-		respondFail(w, 404, "couldnt find recipes from list", fmt.Errorf("Failed to get recipes from shopping list id: %s, ERROR: %v", val, err))
+		respondFail(r, w, 404, "couldnt find recipes from list", fmt.Errorf("Failed to get recipes from shopping list id: %s, ERROR: %v", val, err))
 		return
 	}
 
@@ -142,20 +142,20 @@ func (cfg *ApiConfig) handlerGetUsersShoppingLists(w http.ResponseWriter, r *htt
 	// Authorization
 	id, ok := r.Context().Value("userID").(uuid.UUID)
 	if !ok {
-		respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", id))
+		respondFail(r, w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", id))
 		return
 	}
 
 	user, err := cfg.DB.GetUser(r.Context(), id)
 	if err != nil {
-		respondFail(w, 404, "Couldn't find user", fmt.Errorf("Failed to find user with ID: %s ERROR: %v", id, err))
+		respondFail(r, w, 404, "Couldn't find user", fmt.Errorf("Failed to find user with ID: %s ERROR: %v", id, err))
 		return
 	}
 
 	// Get lists
 	lists, err := cfg.DB.GetUserLists(r.Context(), user.ID)
 	if err != nil {
-		respondFail(w, 404, "Couldn't retrieve user's shopping lists", fmt.Errorf("Failed to get lists from database: %v", err))
+		respondFail(r, w, 404, "Couldn't retrieve user's shopping lists", fmt.Errorf("Failed to get lists from database: %v", err))
 		return
 	}
 
@@ -169,7 +169,7 @@ func (cfg *ApiConfig) handlerPrintList(w http.ResponseWriter, r *http.Request) {
 	// AUTH
 	requesterID, ok := r.Context().Value("userID").(uuid.UUID)
 	if !ok {
-		respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
+		respondFail(r, w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
 		return
 	}
 
@@ -177,21 +177,21 @@ func (cfg *ApiConfig) handlerPrintList(w http.ResponseWriter, r *http.Request) {
 	val := r.PathValue("shopping_list_id")
 	id, err := uuid.Parse(val)
 	if err != nil {
-		respondFail(w, 404, "Invalid uuid", fmt.Errorf("Failed to parse UUID: %v", err))
+		respondFail(r, w, 404, "Invalid uuid", fmt.Errorf("Failed to parse UUID: %v", err))
 		return
 	}
 
 	// Verify ownership against JWT subject
 	list, err := cfg.DB.GetListOwner(r.Context(), id)
 	if err != nil || list.UserID != requesterID {
-		respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
+		respondFail(r, w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
 		return
 	}
 
 	// Get list
 	printed, err := cfg.DB.PrintList(r.Context(), id)
 	if err != nil {
-		respondFail(w, 404, "Couldn't locate list", fmt.Errorf("Failed to get list from database: %v", err))
+		respondFail(r, w, 404, "Couldn't locate list", fmt.Errorf("Failed to get list from database: %v", err))
 		return
 	}
 
@@ -206,27 +206,27 @@ func (cfg *ApiConfig) handlerDeleteShoppingList(w http.ResponseWriter, r *http.R
 	val := r.PathValue("shopping_list_id")
 	id, err := uuid.Parse(val)
 	if err != nil {
-		respondFail(w, 404, "Invalid uuid", fmt.Errorf("Failed to parse UUID: %v", err))
+		respondFail(r, w, 404, "Invalid uuid", fmt.Errorf("Failed to parse UUID: %v", err))
 		return
 	}
 
 	// AUTH
 	requesterID, ok := r.Context().Value("userID").(uuid.UUID)
 	if !ok {
-		respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
+		respondFail(r, w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
 		return
 	}
 
 	// Verify ownership against JWT subject
 	list, err := cfg.DB.GetListOwner(r.Context(), id)
 	if err != nil || list.UserID != requesterID {
-		respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
+		respondFail(r, w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
 		return
 	}
 
 	// Authorized - delete list
 	if err := cfg.DB.DeleteShoppingList(r.Context(), id); err != nil {
-		respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed to delete list from database: %v", err))
+		respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Failed to delete list from database: %v", err))
 		return
 	}
 
