@@ -3,7 +3,7 @@ package server
 import (
 	"context"
 	"fmt"
-	"log"
+	"log/slog"
 
 	"github.com/aws/aws-sdk-go-v2/service/ses"
 	"github.com/aws/aws-sdk-go-v2/service/ses/types"
@@ -51,7 +51,7 @@ func (cfg *ApiConfig) SendVerificationEmail(targetEmail string, token string) er
 		return fmt.Errorf("failed to send email via AWS SES: %w", err)
 	}
 
-	log.Printf("Successfully sent verification email to %s", targetEmail)
+	slog.Info("Successfully sent verification email", "email_address", targetEmail)
 	return nil
 }
 
@@ -97,6 +97,6 @@ func (cfg *ApiConfig) SendPasswordReset(targetEmail string, token string) error 
 		return fmt.Errorf("failed to send email via AWS SES: %w", err)
 	}
 
-	log.Printf("Successfully sent password reset email to %s", targetEmail)
+	slog.Info("Successfully sent password reset email", "email_address", targetEmail)
 	return nil
 }
