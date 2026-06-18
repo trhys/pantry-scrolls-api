@@ -13,9 +13,10 @@ services:
       retries: 5
 
   app:
-    build: .
-    ports:
-      - "8080:8080"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
     env_file:
       - .env
     depends_on:
@@ -23,13 +24,17 @@ services:
         condition: service_healthy
 
   caddy:
-    image: caddy:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.caddy
+    restart: unless-stopped
     ports:
       - "80:80"
       - "443:443"
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
+      - caddy_config:/config
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
@@ -46,3 +51,4 @@ volumes:
   caddy_data:
   postgres_data:
   go-modules:
+  caddy_config:
