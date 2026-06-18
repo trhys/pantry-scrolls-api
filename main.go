@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"log/slog
+	"log/slog"
 	"net/http"
 	"os"
 
