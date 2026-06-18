@@ -3,7 +3,7 @@ package server
 import (
 	"fmt"
 	"io"
-	"log"
+	"log/slog"
 	"mime"
 	"net/http"
 	"net/mail"
@@ -29,13 +29,13 @@ func (cfg *ApiConfig) handlerCreateUser(w http.ResponseWriter, r *http.Request) 
 	}
 
 	if err := util.DecodeRequest(w, r, 1<<20, &req); err != nil {
-		respondFail(w, 400, "Bad request", fmt.Errorf("Failed to decode request - ERROR: %v", err))
+		respondFail(r, w, 400, "Bad request", fmt.Errorf("Failed to decode request - ERROR: %v", err))
 		return
 	}
 
 	// Verify valid email address
 	if _, err := mail.ParseAddress(req.Email); err != nil {
-		respondFail(w, 400, "Invalid email address", fmt.Errorf("Bad email in create user request: %v", err))
+		respondFail(r, w, 400, "Invalid email address", fmt.Errorf("Bad email in create user request: %v", err))
 		return
 	}
 
@@ -44,19 +44,19 @@ func (cfg *ApiConfig) handlerCreateUser(w http.ResponseWriter, r *http.Request) 
 
 	// Verify password length
 	if len(req.Password) < 5 {
-		respondFail(w, 400, "Password too short", fmt.Errorf("Password too short (Create User)"))
+		respondFail(r, w, 400, "Password too short", fmt.Errorf("Password too short (Create User)"))
 		return
 	}
 
 	// Verify user name length
 	if len(req.Name) > 30 {
-		respondFail(w, 400, "Username too long", fmt.Errorf("Username too long (Create User)"))
+		respondFail(r, w, 400, "Username too long", fmt.Errorf("Username too long (Create User)"))
 		return
 	}
 
 	hash, err := auth.HashPassword(req.Password)
 	if err != nil {
-		respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed to hash password for user email: %s - ERROR: %v", req.Email, err))
+		respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Failed to hash password for user email: %s - ERROR: %v", req.Email, err))
 		return
 	}
 
@@ -69,19 +69,19 @@ func (cfg *ApiConfig) handlerCreateUser(w http.ResponseWriter, r *http.Request) 
 	user, err := cfg.DB.CreateUser(r.Context(), query)
 	if err != nil {
 		if err.(*pq.Error).Code == "23505" {
-			respondFail(w, 400, "Email address is already associated with a user account!", fmt.Errorf("Duplicate user query: %v", err))
+			respondFail(r, w, 400, "Email address is already associated with a user account!", fmt.Errorf("Duplicate user query: %v", err))
 			return
 		}
-		respondFail(w, 500, "Database error", fmt.Errorf("Failed to perform CreateUser query: %v", err))
+		respondFail(r, w, 500, "Database error", fmt.Errorf("Failed to perform CreateUser query: %v", err))
 		return
 	}
 
-	log.Printf("User created with email: %s", user.Email)
+	slog.Info("User created", "email", user.Email)
 
 	// send verification email
 	verificationToken := auth.MakeRefreshToken() // reuse refresh token method here - it does the same thing we want
 	if err := cfg.SendVerificationEmail(req.Email, verificationToken); err != nil {
-		respondFail(w, 500, "Failed to verify email", fmt.Errorf("Couldnt send verification email to %s - ERROR: %v", req.Email, err))
+		respondFail(r, w, 500, "Failed to verify email", fmt.Errorf("Couldnt send verification email to %s - ERROR: %v", req.Email, err))
 		return
 	}
 
@@ -92,7 +92,7 @@ func (cfg *ApiConfig) handlerCreateUser(w http.ResponseWriter, r *http.Request) 
 	}
 
 	if err := cfg.DB.CreateVerification(r.Context(), query2); err != nil {
-		respondFail(w, 500, "Failed to log verification token", fmt.Errorf("Couldnt add verification token for email: %s ERROR %v", req.Email, err))
+		respondFail(r, w, 500, "Failed to log verification token", fmt.Errorf("Couldnt add verification token for email: %s ERROR %v", req.Email, err))
 		return
 	}
 
@@ -106,13 +106,13 @@ func (cfg *ApiConfig) handlerLogin(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := util.DecodeRequest(w, r, 1<<20, &req); err != nil {
-		respondFail(w, 400, "Bad request", fmt.Errorf("Failed to decode request - ERROR: %v", err))
+		respondFail(r, w, 400, "Bad request", fmt.Errorf("Failed to decode request - ERROR: %v", err))
 		return
 	}
 
 	// Validate fields
 	if req.Email == "" || req.Password == "" {
-		respondFail(w, 400, "Missing email or password", fmt.Errorf("Bad request missing email or password (Login)"))
+		respondFail(r, w, 400, "Missing email or password", fmt.Errorf("Bad request missing email or password (Login)"))
 		return
 	}
 
@@ -122,21 +122,21 @@ func (cfg *ApiConfig) handlerLogin(w http.ResponseWriter, r *http.Request) {
 	// get users info
 	user, err := cfg.DB.GetUserHash(r.Context(), req.Email)
 	if err != nil {
-		respondFail(w, 401, "Invalid email or password", fmt.Errorf("Failed to find user with email: %s - ERROR: %v", req.Email, err))
+		respondFail(r, w, 401, "Invalid email or password", fmt.Errorf("Failed to find user with email: %s - ERROR: %v", req.Email, err))
 		return
 	}
 
 	// check the hash
 	match, err := auth.CheckPasswordHash(req.Password, user.HashedPw)
 	if err != nil {
-		respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed to check hash: %v", err))
+		respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Failed to check hash: %v", err))
 		return
 	}
 
 	if match {
 		token, err := auth.MakeJWT(user.ID, cfg.Secret, cfg.JwtDuration)
 		if err != nil {
-			respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed to write JWT for user: %s, - ERROR: %v", req.Email, err))
+			respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Failed to write JWT for user: %s, - ERROR: %v", req.Email, err))
 			return
 		}
 
@@ -145,7 +145,7 @@ func (cfg *ApiConfig) handlerLogin(w http.ResponseWriter, r *http.Request) {
 			ID:     refreshToken,
 			UserID: user.ID,
 		}); err != nil {
-			respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed to generate refresh token for user: %s - ERROR: %v", req.Email, err))
+			respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Failed to generate refresh token for user: %s - ERROR: %v", req.Email, err))
 			return
 		}
 
@@ -176,7 +176,7 @@ func (cfg *ApiConfig) handlerLogin(w http.ResponseWriter, r *http.Request) {
 		respondJSON(w, 200, cfg.Vmf.GenerateSession(user, token, refreshToken))
 		return
 	} else {
-		respondFail(w, 401, "Invalid username or password", fmt.Errorf("Failed login attempt for: %s", user.Email))
+		respondFail(r, w, 401, "Invalid username or password", fmt.Errorf("Failed login attempt for: %s", user.Email))
 		return
 	}
 }
@@ -185,13 +185,13 @@ func (cfg *ApiConfig) handlerLogin(w http.ResponseWriter, r *http.Request) {
 func (cfg *ApiConfig) handlerGetSession(w http.ResponseWriter, r *http.Request) {
 	id, ok := r.Context().Value("userID").(uuid.UUID)
 	if !ok {
-		respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", id))
+		respondFail(r, w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", id))
 		return
 	}
 
 	user, err := cfg.DB.RefreshUser(r.Context(), id)
 	if err != nil {
-		respondFail(w, 404, "Couldn't find user", fmt.Errorf("Database query failed (RefreshUser) : %v", err))
+		respondFail(r, w, 404, "Couldn't find user", fmt.Errorf("Database query failed (RefreshUser) : %v", err))
 		return
 	}
 
@@ -203,14 +203,14 @@ func (cfg *ApiConfig) handlerGetUserProfile(w http.ResponseWriter, r *http.Reque
 	val := r.PathValue("user_id")
 	id, err := uuid.Parse(val)
 	if err != nil {
-		respondFail(w, 404, "Invalid uuid", fmt.Errorf("Failed to parse UUID in url: %v", err))
+		respondFail(r, w, 404, "Invalid uuid", fmt.Errorf("Failed to parse UUID in url: %v", err))
 		return
 	}
 
 	// Make sure user exists
 	user, err := cfg.DB.GetUser(r.Context(), id)
 	if err != nil {
-		respondFail(w, 404, "Couldn't find user", fmt.Errorf("Failed to find user with ID: %s, ERROR: %v", val, err))
+		respondFail(r, w, 404, "Couldn't find user", fmt.Errorf("Failed to find user with ID: %s, ERROR: %v", val, err))
 		return
 	}
 
@@ -220,7 +220,7 @@ func (cfg *ApiConfig) handlerGetUserProfile(w http.ResponseWriter, r *http.Reque
 	// Get recipes for user
 	recipes, err := cfg.DB.GetUsersRecipes(r.Context(), user.ID)
 	if err != nil {
-		respondFail(w, 404, "Couldn't find recipes", fmt.Errorf("Failed to find recipes for user ID: %s - ERROR: %v", val, err))
+		respondFail(r, w, 404, "Couldn't find recipes", fmt.Errorf("Failed to find recipes for user ID: %s - ERROR: %v", val, err))
 		return
 	}
 
@@ -239,13 +239,13 @@ func (cfg *ApiConfig) handlerGetUserProfile(w http.ResponseWriter, r *http.Reque
 func (cfg *ApiConfig) handlerUploadUserImage(w http.ResponseWriter, r *http.Request) {
 	requesterID, ok := r.Context().Value("userID").(uuid.UUID)
 	if !ok {
-		respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
+		respondFail(r, w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
 		return
 	}
 
 	key, err := cfg.DB.GetUserImageKey(r.Context(), requesterID)
 	if err != nil {
-		respondFail(w, 404, "Couldn't get user image key", fmt.Errorf("Failed to get user image key. UserID: %s - ERROR: %v", requesterID, err))
+		respondFail(r, w, 404, "Couldn't get user image key", fmt.Errorf("Failed to get user image key. UserID: %s - ERROR: %v", requesterID, err))
 		return
 	}
 
@@ -261,18 +261,18 @@ func (cfg *ApiConfig) handlerUploadUserImage(w http.ResponseWriter, r *http.Requ
 
 		mediaType, _, err := mime.ParseMediaType(fileHeader.Header.Get("Content-Type"))
 		if err != nil {
-			respondFail(w, 401, "Couldn't parse media type", fmt.Errorf("Bad mime type in formfile: %v", err))
+			respondFail(r, w, 401, "Couldn't parse media type", fmt.Errorf("Bad mime type in formfile: %v", err))
 			return
 		}
 
 		if mediaType != "image/jpeg" && mediaType != "image/png" {
-			respondFail(w, 401, "Invalid media type", fmt.Errorf("Must be jpg or png. Got: %s", mediaType))
+			respondFail(r, w, 401, "Invalid media type", fmt.Errorf("Must be jpg or png. Got: %s", mediaType))
 			return
 		}
 
 		tmp, err := os.CreateTemp("", "image_upload")
 		if err != nil {
-			respondFail(w, 500, "Something went wrong", fmt.Errorf("IO failure during image upload: %v", err))
+			respondFail(r, w, 500, "Something went wrong", fmt.Errorf("IO failure during image upload: %v", err))
 			return
 		}
 		defer os.Remove(tmp.Name())
@@ -280,7 +280,7 @@ func (cfg *ApiConfig) handlerUploadUserImage(w http.ResponseWriter, r *http.Requ
 
 		_, fail := io.Copy(tmp, file)
 		if fail != nil {
-			respondFail(w, 500, "Something went wrong", fmt.Errorf("IO failure during image upload: %v", err))
+			respondFail(r, w, 500, "Something went wrong", fmt.Errorf("IO failure during image upload: %v", err))
 			return
 		}
 
@@ -293,13 +293,13 @@ func (cfg *ApiConfig) handlerUploadUserImage(w http.ResponseWriter, r *http.Requ
 			Body:        tmp,
 			ContentType: &mediaType,
 		}); err != nil {
-			respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed S3 put: %v", err))
+			respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Failed S3 put: %v", err))
 			return
 		}
 
 	} else if err != nil {
 		if err != http.ErrMissingFile {
-			respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed image upload: %v", err))
+			respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Failed image upload: %v", err))
 			return
 		}
 	}
@@ -310,7 +310,7 @@ func (cfg *ApiConfig) handlerUploadUserImage(w http.ResponseWriter, r *http.Requ
 			ID:       requesterID,
 			ImageKey: key,
 		}); err != nil {
-			respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed to set key in user database: %v", err))
+			respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Failed to set key in user database: %v", err))
 			return
 		}
 	}
@@ -324,13 +324,13 @@ func (cfg *ApiConfig) handlerUpdateUser(w http.ResponseWriter, r *http.Request) 
 	val := r.PathValue("user_id")
 	id, err := uuid.Parse(val)
 	if err != nil {
-		respondFail(w, 404, "Invalid uuid", fmt.Errorf("Failed to parse UUID in url: %v", err))
+		respondFail(r, w, 404, "Invalid uuid", fmt.Errorf("Failed to parse UUID in url: %v", err))
 		return
 	}
 	requesterID := r.Context().Value("userID")
 
 	if requesterID != id {
-		respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized user update request for user id: %s", id.String()))
+		respondFail(r, w, 401, "Unauthorized", fmt.Errorf("Unauthorized user update request for user id: %s", id.String()))
 		return
 	}
 
@@ -340,13 +340,13 @@ func (cfg *ApiConfig) handlerUpdateUser(w http.ResponseWriter, r *http.Request) 
 	}
 
 	if err := util.DecodeRequest(w, r, 1<<20, &req); err != nil {
-		respondFail(w, 400, "Bad request", fmt.Errorf("Failed to decode request - ERROR: %v", err))
+		respondFail(r, w, 400, "Bad request", fmt.Errorf("Failed to decode request - ERROR: %v", err))
 		return
 	}
 
 	// Verify user name length
 	if len(req.Username) > 30 {
-		respondFail(w, 400, "Username too long", fmt.Errorf("Username too long (Create User)"))
+		respondFail(r, w, 400, "Username too long", fmt.Errorf("Username too long (Create User)"))
 		return
 	}
 
@@ -357,7 +357,7 @@ func (cfg *ApiConfig) handlerUpdateUser(w http.ResponseWriter, r *http.Request) 
 	}
 
 	if err := cfg.DB.UpdateUser(r.Context(), query); err != nil {
-		respondFail(w, 500, "Something went wrong", fmt.Errorf("Database query failed (UpdateUser): %v", err))
+		respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Database query failed (UpdateUser): %v", err))
 		return
 	}
 
@@ -373,31 +373,31 @@ func (cfg *ApiConfig) handlerUpdatePassword(w http.ResponseWriter, r *http.Reque
 	}
 
 	if err := util.DecodeRequest(w, r, 1<<20, &req); err != nil {
-		respondFail(w, 400, "Bad request", fmt.Errorf("Failed to decode request - ERROR: %v", err))
+		respondFail(r, w, 400, "Bad request", fmt.Errorf("Failed to decode request - ERROR: %v", err))
 		return
 	}
 
 	// get email from token
 	email, err := cfg.DB.GetVerification(r.Context(), req.Token)
 	if err != nil {
-		respondFail(w, 404, "Invalid token", fmt.Errorf("Invalid verification token attempt"))
+		respondFail(r, w, 404, "Invalid token", fmt.Errorf("Invalid verification token attempt"))
 		return
 	}
 
 	if email.ExpiresAt.After(time.Now()) {
-		respondFail(w, 401, "Token expired", fmt.Errorf("Expired token access for email: %s", email.Email))
+		respondFail(r, w, 401, "Token expired", fmt.Errorf("Expired token access for email: %s", email.Email))
 		return
 	}
 
 	// Verify password length
 	if len(req.Password) < 5 {
-		respondFail(w, 400, "Password too short", fmt.Errorf("Password too short (Update password"))
+		respondFail(r, w, 400, "Password too short", fmt.Errorf("Password too short (Update password"))
 		return
 	}
 
 	hash, err := auth.HashPassword(req.Password)
 	if err != nil {
-		respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed to hash password  ERROR: %v", err))
+		respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Failed to hash password  ERROR: %v", err))
 		return
 	}
 
@@ -408,7 +408,7 @@ func (cfg *ApiConfig) handlerUpdatePassword(w http.ResponseWriter, r *http.Reque
 	}
 
 	if err := cfg.DB.UpdatePasswordHash(r.Context(), query); err != nil {
-		respondFail(w, 500, "Something went wrong", fmt.Errorf("Database query failed (Update password): %v", err))
+		respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Database query failed (Update password): %v", err))
 		return
 	}
 
@@ -422,17 +422,17 @@ func (cfg *ApiConfig) handlerVerifyEmail(w http.ResponseWriter, r *http.Request)
 	// get email from token
 	email, err := cfg.DB.GetVerification(r.Context(), val)
 	if err != nil {
-		respondFail(w, 404, "Invalid token", fmt.Errorf("Invalid verification token attempt"))
+		respondFail(r, w, 404, "Invalid token", fmt.Errorf("Invalid verification token attempt"))
 		return
 	}
 
 	if email.ExpiresAt.After(time.Now()) {
-		respondFail(w, 401, "Token expired", fmt.Errorf("Expired token access for email: %s", email.Email))
+		respondFail(r, w, 401, "Token expired", fmt.Errorf("Expired token access for email: %s", email.Email))
 		return
 	}
 
 	if err := cfg.DB.VerifyEmail(r.Context(), email.Email); err != nil {
-		respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed to verify email %s ERROR %v", email.Email, err))
+		respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Failed to verify email %s ERROR %v", email.Email, err))
 		return
 	}
 
@@ -445,14 +445,14 @@ func (cfg *ApiConfig) handlerResetPassword(w http.ResponseWriter, r *http.Reques
 	}
 
 	if err := util.DecodeRequest(w, r, 1<<20, &req); err != nil {
-		respondFail(w, 400, "Bad request", fmt.Errorf("Failed to decode request - ERROR: %v", err))
+		respondFail(r, w, 400, "Bad request", fmt.Errorf("Failed to decode request - ERROR: %v", err))
 		return
 	}
 
 	// send reset email - well reuse the verification email structure as much as possible
 	verificationToken := auth.MakeRefreshToken()
 	if err := cfg.SendPasswordReset(req.Email, verificationToken); err != nil {
-		respondFail(w, 500, "Failed to send request email", fmt.Errorf("Couldnt send password reset request email to %s - ERROR: %v", req.Email, err))
+		respondFail(r, w, 500, "Failed to send request email", fmt.Errorf("Couldnt send password reset request email to %s - ERROR: %v", req.Email, err))
 		return
 	}
 
@@ -463,7 +463,7 @@ func (cfg *ApiConfig) handlerResetPassword(w http.ResponseWriter, r *http.Reques
 	}
 
 	if err := cfg.DB.CreateVerification(r.Context(), query2); err != nil {
-		respondFail(w, 500, "Failed to log verification token", fmt.Errorf("Couldnt add verification token for email: %s ERROR %v", req.Email, err))
+		respondFail(r, w, 500, "Failed to log verification token", fmt.Errorf("Couldnt add verification token for email: %s ERROR %v", req.Email, err))
 		return
 	}
 
