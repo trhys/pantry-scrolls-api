@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"log"
+	"log/slog"
 	"mime"
 	"net/http"
 	"os"
@@ -35,14 +35,14 @@ func (cfg *ApiConfig) handlerCreateRecipe(w http.ResponseWriter, r *http.Request
 
 	// Unmarshal JSON
 	if err := json.Unmarshal([]byte(jsonString), &req); err != nil {
-		respondFail(w, 400, "Bad request", fmt.Errorf("Failed to unmarshal request body: %v", err))
+		respondFail(r, w, 400, "Bad request", fmt.Errorf("Failed to unmarshal request body: %v", err))
 		return
 	}
 
 	// Validate auth from middleware
 	requesterID, ok := r.Context().Value("userID").(uuid.UUID)
 	if !ok {
-		respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
+		respondFail(r, w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
 		return
 	}
 
@@ -54,18 +54,18 @@ func (cfg *ApiConfig) handlerCreateRecipe(w http.ResponseWriter, r *http.Request
 
 		mediaType, _, err := mime.ParseMediaType(fileHeader.Header.Get("Content-Type"))
 		if err != nil {
-			respondFail(w, 401, "Couldn't parse media type", fmt.Errorf("Bad mime type in formfile: %v", err))
+			respondFail(r, w, 401, "Couldn't parse media type", fmt.Errorf("Bad mime type in formfile: %v", err))
 			return
 		}
 
 		if mediaType != "image/jpeg" && mediaType != "image/png" {
-			respondFail(w, 401, "Invalid media type", fmt.Errorf("Must be jpg or png. Got: %s", mediaType))
+			respondFail(r, w, 401, "Invalid media type", fmt.Errorf("Must be jpg or png. Got: %s", mediaType))
 			return
 		}
 
 		tmp, err := os.CreateTemp("", "image_upload")
 		if err != nil {
-			respondFail(w, 500, "Something went wrong", fmt.Errorf("IO failure during image upload: %v", err))
+			respondFail(r, w, 500, "Something went wrong", fmt.Errorf("IO failure during image upload: %v", err))
 			return
 		}
 		defer os.Remove(tmp.Name())
@@ -73,7 +73,7 @@ func (cfg *ApiConfig) handlerCreateRecipe(w http.ResponseWriter, r *http.Request
 
 		_, fail := io.Copy(tmp, file)
 		if fail != nil {
-			respondFail(w, 500, "Something went wrong", fmt.Errorf("IO failure during image upload: %v", err))
+			respondFail(r, w, 500, "Something went wrong", fmt.Errorf("IO failure during image upload: %v", err))
 			return
 		}
 
@@ -87,13 +87,13 @@ func (cfg *ApiConfig) handlerCreateRecipe(w http.ResponseWriter, r *http.Request
 			Body:        tmp,
 			ContentType: &mediaType,
 		}); err != nil {
-			respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed S3 put: %v", err))
+			respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Failed S3 put: %v", err))
 			return
 		}
 
 	} else if err != nil {
 		if err != http.ErrMissingFile {
-			respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed image upload: %v", err))
+			respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Failed image upload: %v", err))
 			return
 		}
 	}
@@ -101,7 +101,7 @@ func (cfg *ApiConfig) handlerCreateRecipe(w http.ResponseWriter, r *http.Request
 	// Get username
 	username, err := cfg.DB.GetName(r.Context(), requesterID)
 	if err != nil {
-		respondFail(w, 404, "Invalid user id", fmt.Errorf("Failed to get user from database: %v", err))
+		respondFail(r, w, 404, "Invalid user id", fmt.Errorf("Failed to get user from database: %v", err))
 		return
 	}
 
@@ -117,7 +117,7 @@ func (cfg *ApiConfig) handlerCreateRecipe(w http.ResponseWriter, r *http.Request
 
 	rec, err := cfg.DB.CreateRecipe(r.Context(), query)
 	if err != nil {
-		respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed to create recipe: %v", err))
+		respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Failed to create recipe: %v", err))
 		return
 	}
 
@@ -132,14 +132,14 @@ func (cfg *ApiConfig) handlerCreateRecipe(w http.ResponseWriter, r *http.Request
 
 		_, err := cfg.DB.AddToRecipe(r.Context(), query)
 		if err != nil {
-			respondFail(w, 500, "Something went wrong", fmt.Errorf("Failed to add ingredient to recipe: %v", err))
+			respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Failed to add ingredient to recipe: %v", err))
 			return
 		}
 	}
 
 	i, err := cfg.DB.GetIngredientList(r.Context(), rec.ID)
 	if err != nil {
-		respondFail(w, 404, "Couldn't find ingredients", fmt.Errorf("Failed to find ingredients for recipe id: %s, ERROR: %v", rec.ID, err))
+		respondFail(r, w, 404, "Couldn't find ingredients", fmt.Errorf("Failed to find ingredients for recipe id: %s, ERROR: %v", rec.ID, err))
 		return
 	}
 
@@ -151,19 +151,19 @@ func (cfg *ApiConfig) handlerGetRecipe(w http.ResponseWriter, r *http.Request) {
 	requested := r.PathValue("recipe_id")
 	recipe_id, err := uuid.Parse(requested)
 	if err != nil {
-		respondFail(w, 404, "Invalid recipe id", fmt.Errorf("Failed to parse UUID: %v", err))
+		respondFail(r, w, 404, "Invalid recipe id", fmt.Errorf("Failed to parse UUID: %v", err))
 		return
 	}
 
 	rec, err := cfg.DB.GetRecipe(r.Context(), recipe_id)
 	if err != nil {
-		respondFail(w, 404, "Couldn't find recipe id", fmt.Errorf("Failed to find recipe with ID: %s, ERROR: %v", requested, err))
+		respondFail(r, w, 404, "Couldn't find recipe id", fmt.Errorf("Failed to find recipe with ID: %s, ERROR: %v", requested, err))
 		return
 	}
 
 	i, err := cfg.DB.GetIngredientList(r.Context(), recipe_id)
 	if err != nil {
-		respondFail(w, 404, "Couldn't find ingredients", fmt.Errorf("Failed to find ingredients for recipe id: %s, ERROR: %v", requested, err))
+		respondFail(r, w, 404, "Couldn't find ingredients", fmt.Errorf("Failed to find ingredients for recipe id: %s, ERROR: %v", requested, err))
 		return
 	}
 
@@ -176,7 +176,7 @@ func (cfg *ApiConfig) handlerGetRecipe(w http.ResponseWriter, r *http.Request) {
 func (cfg *ApiConfig) handlerGetRecipeList(w http.ResponseWriter, r *http.Request) {
 	recipes, err := cfg.DB.GetRecipeList(r.Context())
 	if err != nil {
-		respondFail(w, 404, "Failed to retrieve recipe list", fmt.Errorf("Failed to get recipe list: %v", err))
+		respondFail(r, w, 404, "Failed to retrieve recipe list", fmt.Errorf("Failed to get recipe list: %v", err))
 		return
 	}
 
@@ -188,7 +188,7 @@ func (cfg *ApiConfig) handlerUpdateRecipe(w http.ResponseWriter, r *http.Request
 	requested := r.PathValue("recipe_id")
 	recipe_id, err := uuid.Parse(requested)
 	if err != nil {
-		respondFail(w, 404, "Invalid recipe id", fmt.Errorf("Failed to parse UUID %s : ERROR: %v", requested, err))
+		respondFail(r, w, 404, "Invalid recipe id", fmt.Errorf("Failed to parse UUID %s : ERROR: %v", requested, err))
 		return
 	}
 
@@ -210,28 +210,28 @@ func (cfg *ApiConfig) handlerUpdateRecipe(w http.ResponseWriter, r *http.Request
 
 	// Unmarshal JSON
 	if err := json.Unmarshal([]byte(jsonString), &req); err != nil {
-		respondFail(w, 404, "Bad request", fmt.Errorf("Failed to unmarshal request body: %v", err))
+		respondFail(r, w, 404, "Bad request", fmt.Errorf("Failed to unmarshal request body: %v", err))
 		return
 	}
 
 	// Validate auth from middleware
 	requesterID, ok := r.Context().Value("userID").(uuid.UUID)
 	if !ok {
-		respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
+		respondFail(r, w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
 		return
 	}
 
 	// Verify ownership
 	owner, err := cfg.DB.GetRecipeOwner(r.Context(), recipe_id)
 	if err != nil || owner != requesterID {
-		respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
+		respondFail(r, w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
 		return
 	}
 
 	// Get existing key
 	key, err := cfg.DB.GetRecipeImageKey(r.Context(), recipe_id)
 	if err != nil {
-		log.Printf("Failed to get image key for recipe PUT: id - %s error: %v", recipe_id, err)
+		slog.Warn("Failed to get image key", "recipe_id", recipe_id, "error", err)
 		key = uuid.New().String()
 	}
 
@@ -242,18 +242,18 @@ func (cfg *ApiConfig) handlerUpdateRecipe(w http.ResponseWriter, r *http.Request
 
 		mediaType, _, err := mime.ParseMediaType(fileHeader.Header.Get("Content-Type"))
 		if err != nil {
-			respondFail(w, 401, "Couldn't parse media type", fmt.Errorf("Bad mime type in formfile: %v", err))
+			respondFail(r, w, 401, "Couldn't parse media type", fmt.Errorf("Bad mime type in formfile: %v", err))
 			return
 		}
 
 		if mediaType != "image/jpeg" && mediaType != "image/png" {
-			respondFail(w, 401, "Invalid media type", fmt.Errorf("Must be jpg or png. Got: %s", mediaType))
+			respondFail(r, w, 401, "Invalid media type", fmt.Errorf("Must be jpg or png. Got: %s", mediaType))
 			return
 		}
 
 		tmp, err := os.CreateTemp("", "image_upload")
 		if err != nil {
-			respondFail(w, 500, "Something went wrong", fmt.Errorf("IO error during image upload: %v", err))
+			respondFail(r, w, 500, "Something went wrong", fmt.Errorf("IO error during image upload: %v", err))
 			return
 		}
 		defer os.Remove(tmp.Name())
@@ -261,7 +261,7 @@ func (cfg *ApiConfig) handlerUpdateRecipe(w http.ResponseWriter, r *http.Request
 
 		_, fail := io.Copy(tmp, file)
 		if fail != nil {
-			respondFail(w, 500, "Something went wrong", fmt.Errorf("IO error during image upload: %v", err))
+			respondFail(r, w, 500, "Something went wrong", fmt.Errorf("IO error during image upload: %v", err))
 			return
 		}
 
@@ -278,13 +278,13 @@ func (cfg *ApiConfig) handlerUpdateRecipe(w http.ResponseWriter, r *http.Request
 			Body:        tmp,
 			ContentType: &mediaType,
 		}); err != nil {
-			respondFail(w, 500, "Something went wrong", fmt.Errorf("S3 Put object error: %v", err))
+			respondFail(r, w, 500, "Something went wrong", fmt.Errorf("S3 Put object error: %v", err))
 			return
 		}
 
 	} else if err != nil {
 		if err != http.ErrMissingFile {
-			respondFail(w, 500, "Something went wrong", fmt.Errorf("Error during S3 image upload: %v", err))
+			respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Error during S3 image upload: %v", err))
 			return
 		}
 	}
@@ -300,13 +300,13 @@ func (cfg *ApiConfig) handlerUpdateRecipe(w http.ResponseWriter, r *http.Request
 
 	rec, err := cfg.DB.UpdateRecipe(r.Context(), query)
 	if err != nil {
-		respondFail(w, 500, "Couldn't update recipe", fmt.Errorf("Database error: %v", err))
+		respondFail(r, w, 500, "Couldn't update recipe", fmt.Errorf("Database error: %v", err))
 		return
 	}
 
 	// Update ingredients
 	if err := cfg.DB.ClearFromRecipe(r.Context(), recipe_id); err != nil {
-		respondFail(w, 500, "Something went wrong", fmt.Errorf("Database error: %v", err))
+		respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Database error: %v", err))
 		return
 	}
 
@@ -320,7 +320,7 @@ func (cfg *ApiConfig) handlerUpdateRecipe(w http.ResponseWriter, r *http.Request
 
 		_, err := cfg.DB.AddToRecipe(r.Context(), query)
 		if err != nil {
-			respondFail(w, 500, "Failed to add ingredient", fmt.Errorf("Couldn't perform AddToRecipe query: %v", err))
+			respondFail(r, w, 500, "Failed to add ingredient", fmt.Errorf("Couldn't perform AddToRecipe query: %v", err))
 			return
 		}
 	}
@@ -333,27 +333,27 @@ func (cfg *ApiConfig) handlerDeleteRecipe(w http.ResponseWriter, r *http.Request
 	requested := r.PathValue("recipe_id")
 	recipe_id, err := uuid.Parse(requested)
 	if err != nil {
-		respondFail(w, 404, "Invalid recipe id", fmt.Errorf("Couldn't parse UUID: %s ERROR: %v", requested, err))
+		respondFail(r, w, 404, "Invalid recipe id", fmt.Errorf("Couldn't parse UUID: %s ERROR: %v", requested, err))
 		return
 	}
 
 	// Validate auth from middleware
 	requesterID, ok := r.Context().Value("userID").(uuid.UUID)
 	if !ok {
-		respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
+		respondFail(r, w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
 		return
 	}
 
 	// Verify ownership
 	owner, err := cfg.DB.GetRecipeOwner(r.Context(), recipe_id)
 	if err != nil || owner != requesterID {
-		respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
+		respondFail(r, w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
 		return
 	}
 
 	// Valid request - delete from database
 	if err := cfg.DB.DeleteRecipe(r.Context(), recipe_id); err != nil {
-		respondFail(w, 404, "Couldn't delete recipe", fmt.Errorf("Failed to delete recipe: %v", err))
+		respondFail(r, w, 404, "Couldn't delete recipe", fmt.Errorf("Failed to delete recipe: %v", err))
 		return
 	}
 
@@ -365,7 +365,7 @@ func (cfg *ApiConfig) handlerExploreFeed(w http.ResponseWriter, r *http.Request)
 	if query != "" {
 		feed, err := cfg.DB.GetRecipesFromQuery(r.Context(), strings.ToLower(query))
 		if err != nil {
-			respondFail(w, 404, "No recipes matched the query params", fmt.Errorf("recipes query error: %v", err))
+			respondFail(r, w, 404, "No recipes matched the query params", fmt.Errorf("recipes query error: %v", err))
 			return
 		}
 
