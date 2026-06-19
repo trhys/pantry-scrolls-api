@@ -2,12 +2,17 @@ package server
 
 import (
 	"encoding/json"
-	"log"
+	"log/slog"
 	"net/http"
 )
 
-func respondFail(w http.ResponseWriter, code int, msg string, err error) {
-	log.Print(err)
+func respondFail(r *http.Request, w http.ResponseWriter, code int, msg string, err error) {
+	slog.ErrorContext(r.Context(), "http request execution failed",
+		slog.String("path", r.URL.Path),
+		slog.String("method", r.Method),
+		slog.Int("http_status", code),
+		slog.Any("error", err),
+	)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(code)
 	w.Write([]byte(msg))
@@ -16,7 +21,7 @@ func respondFail(w http.ResponseWriter, code int, msg string, err error) {
 func respondJSON(w http.ResponseWriter, code int, payload interface{}) {
 	data, err := json.Marshal(payload)
 	if err != nil {
-		log.Printf("Failed to marshal json in response: %v", err)
+		slog.Error("Failed to marshal json in response", "error", err)
 		w.WriteHeader(500)
 		return
 	}

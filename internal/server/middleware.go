@@ -38,11 +38,11 @@ func (cfg *ApiConfig) authMiddleware(next http.HandlerFunc) http.HandlerFunc {
 		if err != nil {
 			if errors.Is(err, jwt.ErrTokenExpired) {
 				w.Header().Set("WWW-Authenticate", `Bearer error="invalid_token", error_description="token is expired"`)
-				respondFail(w, 401, "Expired token", nil)
+				respondFail(r, w, 401, "Expired token", nil)
 				return
 			}
 			ip := getClientIP(r)
-			respondFail(w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt from IP: %s - ERROR: %v", ip, err))
+			respondFail(r, w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt from IP: %s - ERROR: %v", ip, err))
 			return
 		}
 

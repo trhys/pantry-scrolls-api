@@ -30,22 +30,22 @@ func (cfg *ApiConfig) handlerCreateIngredient(w http.ResponseWriter, r *http.Req
 	// Authorization
 	token, err := auth.GetBearerToken(r.Header)
 	if err != nil {
-		respondFail(w, 401, "Failed to retrieve bearer token", err)
+		respondFail(r, w, 401, "Failed to retrieve bearer token", err)
 		return
 	}
 
 	subject, err := auth.ValidateJWT(token, cfg.Secret)
 	if err != nil {
-		respondFail(w, 401, "Couldn't validate token", err)
+		respondFail(r, w, 401, "Couldn't validate token", err)
 		return
 	}
 
 	admin, err := cfg.DB.CheckAdmin(r.Context(), subject)
 	if err != nil {
-		respondFail(w, 500, "Something went wrong", err)
+		respondFail(r, w, 500, "Something went wrong", err)
 		return
 	} else if admin == false {
-		respondFail(w, 403, "Unauthorized access", fmt.Errorf("Must be administrator"))
+		respondFail(r, w, 403, "Unauthorized access", fmt.Errorf("Must be administrator"))
 		return
 	}
 
@@ -60,7 +60,7 @@ func (cfg *ApiConfig) handlerCreateIngredient(w http.ResponseWriter, r *http.Req
 
 	// Unmarshal JSON
 	if err := json.Unmarshal([]byte(jsonString), &req); err != nil {
-		respondFail(w, 500, "Failed to unmarshal payload", err)
+		respondFail(r, w, 500, "Failed to unmarshal payload", err)
 		return
 	}
 
@@ -71,18 +71,18 @@ func (cfg *ApiConfig) handlerCreateIngredient(w http.ResponseWriter, r *http.Req
 
 		mediaType, _, err := mime.ParseMediaType(fileHeader.Header.Get("Content-Type"))
 		if err != nil {
-			respondFail(w, 400, "Couldn't parse media type", err)
+			respondFail(r, w, 400, "Couldn't parse media type", err)
 			return
 		}
 
 		if mediaType != "image/jpeg" && mediaType != "image/png" {
-			respondFail(w, 400, "Invalid media type", fmt.Errorf("Must be jpg or png. Got: %s", mediaType))
+			respondFail(r, w, 400, "Invalid media type", fmt.Errorf("Must be jpg or png. Got: %s", mediaType))
 			return
 		}
 
 		tmp, err := os.CreateTemp("", "image_upload")
 		if err != nil {
-			respondFail(w, 500, "Something went wrong", err)
+			respondFail(r, w, 500, "Something went wrong", err)
 			return
 		}
 		defer os.Remove(tmp.Name())
@@ -90,7 +90,7 @@ func (cfg *ApiConfig) handlerCreateIngredient(w http.ResponseWriter, r *http.Req
 
 		_, fail := io.Copy(tmp, file)
 		if fail != nil {
-			respondFail(w, 500, "Couldn't save image", err)
+			respondFail(r, w, 500, "Couldn't save image", err)
 			return
 		}
 
@@ -103,13 +103,13 @@ func (cfg *ApiConfig) handlerCreateIngredient(w http.ResponseWriter, r *http.Req
 			Body:        tmp,
 			ContentType: &mediaType,
 		}); err != nil {
-			respondFail(w, 500, "Failed to upload to s3 bucket", err)
+			respondFail(r, w, 500, "Failed to upload to s3 bucket", err)
 			return
 		}
 
 	} else if err != nil {
 		if err != http.ErrMissingFile {
-			respondFail(w, 400, "Something went wrong during upload", err)
+			respondFail(r, w, 400, "Something went wrong during upload", err)
 			return
 		}
 	}
@@ -121,7 +121,7 @@ func (cfg *ApiConfig) handlerCreateIngredient(w http.ResponseWriter, r *http.Req
 
 	ing, err := cfg.DB.CreateIngredient(r.Context(), query)
 	if err != nil {
-		respondFail(w, 500, "Database error during write", err)
+		respondFail(r, w, 500, "Database error during write", err)
 		return
 	}
 
@@ -140,7 +140,7 @@ func (cfg *ApiConfig) handlerCreateIngredient(w http.ResponseWriter, r *http.Req
 func (cfg *ApiConfig) handlerGetIngredientBase(w http.ResponseWriter, r *http.Request) {
 	ingredients, err := cfg.DB.GetIngredients(r.Context())
 	if err != nil {
-		respondFail(w, 404, "Failed to retrieve ingredients from database", err)
+		respondFail(r, w, 404, "Failed to retrieve ingredients from database", err)
 		return
 	}
 
@@ -164,13 +164,13 @@ func (cfg *ApiConfig) handlerGetUnits(w http.ResponseWriter, r *http.Request) {
 	val := r.PathValue("ingredient_id")
 	id, err := uuid.Parse(val)
 	if err != nil {
-		respondFail(w, 404, "Invalid ingredient id", fmt.Errorf("Failed to get id from path: %v", err))
+		respondFail(r, w, 404, "Invalid ingredient id", fmt.Errorf("Failed to get id from path: %v", err))
 		return
 	}
 
 	conversions, err := cfg.DB.GetConversionsByID(r.Context(), id)
 	if err != nil {
-		respondFail(w, 404, "Couldn't find units", fmt.Errorf("Failed to get units for ingredient: %v", err))
+		respondFail(r, w, 404, "Couldn't find units", fmt.Errorf("Failed to get units for ingredient: %v", err))
 		return
 	}
 

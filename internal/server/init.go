@@ -3,7 +3,7 @@ package server
 import (
 	"context"
 	"database/sql"
-	"log"
+	"log/slog"
 	"net/http"
 	"os"
 	"strconv"
@@ -65,85 +65,102 @@ func GetConfig() *ApiConfig {
 
 	dbUrl := os.Getenv("DB")
 	if dbUrl == "" {
-		log.Fatal("Failed to load database: url missing")
+		slog.Error("Environment load failure", "missing", "DB")
+		os.Exit(1)
 	}
 
 	secret := os.Getenv("SECRET")
 	if secret == "" {
-		log.Fatal("Failed to load secret")
+		slog.Error("Environment load failure", "missing", "SECRET")
+		os.Exit(1)
 	}
 
 	jwtDur := os.Getenv("JWT_DUR")
 	if jwtDur == "" {
-		log.Fatal("Failed to load jwt duration")
+		slog.Error("Environment load failure", "missing", "JWT_DUR")
+		os.Exit(1)
 	}
 
 	convDur, err := strconv.Atoi(jwtDur)
 	if err != nil {
-		log.Print("Failed to load jwt duration - defaulting to 3600")
+		slog.Warn("Failed to load jwt duration - defaulting to 3600")
 		convDur = 3600
 	}
 	jwtDuration := time.Duration(convDur) * time.Second
 
 	s3bucket := os.Getenv("S3_BUCKET")
 	if s3bucket == "" {
-		log.Fatal("Failed to load s3 bucket")
+		slog.Error("Environment load failure", "missing", "S3_BUCKET")
+		os.Exit(1)
 	}
 
 	s3region := os.Getenv("S3_REGION")
 	if err != nil {
-		log.Fatal("Failed to load s3 region")
+		slog.Error("Environment load failure", "missing", "S3_REGION")
+		os.Exit(1)
 	}
 
 	s3cdn := os.Getenv("S3_CDN")
 	if s3cdn == "" {
-		log.Fatal("Failed to load s3 CDN")
+		slog.Error("Environment load failure", "missing", "S3_CDN")
+		os.Exit(1)
 	}
 
 	imagePlaceholder := os.Getenv("IMAGE_PLACEHOLDER")
 	if imagePlaceholder == "" {
-		log.Fatal("Failed to load placehold for images")
+		slog.Error("Environment load failure", "missing", "IMAGE_PLACEHOLDER")
+		os.Exit(1)
 	}
 
 	userpw := os.Getenv("USERPW")
 	if userpw == "" {
-		log.Fatal("Failed to get root user")
+		slog.Error("Environment load failure", "missing", "USERPW")
+		os.Exit(1)
 	}
 
 	reactUrl := os.Getenv("REACTURL")
 	if reactUrl == "" {
-		log.Fatal("Failed to get frontend server")
+		slog.Error("Environment load failure", "missing", "REACTURL")
+		os.Exit(1)
+	}
+
+	accessKey := os.Getenv("AWS_ACCESS_KEY_ID")
+	if accessKey == "" {
+		slog.Error("Environment load failure", "missing", "AWS_ACCESS_KEY_ID")
+		os.Exit(1)
+	}
+
+	secretKey := os.Getenv("AWS_SECRET_ACCESS_KEY")
+	if secretKey == "" {
+		slog.Error("Environment load failure", "missing", "AWS_SECRET_ACCESS_KEY")
+		os.Exit(1)
 	}
 
 	// Connect to database
 	db, err := sql.Open("postgres", dbUrl)
 	if err != nil {
-		log.Fatal("Failed to load database: connection failed")
+		slog.Error("Failed to establish db connection", "error", err)
+		os.Exit(1)
 	}
+
+	// set db connection pool TODO: benchmark and adjust if needed
+	db.SetMaxOpenConns(25)
+	db.SetMaxIdleConns(25)
+	db.SetConnMaxLifetime(5 * time.Minute)
+	db.SetConnMaxIdleTime(2 * time.Minute)
 
 	// Load S3 cfg
 	s3cfg, err := config.LoadDefaultConfig(context.TODO(), config.WithRegion(s3region))
 	if err != nil {
-		log.Fatal("Failed to load s3 config")
+		slog.Error("Failed to load s3 config", "error", err)
 	}
 
 	// Load SES cfg
 	sesCfg, err := config.LoadDefaultConfig(context.TODO(), config.WithRegion(s3region))
 	if err != nil {
-		log.Fatal("Failed to load SES config")
+		slog.Error("Failed to load SES config", "error", err)
 	}
-
-	// load iam secrets
-	accessKey := os.Getenv("AWS_ACCESS_KEY_ID")
-	if accessKey == "" {
-		log.Fatal("Failed to get IAM access key")
-	}
-
-	secretKey := os.Getenv("AWS_SECRET_ACCESS_KEY")
-	if secretKey == "" {
-		log.Fatal("Failed to get IAM secret")
-	}
-
+	
 	cfg := ApiConfig{
 		DB:               database.New(db),
 		DBConn:           db,
