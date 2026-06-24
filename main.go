@@ -49,7 +49,7 @@ func main() {
 	mux := server.GetRouter(cfg, reg)
 	server := http.Server{
 		Addr:    "0.0.0.0:8080",
-		Handler: c.Handler(server.MetricsMiddleware(mux)),
+		Handler: c.Handler(cfg.MetricsMiddleware(m)(mux)),
 	}
 
 	slog.Info("Successfully loaded server...")

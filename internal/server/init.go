@@ -20,11 +20,11 @@ import (
 	"github.com/trhys/Recipe-Repo-2/internal/viewmodel"
 )
 
-func GetRouter(cfg *ApiConfig, reg prometheus.Registerer) *http.ServeMux {
+func GetRouter(cfg *ApiConfig, reg *prometheus.Registry) *http.ServeMux {
 	mux := http.NewServeMux()
 
 	// Metrics ep
-	mux.Handle("/api/metrics", promhttp.HandlerFor(reg, promhttp.HandlerOpts{})
+	mux.Handle("/api/metrics", promhttp.HandlerFor(reg, promhttp.HandlerOpts{}))
 
 	// User eps
 	mux.HandleFunc("GET /api/users/{user_id}", cfg.authMiddleware(cfg.handlerGetUserProfile))

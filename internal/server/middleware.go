@@ -7,11 +7,9 @@ import (
 	"net"
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/promauto"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/trhys/Recipe-Repo-2/internal/metrics"
 	"github.com/trhys/Recipe-Repo-2/internal/auth"
 )

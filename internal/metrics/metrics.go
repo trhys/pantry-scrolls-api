@@ -1,14 +1,14 @@
 package metrics
 
 import (
-  "github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
+	_ "github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 type Metrics struct {
-  ServerHits  *prometheus.CounterVec
-  Latency	  *prometheus.HistogramVec
+  ServerHits  	*prometheus.CounterVec
+  Latency	*prometheus.HistogramVec
 }
 
 func NewMetrics(reg prometheus.Registerer) *Metrics {
@@ -24,7 +24,7 @@ func NewMetrics(reg prometheus.Registerer) *Metrics {
 			prometheus.HistogramOpts{
 				Name:    "request_duration_seconds",
 				Help:    "Response latencies for HTTP requests.",
-				Buckets: []string{0.1, 0.3, 0.5, 1.0, 2.5, 5.0},
+				Buckets: []float64{0.1, 0.3, 0.5, 1.0, 2.5, 5.0},
 			},
 			[]string{"path"},
 		),
