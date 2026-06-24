@@ -14,12 +14,17 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/ses"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/trhys/Recipe-Repo-2/internal/database"
 	"github.com/trhys/Recipe-Repo-2/internal/viewmodel"
 )
 
-func GetRouter(cfg *ApiConfig) *http.ServeMux {
+func GetRouter(cfg *ApiConfig, reg *prometheus.Registry) *http.ServeMux {
 	mux := http.NewServeMux()
+
+	// Metrics ep
+	mux.Handle("/api/metrics", promhttp.HandlerFor(reg, promhttp.HandlerOpts{}))
 
 	// User eps
 	mux.HandleFunc("GET /api/users/{user_id}", cfg.authMiddleware(cfg.handlerGetUserProfile))

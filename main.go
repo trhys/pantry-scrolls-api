@@ -8,6 +8,8 @@ import (
 
 	_ "github.com/lib/pq"
 	"github.com/rs/cors"
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/trhys/Recipe-Repo-2/internal/metrics"
 	"github.com/trhys/Recipe-Repo-2/internal/auth"
 	"github.com/trhys/Recipe-Repo-2/internal/data"
 	"github.com/trhys/Recipe-Repo-2/internal/server"
@@ -41,10 +43,13 @@ func main() {
 		AllowCredentials: true,
 	})
 
-	mux := server.GetRouter(cfg)
+	reg := prometheus.NewRegistry()
+	m := metrics.NewMetrics(reg)
+	
+	mux := server.GetRouter(cfg, reg)
 	server := http.Server{
 		Addr:    "0.0.0.0:8080",
-		Handler: c.Handler(mux),
+		Handler: c.Handler(cfg.MetricsMiddleware(m)(mux)),
 	}
 
 	slog.Info("Successfully loaded server...")
