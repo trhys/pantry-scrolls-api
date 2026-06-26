@@ -19,7 +19,7 @@ func (cfg *ApiConfig) handlerAddMessage(w http.ResponseWriter, r *http.Request) 
     }
 
     if err := cfg.DB.AddMessage(r.Context(), database.AddMessageParams{
-        Email: req.Email,
+        UserEmail: req.Email,
         Message: req.Message,
     }); err != nil {
         respondFail(w, 500, "Something went wrong", fmt.Errorf("Query failed: %v", err))
