@@ -28,3 +28,29 @@ func (cfg *ApiConfig) handlerAddMessage(w http.ResponseWriter, r *http.Request) 
 
     respondJSON(w, 204, nil)
 }
+
+func (cfg *ApiConfig) handlerGetMessages(w http.ResponseWriter, r *http.Request) {
+    query := r.URL.Query()
+    tag := query.Get("tag")
+    if tag == "" {
+        tag = "none"
+    }
+
+    if tag == "none {
+        messages, err := cfg.DB.GetAllMessages(r.Context())
+        if err != nil {
+            respondFail(w, 500, "Something went wrong", fmt.Errorf("Query failed: %v", err))
+            return
+        }
+        respondJSON(w, 200, messages)
+        return
+    }
+
+    messages, err := cfg.DB.GetMessagesWithTag(r.Context(), tag)
+    if err != nil {
+            respondFail(w, 500, "Something went wrong", fmt.Errorf("Query failed: %v", err))
+            return
+    }
+
+    respondJSON(w, 200, messages)
+}
