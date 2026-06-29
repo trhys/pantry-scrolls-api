@@ -89,6 +89,7 @@ func (cfg *ApiConfig) handlerCreateUser(w http.ResponseWriter, r *http.Request) 
 	query2 := database.CreateVerificationParams{
 		Email: req.Email,
 		Token: verificationToken,
+   ExpiresAt: time.Now().Add(time.Minute * 30),
 	}
 
 	if err := cfg.DB.CreateVerification(r.Context(), query2); err != nil {
@@ -460,6 +461,7 @@ func (cfg *ApiConfig) handlerResetPassword(w http.ResponseWriter, r *http.Reques
 	query2 := database.CreateVerificationParams{
 		Email: req.Email,
 		Token: verificationToken,
+   ExpiresAt: time.Now().Add(time.Minute * 30),
 	}
 
 	if err := cfg.DB.CreateVerification(r.Context(), query2); err != nil {
