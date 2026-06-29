@@ -53,7 +53,7 @@ func TestEmailVerification(t *testing.T) {
 
 	t.Run("verify with valid token", func(t *testing.T) {
 		// Create a verification token
-		token, err := cfg.DB.CreateVerificationToken(context.Background(), database.CreateVerificationTokenParams{
+		token, err := cfg.DB.CreateVerification(context.Background(), database.CreateVerificationParams{
 			Email:     "verify@test.com",
 			Token:     "valid-token-12345",
 			ExpiresAt: time.Now().Add(30 * time.Minute),
@@ -83,7 +83,7 @@ func TestEmailVerification(t *testing.T) {
 
 	t.Run("verify with expired token", func(t *testing.T) {
 		// Create an expired verification token
-		token, err := cfg.DB.CreateVerificationToken(context.Background(), database.CreateVerificationTokenParams{
+		token, err := cfg.DB.CreateVerification(context.Background(), database.CreateVerificationParams{
 			Email:     "verify@test.com",
 			Token:     "expired-token-12345",
 			ExpiresAt: time.Now().Add(-1 * time.Hour), // Expired
@@ -198,7 +198,7 @@ func TestUpdatePassword(t *testing.T) {
 
 	t.Run("update password with valid token", func(t *testing.T) {
 		// Create a reset token
-		token, err := cfg.DB.CreateVerificationToken(context.Background(), database.CreateVerificationTokenParams{
+		token, err := cfg.DB.CreateVerification(context.Background(), database.CreateVerificationTokenParams{
 			Email:     "password@test.com",
 			Token:     "reset-token-12345",
 			ExpiresAt: time.Now().Add(30 * time.Minute),
@@ -219,7 +219,7 @@ func TestUpdatePassword(t *testing.T) {
 
 	t.Run("update password with password too short", func(t *testing.T) {
 		// Create a reset token
-		token, err := cfg.DB.CreateVerificationToken(context.Background(), database.CreateVerificationTokenParams{
+		token, err := cfg.DB.CreateVerification(context.Background(), database.CreateVerificationParams{
 			Email:     "password@test.com",
 			Token:     "reset-token-short",
 			ExpiresAt: time.Now().Add(30 * time.Minute),
