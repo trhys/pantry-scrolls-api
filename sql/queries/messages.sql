@@ -17,3 +17,8 @@ WHERE status = $1;
 -- name: GetMessageById :one
 SELECT * FROM messages 
 WHERE id = $1;
+
+-- name: SetMessageStatus :exec
+UPDATE messages
+SET status = $1
+WHERE id = $2;
