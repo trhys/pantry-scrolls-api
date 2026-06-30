@@ -9,6 +9,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/prometheus/client_golang/prometheus"
 	"github.com/trhys/Recipe-Repo-2/internal/server"
 	vm "github.com/trhys/Recipe-Repo-2/internal/viewmodel"
 )
@@ -26,7 +27,8 @@ func TestTokenRefresh(t *testing.T) {
 	mockSES := &MockSESClient{}
 	cfg.SESClient = mockSES
 
-	router := server.GetRouter(cfg)
+	testReg := prometheus.NewRegistry()
+	router := server.GetRouter(cfg, testReg)
 
 	testUser := struct {
 		input []byte
@@ -142,7 +144,8 @@ func TestTokenRevoke(t *testing.T) {
 	mockSES := &MockSESClient{}
 	cfg.SESClient = mockSES
 
-	router := server.GetRouter(cfg)
+	testReg := prometheus.NewRegistry()
+	router := server.GetRouter(cfg, testReg)
 
 	testUser := struct {
 		input []byte
