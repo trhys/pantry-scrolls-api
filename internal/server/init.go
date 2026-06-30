@@ -62,8 +62,9 @@ func GetRouter(cfg *ApiConfig, reg *prometheus.Registry) *http.ServeMux {
 	mux.HandleFunc("GET /api/tokens/refresh", cfg.handlerRefreshToken)
 	mux.HandleFunc("GET /api/tokens/revoke", cfg.handlerRevokeToken)
 
- // Messages eps
- mux.HandleFunc("POST /api/messages", cfg.handlerAddMessage)
+	// Messages eps
+	mux.HandleFunc("POST /api/messages", cfg.handlerAddMessage)
+	mux.HandleFunc("GET /api/messages", cfg.handlerGetMessages)
 
 	return mux
 }
