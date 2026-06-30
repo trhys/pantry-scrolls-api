@@ -9,6 +9,7 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
+	"github.com/prometheus/client_golang/prometheus"
 	"github.com/trhys/Recipe-Repo-2/internal/server"
 	vm "github.com/trhys/Recipe-Repo-2/internal/viewmodel"
 )
@@ -26,7 +27,9 @@ func TestAuthenticationEdgeCases(t *testing.T) {
 	mockSES := &MockSESClient{}
 	cfg.SESClient = mockSES
 
-	router := server.GetRouter(cfg)
+	testReg := prometheus.NewRegistry()
+
+	router := server.GetRouter(cfg, testReg)
 
 	testUser := struct {
 		input []byte
@@ -148,8 +151,10 @@ func TestMalformedRequests(t *testing.T) {
 
 	mockSES := &MockSESClient{}
 	cfg.SESClient = mockSES
+	
+	testReg := prometheus.NewRegistry()
 
-	router := server.GetRouter(cfg)
+	router := server.GetRouter(cfg, testReg)
 
 	t.Run("login with malformed json", func(t *testing.T) {
 		body := []byte(`{"email": "test@test.com", "password": "pass"`) // Missing closing brace
@@ -210,7 +215,9 @@ func TestAuthorizationErrors(t *testing.T) {
 	mockSES := &MockSESClient{}
 	cfg.SESClient = mockSES
 
-	router := server.GetRouter(cfg)
+	testReg := prometheus.NewRegistry()
+
+	router := server.GetRouter(cfg, testReg)
 
 	t.Run("update user with wrong user id", func(t *testing.T) {
 		// Create user
