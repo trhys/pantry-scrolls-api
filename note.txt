@@ -1,0 +1,39 @@
+trhys@R-PC-1:~/dev/recipe-repo-api$ ./testrunner.sh
+[+]  1/1t 1/11
+ ✔ Container recipe-repo-api-db-1 Running                                                                           0.0s
+Container recipe-repo-api-test-runner-run-b98b4e2ae3fc Creating
+Container recipe-repo-api-test-runner-run-b98b4e2ae3fc Created
+# github.com/trhys/Recipe-Repo-2/internal/server/integrationTests_test [github.com/trhys/Recipe-Repo-2/internal/server/integrationTests.test]
+internal/server/integrationTests/auth_edge_cases_test.go:29:29: not enough arguments in call to server.GetRouter
+        have (*server.ApiConfig)
+        want (*server.ApiConfig, *prometheus.Registry)
+internal/server/integrationTests/auth_edge_cases_test.go:133:17: publicUser.Email undefined (type viewmodel.PublicUserViewModel has no field or method Email)
+internal/server/integrationTests/auth_edge_cases_test.go:134:75: publicUser.Email undefined (type viewmodel.PublicUserViewModel has no field or method Email)
+internal/server/integrationTests/auth_edge_cases_test.go:152:29: not enough arguments in call to server.GetRouter
+        have (*server.ApiConfig)
+        want (*server.ApiConfig, *prometheus.Registry)
+internal/server/integrationTests/auth_edge_cases_test.go:213:29: not enough arguments in call to server.GetRouter
+        have (*server.ApiConfig)
+        want (*server.ApiConfig, *prometheus.Registry)
+internal/server/integrationTests/email_test.go:29:29: not enough arguments in call to server.GetRouter
+        have (*server.ApiConfig)
+        want (*server.ApiConfig, *prometheus.Registry)
+internal/server/integrationTests/email_test.go:56:17: assignment mismatch: 2 variables but cfg.DB.CreateVerification returns 1 value
+internal/server/integrationTests/email_test.go:86:17: assignment mismatch: 2 variables but cfg.DB.CreateVerification returns 1 value
+internal/server/integrationTests/email_test.go:118:29: not enough arguments in call to server.GetRouter
+        have (*server.ApiConfig)
+        want (*server.ApiConfig, *prometheus.Registry)
+internal/server/integrationTests/email_test.go:186:29: not enough arguments in call to server.GetRouter
+        have (*server.ApiConfig)
+        want (*server.ApiConfig, *prometheus.Registry)
+internal/server/integrationTests/email_test.go:186:29: too many errors
+?       github.com/trhys/Recipe-Repo-2  [no test files]
+?       github.com/trhys/Recipe-Repo-2/internal/auth    [no test files]
+?       github.com/trhys/Recipe-Repo-2/internal/data    [no test files]
+?       github.com/trhys/Recipe-Repo-2/internal/database        [no test files]
+?       github.com/trhys/Recipe-Repo-2/internal/metrics [no test files]
+?       github.com/trhys/Recipe-Repo-2/internal/server  [no test files]
+FAIL    github.com/trhys/Recipe-Repo-2/internal/server/integrationTests [build failed]
+?       github.com/trhys/Recipe-Repo-2/internal/utility [no test files]
+?       github.com/trhys/Recipe-Repo-2/internal/viewmodel       [no test files]
+FAIL
