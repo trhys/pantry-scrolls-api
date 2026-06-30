@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
+	"github.com/prometheus/client_golang/prometheus"
 	"github.com/trhys/Recipe-Repo-2/internal/server"
 	vm "github.com/trhys/Recipe-Repo-2/internal/viewmodel"
 )
@@ -25,7 +26,8 @@ func TestGetIngredients(t *testing.T) {
 	mockSES := &MockSESClient{}
 	cfg.SESClient = mockSES
 
-	router := server.GetRouter(cfg)
+	testReg := prometheus.NewRegistry()
+	router := server.GetRouter(cfg, testReg)
 
 	t.Run("get ingredient base", func(t *testing.T) {
 		req := httptest.NewRequest("GET", "/api/ingredients", nil)
@@ -68,7 +70,8 @@ func TestGetIngredientUnits(t *testing.T) {
 	mockSES := &MockSESClient{}
 	cfg.SESClient = mockSES
 
-	router := server.GetRouter(cfg)
+	testReg := prometheus.NewRegistry()
+	router := server.GetRouter(cfg, testReg)
 
 	t.Run("get units for valid ingredient", func(t *testing.T) {
 		// Get an ingredient first
