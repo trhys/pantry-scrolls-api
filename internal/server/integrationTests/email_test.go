@@ -9,6 +9,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/prometheus/client_golang/prometheus"
 	"github.com/trhys/Recipe-Repo-2/internal/database"
 	"github.com/trhys/Recipe-Repo-2/internal/server"
 )
@@ -26,7 +27,9 @@ func TestEmailVerification(t *testing.T) {
 	mockSES := &MockSESClient{}
 	cfg.SESClient = mockSES
 
-	router := server.GetRouter(cfg)
+	testReg := prometheus.NewRegistry()
+
+	router := server.GetRouter(cfg, testReg)
 
 	testUser := struct {
 		input []byte
@@ -115,7 +118,9 @@ func TestPasswordReset(t *testing.T) {
 	mockSES := &MockSESClient{}
 	cfg.SESClient = mockSES
 
-	router := server.GetRouter(cfg)
+	testReg := prometheus.NewRegistry()
+
+	router := server.GetRouter(cfg, testReg)
 
 	testUser := struct {
 		input []byte
@@ -183,7 +188,9 @@ func TestUpdatePassword(t *testing.T) {
 	mockSES := &MockSESClient{}
 	cfg.SESClient = mockSES
 
-	router := server.GetRouter(cfg)
+	testReg := prometheus.NewRegistry()
+
+	router := server.GetRouter(cfg, testReg)
 
 	testUser := struct {
 		input []byte
