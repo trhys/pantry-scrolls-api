@@ -1,6 +1,7 @@
 -- name: AddMessage :exec
-INSERT INTO messages (user_email, message)
+INSERT INTO messages (id, user_email, message)
 VALUES (
+    gen_random_uuid(),
     $1,
     $2
 );
@@ -12,3 +13,7 @@ WHERE status != 'archived';
 -- name: GetMessagesWithTag :many
 SELECT * FROM messages 
 WHERE status = $1;
+
+-- name: GetMessageById :one
+SELECT * FROM messages 
+WHERE id = $1;
