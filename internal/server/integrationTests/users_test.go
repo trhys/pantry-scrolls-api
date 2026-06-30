@@ -8,6 +8,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/prometheus/client_golang/prometheus"
 	"github.com/trhys/Recipe-Repo-2/internal/server"
 	vm "github.com/trhys/Recipe-Repo-2/internal/viewmodel"
 )
@@ -25,7 +26,8 @@ func TestCreateUser(t *testing.T) {
 	mockSES := &MockSESClient{}
 	cfg.SESClient = mockSES
 
-	router := server.GetRouter(cfg)
+	testReg := prometheus.NewRegistry()
+	router := server.GetRouter(cfg, testReg)
 
 	tests := map[string]struct {
 		input []byte
@@ -117,7 +119,8 @@ func TestUserLogin(t *testing.T) {
 	mockSES := &MockSESClient{}
 	cfg.SESClient = mockSES
 
-	router := server.GetRouter(cfg)
+	testReg := prometheus.NewRegistry()
+	router := server.GetRouter(cfg, testReg)
 
 	testUser := struct {
 		input []byte
@@ -217,7 +220,8 @@ func TestUserSession(t *testing.T) {
 	mockSES := &MockSESClient{}
 	cfg.SESClient = mockSES
 
-	router := server.GetRouter(cfg)
+	testReg := prometheus.NewRegistry()
+	router := server.GetRouter(cfg, testReg)
 
 	testUser := struct {
 		input []byte
@@ -324,7 +328,8 @@ func TestUserUpdate(t *testing.T) {
 	mockSES := &MockSESClient{}
 	cfg.SESClient = mockSES
 
-	router := server.GetRouter(cfg)
+	testReg := prometheus.NewRegistry()
+	router := server.GetRouter(cfg, testReg)
 
 	testUser := struct {
 		input []byte
