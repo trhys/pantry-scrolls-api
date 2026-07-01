@@ -140,7 +140,7 @@ func TestPasswordReset(t *testing.T) {
 		w := httptest.NewRecorder()
 		router.ServeHTTP(w, req)
 
-		if w.Code != 200 {
+		if w.Code != 204 {
 			t.Errorf("Failed to request password reset: got status %d", w.Code)
 		}
 
