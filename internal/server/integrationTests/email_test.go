@@ -3,8 +3,6 @@ package server_test
 import (
 	"bytes"
 	"context"
-	"encoding/json"
-	"net/http"
 	"net/http/httptest"
 	"testing"
 	"time"
@@ -65,7 +63,7 @@ func TestEmailVerification(t *testing.T) {
 			t.Fatalf("Failed to create verification token: %v", err)
 		}
 
-		req := httptest.NewRequest("GET", "/api/verify/"+token.Token, nil)
+		req := httptest.NewRequest("GET", "/api/verify/valid-token-12345", nil)
 		w := httptest.NewRecorder()
 		router.ServeHTTP(w, req)
 
@@ -95,7 +93,7 @@ func TestEmailVerification(t *testing.T) {
 			t.Fatalf("Failed to create verification token: %v", err)
 		}
 
-		req := httptest.NewRequest("GET", "/api/verify/"+token.Token, nil)
+		req := httptest.NewRequest("GET", "/api/verify/expired-token-12345", nil)
 		w := httptest.NewRecorder()
 		router.ServeHTTP(w, req)
 
@@ -205,7 +203,7 @@ func TestUpdatePassword(t *testing.T) {
 
 	t.Run("update password with valid token", func(t *testing.T) {
 		// Create a reset token
-		err := cfg.DB.CreateVerification(context.Background(), database.CreateVerificationTokenParams{
+		err := cfg.DB.CreateVerification(context.Background(), database.CreateVerificationParams{
 			Email:     "password@test.com",
 			Token:     "reset-token-12345",
 			ExpiresAt: time.Now().Add(30 * time.Minute),
@@ -214,7 +212,7 @@ func TestUpdatePassword(t *testing.T) {
 			t.Fatalf("Failed to create reset token: %v", err)
 		}
 
-		body := []byte(`{"token":"` + token.Token + `","password":"newpassword123"}`)
+		body := []byte(`{"token":"` + "reset-token-12345" + `","password":"newpassword123"}`)
 		req := httptest.NewRequest("PUT", "/api/resetpassword", bytes.NewBuffer(body))
 		w := httptest.NewRecorder()
 		router.ServeHTTP(w, req)
@@ -235,7 +233,7 @@ func TestUpdatePassword(t *testing.T) {
 			t.Fatalf("Failed to create reset token: %v", err)
 		}
 
-		body := []byte(`{"token":"` + token.Token + `","password":"abc"}`)
+		body := []byte(`{"token":"` + "reset-token-short" + `","password":"abc"}`)
 		req := httptest.NewRequest("PUT", "/api/resetpassword", bytes.NewBuffer(body))
 		w := httptest.NewRecorder()
 		router.ServeHTTP(w, req)

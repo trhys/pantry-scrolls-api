@@ -220,13 +220,13 @@ func TestShoppingListEdgeCases(t *testing.T) {
 
 		response := w.Result()
 		cookies := response.Cookies()
-		var jwt2 *http.Cookie
-		var rt2 *http.Cookie
+		//var jwt2 *http.Cookie
+		//var rt2 *http.Cookie
 		for _, c := range cookies {
 			if c.Name == "jwt" {
-				jwt2 = c
+				//jwt2 = c
 			} else if c.Name == "refresh_token" {
-				rt2 = c
+				//rt2 = c
 			}
 		}
 
@@ -251,8 +251,8 @@ func TestShoppingListEdgeCases(t *testing.T) {
 
 		ctx = context.WithValue(req.Context(), "userID", user2.ID)
 		req = req.WithContext(ctx)
-		req.AddCookie(jwt2)
-		req.AddCookie(rt2)
+		//req.AddCookie(jwt2)
+		//req.AddCookie(rt2)
 
 		w = httptest.NewRecorder()
 		router.ServeHTTP(w, req)

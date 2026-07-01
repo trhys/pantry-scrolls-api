@@ -2,12 +2,10 @@ package server_test
 
 import (
 	"bytes"
-	"context"
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"testing"
-	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/trhys/Recipe-Repo-2/internal/server"
@@ -61,11 +59,11 @@ func TestTokenRefresh(t *testing.T) {
 	// Get session cookies
 	response := w.Result()
 	cookies := response.Cookies()
-	var jwt *http.Cookie
+	//var jwt *http.Cookie
 	var rt *http.Cookie
 	for _, c := range cookies {
 		if c.Name == "jwt" {
-			jwt = c
+			//jwt = c
 		} else if c.Name == "refresh_token" {
 			rt = c
 		}

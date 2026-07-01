@@ -1,39 +1,132 @@
 trhys@R-PC-1:~/dev/recipe-repo-api$ ./testrunner.sh
 [+]  1/1t 1/11
- ✔ Container recipe-repo-api-db-1 Running                                                                           0.0s
-Container recipe-repo-api-test-runner-run-b98b4e2ae3fc Creating
-Container recipe-repo-api-test-runner-run-b98b4e2ae3fc Created
-# github.com/trhys/Recipe-Repo-2/internal/server/integrationTests_test [github.com/trhys/Recipe-Repo-2/internal/server/integrationTests.test]
-internal/server/integrationTests/auth_edge_cases_test.go:29:29: not enough arguments in call to server.GetRouter
-        have (*server.ApiConfig)
-        want (*server.ApiConfig, *prometheus.Registry)
-internal/server/integrationTests/auth_edge_cases_test.go:133:17: publicUser.Email undefined (type viewmodel.PublicUserViewModel has no field or method Email)
-internal/server/integrationTests/auth_edge_cases_test.go:134:75: publicUser.Email undefined (type viewmodel.PublicUserViewModel has no field or method Email)
-internal/server/integrationTests/auth_edge_cases_test.go:152:29: not enough arguments in call to server.GetRouter
-        have (*server.ApiConfig)
-        want (*server.ApiConfig, *prometheus.Registry)
-internal/server/integrationTests/auth_edge_cases_test.go:213:29: not enough arguments in call to server.GetRouter
-        have (*server.ApiConfig)
-        want (*server.ApiConfig, *prometheus.Registry)
-internal/server/integrationTests/email_test.go:29:29: not enough arguments in call to server.GetRouter
-        have (*server.ApiConfig)
-        want (*server.ApiConfig, *prometheus.Registry)
-internal/server/integrationTests/email_test.go:56:17: assignment mismatch: 2 variables but cfg.DB.CreateVerification returns 1 value
-internal/server/integrationTests/email_test.go:86:17: assignment mismatch: 2 variables but cfg.DB.CreateVerification returns 1 value
-internal/server/integrationTests/email_test.go:118:29: not enough arguments in call to server.GetRouter
-        have (*server.ApiConfig)
-        want (*server.ApiConfig, *prometheus.Registry)
-internal/server/integrationTests/email_test.go:186:29: not enough arguments in call to server.GetRouter
-        have (*server.ApiConfig)
-        want (*server.ApiConfig, *prometheus.Registry)
-internal/server/integrationTests/email_test.go:186:29: too many errors
+ ✔ Container recipe-repo-api-db-1 Running                                                                                                                                                                                                0.0s
+Container recipe-repo-api-test-runner-run-e88db31cc3df Creating
+Container recipe-repo-api-test-runner-run-e88db31cc3df Created
 ?       github.com/trhys/Recipe-Repo-2  [no test files]
 ?       github.com/trhys/Recipe-Repo-2/internal/auth    [no test files]
 ?       github.com/trhys/Recipe-Repo-2/internal/data    [no test files]
 ?       github.com/trhys/Recipe-Repo-2/internal/database        [no test files]
 ?       github.com/trhys/Recipe-Repo-2/internal/metrics [no test files]
 ?       github.com/trhys/Recipe-Repo-2/internal/server  [no test files]
-FAIL    github.com/trhys/Recipe-Repo-2/internal/server/integrationTests [build failed]
+2026/07/01 03:01:56 INFO User created email=edge@test.com
+2026/07/01 03:01:56 INFO Successfully sent verification email email_address=edge@test.com
+2026/07/01 03:01:56 ERROR http request execution failed path=/api/sessions method=GET http_status=401 error="Unauthorized access attempt at user id: 00000000-0000-0000-0000-000000000000"
+2026/07/01 03:01:56 INFO User created email=edge2@test.com
+2026/07/01 03:01:56 INFO Successfully sent verification email email_address=edge2@test.com
+2026/07/01 03:01:56 ERROR http request execution failed path=/api/sessions method=POST http_status=400 error="Failed to decode request - ERROR: unexpected EOF"
+2026/07/01 03:01:56 ERROR http request execution failed path=/api/users method=POST http_status=400 error="Bad email in create user request: mail: no address"
+2026/07/01 03:01:56 ERROR http request execution failed path=/api/users/not-a-uuid method=GET http_status=404 error="Failed to parse UUID in url: invalid UUID length: 10"
+2026/07/01 03:01:56 ERROR http request execution failed path=/api/users/0632fea9-019a-42d9-bc82-be22356cd5f4 method=GET http_status=404 error="Failed to find user with ID: 0632fea9-019a-42d9-bc82-be22356cd5f4, ERROR: sql: no rows in result set"
+2026/07/01 03:01:56 INFO User created email=auth@test.com
+2026/07/01 03:01:56 INFO Successfully sent verification email email_address=auth@test.com
+2026/07/01 03:01:56 ERROR http request execution failed path=/api/users/4c94b152-b11c-4630-b28e-49bbe9a7cf65 method=PUT http_status=401 error="Unauthorized user update request for user id: 4c94b152-b11c-4630-b28e-49bbe9a7cf65"
+2026/07/01 03:01:56 INFO User created email=verify@test.com
+2026/07/01 03:01:56 INFO Successfully sent verification email email_address=verify@test.com
+2026/07/01 03:01:56 ERROR http request execution failed path=/api/verify/valid-token-12345 method=GET http_status=401 error="Expired token access for email: verify@test.com"
+2026/07/01 03:01:56 ERROR http request execution failed path=/api/verify/invalid-token-xyz method=GET http_status=404 error="Invalid verification token attempt"
+--- FAIL: TestEmailVerification (0.03s)
+    --- FAIL: TestEmailVerification/verify_with_valid_token (0.00s)
+        email_test.go:71: Failed to verify email: got status 401
+    --- FAIL: TestEmailVerification/verify_with_expired_token (0.00s)
+        email_test.go:101: Expected 401 for expired token: got status 200
+2026/07/01 03:01:56 INFO User created email=reset@test.com
+2026/07/01 03:01:56 INFO Successfully sent verification email email_address=reset@test.com
+2026/07/01 03:01:56 INFO Successfully sent password reset email email_address=reset@test.com
+2026/07/01 03:01:56 INFO Successfully sent password reset email email_address=nonexistent@test.com
+2026/07/01 03:01:56 ERROR http request execution failed path=/api/resetpassword method=POST http_status=500 error="Couldnt add verification token for email: nonexistent@test.com ERROR pq: insert or update on table \"verification_tokens\" violates foreign key constraint \"verification_tokens_email_fkey\" (23503)"
+2026/07/01 03:01:56 INFO Successfully sent password reset email email_address=not-an-email
+2026/07/01 03:01:56 ERROR http request execution failed path=/api/resetpassword method=POST http_status=500 error="Couldnt add verification token for email: not-an-email ERROR pq: current transaction is aborted, commands ignored until end of transaction block (25P02)"
+--- FAIL: TestPasswordReset (0.03s)
+    --- FAIL: TestPasswordReset/request_password_reset_for_valid_email (0.00s)
+        email_test.go:144: Failed to request password reset: got status 204
+    --- FAIL: TestPasswordReset/request_password_reset_for_nonexistent_email (0.00s)
+        email_test.go:160: Expected 4xx status for nonexistent email: got status 500
+    --- FAIL: TestPasswordReset/request_password_reset_with_invalid_email (0.00s)
+        email_test.go:171: Expected 400 for invalid email: got status 500
+2026/07/01 03:01:56 INFO User created email=password@test.com
+2026/07/01 03:01:56 INFO Successfully sent verification email email_address=password@test.com
+2026/07/01 03:01:56 ERROR http request execution failed path=/api/resetpassword method=PUT http_status=401 error="Expired token access for email: password@test.com"
+2026/07/01 03:01:56 ERROR http request execution failed path=/api/resetpassword method=PUT http_status=401 error="Expired token access for email: password@test.com"
+2026/07/01 03:01:56 ERROR http request execution failed path=/api/resetpassword method=PUT http_status=404 error="Invalid verification token attempt"
+--- FAIL: TestUpdatePassword (0.03s)
+    --- FAIL: TestUpdatePassword/update_password_with_valid_token (0.00s)
+        email_test.go:221: Failed to update password: got status 401
+    --- FAIL: TestUpdatePassword/update_password_with_password_too_short (0.00s)
+        email_test.go:242: Expected 400 for short password: got status 401
+2026/07/01 03:01:56 ERROR http request execution failed path=/api/ingredients/invalid-uuid/units method=GET http_status=404 error="Failed to get id from path: invalid UUID length: 12"
+--- FAIL: TestGetIngredientUnits (0.01s)
+    --- FAIL: TestGetIngredientUnits/get_units_with_nonexistent_ingredient (0.00s)
+        ingredients_test.go:125: Expected 404 for nonexistent ingredient: got status 200
+2026/07/01 03:01:56 INFO User created email=tim@test.com
+2026/07/01 03:01:56 INFO Successfully sent verification email email_address=tim@test.com
+2026/07/01 03:01:57 ERROR http request execution failed path=/api/recipes/936e6535-b1d4-4f95-b82d-01605e7b6889 method=GET http_status=404 error="Failed to find recipe with ID: 936e6535-b1d4-4f95-b82d-01605e7b6889, ERROR: sql: no rows in result set"
+2026/07/01 03:01:57 INFO User created email=list@test.com
+2026/07/01 03:01:57 INFO Successfully sent verification email email_address=list@test.com
+2026/07/01 03:01:57 ERROR http request execution failed path=/api/shoppinglists/5c7c4d7c-67b0-4afe-86ad-d5a838ba25a0 method=GET http_status=404 error="Failed to find shopping list with ID: 5c7c4d7c-67b0-4afe-86ad-d5a838ba25a0, ERROR: &{%!V(string=sql: no rows in result set)}"
+2026/07/01 03:01:57 ERROR http request execution failed path=/api/shoppinglists/60449dbb-d417-4766-8383-2ab6cbc49e99 method=GET http_status=401 error="Unauthorized access attempt at user id: 00000000-0000-0000-0000-000000000000"
+2026/07/01 03:01:57 ERROR http request execution failed path=/api/shoppinglists method=POST http_status=500 error="Failed to perform CreateShoppingList query: pq: current transaction is aborted, commands ignored until end of transaction block (25P02)"
+2026/07/01 03:01:57 ERROR http request execution failed path=/api/users method=POST http_status=500 error="Failed to perform CreateUser query: pq: current transaction is aborted, commands ignored until end of transaction block (25P02)"
+2026/07/01 03:01:57 ERROR http request execution failed path=/api/sessions method=POST http_status=401 error="Failed to find user with email: list2@test.com - ERROR: pq: current transaction is aborted, commands ignored until end of transaction block (25P02)"
+2026/07/01 03:01:57 ERROR http request execution failed path=/api/shoppinglists method=POST http_status=500 error="Failed to perform CreateShoppingList query: pq: current transaction is aborted, commands ignored until end of transaction block (25P02)"
+2026/07/01 03:01:57 ERROR http request execution failed path=/api/shoppinglists/00000000-0000-0000-0000-000000000000 method=GET http_status=401 error="Unauthorized access attempt at user id: 00000000-0000-0000-0000-000000000000"
+2026/07/01 03:01:57 ERROR http request execution failed path=/api/shoppinglists method=POST http_status=500 error="Failed to perform CreateShoppingList query: pq: current transaction is aborted, commands ignored until end of transaction block (25P02)"
+2026/07/01 03:01:57 ERROR http request execution failed path=/api/shoppinglists/00000000-0000-0000-0000-000000000000 method=DELETE http_status=401 error="Unauthorized access attempt at user id: 59677c85-e874-47aa-a925-6695e3301f30"
+2026/07/01 03:01:57 ERROR http request execution failed path=/api/shoppinglists/00000000-0000-0000-0000-000000000000 method=GET http_status=401 error="Unauthorized access attempt at user id: 00000000-0000-0000-0000-000000000000"
+--- FAIL: TestShoppingListEdgeCases (0.07s)
+    --- FAIL: TestShoppingListEdgeCases/create_shopping_list_with_invalid_name (0.00s)
+        shopping_list_edge_cases_test.go:113: Expected error for empty name: got status 200
+    --- FAIL: TestShoppingListEdgeCases/add_invalid_recipe_to_shopping_list (0.00s)
+        shopping_list_edge_cases_test.go:149: Expected error for invalid recipe: got status 204
+    --- FAIL: TestShoppingListEdgeCases/add_recipe_with_invalid_quantity (0.00s)
+        shopping_list_edge_cases_test.go:179: Failed to create recipe: pq: current transaction is aborted, commands ignored until end of transaction block (25P02)
+    --- FAIL: TestShoppingListEdgeCases/delete_shopping_list (0.00s)
+        shopping_list_edge_cases_test.go:294: Failed to delete shopping list: got status 401
+        shopping_list_edge_cases_test.go:306: Expected 404 after deletion: got status 401
+2026/07/01 03:01:57 INFO User created email=tim@test.com
+2026/07/01 03:01:57 INFO Successfully sent verification email email_address=tim@test.com
+2026/07/01 03:01:57 INFO User created email=tim@test.com
+2026/07/01 03:01:57 INFO Successfully sent verification email email_address=tim@test.com
+2026/07/01 03:01:57 ERROR http request execution failed path=/api/tokens/refresh method=GET http_status=401 error="sql: no rows in result set"
+2026/07/01 03:01:57 ERROR http request execution failed path=/api/tokens/refresh method=GET http_status=401 error="Invalid authorization header"
+2026/07/01 03:01:57 INFO User created email=tim@test.com
+2026/07/01 03:01:57 INFO Successfully sent verification email email_address=tim@test.com
+2026/07/01 03:01:57 ERROR http request execution failed path=/api/tokens/refresh method=GET http_status=401 error="sql: no rows in result set"
+--- FAIL: TestTokenRevoke (0.07s)
+    --- FAIL: TestTokenRevoke/revoke_with_invalid_token (0.00s)
+        tokens_test.go:241: Expected 401 for invalid revoke: got status 204
+2026/07/01 03:01:57 ERROR http request execution failed path=/api/users method=POST http_status=400 error="Failed to decode request - ERROR: json: unknown field \"role\""
+2026/07/01 03:01:57 ERROR http request execution failed path=/api/users method=POST http_status=400 error="Username too long (Create User)"
+2026/07/01 03:01:57 ERROR http request execution failed path=/api/users method=POST http_status=400 error="Bad email in create user request: mail: missing '@' or angle-addr"
+2026/07/01 03:01:57 ERROR http request execution failed path=/api/users method=POST http_status=400 error="Bad email in create user request: mail: no address"
+2026/07/01 03:01:57 ERROR http request execution failed path=/api/users method=POST http_status=400 error="Failed to decode request - ERROR: json: cannot unmarshal number into Go struct field .password of type string"
+2026/07/01 03:01:57 ERROR http request execution failed path=/api/users method=POST http_status=400 error="Password too short (Create User)"
+2026/07/01 03:01:57 INFO User created email=tim7@test.com
+2026/07/01 03:01:57 INFO Successfully sent verification email email_address=tim7@test.com
+2026/07/01 03:01:57 INFO User created email=tim8@test.com
+2026/07/01 03:01:57 INFO Successfully sent verification email email_address=tim8@test.com
+2026/07/01 03:01:57 INFO User created email=tim@test.com
+2026/07/01 03:01:57 INFO Successfully sent verification email email_address=tim@test.com
+2026/07/01 03:01:57 ERROR http request execution failed path=/api/users method=POST http_status=400 error="Bad email in create user request: mail: no angle-addr"
+2026/07/01 03:01:57 ERROR http request execution failed path=/api/users method=POST http_status=400 error="Bad email in create user request: mail: no address"
+2026/07/01 03:01:57 ERROR http request execution failed path=/api/users method=POST http_status=400 error="Failed to decode request - ERROR: unexpected EOF"
+2026/07/01 03:01:57 ERROR http request execution failed path=/api/users method=POST http_status=400 error="Duplicate user query: pq: duplicate key value violates unique constraint \"users_email_key\" (23505)"
+2026/07/01 03:01:57 INFO User created email=tim@test.com
+2026/07/01 03:01:57 INFO Successfully sent verification email email_address=tim@test.com
+2026/07/01 03:01:57 ERROR http request execution failed path=/api/sessions method=POST http_status=401 error="Failed login attempt for: tim@test.com"
+2026/07/01 03:01:57 ERROR http request execution failed path=/api/sessions method=POST http_status=400 error="Bad request missing email or password (Login)"
+2026/07/01 03:01:57 ERROR http request execution failed path=/api/sessions method=POST http_status=400 error="Failed to decode request - ERROR: unexpected EOF"
+2026/07/01 03:01:57 ERROR http request execution failed path=/api/sessions method=POST http_status=401 error="Failed to find user with email: nobody@test.com - ERROR: sql: no rows in result set"
+2026/07/01 03:01:57 ERROR http request execution failed path=/api/sessions method=POST http_status=401 error="Failed to find user with email: tim@test.com' or '1'='1 - ERROR: sql: no rows in result set"
+2026/07/01 03:01:57 ERROR http request execution failed path=/api/sessions method=POST http_status=401 error="Failed login attempt for: tim@test.com"
+2026/07/01 03:01:57 ERROR http request execution failed path=/api/sessions method=POST http_status=400 error="Bad request missing email or password (Login)"
+2026/07/01 03:01:57 ERROR http request execution failed path=/api/sessions method=POST http_status=400 error="Failed to decode request - ERROR: json: cannot unmarshal bool into Go struct field .password of type string"
+2026/07/01 03:01:57 INFO User created email=tim@test.com
+2026/07/01 03:01:57 INFO Successfully sent verification email email_address=tim@test.com
+2026/07/01 03:01:57 INFO User created email=tim@test.com
+2026/07/01 03:01:57 INFO Successfully sent verification email email_address=tim@test.com
+FAIL
+FAIL    github.com/trhys/Recipe-Repo-2/internal/server/integrationTests 0.999s
 ?       github.com/trhys/Recipe-Repo-2/internal/utility [no test files]
 ?       github.com/trhys/Recipe-Repo-2/internal/viewmodel       [no test files]
 FAIL
