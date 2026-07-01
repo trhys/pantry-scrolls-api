@@ -385,7 +385,7 @@ func (cfg *ApiConfig) handlerUpdatePassword(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	if email.ExpiresAt.After(time.Now()) {
+	if !email.ExpiresAt.After(time.Now()) {
 		respondFail(r, w, 401, "Token expired", fmt.Errorf("Expired token access for email: %s", email.Email))
 		return
 	}
