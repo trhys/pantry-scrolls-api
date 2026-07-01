@@ -1,0 +1,514 @@
+{
+  "recipes": [
+    {
+      "title": "Shimmering Starlight Elixir",
+      "description": "A luminous chilled drink said to grant clarity of mind, swirling with berries and honeyed cream.",
+      "ingredients": [
+        { "name": "Coconut Milk", "quantity": 1, "unit": "Cup" },
+        { "name": "Blueberries (Fresh)", "quantity": 0.5, "unit": "Cup" },
+        { "name": "Honey", "quantity": 1, "unit": "Tablespoon" },
+        { "name": "Lemon", "quantity": 1, "unit": "Count" },
+        { "name": "Fresh Mint", "quantity": 4, "unit": "Count" }
+      ],
+      "instructions": "1. Blend coconut milk, blueberries, and honey until smooth.\n2. Squeeze in the juice of the lemon and blend briefly to combine.\n3. Pour into a chilled glass and garnish with fresh mint leaves.\n4. Serve immediately while it still shimmers.",
+      "author": "Feldren"
+    },
+    {
+      "title": "Feldren's Molten Ember Broth",
+      "description": "A fiery, warming broth that crackles on the tongue like a captured ember.",
+      "ingredients": [
+        { "name": "Vegetable Broth", "quantity": 4, "unit": "Cup" },
+        { "name": "Garlic", "quantity": 3, "unit": "Count" },
+        { "name": "Fresh Ginger", "quantity": 1, "unit": "Tablespoon" },
+        { "name": "Ground Turmeric", "quantity": 1, "unit": "Teaspoon" },
+        { "name": "Red Pepper Flakes", "quantity": 1, "unit": "Teaspoon" }
+      ],
+      "instructions": "1. Mince garlic and ginger, then sweat in a pot over medium heat until fragrant.\n2. Pour in the vegetable broth and stir in turmeric and red pepper flakes.\n3. Simmer for 15 minutes, letting the flavors meld into a molten glow.\n4. Ladle into bowls and serve piping hot.",
+      "author": "Feldren"
+    },
+    {
+      "title": "Moonlit Mushroom Draught",
+      "description": "A velvety mushroom brew best sipped under a full moon for maximum potency.",
+      "ingredients": [
+        { "name": "Cremini Mushrooms", "quantity": 2, "unit": "Cup" },
+        { "name": "Heavy Cream", "quantity": 0.5, "unit": "Cup" },
+        { "name": "Garlic", "quantity": 2, "unit": "Count" },
+        { "name": "Fresh Thyme", "quantity": 1, "unit": "Teaspoon" },
+        { "name": "Vegetable Broth", "quantity": 2, "unit": "Cup" }
+      ],
+      "instructions": "1. Slice mushrooms and saute with minced garlic until golden.\n2. Add vegetable broth and thyme, then simmer for 10 minutes.\n3. Blend until smooth, then stir in the heavy cream.\n4. Warm gently without boiling and serve in a small cauldron-shaped bowl.",
+      "author": "Feldren"
+    },
+    {
+      "title": "Alchemist's Golden Tonic",
+      "description": "A glowing amber tea believed to soothe both throat and troubled spirit.",
+      "ingredients": [
+        { "name": "Fresh Ginger", "quantity": 1, "unit": "Tablespoon" },
+        { "name": "Ground Turmeric", "quantity": 1, "unit": "Teaspoon" },
+        { "name": "Honey", "quantity": 2, "unit": "Tablespoon" },
+        { "name": "Lemon", "quantity": 1, "unit": "Count" },
+        { "name": "Ground Cinnamon", "quantity": 0.25, "unit": "Teaspoon" }
+      ],
+      "instructions": "1. Steep grated ginger and turmeric in a cup of hot water for 5 minutes.\n2. Strain into a mug and stir in honey until dissolved.\n3. Add the juice of the lemon and a pinch of cinnamon.\n4. Sip slowly while the tonic still glows.",
+      "author": "Feldren"
+    },
+    {
+      "title": "Feldren's Frostfire Punch",
+      "description": "A punch that tastes of frozen orchards and warm embers all at once.",
+      "ingredients": [
+        { "name": "Cranberry Juice", "quantity": 2, "unit": "Cup" },
+        { "name": "Orange", "quantity": 1, "unit": "Count" },
+        { "name": "Fresh Ginger", "quantity": 1, "unit": "Teaspoon" },
+        { "name": "Ground Cinnamon", "quantity": 0.5, "unit": "Teaspoon" },
+        { "name": "Honey", "quantity": 1, "unit": "Tablespoon" }
+      ],
+      "instructions": "1. Combine cranberry juice with the juice of the orange in a pitcher.\n2. Grate in fresh ginger and stir in cinnamon and honey.\n3. Chill for at least an hour to let the flavors settle.\n4. Serve over ice in goblets fit for a wizard's feast.",
+      "author": "Feldren"
+    },
+    {
+      "title": "Bubbling Cauldron Stew",
+      "description": "A hearty stew that bubbles and pops like a wizard's brewing pot.",
+      "ingredients": [
+        { "name": "Beef Stew Meat", "quantity": 1.5, "unit": "Pound" },
+        { "name": "Carrots", "quantity": 3, "unit": "Count" },
+        { "name": "Yukon Gold Potato", "quantity": 3, "unit": "Count" },
+        { "name": "Fresh Thyme", "quantity": 1, "unit": "Teaspoon" },
+        { "name": "Beef Broth", "quantity": 4, "unit": "Cup" }
+      ],
+      "instructions": "1. Sear the beef stew meat in a large pot until browned on all sides.\n2. Add chopped carrots and potatoes, then pour in the beef broth.\n3. Stir in thyme and bring to a bubbling simmer.\n4. Cook for 1 hour, stirring occasionally, until the meat is tender.",
+      "author": "Feldren"
+    },
+    {
+      "title": "Sorcerer's Emerald Brew",
+      "description": "A vivid green smoothie rumored to sharpen a spellcaster's focus.",
+      "ingredients": [
+        { "name": "Spinach", "quantity": 1, "unit": "Cup" },
+        { "name": "Avocado", "quantity": 0.5, "unit": "Count" },
+        { "name": "Lime", "quantity": 1, "unit": "Count" },
+        { "name": "Coconut Milk", "quantity": 1, "unit": "Cup" },
+        { "name": "Honey", "quantity": 1, "unit": "Tablespoon" }
+      ],
+      "instructions": "1. Combine spinach, avocado, and coconut milk in a blender.\n2. Squeeze in the juice of the lime and add honey.\n3. Blend until silky smooth and vividly emerald.\n4. Pour into a tall glass and drink at once.",
+      "author": "Feldren"
+    },
+    {
+      "title": "Feldren's Crimson Potion",
+      "description": "A tart, deep red concoction said to embolden the drinker's courage.",
+      "ingredients": [
+        { "name": "Cranberry Juice", "quantity": 1.5, "unit": "Cup" },
+        { "name": "Raspberries (Fresh)", "quantity": 0.5, "unit": "Cup" },
+        { "name": "Honey", "quantity": 1, "unit": "Tablespoon" },
+        { "name": "Lime", "quantity": 1, "unit": "Count" }
+      ],
+      "instructions": "1. Muddle the raspberries in the bottom of a shaker.\n2. Add cranberry juice, honey, and the juice of the lime.\n3. Shake well and strain into a small potion vial or glass.\n4. Serve chilled with a dramatic flourish.",
+      "author": "Feldren"
+    },
+    {
+      "title": "Enchanted Spice Draught",
+      "description": "A warmly spiced milk brew that lingers on the tongue like an old spell.",
+      "ingredients": [
+        { "name": "Whole Milk", "quantity": 2, "unit": "Cup" },
+        { "name": "Ground Cinnamon", "quantity": 0.5, "unit": "Teaspoon" },
+        { "name": "Ground Cardamom", "quantity": 0.25, "unit": "Teaspoon" },
+        { "name": "Fresh Ginger", "quantity": 1, "unit": "Teaspoon" },
+        { "name": "Honey", "quantity": 2, "unit": "Tablespoon" }
+      ],
+      "instructions": "1. Warm the milk gently in a saucepan over low heat.\n2. Whisk in cinnamon, cardamom, and grated ginger.\n3. Simmer for 5 minutes, stirring often, without letting it boil.\n4. Remove from heat, stir in honey, and pour into a mug.",
+      "author": "Feldren"
+    },
+    {
+      "title": "Feldren's Midnight Brew",
+      "description": "A rich, dark chocolate drink said to be favored by wizards working through the night.",
+      "ingredients": [
+        { "name": "Whole Milk", "quantity": 2, "unit": "Cup" },
+        { "name": "Cocoa Powder", "quantity": 2, "unit": "Tablespoon" },
+        { "name": "Chocolate Chips", "quantity": 0.25, "unit": "Cup" },
+        { "name": "Vanilla Extract", "quantity": 0.5, "unit": "Teaspoon" }
+      ],
+      "instructions": "1. Heat the milk in a saucepan over medium-low heat.\n2. Whisk in cocoa powder until fully dissolved.\n3. Add chocolate chips and stir until melted and glossy.\n4. Remove from heat, stir in vanilla extract, and serve steaming.",
+      "author": "Feldren"
+    },
+    {
+      "title": "Keplin's Second Breakfast Hash",
+      "description": "A generous skillet hash for the hobbit who believes one breakfast is never enough.",
+      "ingredients": [
+        { "name": "Yukon Gold Potato", "quantity": 3, "unit": "Count" },
+        { "name": "Bacon", "quantity": 4, "unit": "Ounce" },
+        { "name": "Large Eggs", "quantity": 4, "unit": "Count" },
+        { "name": "Yellow Onion", "quantity": 1, "unit": "Count" },
+        { "name": "Unsalted Butter", "quantity": 1, "unit": "Tablespoon" }
+      ],
+      "instructions": "1. Dice the potatoes and onion, then fry the bacon in a large skillet until crisp.\n2. Remove bacon, add butter, and cook potatoes and onion until golden and tender.\n3. Crumble the bacon back into the skillet and toss to combine.\n4. Make small wells and crack in the eggs, cooking until set to your liking.",
+      "author": "Keplin"
+    },
+    {
+      "title": "Hobbiton Shepherd's Pie",
+      "description": "A comforting layered pie beloved at every Hobbiton gathering.",
+      "ingredients": [
+        { "name": "Ground Beef", "quantity": 1, "unit": "Pound" },
+        { "name": "Carrots", "quantity": 2, "unit": "Count" },
+        { "name": "Frozen Peas", "quantity": 1, "unit": "Cup" },
+        { "name": "Yukon Gold Potato", "quantity": 4, "unit": "Count" },
+        { "name": "Unsalted Butter", "quantity": 2, "unit": "Tablespoon" }
+      ],
+      "instructions": "1. Boil and mash the potatoes with butter until smooth and creamy.\n2. Brown the ground beef in a skillet, then add diced carrots and peas.\n3. Spread the beef mixture into a baking dish and top with mashed potato.\n4. Bake at 400°F for 25 minutes until the top is golden.",
+      "author": "Keplin"
+    },
+    {
+      "title": "Keplin's Honey Butter Biscuits",
+      "description": "Flaky, golden biscuits dripping with sweet honey butter, perfect for elevenses.",
+      "ingredients": [
+        { "name": "All-Purpose Flour", "quantity": 2, "unit": "Cup" },
+        { "name": "Unsalted Butter", "quantity": 0.5, "unit": "Cup" },
+        { "name": "Honey", "quantity": 3, "unit": "Tablespoon" },
+        { "name": "Whole Milk", "quantity": 0.75, "unit": "Cup" },
+        { "name": "Baking Powder", "quantity": 1, "unit": "Tablespoon" }
+      ],
+      "instructions": "1. Mix flour and baking powder, then cut in cold butter until crumbly.\n2. Stir in the milk and honey just until a soft dough forms.\n3. Pat the dough out and cut into rounds, placing on a baking sheet.\n4. Bake at 425°F for 12-14 minutes until golden and serve warm with extra honey butter.",
+      "author": "Keplin"
+    },
+    {
+      "title": "Cozy Cottage Chicken Stew",
+      "description": "A gentle, hearty stew for chilly evenings by the fire.",
+      "ingredients": [
+        { "name": "Chicken Thighs (Boneless)", "quantity": 1.5, "unit": "Pound" },
+        { "name": "Carrots", "quantity": 3, "unit": "Count" },
+        { "name": "Celery", "quantity": 2, "unit": "Count" },
+        { "name": "Yukon Gold Potato", "quantity": 3, "unit": "Count" },
+        { "name": "Chicken Broth", "quantity": 4, "unit": "Cup" }
+      ],
+      "instructions": "1. Cut the chicken into chunks and sear in a large pot until lightly browned.\n2. Add chopped carrots, celery, and potatoes to the pot.\n3. Pour in the chicken broth and bring to a simmer.\n4. Cook for 30-35 minutes until the vegetables are tender and the stew has thickened.",
+      "author": "Keplin"
+    },
+    {
+      "title": "Keplin's Apple Cinnamon Crumble",
+      "description": "A warm, spiced fruit crumble that smells like autumn in the Shire.",
+      "ingredients": [
+        { "name": "Apple", "quantity": 5, "unit": "Count" },
+        { "name": "Rolled Oats", "quantity": 1, "unit": "Cup" },
+        { "name": "Brown Sugar", "quantity": 0.5, "unit": "Cup" },
+        { "name": "Ground Cinnamon", "quantity": 1, "unit": "Teaspoon" },
+        { "name": "Unsalted Butter", "quantity": 4, "unit": "Tablespoon" }
+      ],
+      "instructions": "1. Peel and slice the apples, tossing with cinnamon in a baking dish.\n2. Mix oats, brown sugar, and softened butter into a crumbly topping.\n3. Sprinkle the topping evenly over the apples.\n4. Bake at 375°F for 35-40 minutes until bubbling and golden.",
+      "author": "Keplin"
+    },
+    {
+      "title": "Fireside Mac and Cheese",
+      "description": "Rich, creamy, and endlessly comforting - the ultimate hobbit hall favorite.",
+      "ingredients": [
+        { "name": "Elbow Pasta", "quantity": 2, "unit": "Cup" },
+        { "name": "Shredded Cheddar Cheese", "quantity": 2, "unit": "Cup" },
+        { "name": "Whole Milk", "quantity": 1.5, "unit": "Cup" },
+        { "name": "Unsalted Butter", "quantity": 2, "unit": "Tablespoon" },
+        { "name": "All-Purpose Flour", "quantity": 2, "unit": "Tablespoon" }
+      ],
+      "instructions": "1. Boil the elbow pasta until just tender, then drain.\n2. Melt butter in a saucepan, whisk in flour, and cook for a minute.\n3. Slowly whisk in the milk and simmer until thickened, then stir in cheddar.\n4. Toss the pasta with the cheese sauce and serve hot and gooey.",
+      "author": "Keplin"
+    },
+    {
+      "title": "Keplin's Pumpkin Bread",
+      "description": "A moist spiced loaf that fills the whole smial with warmth.",
+      "ingredients": [
+        { "name": "Canned Pumpkin", "quantity": 1, "unit": "Cup" },
+        { "name": "All-Purpose Flour", "quantity": 1.75, "unit": "Cup" },
+        { "name": "Granulated Sugar", "quantity": 1, "unit": "Cup" },
+        { "name": "Ground Cinnamon", "quantity": 1, "unit": "Teaspoon" },
+        { "name": "Ground Nutmeg", "quantity": 0.25, "unit": "Teaspoon" }
+      ],
+      "instructions": "1. Whisk together pumpkin, sugar, and eggs in a large bowl.\n2. Fold in flour, cinnamon, and nutmeg until just combined.\n3. Pour the batter into a greased loaf pan.\n4. Bake at 350°F for 55-60 minutes until a toothpick comes out clean.",
+      "author": "Keplin"
+    },
+    {
+      "title": "Hearty Vegetable Barley Soup",
+      "description": "A rustic, filling soup that sticks to your ribs after a long day of gardening.",
+      "ingredients": [
+        { "name": "Barley", "quantity": 0.75, "unit": "Cup" },
+        { "name": "Carrots", "quantity": 2, "unit": "Count" },
+        { "name": "Celery", "quantity": 2, "unit": "Count" },
+        { "name": "Yellow Onion", "quantity": 1, "unit": "Count" },
+        { "name": "Vegetable Broth", "quantity": 6, "unit": "Cup" }
+      ],
+      "instructions": "1. Saute diced onion, carrots, and celery in a large pot until softened.\n2. Add the barley and vegetable broth, then bring to a boil.\n3. Reduce heat and simmer for 35-40 minutes until the barley is tender.\n4. Season to taste and ladle into bowls while hot.",
+      "author": "Keplin"
+    },
+    {
+      "title": "Keplin's Blueberry Pancakes",
+      "description": "Fluffy stacks studded with berries, best enjoyed at second breakfast.",
+      "ingredients": [
+        { "name": "All-Purpose Flour", "quantity": 1.5, "unit": "Cup" },
+        { "name": "Blueberries (Fresh)", "quantity": 1, "unit": "Cup" },
+        { "name": "Whole Milk", "quantity": 1.25, "unit": "Cup" },
+        { "name": "Large Eggs", "quantity": 2, "unit": "Count" },
+        { "name": "Maple Syrup", "quantity": 0.25, "unit": "Cup" }
+      ],
+      "instructions": "1. Whisk together flour, milk, and eggs into a smooth batter.\n2. Gently fold in the blueberries.\n3. Cook spoonfuls of batter on a hot, buttered griddle until bubbly, then flip.\n4. Stack the pancakes high and drizzle generously with maple syrup.",
+      "author": "Keplin"
+    },
+    {
+      "title": "Sunday Roast Chicken",
+      "description": "A golden, herb-roasted chicken fit for the whole extended hobbit family.",
+      "ingredients": [
+        { "name": "Whole Chicken", "quantity": 1, "unit": "Count" },
+        { "name": "Fresh Rosemary", "quantity": 2, "unit": "Count" },
+        { "name": "Garlic", "quantity": 4, "unit": "Count" },
+        { "name": "Yukon Gold Potato", "quantity": 4, "unit": "Count" },
+        { "name": "Unsalted Butter", "quantity": 3, "unit": "Tablespoon" }
+      ],
+      "instructions": "1. Rub the chicken all over with softened butter, rosemary, and smashed garlic.\n2. Arrange quartered potatoes around the chicken in a roasting pan.\n3. Roast at 400°F for about 1 hour 20 minutes until golden and cooked through.\n4. Rest for 10 minutes before carving and serving with the roasted potatoes.",
+      "author": "Keplin"
+    },
+    {
+      "title": "Myllarra's Forest Quinoa Salad",
+      "description": "A bright, protein-rich salad gathered from sun-dappled groves.",
+      "ingredients": [
+        { "name": "Quinoa", "quantity": 1, "unit": "Cup" },
+        { "name": "Cherry Tomatoes", "quantity": 1, "unit": "Cup" },
+        { "name": "Cucumber", "quantity": 1, "unit": "Count" },
+        { "name": "Feta Cheese", "quantity": 0.5, "unit": "Cup" },
+        { "name": "Extra Virgin Olive Oil", "quantity": 2, "unit": "Tablespoon" }
+      ],
+      "instructions": "1. Cook the quinoa according to package directions, then let it cool.\n2. Dice the cucumber and halve the cherry tomatoes.\n3. Toss the quinoa with the vegetables, feta, and olive oil.\n4. Chill briefly before serving in the shade of a great oak.",
+      "author": "Myllarra"
+    },
+    {
+      "title": "Elvenwood Mushroom Risotto",
+      "description": "A creamy risotto layered with earthy mushrooms from the deep woods.",
+      "ingredients": [
+        { "name": "Arborio Rice", "quantity": 1.5, "unit": "Cup" },
+        { "name": "Cremini Mushrooms", "quantity": 2, "unit": "Cup" },
+        { "name": "Parmesan Cheese", "quantity": 0.5, "unit": "Cup" },
+        { "name": "Vegetable Broth", "quantity": 5, "unit": "Cup" },
+        { "name": "Unsalted Butter", "quantity": 2, "unit": "Tablespoon" }
+      ],
+      "instructions": "1. Saute the sliced mushrooms in butter until golden, then set aside.\n2. Toast the arborio rice in the same pan for a minute.\n3. Add warm vegetable broth a ladle at a time, stirring constantly until absorbed.\n4. Once creamy, fold in the mushrooms and parmesan cheese before serving.",
+      "author": "Myllarra"
+    },
+    {
+      "title": "Myllarra's Sunlit Chickpea Curry",
+      "description": "A fragrant curry as warm and golden as elven sunlight through the canopy.",
+      "ingredients": [
+        { "name": "Chickpeas", "quantity": 2, "unit": "Cup" },
+        { "name": "Coconut Milk", "quantity": 1, "unit": "Cup" },
+        { "name": "Curry Powder", "quantity": 2, "unit": "Tablespoon" },
+        { "name": "Spinach", "quantity": 2, "unit": "Cup" },
+        { "name": "Yellow Onion", "quantity": 1, "unit": "Count" }
+      ],
+      "instructions": "1. Saute the diced onion until translucent, then stir in curry powder.\n2. Add the chickpeas and coconut milk, bringing to a gentle simmer.\n3. Cook for 15 minutes, stirring occasionally.\n4. Fold in the spinach until wilted, then serve over rice.",
+      "author": "Myllarra"
+    },
+    {
+      "title": "Woven Vine Ratatouille",
+      "description": "A colorful medley of garden vegetables braided together like woven vines.",
+      "ingredients": [
+        { "name": "Zucchini", "quantity": 2, "unit": "Count" },
+        { "name": "Eggplant", "quantity": 1, "unit": "Count" },
+        { "name": "Bell Pepper", "quantity": 2, "unit": "Count" },
+        { "name": "Roma Tomato", "quantity": 4, "unit": "Count" },
+        { "name": "Garlic", "quantity": 3, "unit": "Count" }
+      ],
+      "instructions": "1. Slice all the vegetables into thin rounds.\n2. Layer them in a baking dish with minced garlic scattered between.\n3. Drizzle with olive oil and cover with foil.\n4. Bake at 375°F for 45 minutes until tender and fragrant.",
+      "author": "Myllarra"
+    },
+    {
+      "title": "Myllarra's Silverleaf Salad",
+      "description": "A crisp salad of silvery greens, sweet berries, and toasted nuts.",
+      "ingredients": [
+        { "name": "Baby Spinach", "quantity": 4, "unit": "Cup" },
+        { "name": "Walnuts", "quantity": 0.5, "unit": "Cup" },
+        { "name": "Goat Cheese", "quantity": 0.5, "unit": "Cup" },
+        { "name": "Dried Cranberries", "quantity": 0.25, "unit": "Cup" },
+        { "name": "Balsamic Vinegar", "quantity": 2, "unit": "Tablespoon" }
+      ],
+      "instructions": "1. Toss the baby spinach in a large bowl.\n2. Scatter walnuts, crumbled goat cheese, and cranberries over the top.\n3. Drizzle with balsamic vinegar and a touch of olive oil.\n4. Toss gently and serve at once.",
+      "author": "Myllarra"
+    },
+    {
+      "title": "Elven Lentil Stew",
+      "description": "A nourishing, earthy stew simmered slowly beneath the eaves of the forest.",
+      "ingredients": [
+        { "name": "Green Lentils", "quantity": 1.5, "unit": "Cup" },
+        { "name": "Carrots", "quantity": 2, "unit": "Count" },
+        { "name": "Celery", "quantity": 2, "unit": "Count" },
+        { "name": "Ground Cumin", "quantity": 1, "unit": "Teaspoon" },
+        { "name": "Vegetable Broth", "quantity": 5, "unit": "Cup" }
+      ],
+      "instructions": "1. Saute diced carrots and celery until softened.\n2. Add the lentils, cumin, and vegetable broth.\n3. Simmer for 30-35 minutes until the lentils are tender.\n4. Season to taste and serve warm with crusty bread.",
+      "author": "Myllarra"
+    },
+    {
+      "title": "Myllarra's Roasted Root Medley",
+      "description": "A rustic roast of autumn roots kissed with rosemary and golden oil.",
+      "ingredients": [
+        { "name": "Sweet Potato", "quantity": 2, "unit": "Count" },
+        { "name": "Carrots", "quantity": 3, "unit": "Count" },
+        { "name": "Butternut Squash", "quantity": 2, "unit": "Cup" },
+        { "name": "Fresh Rosemary", "quantity": 2, "unit": "Count" },
+        { "name": "Extra Virgin Olive Oil", "quantity": 3, "unit": "Tablespoon" }
+      ],
+      "instructions": "1. Chop the sweet potato, carrots, and squash into even chunks.\n2. Toss with olive oil and rosemary sprigs on a baking sheet.\n3. Roast at 400°F for 30-35 minutes, turning halfway through.\n4. Serve warm straight from the pan.",
+      "author": "Myllarra"
+    },
+    {
+      "title": "Whispering Wind Pasta Primavera",
+      "description": "A light, herb-flecked pasta tossed with the first vegetables of spring.",
+      "ingredients": [
+        { "name": "Fettuccine", "quantity": 12, "unit": "Ounce" },
+        { "name": "Zucchini", "quantity": 1, "unit": "Count" },
+        { "name": "Cherry Tomatoes", "quantity": 1, "unit": "Cup" },
+        { "name": "Parmesan Cheese", "quantity": 0.5, "unit": "Cup" },
+        { "name": "Extra Virgin Olive Oil", "quantity": 2, "unit": "Tablespoon" }
+      ],
+      "instructions": "1. Cook the fettuccine until al dente, then drain, reserving a bit of pasta water.\n2. Saute sliced zucchini and cherry tomatoes in olive oil until just tender.\n3. Toss the pasta with the vegetables and a splash of reserved water.\n4. Finish with grated parmesan and serve immediately.",
+      "author": "Myllarra"
+    },
+    {
+      "title": "Myllarra's Golden Tofu Stir-fry",
+      "description": "Crisp golden tofu tossed with garden vegetables in a glossy sauce.",
+      "ingredients": [
+        { "name": "Tofu (Extra Firm)", "quantity": 14, "unit": "Ounce" },
+        { "name": "Broccoli", "quantity": 2, "unit": "Cup" },
+        { "name": "Bell Pepper", "quantity": 1, "unit": "Count" },
+        { "name": "Soy Sauce", "quantity": 3, "unit": "Tablespoon" },
+        { "name": "Fresh Ginger", "quantity": 1, "unit": "Tablespoon" }
+      ],
+      "instructions": "1. Press and cube the tofu, then pan-fry until golden on all sides.\n2. Add broccoli and sliced bell pepper, stir-frying until crisp-tender.\n3. Stir in grated ginger and soy sauce, tossing to coat.\n4. Serve hot over rice.",
+      "author": "Myllarra"
+    },
+    {
+      "title": "Elvenhome Squash Soup",
+      "description": "A silky, golden soup that tastes of harvest and hearthlight.",
+      "ingredients": [
+        { "name": "Butternut Squash", "quantity": 4, "unit": "Cup" },
+        { "name": "Coconut Milk", "quantity": 1, "unit": "Cup" },
+        { "name": "Fresh Ginger", "quantity": 1, "unit": "Tablespoon" },
+        { "name": "Vegetable Broth", "quantity": 3, "unit": "Cup" },
+        { "name": "Yellow Onion", "quantity": 1, "unit": "Count" }
+      ],
+      "instructions": "1. Saute diced onion and ginger until softened.\n2. Add the squash and vegetable broth, simmering until the squash is soft.\n3. Blend the soup until completely smooth.\n4. Stir in coconut milk and warm gently before serving.",
+      "author": "Myllarra"
+    },
+    {
+      "title": "Ghrolg's Beast Slayer Steak Bites",
+      "description": "Seared chunks of beef, blackened and bold, fit for a warband's feast.",
+      "ingredients": [
+        { "name": "Beef Stew Meat", "quantity": 1.5, "unit": "Pound" },
+        { "name": "Garlic", "quantity": 4, "unit": "Count" },
+        { "name": "Fresh Rosemary", "quantity": 2, "unit": "Count" },
+        { "name": "Extra Virgin Olive Oil", "quantity": 2, "unit": "Tablespoon" },
+        { "name": "Kosher Salt", "quantity": 1, "unit": "Teaspoon" }
+      ],
+      "instructions": "1. Pat the beef dry and season generously with salt.\n2. Heat olive oil in a heavy skillet until smoking hot.\n3. Sear the beef with garlic and rosemary until deeply browned, about 2 minutes per side.\n4. Rest briefly before serving hot from the skillet.",
+      "author": "Ghrolg"
+    },
+    {
+      "title": "Warband Bacon-Wrapped Chicken",
+      "description": "Smoky bacon-wrapped chicken thighs, hearty enough for a marching army.",
+      "ingredients": [
+        { "name": "Chicken Thighs (Boneless)", "quantity": 6, "unit": "Count" },
+        { "name": "Bacon", "quantity": 6, "unit": "Count" },
+        { "name": "Garlic Powder", "quantity": 1, "unit": "Teaspoon" },
+        { "name": "Ground Black Pepper", "quantity": 0.5, "unit": "Teaspoon" }
+      ],
+      "instructions": "1. Season the chicken thighs with garlic powder and black pepper.\n2. Wrap each thigh tightly with a strip of bacon.\n3. Place on a baking sheet and roast at 400°F for 30-35 minutes.\n4. Let rest for a few minutes before serving.",
+      "author": "Ghrolg"
+    },
+    {
+      "title": "Ghrolg's Roasted Root Feast",
+      "description": "Charred, hearty root vegetables roasted over high heat like a battlefield fire.",
+      "ingredients": [
+        { "name": "Sweet Potato", "quantity": 3, "unit": "Count" },
+        { "name": "Carrots", "quantity": 4, "unit": "Count" },
+        { "name": "Extra Virgin Olive Oil", "quantity": 3, "unit": "Tablespoon" },
+        { "name": "Fresh Rosemary", "quantity": 2, "unit": "Count" },
+        { "name": "Kosher Salt", "quantity": 1, "unit": "Teaspoon" }
+      ],
+      "instructions": "1. Cut the sweet potatoes and carrots into thick chunks.\n2. Toss with olive oil, rosemary, and salt.\n3. Roast at 425°F for 35-40 minutes, turning once, until charred and tender.\n4. Serve piled high on a platter.",
+      "author": "Ghrolg"
+    },
+    {
+      "title": "Battle-Ready Egg Scramble",
+      "description": "A hearty, protein-packed scramble to fuel a morning of orcish labor.",
+      "ingredients": [
+        { "name": "Large Eggs", "quantity": 6, "unit": "Count" },
+        { "name": "Bacon", "quantity": 4, "unit": "Ounce" },
+        { "name": "Spinach", "quantity": 2, "unit": "Cup" },
+        { "name": "Avocado", "quantity": 1, "unit": "Count" }
+      ],
+      "instructions": "1. Cook the bacon in a skillet until crisp, then crumble.\n2. Whisk the eggs and scramble them in the bacon fat until just set.\n3. Fold in the spinach and crumbled bacon.\n4. Top with sliced avocado and serve immediately.",
+      "author": "Ghrolg"
+    },
+    {
+      "title": "Ghrolg's Ironclad Pork Chops",
+      "description": "Thick, smoky pork chops seared hard like armor plating.",
+      "ingredients": [
+        { "name": "Pork Chops", "quantity": 4, "unit": "Count" },
+        { "name": "Garlic", "quantity": 3, "unit": "Count" },
+        { "name": "Smoked Paprika", "quantity": 1, "unit": "Tablespoon" },
+        { "name": "Extra Virgin Olive Oil", "quantity": 2, "unit": "Tablespoon" }
+      ],
+      "instructions": "1. Rub the pork chops with smoked paprika and minced garlic.\n2. Heat olive oil in a skillet over high heat.\n3. Sear the chops for 4-5 minutes per side until deeply browned and cooked through.\n4. Rest for a few minutes before serving.",
+      "author": "Ghrolg"
+    },
+    {
+      "title": "Orcish Almond-Crusted Salmon",
+      "description": "A crunchy, nutty crust protects tender salmon like scale armor.",
+      "ingredients": [
+        { "name": "Salmon Fillet", "quantity": 4, "unit": "Count" },
+        { "name": "Almonds", "quantity": 0.5, "unit": "Cup" },
+        { "name": "Lemon", "quantity": 1, "unit": "Count" },
+        { "name": "Garlic", "quantity": 2, "unit": "Count" }
+      ],
+      "instructions": "1. Crush the almonds coarsely and mix with minced garlic.\n2. Press the almond mixture onto the top of each salmon fillet.\n3. Bake at 400°F for 12-15 minutes until the crust is golden and fish flakes easily.\n4. Squeeze fresh lemon over the top before serving.",
+      "author": "Ghrolg"
+    },
+    {
+      "title": "Ghrolg's Bonebroth Stew",
+      "description": "A deep, fortifying stew simmered long and slow like a siege.",
+      "ingredients": [
+        { "name": "Beef Broth", "quantity": 6, "unit": "Cup" },
+        { "name": "Beef Stew Meat", "quantity": 1.5, "unit": "Pound" },
+        { "name": "Carrots", "quantity": 3, "unit": "Count" },
+        { "name": "Celery", "quantity": 2, "unit": "Count" }
+      ],
+      "instructions": "1. Sear the beef stew meat in a large pot until browned.\n2. Add the beef broth, carrots, and celery.\n3. Simmer for 1.5 hours, uncovered, until the broth reduces and thickens.\n4. Serve hot in a heavy bowl.",
+      "author": "Ghrolg"
+    },
+    {
+      "title": "Rampage Chicken Drumsticks",
+      "description": "Sticky, spicy drumsticks meant to be torn apart with bare hands.",
+      "ingredients": [
+        { "name": "Chicken Drumsticks", "quantity": 8, "unit": "Count" },
+        { "name": "Cayenne Pepper", "quantity": 0.5, "unit": "Teaspoon" },
+        { "name": "Garlic", "quantity": 3, "unit": "Count" },
+        { "name": "Honey", "quantity": 2, "unit": "Tablespoon" }
+      ],
+      "instructions": "1. Toss the drumsticks with minced garlic, cayenne, and honey.\n2. Arrange on a baking sheet and roast at 400°F for 35-40 minutes.\n3. Turn halfway through so they caramelize on all sides.\n4. Serve hot, still sticky and glistening.",
+      "author": "Ghrolg"
+    },
+    {
+      "title": "Ghrolg's Coconut Curry Beast",
+      "description": "A bold, fiery curry rich enough to fuel a rampage.",
+      "ingredients": [
+        { "name": "Chicken Breast", "quantity": 1.5, "unit": "Pound" },
+        { "name": "Coconut Milk", "quantity": 1.5, "unit": "Cup" },
+        { "name": "Curry Powder", "quantity": 2, "unit": "Tablespoon" },
+        { "name": "Fresh Ginger", "quantity": 1, "unit": "Tablespoon" }
+      ],
+      "instructions": "1. Cube the chicken breast and sear in a hot pan until browned.\n2. Stir in curry powder and grated ginger, cooking until fragrant.\n3. Pour in the coconut milk and simmer for 15-20 minutes.\n4. Serve hot, straight from the pan.",
+      "author": "Ghrolg"
+    },
+    {
+      "title": "Warlord's Skillet Hash",
+      "description": "A rough-and-ready skillet meal built for speed between battles.",
+      "ingredients": [
+        { "name": "Sweet Potato", "quantity": 2, "unit": "Count" },
+        { "name": "Ground Beef", "quantity": 1, "unit": "Pound" },
+        { "name": "Bell Pepper", "quantity": 1, "unit": "Count" },
+        { "name": "Yellow Onion", "quantity": 1, "unit": "Count" }
+      ],
+      "instructions": "1. Dice the sweet potato and parboil until just tender.\n2. Brown the ground beef in a large skillet with diced onion and pepper.\n3. Add the sweet potato and cook until crisped at the edges.\n4. Season to taste and serve straight from the skillet.",
+      "author": "Ghrolg"
+    }
+  ]
+}
