@@ -450,6 +450,12 @@ func (cfg *ApiConfig) handlerResetPassword(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
+	// verify email exists
+	if err := cfg.DB.EmailExists(r.Context(), req.Email); err != nil {
+		respondFail(r, w, 404, "Email doesn't exist", fmt.Errorf("Reset password request at nonexistent email %s - ERROR: %v", req.Email, err))
+		return
+	}
+
 	// send reset email - well reuse the verification email structure as much as possible
 	verificationToken := auth.MakeRefreshToken()
 	if err := cfg.SendPasswordReset(req.Email, verificationToken); err != nil {
@@ -461,7 +467,7 @@ func (cfg *ApiConfig) handlerResetPassword(w http.ResponseWriter, r *http.Reques
 	query2 := database.CreateVerificationParams{
 		Email: req.Email,
 		Token: verificationToken,
-   ExpiresAt: time.Now().Add(time.Minute * 30),
+   		ExpiresAt: time.Now().Add(time.Minute * 30),
 	}
 
 	if err := cfg.DB.CreateVerification(r.Context(), query2); err != nil {
