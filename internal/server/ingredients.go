@@ -168,6 +168,12 @@ func (cfg *ApiConfig) handlerGetUnits(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// make sure ingredient exists
+	if _, err := cfg.DB.GetIngredientName(r.Context(), id); err != nil {
+		respondFail(r, w, 404, "Invalid ingredient id", fmt.Errorf("Can't find units for nonexistent ingredient: %v", err))
+		return
+	}
+
 	conversions, err := cfg.DB.GetConversionsByID(r.Context(), id)
 	if err != nil {
 		respondFail(r, w, 404, "Couldn't find units", fmt.Errorf("Failed to get units for ingredient: %v", err))
