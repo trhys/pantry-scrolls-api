@@ -237,7 +237,7 @@ func TestTokenRevoke(t *testing.T) {
 
 		w := httptest.NewRecorder()
 		router.ServeHTTP(w, req)
-		if w.Code != 2041 {
+		if w.Code != 204 {
 			t.Errorf("Expected 204 for invalid revoke: got status %d", w.Code)
 		}
 	})
