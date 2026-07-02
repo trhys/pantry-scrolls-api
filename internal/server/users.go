@@ -449,9 +449,16 @@ func (cfg *ApiConfig) handlerResetPassword(w http.ResponseWriter, r *http.Reques
 		respondFail(r, w, 400, "Bad request", fmt.Errorf("Failed to decode request - ERROR: %v", err))
 		return
 	}
+	
+	// validate email
+	if _, err := mail.ParseAddress(req.Email); err != nil {
+		respondFail(r, w, 400, "Bad request", fmt.Errorf("Email not valid: %v", err))
+		return
+	}
+
 
 	// verify email exists
-	if err := cfg.DB.EmailExists(r.Context(), req.Email); err != nil {
+	if _, err := cfg.DB.GetUserByEmail(r.Context(), req.Email); err != nil {
 		respondFail(r, w, 404, "Email doesn't exist", fmt.Errorf("Reset password request at nonexistent email %s - ERROR: %v", req.Email, err))
 		return
 	}

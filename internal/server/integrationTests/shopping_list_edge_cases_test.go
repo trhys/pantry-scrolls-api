@@ -142,7 +142,18 @@ func TestShoppingListEdgeCases(t *testing.T) {
 		req.AddCookie(rt)
 
 		w = httptest.NewRecorder()
+		
+		_, err := tx.Exec("SAVEPOINT add_invalid_recipe_sp")
+		if err != nil {
+			t.Fatalf("Failed to create savepoint: %v", err)
+		}
+
 		router.ServeHTTP(w, req)
+
+		_, err = tx.Exec("ROLLBACK TO SAVEPOINT add_invalid_recipe_sp")
+		if err != nil {
+			t.Fatalf("Failed to rollback to savepoint: %v", err)
+		}
 
 		// Should fail since recipe doesn't exist
 		if w.Code >= 200 && w.Code < 300 {
