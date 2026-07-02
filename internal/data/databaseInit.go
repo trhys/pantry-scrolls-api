@@ -212,7 +212,9 @@ func InitDBRecipes(ik string, db *sql.DB, ctx context.Context, userpw string) er
 	dbConn := database.New(db)
 
   var chars struct {
-        Name `json:"name"`
+        Characters []struct {
+            Name `json:"name"`
+        } `json:"characters"`
   }
 
   if err := json.Unmarshal(characters, &chars); err != nil {
