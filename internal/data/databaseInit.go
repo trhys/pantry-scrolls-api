@@ -181,7 +181,7 @@ func InitDBIngredients(ik string, db *sql.DB, ctx context.Context) error {
 	return nil
 }
 
-//go:embed recipesManifest.json
+//go:embed recipesSeed.json
 var recipesManifest []byte
 
 //go:embed charactersManifest.json
