@@ -184,6 +184,9 @@ func InitDBIngredients(ik string, db *sql.DB, ctx context.Context) error {
 //go:embed recipesManifest.json
 var recipesManifest []byte
 
+//go:embed charactersManifest.json
+var characters []byte
+
 func InitDBRecipes(ik string, db *sql.DB, ctx context.Context, userpw string) error {
 	log.Println("Loading recipes from JSON...")
 	var recipes struct {
@@ -196,6 +199,7 @@ func InitDBRecipes(ik string, db *sql.DB, ctx context.Context, userpw string) er
 				Unit     string  `json:"unit"`
 			} `json:"ingredients"`
 			Instructions string `json:"instructions"`
+     Author string `json:"author"`
 		} `json:"recipes"`
 	}
 
@@ -207,18 +211,23 @@ func InitDBRecipes(ik string, db *sql.DB, ctx context.Context, userpw string) er
 
 	dbConn := database.New(db)
 
-	// Create/Verify user
-	dbConn.CreateUser(ctx, database.CreateUserParams{
-		Email:    "recipereporoot@admin.trr",
-		HashedPw: userpw,
-		Name:     "Recipe Repo",
-	})
+  var chars struct {
+        Name `json:"name"`
+  }
 
-	user, err := dbConn.GetUserByEmail(ctx, "recipereporoot@admin.trr")
-	if err != nil {
-		log.Printf("Error getting root user: %v", err)
-		return err
+  if err := json.Unmarshal(characters, &chars); err != nil {
+		log.Panic("Failed to unmarshal JSON!")
 	}
+
+	log.Println("Successfully read file - creating user profiles...")
+
+  for _, char := range chars {
+	    dbConn.CreateUser(ctx, database.CreateUserParams{
+		    Email:    char.Name + "@admin.trr",
+		    HashedPw: userpw,
+		    Name:     char.Name,
+	    })
+  }
 
 	bar := pb.Default(int64(len(recipes.Recipes)))
 	for _, r := range recipes.Recipes {
@@ -227,6 +236,13 @@ func InitDBRecipes(ik string, db *sql.DB, ctx context.Context, userpw string) er
 			bar.Add(1)
 			continue
 		}
+
+   user, err := dbConn.GetUserByEmail(ctx, r.Author + "@admin.trr")
+	if err != nil {
+		log.Printf("Error getting user: %v", err)
+		return err
+	}
+
 
 		query := database.CreateRecipeParams{
 			Title:        r.Title,
