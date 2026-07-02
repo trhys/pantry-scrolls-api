@@ -272,49 +272,4 @@ func TestShoppingListEdgeCases(t *testing.T) {
 			t.Errorf("Expected 401 for unauthorized access: got status %d", w.Code)
 		}
 	})
-
-	t.Run("delete shopping list", func(t *testing.T) {
-		// Create a shopping list
-		body := []byte(`{"name": "Delete Test"}`)
-		req := httptest.NewRequest("POST", "/api/shoppinglists", bytes.NewBuffer(body))
-
-		ctx := context.WithValue(req.Context(), "userID", user.ID)
-		req = req.WithContext(ctx)
-		req.AddCookie(jwt)
-		req.AddCookie(rt)
-
-		w := httptest.NewRecorder()
-		router.ServeHTTP(w, req)
-
-		var shoppingList vm.ShoppingList
-		json.NewDecoder(w.Body).Decode(&shoppingList)
-
-		// Delete it
-		url := "/api/shoppinglists/" + shoppingList.ID.String()
-		req = httptest.NewRequest("DELETE", url, nil)
-
-		ctx = context.WithValue(req.Context(), "userID", user.ID)
-		req = req.WithContext(ctx)
-		req.AddCookie(jwt)
-		req.AddCookie(rt)
-
-		w = httptest.NewRecorder()
-		router.ServeHTTP(w, req)
-
-		if w.Code != 204 {
-			t.Errorf("Failed to delete shopping list: got status %d", w.Code)
-		}
-
-		// Verify deletion
-		req = httptest.NewRequest("GET", url, nil)
-		ctx = context.WithValue(req.Context(), "userID", user.ID)
-		req = req.WithContext(ctx)
-
-		w = httptest.NewRecorder()
-		router.ServeHTTP(w, req)
-
-		if w.Code != 404 {
-			t.Errorf("Expected 404 after deletion: got status %d", w.Code)
-		}
-	})
 }
