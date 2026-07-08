@@ -213,17 +213,17 @@ func InitDBRecipes(ik string, db *sql.DB, ctx context.Context, userpw string) er
 
   var chars struct {
         Characters []struct {
-            Name `json:"name"`
+            Name string `json:"name"`
         } `json:"characters"`
   }
 
   if err := json.Unmarshal(characters, &chars); err != nil {
 		log.Panic("Failed to unmarshal JSON!")
-	}
+  }
 
-	log.Println("Successfully read file - creating user profiles...")
+  log.Println("Successfully read file - creating user profiles...")
 
-  for _, char := range chars {
+  for _, char := range chars.Characters {
 	    dbConn.CreateUser(ctx, database.CreateUserParams{
 		    Email:    char.Name + "@admin.trr",
 		    HashedPw: userpw,
