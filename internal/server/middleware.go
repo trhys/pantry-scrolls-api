@@ -10,8 +10,8 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/trhys/Recipe-Repo-2/internal/metrics"
 	"github.com/trhys/Recipe-Repo-2/internal/auth"
+	"github.com/trhys/Recipe-Repo-2/internal/metrics"
 )
 
 func (cfg *ApiConfig) authMiddleware(next http.HandlerFunc) http.HandlerFunc {
@@ -72,18 +72,18 @@ func getClientIP(r *http.Request) string {
 	return host
 }
 
-func (cfg *ApiConfig) MetricsMiddleware(m *metrics.Metrics) func (http.Handler) http.Handler {
+func (cfg *ApiConfig) MetricsMiddleware(m *metrics.Metrics) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			start := time.Now()
-			
+
 			path := r.Pattern
 			if path == "" {
-			    path = "unknown"
+				path = "unknown"
 			}
-	
+
 			next.ServeHTTP(w, r)
-	
+
 			duration := time.Since(start).Seconds()
 			m.Latency.WithLabelValues(path).Observe(duration)
 			m.ServerHits.WithLabelValues(path).Inc()

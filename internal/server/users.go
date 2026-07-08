@@ -87,8 +87,9 @@ func (cfg *ApiConfig) handlerCreateUser(w http.ResponseWriter, r *http.Request) 
 
 	// add token to db
 	query2 := database.CreateVerificationParams{
-		Email: req.Email,
-		Token: verificationToken,
+		Email:     req.Email,
+		Token:     verificationToken,
+		ExpiresAt: time.Now().Add(time.Minute * 30),
 	}
 
 	if err := cfg.DB.CreateVerification(r.Context(), query2); err != nil {
@@ -384,7 +385,7 @@ func (cfg *ApiConfig) handlerUpdatePassword(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	if email.ExpiresAt.After(time.Now()) {
+	if !email.ExpiresAt.After(time.Now()) {
 		respondFail(r, w, 401, "Token expired", fmt.Errorf("Expired token access for email: %s", email.Email))
 		return
 	}
@@ -426,7 +427,7 @@ func (cfg *ApiConfig) handlerVerifyEmail(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	if email.ExpiresAt.After(time.Now()) {
+	if !email.ExpiresAt.After(time.Now()) {
 		respondFail(r, w, 401, "Token expired", fmt.Errorf("Expired token access for email: %s", email.Email))
 		return
 	}
@@ -449,6 +450,18 @@ func (cfg *ApiConfig) handlerResetPassword(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
+	// validate email
+	if _, err := mail.ParseAddress(req.Email); err != nil {
+		respondFail(r, w, 400, "Bad request", fmt.Errorf("Email not valid: %v", err))
+		return
+	}
+
+	// verify email exists
+	if _, err := cfg.DB.GetUserByEmail(r.Context(), req.Email); err != nil {
+		respondFail(r, w, 404, "Email doesn't exist", fmt.Errorf("Reset password request at nonexistent email %s - ERROR: %v", req.Email, err))
+		return
+	}
+
 	// send reset email - well reuse the verification email structure as much as possible
 	verificationToken := auth.MakeRefreshToken()
 	if err := cfg.SendPasswordReset(req.Email, verificationToken); err != nil {
@@ -458,8 +471,9 @@ func (cfg *ApiConfig) handlerResetPassword(w http.ResponseWriter, r *http.Reques
 
 	// add token to db
 	query2 := database.CreateVerificationParams{
-		Email: req.Email,
-		Token: verificationToken,
+		Email:     req.Email,
+		Token:     verificationToken,
+		ExpiresAt: time.Now().Add(time.Minute * 30),
 	}
 
 	if err := cfg.DB.CreateVerification(r.Context(), query2); err != nil {

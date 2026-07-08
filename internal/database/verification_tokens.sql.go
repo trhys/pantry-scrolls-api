@@ -15,17 +15,18 @@ INSERT INTO verification_tokens (email, token, expires_at)
 VALUES (
   $1,
   $2,
-  NOW() + interval '30 minutes'
+  $3
 )
 `
 
 type CreateVerificationParams struct {
-	Email string
-	Token string
+	Email     string
+	Token     string
+	ExpiresAt time.Time
 }
 
 func (q *Queries) CreateVerification(ctx context.Context, arg CreateVerificationParams) error {
-	_, err := q.db.ExecContext(ctx, createVerification, arg.Email, arg.Token)
+	_, err := q.db.ExecContext(ctx, createVerification, arg.Email, arg.Token, arg.ExpiresAt)
 	return err
 }
 

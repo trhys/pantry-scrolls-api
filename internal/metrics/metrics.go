@@ -7,8 +7,8 @@ import (
 )
 
 type Metrics struct {
-  ServerHits  	*prometheus.CounterVec
-  Latency	*prometheus.HistogramVec
+	ServerHits *prometheus.CounterVec
+	Latency    *prometheus.HistogramVec
 }
 
 func NewMetrics(reg prometheus.Registerer) *Metrics {
@@ -31,4 +31,3 @@ func NewMetrics(reg prometheus.Registerer) *Metrics {
 	}
 	return m
 }
-

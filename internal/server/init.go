@@ -62,6 +62,11 @@ func GetRouter(cfg *ApiConfig, reg *prometheus.Registry) *http.ServeMux {
 	mux.HandleFunc("GET /api/tokens/refresh", cfg.handlerRefreshToken)
 	mux.HandleFunc("GET /api/tokens/revoke", cfg.handlerRevokeToken)
 
+	// Messages eps
+	mux.HandleFunc("POST /api/messages", cfg.handlerAddMessage)
+	mux.HandleFunc("GET /api/messages", cfg.handlerGetMessages)
+	mux.HandleFunc("POST /api/messages/{message_id}", cfg.handlerChangeMessageStatus)
+
 	return mux
 }
 
@@ -165,7 +170,7 @@ func GetConfig() *ApiConfig {
 	if err != nil {
 		slog.Error("Failed to load SES config", "error", err)
 	}
-	
+
 	cfg := ApiConfig{
 		DB:               database.New(db),
 		DBConn:           db,

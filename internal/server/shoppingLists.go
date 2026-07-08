@@ -3,6 +3,7 @@ package server
 import (
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/google/uuid"
 	"github.com/lib/pq"
@@ -27,6 +28,12 @@ func (cfg *ApiConfig) handlerCreateShoppingList(w http.ResponseWriter, r *http.R
 	// Decode request body
 	if err := util.DecodeRequest(w, r, 1<<20, &req); err != nil {
 		respondFail(r, w, 400, "Bad request", fmt.Errorf("Failed to decode request: ERROR: %v", err))
+		return
+	}
+
+	// validate input
+	if strings.TrimSpace(req.Name) == "" {
+		respondFail(r, w, 400, "Invalid list name", fmt.Errorf("List name must not be empty - list name: %s", req.Name))
 		return
 	}
 
@@ -77,6 +84,12 @@ func (cfg *ApiConfig) handlerAddToShoppingList(w http.ResponseWriter, r *http.Re
 		return
 	}
 
+	// validate input
+	if req.Quantity <= 0 {
+		respondFail(r, w, 400, "Bad quantity", fmt.Errorf("(AddToList) Quantity must be greater than 0 - got: %d", req.Quantity))
+		return
+	}
+
 	// Link recipe to list by ID
 	if err := cfg.DB.AddRecipeToList(r.Context(), database.AddRecipeToListParams{
 		ShoppingListID: id,
@@ -92,6 +105,9 @@ func (cfg *ApiConfig) handlerAddToShoppingList(w http.ResponseWriter, r *http.Re
 				respondFail(r, w, 500, "Database error", fmt.Errorf("Failed to perform AddRecipeToList query: %v", err))
 				return
 			}
+		} else {
+			respondFail(r, w, 404, "Couldn't add recipe", fmt.Errorf("Failed to add recipe to list: %v", err))
+			return
 		}
 	}
 

@@ -3,7 +3,7 @@ INSERT INTO verification_tokens (email, token, expires_at)
 VALUES (
   $1,
   $2,
-  NOW() + interval '30 minutes'
+  $3
 );
 
 -- name: GetVerification :one
