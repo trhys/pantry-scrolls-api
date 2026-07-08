@@ -16,7 +16,7 @@ func (cfg *ApiConfig) handlerAddMessage(w http.ResponseWriter, r *http.Request) 
     }
 
     if err := util.DecodeRequest(w, r, 1<<10, &req); err != nil {
-        respondFail(w, 400, "Bad request", fmt.Errorf("Failed to decode request: %v", err))
+        respondFail(r, w, 400, "Bad request", fmt.Errorf("Failed to decode request: %v", err))
         return
     }
 
@@ -24,7 +24,7 @@ func (cfg *ApiConfig) handlerAddMessage(w http.ResponseWriter, r *http.Request) 
         UserEmail: req.Email,
         Message: req.Message,
     }); err != nil {
-        respondFail(w, 500, "Something went wrong", fmt.Errorf("Query failed: %v", err))
+        respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Query failed: %v", err))
         return
     }
 
@@ -38,10 +38,10 @@ func (cfg *ApiConfig) handlerGetMessages(w http.ResponseWriter, r *http.Request)
         tag = "none"
     }
 
-    if tag == "none {
+    if tag == "none" {
         messages, err := cfg.DB.GetAllMessages(r.Context())
         if err != nil {
-            respondFail(w, 500, "Something went wrong", fmt.Errorf("Query failed: %v", err))
+            respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Query failed: %v", err))
             return
         }
         respondJSON(w, 200, messages)
@@ -50,7 +50,7 @@ func (cfg *ApiConfig) handlerGetMessages(w http.ResponseWriter, r *http.Request)
 
     messages, err := cfg.DB.GetMessagesWithTag(r.Context(), tag)
     if err != nil {
-            respondFail(w, 500, "Something went wrong", fmt.Errorf("Query failed: %v", err))
+            respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Query failed: %v", err))
             return
     }
 
@@ -73,7 +73,7 @@ func (cfg *ApiConfig) handlerChangeMessageStatus(w http.ResponseWriter, r *http.
         ID: messageId,
         Status: req.Status,
         }); err != nil {
-            respondFail(w, 500, "Something went wrong", fmt.Errorf("Query failed: %v", err))
+            respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Query failed: %v", err))
             return
     }
 

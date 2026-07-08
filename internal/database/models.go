@@ -31,6 +31,14 @@ type IngredientRetailUnit struct {
 	RetailUnit   string
 }
 
+type Message struct {
+	ID        uuid.UUID
+	UserEmail string
+	Message   string
+	Resolved  bool
+	Status    string
+}
+
 type Recipe struct {
 	ID           uuid.UUID
 	Title        string
