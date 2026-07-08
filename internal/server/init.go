@@ -170,7 +170,7 @@ func GetConfig() *ApiConfig {
 	if err != nil {
 		slog.Error("Failed to load SES config", "error", err)
 	}
-	
+
 	cfg := ApiConfig{
 		DB:               database.New(db),
 		DBConn:           db,

@@ -7,11 +7,11 @@ import (
 	"os"
 
 	_ "github.com/lib/pq"
-	"github.com/rs/cors"
 	"github.com/prometheus/client_golang/prometheus"
-	"github.com/trhys/Recipe-Repo-2/internal/metrics"
+	"github.com/rs/cors"
 	"github.com/trhys/Recipe-Repo-2/internal/auth"
 	"github.com/trhys/Recipe-Repo-2/internal/data"
+	"github.com/trhys/Recipe-Repo-2/internal/metrics"
 	"github.com/trhys/Recipe-Repo-2/internal/server"
 )
 
@@ -19,7 +19,7 @@ func main() {
 	// initialize logger
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
 	slog.SetDefault(logger)
-	
+
 	cfg := server.GetConfig()
 
 	// Check database seeding
@@ -45,7 +45,7 @@ func main() {
 
 	reg := prometheus.NewRegistry()
 	m := metrics.NewMetrics(reg)
-	
+
 	mux := server.GetRouter(cfg, reg)
 	server := http.Server{
 		Addr:    "0.0.0.0:8080",

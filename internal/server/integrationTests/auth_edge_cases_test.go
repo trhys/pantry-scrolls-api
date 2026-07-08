@@ -141,7 +141,7 @@ func TestMalformedRequests(t *testing.T) {
 
 	mockSES := &MockSESClient{}
 	cfg.SESClient = mockSES
-	
+
 	testReg := prometheus.NewRegistry()
 
 	router := server.GetRouter(cfg, testReg)

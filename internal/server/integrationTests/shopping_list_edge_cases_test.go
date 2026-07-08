@@ -142,7 +142,7 @@ func TestShoppingListEdgeCases(t *testing.T) {
 		req.AddCookie(rt)
 
 		w = httptest.NewRecorder()
-		
+
 		_, err := tx.Exec("SAVEPOINT add_invalid_recipe_sp")
 		if err != nil {
 			t.Fatalf("Failed to create savepoint: %v", err)

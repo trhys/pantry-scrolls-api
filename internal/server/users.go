@@ -87,9 +87,9 @@ func (cfg *ApiConfig) handlerCreateUser(w http.ResponseWriter, r *http.Request) 
 
 	// add token to db
 	query2 := database.CreateVerificationParams{
-		Email: req.Email,
-		Token: verificationToken,
-   ExpiresAt: time.Now().Add(time.Minute * 30),
+		Email:     req.Email,
+		Token:     verificationToken,
+		ExpiresAt: time.Now().Add(time.Minute * 30),
 	}
 
 	if err := cfg.DB.CreateVerification(r.Context(), query2); err != nil {
@@ -449,13 +449,12 @@ func (cfg *ApiConfig) handlerResetPassword(w http.ResponseWriter, r *http.Reques
 		respondFail(r, w, 400, "Bad request", fmt.Errorf("Failed to decode request - ERROR: %v", err))
 		return
 	}
-	
+
 	// validate email
 	if _, err := mail.ParseAddress(req.Email); err != nil {
 		respondFail(r, w, 400, "Bad request", fmt.Errorf("Email not valid: %v", err))
 		return
 	}
-
 
 	// verify email exists
 	if _, err := cfg.DB.GetUserByEmail(r.Context(), req.Email); err != nil {
@@ -472,9 +471,9 @@ func (cfg *ApiConfig) handlerResetPassword(w http.ResponseWriter, r *http.Reques
 
 	// add token to db
 	query2 := database.CreateVerificationParams{
-		Email: req.Email,
-		Token: verificationToken,
-   		ExpiresAt: time.Now().Add(time.Minute * 30),
+		Email:     req.Email,
+		Token:     verificationToken,
+		ExpiresAt: time.Now().Add(time.Minute * 30),
 	}
 
 	if err := cfg.DB.CreateVerification(r.Context(), query2); err != nil {

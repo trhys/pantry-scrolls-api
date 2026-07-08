@@ -56,7 +56,7 @@ func (cfg *ApiConfig) SendVerificationEmail(targetEmail string, token string) er
 }
 
 func (cfg *ApiConfig) SendPasswordReset(targetEmail string, token string) error {
-	resetURL := fmt.Sprintf("%s/resetpassword/%s", cfg.React, token)
+	resetURL := fmt.Sprintf("%sresetpassword/%s", cfg.React, token)
 
 	sender := "no-reply@pantryscrolls.com"
 	subject := "Password Reset Request"
