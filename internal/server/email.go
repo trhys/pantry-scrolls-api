@@ -10,7 +10,7 @@ import (
 )
 
 func (cfg *ApiConfig) SendVerificationEmail(targetEmail string, token string) error {
-	verificationURL := fmt.Sprintf("%s/verify/%s", cfg.React, token)
+	verificationURL := fmt.Sprintf("%sverify/%s", cfg.React, token)
 
 	sender := "no-reply@pantryscrolls.com"
 	subject := "Verify your email address"
