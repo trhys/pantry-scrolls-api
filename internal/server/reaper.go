@@ -10,7 +10,7 @@ import (
 // that have been deactivated for 30 or more days. It ticks once every 24 hours.
 func (cfg *ApiConfig) StartReaper() {
 	go func() {
-		ticker := time.NewTicker(24 * time.Hour)
+		ticker := time.NewTicker(cfg.ReaperInterval)
 		defer ticker.Stop()
 
 		for range ticker.C {

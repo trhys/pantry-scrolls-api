@@ -16,6 +16,7 @@ type ApiConfig struct {
 	DBConn           *sql.DB
 	Secret           string
 	JwtDuration      time.Duration
+	ReaperInterval   time.Duration
 	SESClient        EmailClient
 	S3client         *s3.Client
 	S3bucket         string

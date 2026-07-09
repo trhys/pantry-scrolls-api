@@ -178,6 +178,7 @@ func GetConfig() *ApiConfig {
 		DBConn:           db,
 		Secret:           secret,
 		JwtDuration:      jwtDuration,
+		ReaperInterval:   24 * time.Hour,
 		SESClient:        ses.NewFromConfig(sesCfg),
 		S3client:         s3.NewFromConfig(s3cfg),
 		S3bucket:         s3bucket,
