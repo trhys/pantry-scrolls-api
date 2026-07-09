@@ -135,6 +135,12 @@ func (cfg *ApiConfig) handlerLogin(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if match {
+		// Block login for deactivated accounts
+		if user.DeactivatedAt.Valid {
+			respondFail(r, w, 401, "Account is deactivated", fmt.Errorf("Login attempt for deactivated account: %s", user.Email))
+			return
+		}
+
 		token, err := auth.MakeJWT(user.ID, cfg.Secret, cfg.JwtDuration)
 		if err != nil {
 			respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Failed to write JWT for user: %s, - ERROR: %v", req.Email, err))
@@ -483,3 +489,87 @@ func (cfg *ApiConfig) handlerResetPassword(w http.ResponseWriter, r *http.Reques
 
 	respondJSON(w, 204, nil)
 }
+
+// Request account deactivation - marks the account as pending deletion and sends a cancel email
+func (cfg *ApiConfig) handlerDeactivateUser(w http.ResponseWriter, r *http.Request) {
+	val := r.PathValue("user_id")
+	id, err := uuid.Parse(val)
+	if err != nil {
+		respondFail(r, w, 404, "Invalid uuid", fmt.Errorf("Failed to parse UUID in url: %v", err))
+		return
+	}
+
+	requesterID := r.Context().Value("userID")
+	if requesterID != id {
+		respondFail(r, w, 401, "Unauthorized", fmt.Errorf("Unauthorized deactivation request for user id: %s", id.String()))
+		return
+	}
+
+	email, err := cfg.DB.GetUserEmail(r.Context(), id)
+	if err != nil {
+		respondFail(r, w, 404, "Couldn't find user", fmt.Errorf("Failed to get email for user id: %s - ERROR: %v", id, err))
+		return
+	}
+
+	if err := cfg.DB.DeactivateUser(r.Context(), id); err != nil {
+		respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Failed to deactivate user id: %s - ERROR: %v", id, err))
+		return
+	}
+
+	cancelToken := auth.MakeRefreshToken()
+	tokenParams := database.CreateDeactivationTokenParams{
+		Token:     cancelToken,
+		UserID:    id,
+		ExpiresAt: time.Now().Add(30 * 24 * time.Hour),
+	}
+
+	if err := cfg.DB.CreateDeactivationToken(r.Context(), tokenParams); err != nil {
+		respondFail(r, w, 500, "Failed to log deactivation token", fmt.Errorf("Couldnt add deactivation token for user id: %s ERROR %v", id, err))
+		return
+	}
+
+	if err := cfg.SendDeactivationEmail(email, cancelToken); err != nil {
+		respondFail(r, w, 500, "Failed to send deactivation email", fmt.Errorf("Couldnt send deactivation email to %s - ERROR: %v", email, err))
+		return
+	}
+
+	slog.Info("User account deactivated", "user_id", id)
+	respondJSON(w, 204, nil)
+}
+
+// Cancel a pending account deactivation using the token from the email
+func (cfg *ApiConfig) handlerCancelDeactivation(w http.ResponseWriter, r *http.Request) {
+	var req struct {
+		Token string `json:"token"`
+	}
+
+	if err := util.DecodeRequest(w, r, 1<<20, &req); err != nil {
+		respondFail(r, w, 400, "Bad request", fmt.Errorf("Failed to decode request - ERROR: %v", err))
+		return
+	}
+
+	tokenRow, err := cfg.DB.GetDeactivationToken(r.Context(), req.Token)
+	if err != nil {
+		respondFail(r, w, 404, "Invalid token", fmt.Errorf("Invalid deactivation cancel token attempt"))
+		return
+	}
+
+	if !tokenRow.ExpiresAt.After(time.Now()) {
+		respondFail(r, w, 401, "Token expired", fmt.Errorf("Expired deactivation cancel token for user id: %s", tokenRow.UserID))
+		return
+	}
+
+	if err := cfg.DB.ReactivateUser(r.Context(), tokenRow.UserID); err != nil {
+		respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Failed to reactivate user id: %s - ERROR: %v", tokenRow.UserID, err))
+		return
+	}
+
+	if err := cfg.DB.DeleteDeactivationToken(r.Context(), req.Token); err != nil {
+		respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Failed to delete deactivation token for user id: %s - ERROR: %v", tokenRow.UserID, err))
+		return
+	}
+
+	slog.Info("User account reactivated", "user_id", tokenRow.UserID)
+	respondJSON(w, 204, nil)
+}
+

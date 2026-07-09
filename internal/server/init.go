@@ -33,6 +33,8 @@ func GetRouter(cfg *ApiConfig, reg *prometheus.Registry) *http.ServeMux {
 	mux.HandleFunc("GET /api/sessions", cfg.authMiddleware(cfg.handlerGetSession))
 	mux.HandleFunc("PUT /api/users", cfg.authMiddleware(cfg.handlerUploadUserImage))
 	mux.HandleFunc("PUT /api/users/{user_id}", cfg.authMiddleware(cfg.handlerUpdateUser))
+	mux.HandleFunc("PUT /api/users/{user_id}/deactivate", cfg.authMiddleware(cfg.handlerDeactivateUser))
+	mux.HandleFunc("PUT /api/deactivation/cancel", cfg.handlerCancelDeactivation)
 	mux.HandleFunc("GET /api/verify/{token}", cfg.handlerVerifyEmail)
 	mux.HandleFunc("POST /api/resetpassword", cfg.handlerResetPassword)
 	mux.HandleFunc("PUT /api/resetpassword", cfg.handlerUpdatePassword)
