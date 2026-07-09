@@ -122,7 +122,7 @@ func (cfg *ApiConfig) SendDeactivationEmail(targetEmail string, cancelToken stri
 				</a>
 			</div>
 			<p style="color: #888888; font-size: 14px;">
-				If you did not make this request, please cancel immediately using the link above and consider changing your password.
+				If you did not make this request, please cancel immediately using the link above, change your password, and contact support if you believe your account has been compromised.
 			</p>
 		</div>
 	`, cancelURL)

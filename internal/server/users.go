@@ -499,8 +499,8 @@ func (cfg *ApiConfig) handlerDeactivateUser(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	requesterID := r.Context().Value("userID")
-	if requesterID != id {
+	requesterID, ok := r.Context().Value("userID").(uuid.UUID)
+	if !ok || requesterID != id {
 		respondFail(r, w, 401, "Unauthorized", fmt.Errorf("Unauthorized deactivation request for user id: %s", id.String()))
 		return
 	}

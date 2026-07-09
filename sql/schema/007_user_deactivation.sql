@@ -11,6 +11,9 @@ CREATE TABLE deactivation_tokens (
   ON DELETE CASCADE
 );
 
+CREATE INDEX idx_deactivation_tokens_expires_at ON deactivation_tokens(expires_at);
+
 -- +goose Down
+DROP INDEX idx_deactivation_tokens_expires_at;
 DROP TABLE deactivation_tokens;
 ALTER TABLE users DROP COLUMN deactivated_at;
