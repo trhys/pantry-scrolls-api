@@ -22,6 +22,8 @@ func main() {
 
 	cfg := server.GetConfig()
 
+	cfg.StartReaper()
+
 	// Check database seeding
 	if err := data.InitDBIngredients(cfg.ImagePlaceholder, cfg.DBConn, context.Background()); err != nil {
 		slog.Error("Seed failure", "error", err)

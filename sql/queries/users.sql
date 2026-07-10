@@ -10,7 +10,7 @@ VALUES (
 ) RETURNING id, created_at, email, name;
 
 -- name: GetUserHash :one
-SELECT id, email, name, hashed_pw, image_key FROM users
+SELECT id, email, name, hashed_pw, image_key, deactivated_at FROM users
 WHERE email = $1;
 
 -- name: GetUser :one
@@ -65,6 +65,21 @@ WHERE email = $1;
 -- name: GetUserEmail :one
 SELECT email FROM users
 WHERE id = $1;
+
+-- name: DeactivateUser :exec
+UPDATE users
+SET deactivated_at = NOW()
+WHERE id = $1;
+
+-- name: ReactivateUser :exec
+UPDATE users
+SET deactivated_at = NULL
+WHERE id = $1;
+
+-- name: ReapDeactivatedUsers :execrows
+DELETE FROM users
+WHERE deactivated_at IS NOT NULL
+  AND deactivated_at <= NOW() - INTERVAL '30 days';
 
 -- name: GetTotalUsers :one
 SELECT COUNT(*) FROM users;
