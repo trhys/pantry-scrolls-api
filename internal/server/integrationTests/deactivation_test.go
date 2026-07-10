@@ -62,6 +62,9 @@ func TestUserDeactivationLifecycle(t *testing.T) {
 			rt = c
 		}
 	}
+	if jwt == nil || rt == nil {
+		t.Fatal("expected login response to include jwt and refresh_token cookies")
+	}
 
 	req = httptest.NewRequest("PUT", "/api/users/"+user.ID.String()+"/deactivate", nil)
 	req.AddCookie(jwt)
