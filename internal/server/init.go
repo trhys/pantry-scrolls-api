@@ -38,6 +38,7 @@ func GetRouter(cfg *ApiConfig, reg *prometheus.Registry) *http.ServeMux {
 	mux.HandleFunc("GET /api/verify/{token}", cfg.handlerVerifyEmail)
 	mux.HandleFunc("POST /api/resetpassword", cfg.handlerResetPassword)
 	mux.HandleFunc("PUT /api/resetpassword", cfg.handlerUpdatePassword)
+    mux.HandleFunc("GET /api/users", cfg.handlerGetTotalUsers)
 
 	// Recipe eps
 	mux.HandleFunc("GET /api/recipes/{recipe_id}", cfg.handlerGetRecipe)

@@ -80,3 +80,6 @@ WHERE id = $1;
 DELETE FROM users
 WHERE deactivated_at IS NOT NULL
   AND deactivated_at <= NOW() - INTERVAL '30 days';
+
+-- name: GetTotalUsers :one
+SELECT COUNT(*) FROM users;

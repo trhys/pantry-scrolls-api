@@ -205,6 +205,17 @@ func (q *Queries) GetRecipesFromQuery(ctx context.Context, dollar_1 string) ([]R
 	return items, nil
 }
 
+const getTotalRecipes = `-- name: GetTotalRecipes :one
+SELECT COUNT(*) FROM recipes
+`
+
+func (q *Queries) GetTotalRecipes(ctx context.Context) (int64, error) {
+	row := q.db.QueryRowContext(ctx, getTotalRecipes)
+	var count int64
+	err := row.Scan(&count)
+	return count, err
+}
+
 const getUsersRecipes = `-- name: GetUsersRecipes :many
 SELECT id, title, author, description, instructions, image_key, created_at, updated_at, user_id FROM recipes
 WHERE user_id = $1
