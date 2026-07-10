@@ -73,6 +73,17 @@ func (q *Queries) GetName(ctx context.Context, id uuid.UUID) (string, error) {
 	return name, err
 }
 
+const getTotalUsers = `-- name: GetTotalUsers :one
+SELECT COUNT(*) FROM users
+`
+
+func (q *Queries) GetTotalUsers(ctx context.Context) (int64, error) {
+	row := q.db.QueryRowContext(ctx, getTotalUsers)
+	var count int64
+	err := row.Scan(&count)
+	return count, err
+}
+
 const getUser = `-- name: GetUser :one
 SELECT id, created_at, updated_at, email, name, image_key FROM USERS
 WHERE id = $1

@@ -65,3 +65,6 @@ WHERE email = $1;
 -- name: GetUserEmail :one
 SELECT email FROM users
 WHERE id = $1;
+
+-- name: GetTotalUsers :one
+SELECT COUNT(*) FROM users;

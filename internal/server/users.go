@@ -483,3 +483,18 @@ func (cfg *ApiConfig) handlerResetPassword(w http.ResponseWriter, r *http.Reques
 
 	respondJSON(w, 204, nil)
 }
+
+// Get total number of users
+func (cfg *ApiConfig) handlerGetTotalUsers(w http.ResponseWriter, r *http.Request) {
+  total, err := cfg.DB.GetTotalUsers(r.Context())
+  if err != nil {
+    respondFail(r, w, 500, "something went wrong", fmt.Errorf("query failed: %v", err))
+    return
+  }
+
+  respondJSON(w, 200, struct{
+    Total int64 `json:"total"`
+  }{
+    Total: total,
+  })
+}

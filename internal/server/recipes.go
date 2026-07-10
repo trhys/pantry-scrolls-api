@@ -172,8 +172,21 @@ func (cfg *ApiConfig) handlerGetRecipe(w http.ResponseWriter, r *http.Request) {
 	respondJSON(w, 200, model)
 }
 
-// Get ten most recent recipes
+// Get ten most recent recipes or total
 func (cfg *ApiConfig) handlerGetRecipeList(w http.ResponseWriter, r *http.Request) {
+  // return early with count if total query
+  if r.URL.Query().Get("total") == "true" { 
+    total, err := cfg.DB.GetTotalRecipes(r.Context())
+    if err != nil {
+      respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Failed total recipes query: %v", err))
+      return
+    }
+    respondJSON(w, 200, struct{
+      Total int64 `json:"total"`
+    }{ Total: total, })
+    return
+  }
+
 	recipes, err := cfg.DB.GetRecipeList(r.Context())
 	if err != nil {
 		respondFail(r, w, 404, "Failed to retrieve recipe list", fmt.Errorf("Failed to get recipe list: %v", err))
