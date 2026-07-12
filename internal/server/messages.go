@@ -65,7 +65,8 @@ func (cfg *ApiConfig) handlerGetMessages(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	if _, err := sanitizeMessageStatus(tag); err != nil {
+	tag, err := sanitizeMessageStatus(tag)
+	if err != nil {
 		respondFail(r, w, 400, "Bad request", fmt.Errorf("Invalid tag value: %s", tag))
 		return
 	}
