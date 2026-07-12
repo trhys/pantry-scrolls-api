@@ -3,6 +3,8 @@ package server
 import (
 	"fmt"
 	"net/http"
+	"net/mail"
+	"strings"
 
 	"github.com/google/uuid"
 	"github.com/trhys/Recipe-Repo-2/internal/database"
@@ -17,6 +19,19 @@ func (cfg *ApiConfig) handlerAddMessage(w http.ResponseWriter, r *http.Request) 
 
 	if err := util.DecodeRequest(w, r, 1<<10, &req); err != nil {
 		respondFail(r, w, 400, "Bad request", fmt.Errorf("Failed to decode request: %v", err))
+		return
+	}
+
+	req.Email = strings.ToLower(strings.TrimSpace(req.Email))
+	req.Message = strings.TrimSpace(req.Message)
+
+	if _, err := mail.ParseAddress(req.Email); err != nil {
+		respondFail(r, w, 400, "Bad request", fmt.Errorf("Invalid email address: %v", err))
+		return
+	}
+
+	if req.Message == "" || len(req.Message) > 1000 {
+		respondFail(r, w, 400, "Bad request", fmt.Errorf("Message must be between 1 and 1000 characters"))
 		return
 	}
 
@@ -38,6 +53,8 @@ func (cfg *ApiConfig) handlerGetMessages(w http.ResponseWriter, r *http.Request)
 		tag = "none"
 	}
 
+	tag = strings.ToLower(strings.TrimSpace(tag))
+
 	if tag == "none" {
 		messages, err := cfg.DB.GetAllMessages(r.Context())
 		if err != nil {
@@ -45,6 +62,11 @@ func (cfg *ApiConfig) handlerGetMessages(w http.ResponseWriter, r *http.Request)
 			return
 		}
 		respondJSON(w, 200, messages)
+		return
+	}
+
+	if _, err := sanitizeMessageStatus(tag); err != nil {
+		respondFail(r, w, 400, "Bad request", fmt.Errorf("Invalid tag value: %s", tag))
 		return
 	}
 
@@ -69,9 +91,20 @@ func (cfg *ApiConfig) handlerChangeMessageStatus(w http.ResponseWriter, r *http.
 		return
 	}
 
+	if err := util.DecodeRequest(w, r, 1<<10, &req); err != nil {
+		respondFail(r, w, 400, "Bad request", fmt.Errorf("Failed to decode request: %v", err))
+		return
+	}
+
+	status, err := sanitizeMessageStatus(req.Status)
+	if err != nil {
+		respondFail(r, w, 400, "Bad request", fmt.Errorf("Invalid status value: %s", req.Status))
+		return
+	}
+
 	if err := cfg.DB.SetMessageStatus(r.Context(), database.SetMessageStatusParams{
 		ID:     messageId,
-		Status: req.Status,
+		Status: status,
 	}); err != nil {
 		respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Query failed: %v", err))
 		return

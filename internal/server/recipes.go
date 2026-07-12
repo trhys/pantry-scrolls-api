@@ -8,7 +8,6 @@ import (
 	"mime"
 	"net/http"
 	"os"
-	"strings"
 
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 	"github.com/google/uuid"
@@ -374,9 +373,14 @@ func (cfg *ApiConfig) handlerDeleteRecipe(w http.ResponseWriter, r *http.Request
 }
 
 func (cfg *ApiConfig) handlerExploreFeed(w http.ResponseWriter, r *http.Request) {
-	query := r.URL.Query().Get("search")
+	query, err := sanitizeSearchQuery(r.URL.Query().Get("search"))
+	if err != nil {
+		respondFail(r, w, 400, "Bad request", err)
+		return
+	}
+
 	if query != "" {
-		feed, err := cfg.DB.GetRecipesFromQuery(r.Context(), strings.ToLower(query))
+		feed, err := cfg.DB.GetRecipesFromQuery(r.Context(), query)
 		if err != nil {
 			respondFail(r, w, 404, "No recipes matched the query params", fmt.Errorf("recipes query error: %v", err))
 			return
