@@ -12,6 +12,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 	"github.com/google/uuid"
 	"github.com/trhys/Recipe-Repo-2/internal/database"
+	util "github.com/trhys/Recipe-Repo-2/internal/utility"
 	"github.com/trhys/Recipe-Repo-2/internal/viewmodel"
 )
 
@@ -373,7 +374,7 @@ func (cfg *ApiConfig) handlerDeleteRecipe(w http.ResponseWriter, r *http.Request
 }
 
 func (cfg *ApiConfig) handlerExploreFeed(w http.ResponseWriter, r *http.Request) {
-	query, err := sanitizeSearchQuery(r.URL.Query().Get("search"))
+	query, err := util.SanitizeSearchQuery(r.URL.Query().Get("search"))
 	if err != nil {
 		respondFail(r, w, 400, "Bad request", err)
 		return

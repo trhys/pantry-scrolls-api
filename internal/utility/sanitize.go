@@ -1,4 +1,4 @@
-package server
+package utility
 
 import (
 	"fmt"
@@ -14,7 +14,7 @@ var messageStatuses = map[string]struct{}{
 	"archived": {},
 }
 
-func sanitizeSearchQuery(raw string) (string, error) {
+func SanitizeSearchQuery(raw string) (string, error) {
 	query := strings.ToLower(strings.TrimSpace(raw))
 	if len(query) > maxSearchQueryLength {
 		return "", fmt.Errorf("search query exceeds max length")
@@ -29,7 +29,7 @@ func sanitizeSearchQuery(raw string) (string, error) {
 	return query, nil
 }
 
-func sanitizeMessageStatus(raw string) (string, error) {
+func SanitizeMessageStatus(raw string) (string, error) {
 	status := strings.ToLower(strings.TrimSpace(raw))
 	if _, ok := messageStatuses[status]; !ok {
 		return "", fmt.Errorf("unsupported message status")

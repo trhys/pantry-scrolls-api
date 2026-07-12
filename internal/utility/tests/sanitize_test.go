@@ -1,12 +1,16 @@
-package server
+package utility_test
 
-import "testing"
+import (
+	"testing"
+
+	util "github.com/trhys/Recipe-Repo-2/internal/utility"
+)
 
 func TestSanitizeSearchQuery(t *testing.T) {
 	t.Run("normalizes query", func(t *testing.T) {
-		got, err := sanitizeSearchQuery("  Chicken Soup  ")
+		got, err := util.SanitizeSearchQuery("  Chicken Soup  ")
 		if err != nil {
-			t.Fatalf("sanitizeSearchQuery returned error: %v", err)
+			t.Fatalf("SanitizeSearchQuery returned error: %v", err)
 		}
 		if got != "chicken soup" {
 			t.Fatalf("expected normalized query to be %q, got %q", "chicken soup", got)
@@ -14,7 +18,7 @@ func TestSanitizeSearchQuery(t *testing.T) {
 	})
 
 	t.Run("rejects control chars", func(t *testing.T) {
-		if _, err := sanitizeSearchQuery("chicken\nsoup"); err == nil {
+		if _, err := util.SanitizeSearchQuery("chicken\nsoup"); err == nil {
 			t.Fatal("expected error for control character in query")
 		}
 	})
@@ -35,7 +39,7 @@ func TestSanitizeMessageStatus(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := sanitizeMessageStatus(tt.input)
+			got, err := util.SanitizeMessageStatus(tt.input)
 			if (err != nil) != tt.wantErr {
 				t.Fatalf("expected error=%v, got err=%v", tt.wantErr, err)
 			}
