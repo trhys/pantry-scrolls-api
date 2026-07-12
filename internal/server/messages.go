@@ -48,14 +48,14 @@ func (cfg *ApiConfig) handlerAddMessage(w http.ResponseWriter, r *http.Request) 
 
 func (cfg *ApiConfig) handlerGetMessages(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
-	tag := query.Get("tag")
-	if tag == "" {
-		tag = "none"
+	rawTag := query.Get("tag")
+	if rawTag == "" {
+		rawTag = "none"
 	}
 
-	tag = strings.ToLower(strings.TrimSpace(tag))
+	rawTag = strings.ToLower(strings.TrimSpace(rawTag))
 
-	if tag == "none" {
+	if rawTag == "none" {
 		messages, err := cfg.DB.GetAllMessages(r.Context())
 		if err != nil {
 			respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Query failed: %v", err))
@@ -65,9 +65,9 @@ func (cfg *ApiConfig) handlerGetMessages(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	tag, err := util.SanitizeMessageStatus(tag)
-	if err != nil {
-		respondFail(r, w, 400, "Bad request", fmt.Errorf("Invalid tag value: %s", tag))
+	tag, sanitizeErr := util.SanitizeMessageStatus(rawTag)
+	if sanitizeErr != nil {
+		respondFail(r, w, 400, "Bad request", fmt.Errorf("Invalid tag value: %s", rawTag))
 		return
 	}
 
