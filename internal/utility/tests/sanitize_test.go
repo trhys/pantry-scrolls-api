@@ -22,6 +22,16 @@ func TestSanitizeSearchQuery(t *testing.T) {
 			t.Fatal("expected error for control character in query")
 		}
 	})
+
+	t.Run("allows empty after trimming", func(t *testing.T) {
+		got, err := util.SanitizeSearchQuery("   ")
+		if err != nil {
+			t.Fatalf("SanitizeSearchQuery returned error: %v", err)
+		}
+		if got != "" {
+			t.Fatalf("expected empty string, got %q", got)
+		}
+	})
 }
 
 func TestSanitizeMessageStatus(t *testing.T) {
@@ -34,6 +44,8 @@ func TestSanitizeMessageStatus(t *testing.T) {
 		{name: "valid unread", input: " unread ", want: "unread"},
 		{name: "valid read", input: "READ", want: "read"},
 		{name: "valid archived", input: "archived", want: "archived"},
+		{name: "empty string", input: "", wantErr: true},
+		{name: "whitespace only", input: "   ", wantErr: true},
 		{name: "invalid", input: "pending", wantErr: true},
 	}
 
