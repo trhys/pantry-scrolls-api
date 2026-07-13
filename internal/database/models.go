@@ -123,3 +123,8 @@ type VerificationToken struct {
 	Token     string
 	ExpiresAt time.Time
 }
+
+type ServerState struct {
+	Active  bool
+	Message string
+}
