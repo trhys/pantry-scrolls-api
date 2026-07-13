@@ -8,7 +8,7 @@ import (
 func (cfg *ApiConfig) handlerGetMaintenance(w http.ResponseWriter, r *http.Request) {
 	state, err := cfg.DB.GetServerState(r.Context())
 	if err != nil {
-		respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Query failed: %v", err))
+		respondFail(r, w, 500, "Failed to retrieve maintenance state", fmt.Errorf("Query failed: %v", err))
 		return
 	}
 
