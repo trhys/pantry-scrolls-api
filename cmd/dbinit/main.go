@@ -52,7 +52,7 @@ func main() {
 
 	hash, err := auth.HashPassword(userpw)
 	if err != nil {
-		slog.Error("Failed to hash password", "error", err)
+		slog.Error("Failed to hash user password for seeding", "error", err)
 		os.Exit(1)
 	}
 
