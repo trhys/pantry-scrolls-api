@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"log/slog"
 	"net/http"
 	"os"
@@ -9,8 +8,6 @@ import (
 	_ "github.com/lib/pq"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/rs/cors"
-	"github.com/trhys/Recipe-Repo-2/internal/auth"
-	"github.com/trhys/Recipe-Repo-2/internal/data"
 	"github.com/trhys/Recipe-Repo-2/internal/metrics"
 	"github.com/trhys/Recipe-Repo-2/internal/server"
 )
@@ -21,19 +18,6 @@ func main() {
 	slog.SetDefault(logger)
 
 	cfg := server.GetConfig()
-
-	// Check database seeding
-	if err := data.InitDBIngredients(cfg.ImagePlaceholder, cfg.DBConn, context.Background()); err != nil {
-		slog.Error("Seed failure", "error", err)
-		os.Exit(1)
-	}
-
-	hash, _ := auth.HashPassword(cfg.Root.Pass)
-
-	if err := data.InitDBRecipes(cfg.ImagePlaceholder, cfg.DBConn, context.Background(), hash); err != nil {
-		slog.Error("Seed failure", "error", err)
-		os.Exit(1)
-	}
 
 	// Load server
 	c := cors.New(cors.Options{
