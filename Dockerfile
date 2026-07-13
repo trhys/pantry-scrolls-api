@@ -8,6 +8,7 @@ RUN go install github.com/pressly/goose/v3/cmd/goose@latest
 
 COPY . .
 RUN CGO_ENABLED=0 GOOS=linux go build -o reciperepo .
+RUN CGO_ENABLED=0 GOOS=linux go build -o seed ./cmd/seed
 
 FROM debian:stable-slim
 WORKDIR /app
@@ -17,11 +18,13 @@ RUN apt-get update && apt-get upgrade -y && \
     rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /app/reciperepo ./reciperepo
+COPY --from=builder /app/seed ./seed
 COPY --from=builder /go/bin/goose ./goose
 
 COPY sql/schema ./sql/schema
 COPY entrypoint.sh ./entrypoint.sh
-RUN chmod +x entrypoint.sh
+COPY db-entrypoint.sh ./db-entrypoint.sh
+RUN chmod +x entrypoint.sh db-entrypoint.sh
 
 CMD ["./entrypoint.sh"]
 

@@ -12,6 +12,18 @@ services:
       interval: 10s
       retries: 5
 
+  db-init:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ["./db-entrypoint.sh"]
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: "no"
+
   app:
     build:
       context: .
@@ -20,8 +32,8 @@ services:
     env_file:
       - .env
     depends_on:
-      db:
-        condition: service_healthy
+      db-init:
+        condition: service_completed_successfully
 
   caddy:
     build:
