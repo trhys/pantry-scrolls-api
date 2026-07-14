@@ -19,6 +19,8 @@ func main() {
 
 	cfg := server.GetConfig()
 
+	cfg.StartReaper()
+
 	// Load server
 	c := cors.New(cors.Options{
 		AllowedOrigins:   []string{cfg.React},

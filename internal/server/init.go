@@ -33,9 +33,12 @@ func GetRouter(cfg *ApiConfig, reg *prometheus.Registry) *http.ServeMux {
 	mux.HandleFunc("GET /api/sessions", cfg.authMiddleware(cfg.handlerGetSession))
 	mux.HandleFunc("PUT /api/users", cfg.authMiddleware(cfg.handlerUploadUserImage))
 	mux.HandleFunc("PUT /api/users/{user_id}", cfg.authMiddleware(cfg.handlerUpdateUser))
+	mux.HandleFunc("PUT /api/users/{user_id}/deactivate", cfg.authMiddleware(cfg.handlerDeactivateUser))
+	mux.HandleFunc("PUT /api/deactivation/cancel", cfg.handlerCancelDeactivation)
 	mux.HandleFunc("GET /api/verify/{token}", cfg.handlerVerifyEmail)
 	mux.HandleFunc("POST /api/resetpassword", cfg.handlerResetPassword)
 	mux.HandleFunc("PUT /api/resetpassword", cfg.handlerUpdatePassword)
+    mux.HandleFunc("GET /api/users", cfg.handlerGetTotalUsers)
 
 	// Recipe eps
 	mux.HandleFunc("GET /api/recipes/{recipe_id}", cfg.handlerGetRecipe)
@@ -176,6 +179,7 @@ func GetConfig() *ApiConfig {
 		DBConn:           db,
 		Secret:           secret,
 		JwtDuration:      jwtDuration,
+		ReaperInterval:   24 * time.Hour,
 		SESClient:        ses.NewFromConfig(sesCfg),
 		S3client:         s3.NewFromConfig(s3cfg),
 		S3bucket:         s3bucket,

@@ -99,16 +99,23 @@ type UniversalUnit struct {
 	Name string
 }
 
+type DeactivationToken struct {
+	Token     string
+	UserID    uuid.UUID
+	ExpiresAt time.Time
+}
+
 type User struct {
-	ID         uuid.UUID
-	Name       string
-	CreatedAt  time.Time
-	UpdatedAt  time.Time
-	Email      string
-	HashedPw   string
-	Admin      bool
-	ImageKey   string
-	IsVerified sql.NullBool
+	ID            uuid.UUID
+	Name          string
+	CreatedAt     time.Time
+	UpdatedAt     time.Time
+	Email         string
+	HashedPw      string
+	Admin         bool
+	ImageKey      string
+	IsVerified    sql.NullBool
+	DeactivatedAt sql.NullTime
 }
 
 type VerificationToken struct {

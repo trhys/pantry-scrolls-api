@@ -56,3 +56,6 @@ WHERE id = $1;
 -- name: CheckIfSeeded :one
 SELECT id FROM recipes
 WHERE description = $1;
+
+-- name: GetTotalRecipes :one
+SELECT COUNT(*) FROM recipes;

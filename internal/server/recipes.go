@@ -8,11 +8,11 @@ import (
 	"mime"
 	"net/http"
 	"os"
-	"strings"
 
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 	"github.com/google/uuid"
 	"github.com/trhys/Recipe-Repo-2/internal/database"
+	util "github.com/trhys/Recipe-Repo-2/internal/utility"
 	"github.com/trhys/Recipe-Repo-2/internal/viewmodel"
 )
 
@@ -172,8 +172,21 @@ func (cfg *ApiConfig) handlerGetRecipe(w http.ResponseWriter, r *http.Request) {
 	respondJSON(w, 200, model)
 }
 
-// Get ten most recent recipes
+// Get ten most recent recipes or total
 func (cfg *ApiConfig) handlerGetRecipeList(w http.ResponseWriter, r *http.Request) {
+  // return early with count if total query
+  if r.URL.Query().Get("total") == "true" { 
+    total, err := cfg.DB.GetTotalRecipes(r.Context())
+    if err != nil {
+      respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Failed total recipes query: %v", err))
+      return
+    }
+    respondJSON(w, 200, struct{
+      Total int64 `json:"total"`
+    }{ Total: total, })
+    return
+  }
+
 	recipes, err := cfg.DB.GetRecipeList(r.Context())
 	if err != nil {
 		respondFail(r, w, 404, "Failed to retrieve recipe list", fmt.Errorf("Failed to get recipe list: %v", err))
@@ -361,9 +374,14 @@ func (cfg *ApiConfig) handlerDeleteRecipe(w http.ResponseWriter, r *http.Request
 }
 
 func (cfg *ApiConfig) handlerExploreFeed(w http.ResponseWriter, r *http.Request) {
-	query := r.URL.Query().Get("search")
+	query, err := util.SanitizeSearchQuery(r.URL.Query().Get("search"))
+	if err != nil {
+		respondFail(r, w, 400, "Bad request", err)
+		return
+	}
+
 	if query != "" {
-		feed, err := cfg.DB.GetRecipesFromQuery(r.Context(), strings.ToLower(query))
+		feed, err := cfg.DB.GetRecipesFromQuery(r.Context(), query)
 		if err != nil {
 			respondFail(r, w, 404, "No recipes matched the query params", fmt.Errorf("recipes query error: %v", err))
 			return

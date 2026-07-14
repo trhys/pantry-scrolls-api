@@ -7,6 +7,7 @@ package database
 
 import (
 	"context"
+	"database/sql"
 	"time"
 
 	"github.com/google/uuid"
@@ -73,6 +74,17 @@ func (q *Queries) GetName(ctx context.Context, id uuid.UUID) (string, error) {
 	return name, err
 }
 
+const getTotalUsers = `-- name: GetTotalUsers :one
+SELECT COUNT(*) FROM users
+`
+
+func (q *Queries) GetTotalUsers(ctx context.Context) (int64, error) {
+	row := q.db.QueryRowContext(ctx, getTotalUsers)
+	var count int64
+	err := row.Scan(&count)
+	return count, err
+}
+
 const getUser = `-- name: GetUser :one
 SELECT id, created_at, updated_at, email, name, image_key FROM USERS
 WHERE id = $1
@@ -132,16 +144,17 @@ func (q *Queries) GetUserEmail(ctx context.Context, id uuid.UUID) (string, error
 }
 
 const getUserHash = `-- name: GetUserHash :one
-SELECT id, email, name, hashed_pw, image_key FROM users
+SELECT id, email, name, hashed_pw, image_key, deactivated_at FROM users
 WHERE email = $1
 `
 
 type GetUserHashRow struct {
-	ID       uuid.UUID
-	Email    string
-	Name     string
-	HashedPw string
-	ImageKey string
+	ID            uuid.UUID
+	Email         string
+	Name          string
+	HashedPw      string
+	ImageKey      string
+	DeactivatedAt sql.NullTime
 }
 
 func (q *Queries) GetUserHash(ctx context.Context, email string) (GetUserHashRow, error) {
@@ -153,6 +166,7 @@ func (q *Queries) GetUserHash(ctx context.Context, email string) (GetUserHashRow
 		&i.Name,
 		&i.HashedPw,
 		&i.ImageKey,
+		&i.DeactivatedAt,
 	)
 	return i, err
 }
@@ -261,4 +275,40 @@ WHERE email = $1
 func (q *Queries) VerifyEmail(ctx context.Context, email string) error {
 	_, err := q.db.ExecContext(ctx, verifyEmail, email)
 	return err
+}
+
+const deactivateUser = `-- name: DeactivateUser :exec
+UPDATE users
+SET deactivated_at = NOW()
+WHERE id = $1
+`
+
+func (q *Queries) DeactivateUser(ctx context.Context, id uuid.UUID) error {
+	_, err := q.db.ExecContext(ctx, deactivateUser, id)
+	return err
+}
+
+const reactivateUser = `-- name: ReactivateUser :exec
+UPDATE users
+SET deactivated_at = NULL
+WHERE id = $1
+`
+
+func (q *Queries) ReactivateUser(ctx context.Context, id uuid.UUID) error {
+	_, err := q.db.ExecContext(ctx, reactivateUser, id)
+	return err
+}
+
+const reapDeactivatedUsers = `-- name: ReapDeactivatedUsers :execrows
+DELETE FROM users
+WHERE deactivated_at IS NOT NULL
+  AND deactivated_at <= NOW() - INTERVAL '30 days'
+`
+
+func (q *Queries) ReapDeactivatedUsers(ctx context.Context) (int64, error) {
+	result, err := q.db.ExecContext(ctx, reapDeactivatedUsers)
+	if err != nil {
+		return 0, err
+	}
+	return result.RowsAffected()
 }
