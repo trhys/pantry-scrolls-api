@@ -1,10 +1,14 @@
 services:
   db:
-    image: postgres:16
+    build:
+      context: .
+      dockerfile: Dockerfile.db
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: recipe_repo
+    env_file:
+      - .env
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
