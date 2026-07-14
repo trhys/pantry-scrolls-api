@@ -16,10 +16,10 @@ LIMIT 1
 
 func (q *Queries) GetServerState(ctx context.Context) (ServerState, error) {
 	row := q.db.QueryRowContext(ctx, getServerState)
-	var i ServerState
+	var state ServerState
 	err := row.Scan(
-		&i.Active,
-		&i.Message,
+		&state.Active,
+		&state.Message,
 	)
-	return i, err
+	return state, err
 }
