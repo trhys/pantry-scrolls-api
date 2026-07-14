@@ -1,0 +1,22 @@
+FROM golang:1.26 AS builder
+WORKDIR /app
+
+COPY go.mod go.sum ./
+RUN go mod download
+
+RUN go install github.com/pressly/goose/v3/cmd/goose@latest
+
+COPY . .
+RUN CGO_ENABLED=0 GOOS=linux go build -o dbinit ./cmd/dbinit
+
+FROM postgres:16
+WORKDIR /app
+
+COPY --from=builder /app/dbinit ./dbinit
+COPY --from=builder /go/bin/goose ./goose
+
+COPY sql/schema ./sql/schema
+COPY entrypoint.db.sh ./entrypoint.db.sh
+RUN chmod +x entrypoint.db.sh
+
+ENTRYPOINT ["./entrypoint.db.sh"]

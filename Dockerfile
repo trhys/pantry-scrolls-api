@@ -4,8 +4,6 @@ WORKDIR /app
 COPY go.mod go.sum ./
 RUN go mod download
 
-RUN go install github.com/pressly/goose/v3/cmd/goose@latest
-
 COPY . .
 RUN CGO_ENABLED=0 GOOS=linux go build -o reciperepo .
 
@@ -17,11 +15,6 @@ RUN apt-get update && apt-get upgrade -y && \
     rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /app/reciperepo ./reciperepo
-COPY --from=builder /go/bin/goose ./goose
 
-COPY sql/schema ./sql/schema
-COPY entrypoint.sh ./entrypoint.sh
-RUN chmod +x entrypoint.sh
-
-CMD ["./entrypoint.sh"]
+CMD ["./reciperepo"]
 
