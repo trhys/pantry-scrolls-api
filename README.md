@@ -2,6 +2,75 @@
 
 This repository contains the backend API for Pantry Scrolls.
 
+## Quick start
+
+### Prerequisites
+
+- [Go 1.25+](https://go.dev/dl/)
+- [Docker and Docker Compose](https://docs.docker.com/get-docker/) (for running the full stack)
+- [goose](https://github.com/pressly/goose) (for database migrations)
+- AWS credentials (S3 bucket and SES for image storage and email)
+- A PostgreSQL instance (handled by Docker Compose)
+
+### Environment variables
+
+Copy the example below into a `.env` file at the project root and fill in the values.
+
+```env
+DB=******localhost:5432/recipe_repo?sslmode=disable
+SECRET=<jwt-signing-secret>
+JWT_DUR=3600
+S3_BUCKET=<bucket-name>
+S3_REGION=<aws-region>
+S3_CDN=<cdn-base-url>
+IMAGE_PLACEHOLDER=<s3-key-for-placeholder-image>
+USERPW=<hashed-seed-user-password>
+REACTURL=<frontend-origin-url>
+AWS_ACCESS_KEY_ID=<aws-access-key>
+AWS_SECRET_ACCESS_KEY=<aws-secret-key>
+```
+
+### Run with Docker Compose
+
+The compose file starts the API server, a PostgreSQL database with schema migrations and seed data, a Caddy reverse proxy, and optionally Prometheus and Grafana.
+
+```sh
+docker compose up --build
+```
+
+The API is then available at `https://localhost/api/`.
+
+### Build and run locally
+
+Install Go dependencies:
+
+```sh
+go mod download
+```
+
+Build the binary:
+
+```sh
+go build -o reciperepo .
+```
+
+Run the server (requires the environment variables above to be set):
+
+```sh
+./reciperepo
+```
+
+The server listens on `0.0.0.0:8080` by default.
+
+### Lint and test
+
+```sh
+go vet ./...
+go test ./...
+```
+
+Integration tests in `internal/server/tests` require a running database and a populated `.env` file.
+
 ## API overview
 
 - Base path: `/api`
