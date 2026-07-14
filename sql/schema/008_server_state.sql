@@ -7,5 +7,8 @@ CREATE TABLE server_state (
   CONSTRAINT single_row CHECK (id = 1)
   );
 
+INSERT INTO server_state (id, active, message)
+VALUES (1, FALSE, '');
+
 -- +goose Down
 DROP TABLE server_state;
