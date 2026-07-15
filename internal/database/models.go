@@ -18,6 +18,12 @@ type Conversion struct {
 	Ratio        float32
 }
 
+type DeactivationToken struct {
+	Token     string
+	UserID    uuid.UUID
+	ExpiresAt time.Time
+}
+
 type Ingredient struct {
 	ID        uuid.UUID
 	Name      string
@@ -76,6 +82,12 @@ type RetailUnit struct {
 	Name string
 }
 
+type ServerState struct {
+	ID      int32
+	Active  bool
+	Message string
+}
+
 type ShoppingList struct {
 	ID        uuid.UUID
 	Name      string
@@ -97,12 +109,6 @@ type Unit struct {
 
 type UniversalUnit struct {
 	Name string
-}
-
-type DeactivationToken struct {
-	Token     string
-	UserID    uuid.UUID
-	ExpiresAt time.Time
 }
 
 type User struct {

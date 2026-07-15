@@ -241,6 +241,14 @@ Integration tests in `internal/server/tests` require a running database and a po
 }
 ```
 
+### Maintenance state
+```json
+{
+  "active": false,
+  "message": "string"
+}
+```
+
 ## Endpoints
 
 ## Metrics
@@ -552,3 +560,10 @@ Integration tests in `internal/server/tests` require a running database and a po
 { "status": "unread|read|archived" }
 ```
 - Response: `204`
+
+## Config
+
+### `GET /api/config/maintenance`
+- Auth: none
+- Function: return current server maintenance banner state.
+- Response: `200` with Maintenance state shape.

@@ -62,6 +62,17 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (CreateU
 	return i, err
 }
 
+const deactivateUser = `-- name: DeactivateUser :exec
+UPDATE users
+SET deactivated_at = NOW()
+WHERE id = $1
+`
+
+func (q *Queries) DeactivateUser(ctx context.Context, id uuid.UUID) error {
+	_, err := q.db.ExecContext(ctx, deactivateUser, id)
+	return err
+}
+
 const getName = `-- name: GetName :one
 SELECT name FROM users
 WHERE id = $1
@@ -194,6 +205,31 @@ func (q *Queries) MakeAdmin(ctx context.Context, id uuid.UUID) error {
 	return err
 }
 
+const reactivateUser = `-- name: ReactivateUser :exec
+UPDATE users
+SET deactivated_at = NULL
+WHERE id = $1
+`
+
+func (q *Queries) ReactivateUser(ctx context.Context, id uuid.UUID) error {
+	_, err := q.db.ExecContext(ctx, reactivateUser, id)
+	return err
+}
+
+const reapDeactivatedUsers = `-- name: ReapDeactivatedUsers :execrows
+DELETE FROM users
+WHERE deactivated_at IS NOT NULL
+  AND deactivated_at <= NOW() - INTERVAL '30 days'
+`
+
+func (q *Queries) ReapDeactivatedUsers(ctx context.Context) (int64, error) {
+	result, err := q.db.ExecContext(ctx, reapDeactivatedUsers)
+	if err != nil {
+		return 0, err
+	}
+	return result.RowsAffected()
+}
+
 const refreshUser = `-- name: RefreshUser :one
 SELECT id, name, email, image_key FROM users
 WHERE id = $1
@@ -275,40 +311,4 @@ WHERE email = $1
 func (q *Queries) VerifyEmail(ctx context.Context, email string) error {
 	_, err := q.db.ExecContext(ctx, verifyEmail, email)
 	return err
-}
-
-const deactivateUser = `-- name: DeactivateUser :exec
-UPDATE users
-SET deactivated_at = NOW()
-WHERE id = $1
-`
-
-func (q *Queries) DeactivateUser(ctx context.Context, id uuid.UUID) error {
-	_, err := q.db.ExecContext(ctx, deactivateUser, id)
-	return err
-}
-
-const reactivateUser = `-- name: ReactivateUser :exec
-UPDATE users
-SET deactivated_at = NULL
-WHERE id = $1
-`
-
-func (q *Queries) ReactivateUser(ctx context.Context, id uuid.UUID) error {
-	_, err := q.db.ExecContext(ctx, reactivateUser, id)
-	return err
-}
-
-const reapDeactivatedUsers = `-- name: ReapDeactivatedUsers :execrows
-DELETE FROM users
-WHERE deactivated_at IS NOT NULL
-  AND deactivated_at <= NOW() - INTERVAL '30 days'
-`
-
-func (q *Queries) ReapDeactivatedUsers(ctx context.Context) (int64, error) {
-	result, err := q.db.ExecContext(ctx, reapDeactivatedUsers)
-	if err != nil {
-		return 0, err
-	}
-	return result.RowsAffected()
 }
