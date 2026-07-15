@@ -51,26 +51,8 @@ services:
     depends_on:
       - db
 
-  prometheus:
-    image: prom/prometheus:latest
-    ports:
-      - "9090:9090"
-    volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--enable-feature=expand-external-labels'
-
-  grafana:
-    image: grafana/grafana-oss:latest
-    ports:
-      - "3000:3000"
-    depends_on:
-      - prometheus
-
 volumes:
   caddy_data:
   postgres_data:
   go-modules:
   caddy_config:
-  prometheus.yml:
