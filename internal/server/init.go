@@ -23,7 +23,7 @@ import (
 func GetRouter(cfg *ApiConfig, reg *prometheus.Registry) *http.ServeMux {
 	mux := http.NewServeMux()
 
-	// Health ep
+	// Health endpoint
 	mux.HandleFunc("GET /healthz", handlerHealthz)
 
 	// Metrics ep
