@@ -71,6 +71,82 @@ go test ./...
 
 Integration tests in `internal/server/tests` require a running database and a populated `.env` file.
 
+## Production
+
+### Image publishing
+
+The API image is built and published to GHCR automatically on every push to `main` via `.github/workflows/publish.yml`.
+
+Images are tagged with an immutable commit SHA (`sha-<short-sha>`) and `latest` (for `main` builds only).
+
+You can also trigger a build manually from the **Actions** tab using the `workflow_dispatch` event.
+
+Pull the image:
+
+```sh
+docker pull ghcr.io/trhys/pantry-scrolls-api:sha-<commit-sha>
+```
+
+### Required runtime environment variables
+
+All of the following must be set in the production environment. The app will exit with an error if any are missing.
+
+| Variable | Description |
+|---|---|
+| `DB` | PostgreSQL connection string (`******host:5432/db?sslmode=...`) |
+| `SECRET` | JWT signing secret |
+| `JWT_DUR` | JWT lifetime in seconds (e.g. `3600`) |
+| `S3_BUCKET` | S3 bucket name for image storage |
+| `S3_REGION` | AWS region for S3 and SES |
+| `S3_CDN` | CDN base URL for serving images |
+| `IMAGE_PLACEHOLDER` | S3 key used for the default placeholder image |
+| `REACTURL` | Frontend origin URL for CORS (e.g. `https://app.example.com`) |
+| `AWS_ACCESS_KEY_ID` | AWS access key |
+| `AWS_SECRET_ACCESS_KEY` | AWS secret key |
+| `USERPW` | Seed user password (used by `dbinit` for local seeding; still required at API startup) |
+
+### Health endpoint
+
+The API exposes an unauthenticated health endpoint at `GET /healthz`.
+
+```sh
+curl http://localhost:8080/healthz
+# {"status":"ok"}
+```
+
+The Docker image includes a `HEALTHCHECK` that polls this endpoint every 30 seconds.
+
+### Database migrations
+
+Migrations are managed with [goose](https://github.com/pressly/goose) and live in `sql/schema/`.
+
+For production, run migrations as an explicit step before deploying a new image:
+
+```sh
+goose -dir sql/schema postgres "$DB" up
+```
+
+Or use the migration binary that is built into the `Dockerfile.db` image:
+
+```sh
+# From a container with access to the database:
+./goose -dir sql/schema postgres "$DB_URL" up
+```
+
+**Do not rely on automatic migration at container startup for production deployments.**
+
+### Seed data (local/dev only)
+
+The `cmd/dbinit` binary seeds ingredients and a root recipe user. It is **not for production**.
+
+When running the local dev stack via Docker Compose, seeding is opt-in. Set `SEED=true` on the `db` service to enable it:
+
+```sh
+SEED=true docker compose up --build
+```
+
+Without `SEED=true` the DB container will run migrations only and skip seeding.
+
 ## API overview
 
 - Base path: `/api`

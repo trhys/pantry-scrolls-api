@@ -23,6 +23,9 @@ import (
 func GetRouter(cfg *ApiConfig, reg *prometheus.Registry) *http.ServeMux {
 	mux := http.NewServeMux()
 
+	// Health ep
+	mux.HandleFunc("GET /healthz", handlerHealthz)
+
 	// Metrics ep
 	mux.Handle("/metrics", promhttp.HandlerFor(reg, promhttp.HandlerOpts{}))
 

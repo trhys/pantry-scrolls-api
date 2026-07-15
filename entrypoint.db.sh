@@ -18,9 +18,14 @@ DB_URL="postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:5432/${POSTGR
 echo "Running goose migrations..."
 ./goose -dir sql/schema postgres "$DB_URL" up
 
-# Run seed
-echo "Running db seed..."
-DB="$DB_URL" ./dbinit
+# Run seed only when explicitly requested (local/dev only, not for production)
+if [ "${SEED:-false}" = "true" ]; then
+    echo "Running db seed (SEED=true)..."
+    DB="$DB_URL" ./dbinit
+    echo "DB seed complete."
+else
+    echo "Skipping db seed (set SEED=true to enable for local/dev use)."
+fi
 
 echo "DB init complete."
 
