@@ -11,10 +11,13 @@ FROM debian:stable-slim
 WORKDIR /app
 
 RUN apt-get update && apt-get upgrade -y && \
-    apt-get install -y ca-certificates && \
+    apt-get install -y ca-certificates wget && \
     rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /app/reciperepo ./reciperepo
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+    CMD wget -qO- http://localhost:8080/healthz || exit 1
 
 CMD ["./reciperepo"]
 
