@@ -75,7 +75,7 @@ Integration tests in `internal/server/tests` require a running database and a po
 
 ### Image publishing
 
-All three images are built and published to GHCR automatically on every push to `main` via `.github/workflows/publish.yml`. The three jobs run in parallel.
+The API and DB images are built and published to GHCR automatically on every push to `main` via `.github/workflows/publish.yml`. The two jobs run in parallel.
 
 Images are tagged with an immutable commit SHA (`sha-<short-sha>`) and `latest` (for `main` builds only).
 
@@ -85,14 +85,14 @@ You can also trigger builds manually from the **Actions** tab using the `workflo
 |---|---|
 | API server | `ghcr.io/trhys/pantry-scrolls-api` |
 | DB (Postgres + goose + dbinit) | `ghcr.io/trhys/pantry-scrolls-api-db` |
-| Caddy reverse proxy | `ghcr.io/trhys/pantry-scrolls-api-caddy` |
+
+The Caddy image (`Dockerfile.caddy`) is built manually at deployment time and is not published by the workflow.
 
 Pull an image:
 
 ```sh
 docker pull ghcr.io/trhys/pantry-scrolls-api:sha-<commit-sha>
 docker pull ghcr.io/trhys/pantry-scrolls-api-db:sha-<commit-sha>
-docker pull ghcr.io/trhys/pantry-scrolls-api-caddy:sha-<commit-sha>
 ```
 
 ### Required runtime environment variables
