@@ -28,6 +28,16 @@ func (q *Queries) CreateDeactivationToken(ctx context.Context, arg CreateDeactiv
 	return err
 }
 
+const deleteDeactivationToken = `-- name: DeleteDeactivationToken :exec
+DELETE FROM deactivation_tokens
+WHERE token = $1
+`
+
+func (q *Queries) DeleteDeactivationToken(ctx context.Context, token string) error {
+	_, err := q.db.ExecContext(ctx, deleteDeactivationToken, token)
+	return err
+}
+
 const getDeactivationToken = `-- name: GetDeactivationToken :one
 SELECT user_id, expires_at FROM deactivation_tokens
 WHERE token = $1
@@ -43,14 +53,4 @@ func (q *Queries) GetDeactivationToken(ctx context.Context, token string) (GetDe
 	var i GetDeactivationTokenRow
 	err := row.Scan(&i.UserID, &i.ExpiresAt)
 	return i, err
-}
-
-const deleteDeactivationToken = `-- name: DeleteDeactivationToken :exec
-DELETE FROM deactivation_tokens
-WHERE token = $1
-`
-
-func (q *Queries) DeleteDeactivationToken(ctx context.Context, token string) error {
-	_, err := q.db.ExecContext(ctx, deleteDeactivationToken, token)
-	return err
 }

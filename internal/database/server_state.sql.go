@@ -14,12 +14,30 @@ SELECT active, message FROM server_state
 LIMIT 1
 `
 
-func (q *Queries) GetServerState(ctx context.Context) (ServerState, error) {
+type GetServerStateRow struct {
+	Active  bool
+	Message string
+}
+
+func (q *Queries) GetServerState(ctx context.Context) (GetServerStateRow, error) {
 	row := q.db.QueryRowContext(ctx, getServerState)
-	var serverState ServerState
-	err := row.Scan(
-		&serverState.Active,
-		&serverState.Message,
-	)
-	return serverState, err
+	var i GetServerStateRow
+	err := row.Scan(&i.Active, &i.Message)
+	return i, err
+}
+
+const setServerState = `-- name: SetServerState :exec
+UPDATE server_state
+SET active = $1, message = $2
+WHERE id = 1
+`
+
+type SetServerStateParams struct {
+	Active  bool
+	Message string
+}
+
+func (q *Queries) SetServerState(ctx context.Context, arg SetServerStateParams) error {
+	_, err := q.db.ExecContext(ctx, setServerState, arg.Active, arg.Message)
+	return err
 }

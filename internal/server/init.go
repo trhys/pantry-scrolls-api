@@ -72,6 +72,7 @@ func GetRouter(cfg *ApiConfig, reg *prometheus.Registry) *http.ServeMux {
 
 	// Config endpoints
 	mux.HandleFunc("GET /api/config/maintenance", cfg.handlerGetMaintenance)
+    mux.HandleFunc("PUT /api/config/maintenance", cfg.authMiddleware(cfg.handlerSetMaintenance))
 
 	return mux
 }
