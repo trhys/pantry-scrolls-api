@@ -16,7 +16,5 @@ COPY --from=builder /app/dbinit ./dbinit
 COPY --from=builder /go/bin/goose ./goose
 
 COPY sql/schema ./sql/schema
-COPY entrypoint.db.sh ./entrypoint.db.sh
-RUN chmod +x entrypoint.db.sh
-
-ENTRYPOINT ["./entrypoint.db.sh"]
+COPY cmd/scripts/seed.sh ./scripts/seed.sh
+RUN chmod +x ./scripts/seed.sh
