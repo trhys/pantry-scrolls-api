@@ -3,14 +3,12 @@ package server_test
 import (
 	"bytes"
 	"context"
-	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/trhys/Recipe-Repo-2/internal/server"
-	vm "github.com/trhys/Recipe-Repo-2/internal/viewmodel"
 )
 
 func TestAdminCheck(t *testing.T) {
@@ -57,9 +55,6 @@ func TestAdminCheck(t *testing.T) {
 		if w.Code != 200 {
 			t.Fatalf("Failed to login: got status %d", w.Code)
 		}
-
-		var user vm.SessionViewModel
-		json.NewDecoder(w.Body).Decode(&user)
 
 		response := w.Result()
 		cookies := response.Cookies()

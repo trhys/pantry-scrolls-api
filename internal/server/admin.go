@@ -8,6 +8,8 @@ import (
 )
 
 func (cfg *ApiConfig) handlerAdminCheck(w http.ResponseWriter, r *http.Request) {
+	// authMiddleware sets "userID" to "" (string) for unauthenticated requests rather than
+	// blocking them, so the type assertion to uuid.UUID will fail when no valid token was provided.
 	requesterID, ok := r.Context().Value("userID").(uuid.UUID)
 	if !ok {
 		respondFail(r, w, 401, "Unauthorized", fmt.Errorf("Invalid uuid at /admin/check"))
