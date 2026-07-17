@@ -225,7 +225,7 @@ func InitDBRecipes(ik string, db *sql.DB, ctx context.Context, userpw string) er
   log.Println("Successfully read file - creating user profiles...")
 
   for _, char := range chars.Characters {
-        name = strings.ToLower(strings.Trim(char.Name))
+        name := strings.ToLower(strings.TrimSpace(char.Name))
 	    dbConn.CreateUser(ctx, database.CreateUserParams{
 		    Email:    name + "@admin.trr",
 		    HashedPw: userpw,
