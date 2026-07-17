@@ -2,7 +2,7 @@
   "recipes": [
     {
       "title": "Shimmering Starlight Elixir",
-      "description": "A luminous chilled drink said to grant clarity of mind, swirling with berries and honeyed cream.",
+      "description": "The Shimmering Starlight Elixir is a splendid first venture for any apprentice seeking clarity of mind — chilled, luminous, and forgiving of a hesitant hand. Blended smooth and threaded with berries and honeyed cream, it is said to still a racing thought within moments of the first sip. Do take your time measuring; a touch too much honey will simply sweeten the effect rather than spoil it, so there is little to fear here.",
       "ingredients": [
         {
           "name": "Coconut Milk",
@@ -30,12 +30,12 @@
           "unit": "Count"
         }
       ],
-      "instructions": "Yield: 2 servings | Time: 5 minutes\n1. Combine the coconut milk, blueberries, and honey in a blender and blend on high until completely smooth, about 30 seconds.\n2. Squeeze in the juice of the lemon and pulse for 5 seconds to combine.\n3. Pour into two chilled glasses.\n4. Garnish each glass with fresh mint leaves and serve immediately.",
+      "instructions": "Yield: 2 servings | Time: 5 minutes\n1. Prepare the Vessel: Combine one cup coconut milk, half a cup fresh blueberries, and one tablespoon honey in your blender. Ensure the blades are clean beforehand, so the mixture stays perfectly clear.\n2. The Steady Blend: Blend on high until entirely smooth, about thirty seconds. Breathe evenly as you wait — there is no need to rush a good elixir.\n3. The Citrus Bond: Squeeze in the juice of the lemon and pulse gently for five seconds to bind the flavors together.\n4. The Pour: Divide the elixir between two chilled glasses, taking care to pour slowly so the color settles evenly.\n5. The Final Adornment: Garnish each glass with fresh mint leaves and serve at once, while the clarity is at its peak.",
       "author": "Feldren"
     },
     {
       "title": "Feldren's Molten Ember Broth",
-      "description": "A fiery, warming broth that crackles on the tongue like a captured ember.",
+      "description": "This broth crackles pleasantly on the tongue, warming from the inside like a captured ember set gently to simmer. It is a forgiving preparation for a scholar in need of restoration after long hours over old texts. The spice builds slowly rather than sharply, so there is no cause for alarm if your first sip surprises you — simply let it settle before the next.",
       "ingredients": [
         {
           "name": "Vegetable Broth",
@@ -63,12 +63,12 @@
           "unit": "Teaspoon"
         }
       ],
-      "instructions": "Yield: 4 servings | Time: 25 minutes\n1. Mince the garlic and ginger, then sweat them in a 4-quart pot over medium heat, stirring, until fragrant, about 2 minutes.\n2. Pour in the vegetable broth and whisk in the turmeric and red pepper flakes.\n3. Bring to a simmer and cook uncovered for 15 minutes, until the broth deepens in color.\n4. Ladle into bowls and serve piping hot.",
+      "instructions": "Yield: 4 servings | Time: 25 minutes\n1. Prepare the Base: Finely mince the garlic and the fresh ginger.\n2. The Gentle Sweat: Warm them in a four-quart pot over medium heat, stirring, until fragrant, about two minutes. There is no need to hurry this step.\n3. The Broth's Introduction: Pour in the vegetable broth and whisk in the turmeric and red pepper flakes.\n4. The Steady Simmer: Bring to a gentle simmer and cook uncovered for fifteen minutes, until the broth deepens to a rich amber.\n5. The Serving: Ladle into bowls while still warm, and take a moment before the first sip.",
       "author": "Feldren"
     },
     {
       "title": "Moonlit Mushroom Draught",
-      "description": "A velvety mushroom brew best sipped under a full moon for maximum potency.",
+      "description": "The Moonlit Mushroom Draught is velvety enough to soothe even the most travel-worn scholar, best enjoyed slowly by candlelight. Its flavor deepens as the mushrooms surrender their essence to the pot, and though the name suggests a certain mystique, it requires nothing more than patience and a steady stir.",
       "ingredients": [
         {
           "name": "Cremini Mushrooms",
@@ -96,12 +96,12 @@
           "unit": "Cup"
         }
       ],
-      "instructions": "Yield: 4 servings | Time: 30 minutes\n1. Slice the mushrooms and saute with the minced garlic in a 3-quart pot over medium heat until deeply golden, about 8 minutes.\n2. Add the vegetable broth and thyme, then simmer uncovered for 10 minutes.\n3. Blend the soup with an immersion blender until smooth, then stir in the heavy cream.\n4. Warm gently over low heat without letting it boil, then ladle into bowls to serve.",
+      "instructions": "Yield: 4 servings | Time: 30 minutes\n1. The Golden Sauté: Slice the mushrooms and sauté with the minced garlic in a three-quart pot over medium heat until deeply golden, about eight minutes.\n2. The Broth's Arrival: Add the vegetable broth and the fresh thyme, then simmer uncovered for ten minutes, allowing the flavors to settle into harmony.\n3. The Smoothing: Blend with an immersion blender until silken, then stir in the heavy cream.\n4. The Careful Warming: Warm gently over low heat, taking care never to let it reach a boil, or the texture will lose its grace.\n5. The Serving: Ladle into bowls and enjoy while the steam still rises.",
       "author": "Feldren"
     },
     {
       "title": "Alchemist's Golden Tonic",
-      "description": "A glowing amber tea believed to soothe both throat and troubled spirit.",
+      "description": "This glowing amber tonic is a gentle first experiment in restorative brewing, soothing to a sore throat and a troubled spirit alike. There is very little that can go wrong here — should your tea steep a moment too long, it will simply grow a touch more robust, and that is no failure at all.",
       "ingredients": [
         {
           "name": "Fresh Ginger",
@@ -129,12 +129,12 @@
           "unit": "Teaspoon"
         }
       ],
-      "instructions": "Yield: 1 serving | Time: 10 minutes\n1. Grate the ginger and steep it with the turmeric in 1 cup of hot water in a mug for 5 minutes.\n2. Strain the liquid into a clean mug, discarding the solids.\n3. Stir in the honey until fully dissolved.\n4. Add the juice of the lemon and a pinch of cinnamon, then sip while warm.",
+      "instructions": "Yield: 1 serving | Time: 10 minutes\n1. The Steeping: Grate the fresh ginger and steep with the turmeric in one cup of hot water for five minutes.\n2. The Straining: Strain the liquid into a clean mug, setting the solids aside.\n3. The Sweetening: Stir in the honey until fully dissolved.\n4. The Final Bloom: Add the juice of the lemon and a pinch of cinnamon, then sip slowly while warm.",
       "author": "Feldren"
     },
     {
       "title": "Feldren's Frostfire Punch",
-      "description": "A punch that tastes of frozen orchards and warm embers all at once.",
+      "description": "A punch of contradictions — cool as frost yet warm with spice beneath — this preparation rewards a patient hour of chilling more than any rushed effort at the stove. Introduce each element calmly, and the flavors will bloom into balance on their own.",
       "ingredients": [
         {
           "name": "Cranberry Juice",
@@ -162,12 +162,12 @@
           "unit": "Tablespoon"
         }
       ],
-      "instructions": "Yield: 6 servings | Time: 15 minutes plus 1 hour chilling\n1. Combine the cranberry juice and the juice of the orange in a large pitcher.\n2. Grate in the fresh ginger and whisk in the cinnamon and honey until dissolved.\n3. Cover and chill in the refrigerator for at least 1 hour to let the flavors meld.\n4. Serve over ice in tall glasses.",
+      "instructions": "Yield: 6 servings | Time: 15 minutes plus 1 hour chilling\n1. The Base: Combine the cranberry juice with the juice of the orange in a large pitcher.\n2. The Spiced Infusion: Grate in the fresh ginger and whisk in the cinnamon and honey until dissolved.\n3. The Patient Rest: Cover and chill for at least one hour, allowing the flavors time to meld fully.\n4. The Serving: Pour over ice into tall glasses and enjoy at your leisure.",
       "author": "Feldren"
     },
     {
       "title": "Bubbling Cauldron Stew",
-      "description": "A hearty stew that bubbles and pops like a wizard's brewing pot.",
+      "description": "This stew bubbles and pops most satisfyingly as it simmers, rewarding an hour of patience with a deeply comforting result. It is a fine preparation for a scholar who has spent the day in study and now requires something substantial to restore their strength.",
       "ingredients": [
         {
           "name": "Beef Stew Meat",
@@ -195,12 +195,12 @@
           "unit": "Cup"
         }
       ],
-      "instructions": "Yield: 6 servings | Time: 1 hour 20 minutes\n1. Pat the beef stew meat dry and sear in a 6-quart Dutch oven over medium-high heat until browned on all sides, about 8 minutes.\n2. Add the carrots, cut into 1-inch pieces, and the potatoes, cut into 1-inch pieces.\n3. Pour in the beef broth, stir in the thyme, and bring to a simmer.\n4. Cover and cook for 1 hour, stirring occasionally, until the meat is fork-tender and the vegetables are soft.\n5. Ladle into bowls and serve hot.",
+      "instructions": "Yield: 6 servings | Time: 1 hour 20 minutes\n1. The Searing: Pat the beef stew meat dry and sear in a six-quart pot over medium-high heat until browned on all sides, about eight minutes.\n2. The Root Vegetables: Add the carrots and the Yukon gold potatoes, each cut into one-inch pieces.\n3. The Broth's Introduction: Pour in the beef broth, stir in the thyme, and bring to a simmer.\n4. The Long Simmer: Cover and cook for one hour, stirring occasionally, until the meat is tender and the vegetables yield easily.\n5. The Serving: Ladle into bowls while hot, and allow a moment for the aroma to settle before your first taste.",
       "author": "Feldren"
     },
     {
       "title": "Sorcerer's Emerald Brew",
-      "description": "A vivid green smoothie rumored to sharpen a spellcaster's focus.",
+      "description": "A vivid green smoothie rumored to sharpen focus before a long session of study, though truthfully its greatest virtue is simply tasting bright and fresh. This is an excellent recipe for a beginner, as there is little precision required beyond a steady blend.",
       "ingredients": [
         {
           "name": "Spinach",
@@ -228,12 +228,12 @@
           "unit": "Tablespoon"
         }
       ],
-      "instructions": "Yield: 2 servings | Time: 5 minutes\n1. Combine the spinach, avocado, and coconut milk in a blender.\n2. Squeeze in the juice of the lime and add the honey.\n3. Blend on high until silky smooth, about 30 seconds, scraping down the sides as needed.\n4. Pour into glasses and drink right away for the brightest color.",
+      "instructions": "Yield: 2 servings | Time: 5 minutes\n1. The Base: Combine the spinach, avocado, and coconut milk in a blender.\n2. The Citrus Note: Squeeze in the juice of the lime and add the honey.\n3. The Steady Blend: Blend on high until silky smooth, about thirty seconds, pausing to scrape down the sides as needed.\n4. The Serving: Pour into glasses and drink promptly, while the color is at its brightest.",
       "author": "Feldren"
     },
     {
       "title": "Feldren's Crimson Potion",
-      "description": "A tart, deep red concoction said to embolden the drinker's courage.",
+      "description": "A tart, deep red concoction said to embolden the drinker's courage, though its true strength lies simply in the balance of tart and sweet. A gentle recipe, forgiving of an uneven hand at the shaker.",
       "ingredients": [
         {
           "name": "Cranberry Juice",
@@ -256,12 +256,12 @@
           "unit": "Count"
         }
       ],
-      "instructions": "Yield: 2 servings | Time: 10 minutes\n1. Muddle the raspberries in the bottom of a cocktail shaker or jar until crushed.\n2. Add the cranberry juice, honey, and the juice of the lime.\n3. Shake vigorously for 15 seconds, then strain into small glasses to remove the seeds.\n4. Serve chilled.",
+      "instructions": "Yield: 2 servings | Time: 10 minutes\n1. The Muddling: Muddle the raspberries in the bottom of a cocktail shaker until crushed.\n2. The Combination: Add the cranberry juice, the honey, and the juice of the lime.\n3. The Shaking: Shake vigorously for fifteen seconds, then strain into small glasses to remove the seeds.\n4. The Serving: Serve well chilled, and savor the first sip slowly.",
       "author": "Feldren"
     },
     {
       "title": "Enchanted Spice Draught",
-      "description": "A warmly spiced milk brew that lingers on the tongue like an old spell.",
+      "description": "A warmly spiced milk brew that lingers pleasantly on the tongue, this is a gentle recipe suited to a quiet evening of reflection. Introduce the spices with care, and let the milk do the rest of the work.",
       "ingredients": [
         {
           "name": "Whole Milk",
@@ -289,12 +289,12 @@
           "unit": "Tablespoon"
         }
       ],
-      "instructions": "Yield: 2 servings | Time: 15 minutes\n1. Warm the milk in a small saucepan over low heat, stirring occasionally.\n2. Whisk in the cinnamon, cardamom, and grated ginger.\n3. Simmer gently for 5 minutes, stirring often, keeping the milk just below a boil.\n4. Remove from the heat, stir in the honey until dissolved, and pour into mugs to serve.",
+      "instructions": "Yield: 2 servings | Time: 15 minutes\n1. The Gentle Warming: Warm the milk in a small saucepan over low heat, stirring occasionally.\n2. The Spiced Infusion: Whisk in the cinnamon, cardamom, and grated ginger.\n3. The Careful Simmer: Simmer gently for five minutes, keeping the milk just below a boil.\n4. The Sweetening: Remove from the heat, stir in the honey until dissolved, and pour into mugs to serve.",
       "author": "Feldren"
     },
     {
       "title": "Feldren's Midnight Brew",
-      "description": "A rich, dark chocolate drink said to be favored by wizards working through the night.",
+      "description": "A rich, dark chocolate drink favored by those working through the night over old tomes. There is real comfort in its steady preparation — simply warm, whisk, and wait.",
       "ingredients": [
         {
           "name": "Whole Milk",
@@ -317,12 +317,12 @@
           "unit": "Teaspoon"
         }
       ],
-      "instructions": "Yield: 2 servings | Time: 15 minutes\n1. Heat the milk in a small saucepan over medium-low heat until steaming.\n2. Whisk in the cocoa powder until fully dissolved and no lumps remain.\n3. Add the chocolate chips and stir constantly until melted and glossy, about 2 minutes.\n4. Remove from the heat, stir in the vanilla extract, and pour into mugs to serve steaming hot.",
+      "instructions": "Yield: 2 servings | Time: 15 minutes\n1. The Warming: Heat the milk in a small saucepan over medium-low heat until steaming.\n2. The Cocoa Bond: Whisk in the cocoa powder until fully dissolved and no lumps remain.\n3. The Melting: Add the chocolate chips and stir constantly until melted and glossy, about two minutes.\n4. The Final Touch: Remove from the heat, stir in the vanilla extract, and pour into mugs to serve steaming hot.",
       "author": "Feldren"
     },
     {
       "title": "Keplin's Second Breakfast Hash",
-      "description": "A generous skillet hash for the hobbit who believes one breakfast is never enough.",
+      "description": "There's nothing better than a big skillet of hash when one breakfast simply isn't enough. This one's a real favorite of mine — crispy potatoes, salty bacon, and eggs cooked just how you like them, all in one pan so there's hardly any washing up after. Don't fuss too much over exact timing; just watch and listen, and you'll know when things are ready.",
       "ingredients": [
         {
           "name": "Yukon Gold Potato",
@@ -350,12 +350,12 @@
           "unit": "Tablespoon"
         }
       ],
-      "instructions": "Yield: 4 servings | Time: 35 minutes\n1. Dice the potatoes and the onion.\n2. Fry the bacon in a 12-inch skillet over medium heat until crisp, about 6 minutes, then remove to a paper-towel-lined plate.\n3. Add the butter to the skillet, then cook the potatoes and onion, stirring occasionally, until golden and fork-tender, about 15 minutes.\n4. Crumble the bacon back into the skillet and toss to combine.\n5. Make four small wells in the hash, crack in the eggs, cover, and cook until the whites are set but the yolks are still soft, about 4 minutes.",
+      "instructions": "Yield: 4 servings | Time: 35 minutes\n1. Dice up your potatoes and onion, nice and even so they cook at the same pace.\n2. Fry the bacon in a big skillet until it's good and crisp, then set it aside on a paper towel to rest.\n3. Toss the butter into the same skillet, then add your potatoes and onion. Let them cook low and slow, stirring now and then, until golden and soft all the way through.\n4. Crumble the bacon back in and give everything a good toss together.\n5. Make a few little wells in the hash, crack your eggs right in, cover the pan, and let them cook until the whites set but the yolks stay soft.",
       "author": "Keplin"
     },
     {
       "title": "Hobbiton Shepherd's Pie",
-      "description": "A comforting layered pie beloved at every Hobbiton gathering.",
+      "description": "This one's always the star of a Hobbiton gathering — layers of savory beef and vegetables tucked under a blanket of buttery mashed potato. It's a bit of a project, but every step is simple, and the smell alone is worth it.",
       "ingredients": [
         {
           "name": "Ground Beef",
@@ -383,12 +383,12 @@
           "unit": "Tablespoon"
         }
       ],
-      "instructions": "Yield: 6 servings | Time: 1 hour\n1. Preheat oven to 400\u00b0F.\n2. Boil the potatoes, cut into chunks, in salted water until fork-tender, about 15 minutes, then drain and mash with the butter until smooth.\n3. Brown the ground beef in a 12-inch skillet over medium-high heat, about 6 minutes, then add the carrots, diced, and the peas.\n4. Spread the beef mixture in an even layer in a 9x13-inch baking dish and top with the mashed potato, smoothing to the edges.\n5. Bake for 25 minutes, until the top is golden and the filling is bubbling at the edges.",
+      "instructions": "Yield: 6 servings | Time: 1 hour\n1. Heat your oven up nice and hot, around four hundred degrees.\n2. Boil your potato chunks in salted water until soft enough to mash easily, then drain and mash them up with the butter until smooth.\n3. Brown the ground beef in a big skillet, then toss in your diced carrots and the peas, letting everything mingle together.\n4. Spread the beef mixture into a baking dish and spoon the mashed potato right over the top, smoothing it to the edges.\n5. Pop it in the oven and bake until the top turns golden and you can see the filling bubbling happily at the edges.",
       "author": "Keplin"
     },
     {
       "title": "Keplin's Honey Butter Biscuits",
-      "description": "Flaky, golden biscuits dripping with sweet honey butter, perfect for elevenses.",
+      "description": "Flaky, golden biscuits dripping with sweet honey butter — perfect for elevenses, or really any time at all. The trick is a light hand; don't overwork the dough and you'll be rewarded with something wonderfully flaky.",
       "ingredients": [
         {
           "name": "All-Purpose Flour",
@@ -416,12 +416,12 @@
           "unit": "Tablespoon"
         }
       ],
-      "instructions": "Yield: 10 biscuits | Time: 30 minutes\n1. Preheat oven to 425\u00b0F.\n2. Whisk together the flour and baking powder in a large bowl, then cut in the cold butter, cubed, with a pastry cutter until the mixture resembles coarse crumbs.\n3. Stir in the milk and 2 tablespoons of the honey just until a soft dough forms; do not overmix.\n4. Pat the dough out on a floured surface to 1-inch thickness and cut into rounds, placing them on a parchment-lined baking sheet.\n5. Bake for 12-14 minutes, until golden on top, then brush with the remaining honey and serve warm.",
+      "instructions": "Yield: 10 biscuits | Time: 30 minutes\n1. Heat your oven up hot, around four hundred twenty-five degrees.\n2. Whisk your flour and baking powder together in a big bowl, then cut in the cold butter with a pastry cutter until it looks like coarse crumbs.\n3. Stir in the milk and most of the honey, just enough to bring the dough together — don't overmix, or you'll lose that lovely flakiness.\n4. Pat the dough out on a floured board and cut it into rounds, setting them on a lined baking sheet.\n5. Bake until golden on top, then brush with the last bit of honey and serve them warm, while they're at their best.",
       "author": "Keplin"
     },
     {
       "title": "Cozy Cottage Chicken Stew",
-      "description": "A gentle, hearty stew for chilly evenings by the fire.",
+      "description": "A gentle, hearty stew for chilly evenings by the fire — the kind of meal that makes a house feel like a home. It simmers away mostly on its own, so you've plenty of time to put your feet up while it cooks.",
       "ingredients": [
         {
           "name": "Chicken Thighs (Boneless)",
@@ -449,12 +449,12 @@
           "unit": "Cup"
         }
       ],
-      "instructions": "Yield: 6 servings | Time: 50 minutes\n1. Cut the chicken into 1-inch chunks and sear in a 6-quart pot over medium-high heat until lightly browned, about 5 minutes.\n2. Add the carrots, sliced, the celery, sliced, and the potatoes, cut into chunks.\n3. Pour in the chicken broth and bring to a simmer.\n4. Cover and cook for 30-35 minutes, until the vegetables are tender and the broth has thickened slightly.\n5. Ladle into bowls and serve hot.",
+      "instructions": "Yield: 6 servings | Time: 50 minutes\n1. Cut the chicken into bite-sized chunks and sear it in a big pot until lightly browned all over.\n2. Add in your sliced carrots, celery, and potato chunks.\n3. Pour in the chicken broth and bring everything up to a gentle simmer.\n4. Cover the pot and let it cook away until the vegetables turn tender and the broth thickens up nicely.\n5. Ladle into bowls and serve it good and hot, maybe with a bit of bread on the side.",
       "author": "Keplin"
     },
     {
       "title": "Keplin's Apple Cinnamon Crumble",
-      "description": "A warm, spiced fruit crumble that smells like autumn in the Shire.",
+      "description": "A warm, spiced fruit crumble that smells just like autumn settling in over the Shire. It's an easy one to love — sweet apples under a crumbly, buttery topping.",
       "ingredients": [
         {
           "name": "Apple",
@@ -482,12 +482,12 @@
           "unit": "Tablespoon"
         }
       ],
-      "instructions": "Yield: 8 servings | Time: 55 minutes\n1. Preheat oven to 375\u00b0F.\n2. Peel and slice the apples and toss them with the cinnamon in a 9x9-inch baking dish.\n3. In a separate bowl, mix the oats, brown sugar, and softened butter with your fingers until crumbly.\n4. Sprinkle the topping evenly over the apples.\n5. Bake for 35-40 minutes, until the topping is golden and the filling is bubbling around the edges. Serve warm, with cream if desired.",
+      "instructions": "Yield: 8 servings | Time: 55 minutes\n1. Heat your oven up to a nice steady three hundred seventy-five degrees.\n2. Peel and slice your apples and toss them with the cinnamon right in the baking dish.\n3. In a separate bowl, mix the oats, brown sugar, and softened butter together with your fingers until it's good and crumbly.\n4. Sprinkle that topping evenly over the apples.\n5. Bake until the top turns golden and you can see the filling bubbling at the edges. Serve it warm, with a bit of cream if you fancy.",
       "author": "Keplin"
     },
     {
       "title": "Fireside Mac and Cheese",
-      "description": "Rich, creamy, and endlessly comforting - the ultimate hobbit hall favorite.",
+      "description": "Rich, creamy, and endlessly comforting — this is the ultimate hobbit hall favorite. There's a bit of stirring involved, but nothing that can't be done with a happy heart.",
       "ingredients": [
         {
           "name": "Elbow Pasta",
@@ -515,12 +515,12 @@
           "unit": "Tablespoon"
         }
       ],
-      "instructions": "Yield: 6 servings | Time: 30 minutes\n1. Boil the elbow pasta in a 4-quart pot of salted water until just tender, about 8 minutes, then drain.\n2. Melt the butter in the same pot over medium heat, whisk in the flour, and cook for 1 minute, stirring constantly.\n3. Slowly whisk in the milk and simmer, stirring, until thickened enough to coat the back of a spoon, about 5 minutes.\n4. Remove from the heat and stir in the cheddar cheese until melted and smooth.\n5. Fold the pasta into the cheese sauce and serve immediately while hot and gooey.",
+      "instructions": "Yield: 6 servings | Time: 30 minutes\n1. Boil the pasta in a big pot of salted water until just tender, then drain it well.\n2. Melt the butter in the same pot, whisk in the flour, and let it cook for a minute, stirring the whole while.\n3. Slowly whisk in the milk and let it simmer until it's thick enough to coat the back of a spoon.\n4. Take it off the heat and stir in the cheddar until it's melted through and smooth.\n5. Fold the pasta back in and serve it right away, while it's still hot and gooey.",
       "author": "Keplin"
     },
     {
       "title": "Keplin's Pumpkin Bread",
-      "description": "A moist spiced loaf that fills the whole smial with warmth.",
+      "description": "A moist spiced loaf that fills the whole smial with warmth the moment it goes in the oven. It's a lovely thing to bake on a lazy afternoon, and it keeps well for the days after too.",
       "ingredients": [
         {
           "name": "Canned Pumpkin",
@@ -548,12 +548,12 @@
           "unit": "Teaspoon"
         }
       ],
-      "instructions": "Yield: 1 loaf (10 slices) | Time: 1 hour 15 minutes\n1. Preheat oven to 350\u00b0F and grease a 9x5-inch loaf pan.\n2. Whisk together the pumpkin, sugar, and eggs in a large bowl until smooth.\n3. Fold in the flour, cinnamon, and nutmeg just until no dry streaks remain.\n4. Pour the batter into the prepared loaf pan and smooth the top.\n5. Bake for 55-60 minutes, until a toothpick inserted in the center comes out clean. Cool in the pan for 10 minutes before slicing.",
+      "instructions": "Yield: 1 loaf (10 slices) | Time: 1 hour 15 minutes\n1. Heat your oven to three hundred fifty degrees and grease up a loaf pan.\n2. Whisk the pumpkin, sugar, and eggs together in a big bowl until smooth.\n3. Fold in the flour, cinnamon, and nutmeg, just until there's no dry flour left to see.\n4. Pour the batter into your prepared pan and smooth the top over.\n5. Bake until a toothpick comes out clean, then let it cool in the pan a bit before slicing.",
       "author": "Keplin"
     },
     {
       "title": "Hearty Vegetable Barley Soup",
-      "description": "A rustic, filling soup that sticks to your ribs after a long day of gardening.",
+      "description": "A rustic, filling soup that sticks to your ribs after a long day of gardening. It mostly looks after itself once it's on the stove, which suits me just fine.",
       "ingredients": [
         {
           "name": "Barley",
@@ -581,12 +581,12 @@
           "unit": "Cup"
         }
       ],
-      "instructions": "Yield: 6 servings | Time: 55 minutes\n1. Saute the onion, diced, the carrots, diced, and the celery, diced, in a 6-quart pot over medium heat until softened, about 6 minutes.\n2. Add the barley and vegetable broth and bring to a boil.\n3. Reduce the heat to low, cover, and simmer for 35-40 minutes, until the barley is tender.\n4. Season to taste with salt and pepper and ladle into bowls while hot.",
+      "instructions": "Yield: 6 servings | Time: 55 minutes\n1. Sauté your diced onion, carrots, and celery in a big pot until they soften up nicely.\n2. Stir in the barley and vegetable broth and bring it to a boil.\n3. Turn the heat down low, cover the pot, and let it simmer away until the barley turns tender.\n4. Season it to taste with salt and pepper and ladle it into bowls while it's still steaming.",
       "author": "Keplin"
     },
     {
       "title": "Keplin's Blueberry Pancakes",
-      "description": "Fluffy stacks studded with berries, best enjoyed at second breakfast.",
+      "description": "Fluffy stacks studded with berries, best enjoyed at second breakfast when you've really got the appetite for it. They come together quick, so there's no excuse not to make a proper stack.",
       "ingredients": [
         {
           "name": "All-Purpose Flour",
@@ -614,12 +614,12 @@
           "unit": "Cup"
         }
       ],
-      "instructions": "Yield: 12 pancakes | Time: 25 minutes\n1. Whisk together the flour, milk, and eggs in a large bowl until a smooth batter forms.\n2. Gently fold in the blueberries, taking care not to overmix.\n3. Heat a buttered griddle over medium heat and ladle 1/4 cup of batter per pancake onto the surface.\n4. Cook until bubbles form on top and the edges look set, about 2 minutes, then flip and cook 1-2 minutes more until golden.\n5. Stack the pancakes and drizzle generously with maple syrup before serving.",
+      "instructions": "Yield: 12 pancakes | Time: 25 minutes\n1. Whisk the flour, milk, and eggs together in a big bowl until you've got a smooth batter.\n2. Gently fold in the blueberries, taking care not to stir too hard.\n3. Heat up a buttered griddle and ladle the batter on, one pancake at a time.\n4. Cook until bubbles show up on top and the edges look set, then flip and cook a bit more until golden.\n5. Stack them up tall and drizzle on plenty of maple syrup before serving.",
       "author": "Keplin"
     },
     {
       "title": "Sunday Roast Chicken",
-      "description": "A golden, herb-roasted chicken fit for the whole extended hobbit family.",
+      "description": "A golden, herb-roasted chicken fit for the whole extended hobbit family, gathered round the table. It takes a bit of time in the oven, but hardly any fuss from you once it's in.",
       "ingredients": [
         {
           "name": "Whole Chicken",
@@ -647,12 +647,12 @@
           "unit": "Tablespoon"
         }
       ],
-      "instructions": "Yield: 6 servings | Time: 1 hour 40 minutes\n1. Preheat oven to 400\u00b0F.\n2. Rub the whole chicken all over, including under the skin, with the softened butter, the rosemary, and the garlic, smashed.\n3. Arrange the potatoes, quartered, around the chicken in a large roasting pan.\n4. Roast for about 1 hour 20 minutes, until a thermometer inserted in the thickest part of the thigh reads 165\u00b0F and the skin is deep golden brown.\n5. Rest the chicken for 10 minutes before carving and serve with the roasted potatoes.",
+      "instructions": "Yield: 6 servings | Time: 1 hour 40 minutes\n1. Heat your oven up to four hundred degrees.\n2. Rub the whole chicken all over, including up under the skin, with the softened butter, rosemary, and smashed garlic.\n3. Arrange your quartered potatoes around the chicken in a big roasting pan.\n4. Roast until a thermometer in the thickest part of the thigh reads one hundred sixty-five degrees and the skin turns a deep golden brown.\n5. Let the chicken rest a bit before carving, then serve with the roasted potatoes alongside.",
       "author": "Keplin"
     },
     {
       "title": "Myllarra's Forest Quinoa Salad",
-      "description": "A bright, protein-rich salad gathered from sun-dappled groves.",
+      "description": "Gathered from sun-dappled groves, this bright and hearty salad carries the freshness of a morning walk through green fields. It is a dish best made with unhurried hands, honoring each vegetable as it joins the bowl.",
       "ingredients": [
         {
           "name": "Quinoa",
@@ -680,12 +680,12 @@
           "unit": "Tablespoon"
         }
       ],
-      "instructions": "Yield: 4 servings | Time: 25 minutes\n1. Cook the quinoa according to package directions in a 2-quart saucepan, then spread on a sheet pan to cool.\n2. Dice the cucumber and halve the cherry tomatoes.\n3. Toss the cooled quinoa with the cucumber, tomatoes, feta cheese, and olive oil in a large bowl.\n4. Chill for at least 15 minutes before serving, or serve at room temperature.",
+      "instructions": "Yield: 4 servings | Time: 25 minutes\n1. The Grain's Awakening: Cook the quinoa in a small saucepan as the earth intends, then spread it on a pan to cool and breathe.\n2. The Garden's Offering: Dice the cucumber and halve a generous handful of cherry tomatoes.\n3. The Gathering: Toss the cooled quinoa together with the cucumber, tomatoes, crumbled feta, and a drizzle of olive oil.\n4. The Rest: Let the salad chill a while before serving, or enjoy it as the sun finds it, at room temperature.",
       "author": "Myllarra"
     },
     {
       "title": "Elvenwood Mushroom Risotto",
-      "description": "A creamy risotto layered with earthy mushrooms from the deep woods.",
+      "description": "Layered with earthy mushrooms drawn from the deep woods, this risotto rewards patience with a creamy, grounding warmth. Stir slowly, and let the rice tell you when it is ready.",
       "ingredients": [
         {
           "name": "Arborio Rice",
@@ -713,12 +713,12 @@
           "unit": "Tablespoon"
         }
       ],
-      "instructions": "Yield: 4 servings | Time: 40 minutes\n1. Slice the mushrooms and saute in half the butter in a 4-quart saucepan over medium heat until deeply golden, about 8 minutes, then set aside.\n2. Melt the remaining butter in the same pan and toast the arborio rice, stirring, for 1 minute.\n3. Add the warm vegetable broth one ladle at a time, stirring constantly and letting each addition absorb before adding the next, about 20 minutes total, until the rice is creamy and tender.\n4. Fold in the mushrooms and parmesan cheese and serve immediately.",
+      "instructions": "Yield: 4 servings | Time: 40 minutes\n1. The Mushroom's Turn: Slice the mushrooms and sauté them in half the butter until deeply golden, then set them gently aside.\n2. The Rice's Awakening: Melt the remaining butter and toast the arborio rice until it glistens.\n3. The Patient Ladling: Add the warm vegetable broth one ladle at a time, stirring without pause, letting each addition vanish into the rice before offering the next — until the rice grows creamy and tender.\n4. The Return: Fold the mushrooms and parmesan back into the pot and serve at once, while the steam still rises like mist off the grove floor.",
       "author": "Myllarra"
     },
     {
       "title": "Myllarra's Sunlit Chickpea Curry",
-      "description": "A fragrant curry as warm and golden as elven sunlight through the canopy.",
+      "description": "A fragrant curry as warm and golden as elven sunlight through the canopy, gentle enough for any table and bright enough to lift a tired spirit.",
       "ingredients": [
         {
           "name": "Chickpeas",
@@ -746,12 +746,12 @@
           "unit": "Count"
         }
       ],
-      "instructions": "Yield: 4 servings | Time: 30 minutes\n1. Saute the onion, diced, in a 4-quart pot over medium heat until translucent, about 5 minutes.\n2. Stir in the curry powder and cook until fragrant, about 30 seconds.\n3. Add the chickpeas and coconut milk and bring to a gentle simmer.\n4. Cook uncovered for 15 minutes, stirring occasionally, until slightly thickened.\n5. Fold in the spinach and cook just until wilted, about 2 minutes, then serve over rice.",
+      "instructions": "Yield: 4 servings | Time: 30 minutes\n1. The Onion's Softening: Sauté the diced onion until it turns translucent as morning mist.\n2. The Spice's Awakening: Stir in the curry powder and let it bloom fragrant in the warm oil.\n3. The Simmer: Add the chickpeas and coconut milk and let the pot simmer gently, uncovered, until it thickens.\n4. The Greening: Fold in the spinach and let it wilt just briefly, then serve over rice while warm.",
       "author": "Myllarra"
     },
     {
       "title": "Woven Vine Ratatouille",
-      "description": "A colorful medley of garden vegetables braided together like woven vines.",
+      "description": "A colorful medley of garden vegetables, braided together like woven vines beneath the summer sun. Arrange each slice with care, as though laying petals in a garden bed.",
       "ingredients": [
         {
           "name": "Zucchini",
@@ -779,12 +779,12 @@
           "unit": "Count"
         }
       ],
-      "instructions": "Yield: 6 servings | Time: 1 hour 10 minutes\n1. Preheat oven to 375\u00b0F.\n2. Slice the zucchini, eggplant, bell peppers, and tomatoes into thin rounds.\n3. Arrange the vegetables in overlapping rows in a 9x13-inch baking dish, scattering the garlic, minced, between the layers.\n4. Drizzle with olive oil, season with salt, and cover tightly with foil.\n5. Bake for 45 minutes, until the vegetables are tender when pierced with a knife. Serve warm or at room temperature.",
+      "instructions": "Yield: 6 servings | Time: 1 hour 10 minutes\n1. Warm the oven to a gentle heat, around three hundred seventy-five degrees.\n2. Slice the zucchini, eggplant, bell peppers, and tomatoes into thin, even rounds.\n3. Arrange the vegetables in overlapping rows in a baking dish, scattering the minced garlic between the layers like seeds along a furrow.\n4. Drizzle with olive oil, season lightly, and cover the dish before setting it in the oven.\n5. Let it bake until each vegetable yields softly to a knife's touch, then serve warm or at the gentle temperature of the room.",
       "author": "Myllarra"
     },
     {
       "title": "Myllarra's Silverleaf Salad",
-      "description": "A crisp salad of silvery greens, sweet berries, and toasted nuts.",
+      "description": "A crisp salad of silvery greens, sweet berries, and toasted nuts — simple enough to prepare between one breath and the next, yet lovely enough for any table.",
       "ingredients": [
         {
           "name": "Baby Spinach",
@@ -812,12 +812,12 @@
           "unit": "Tablespoon"
         }
       ],
-      "instructions": "Yield: 4 servings | Time: 10 minutes\n1. Place the baby spinach in a large salad bowl.\n2. Scatter the walnuts, the goat cheese, crumbled, and the dried cranberries over the top.\n3. Drizzle with the balsamic vinegar and a little olive oil.\n4. Toss gently to coat and serve at once.",
+      "instructions": "Yield: 4 servings | Time: 10 minutes\n1. Place a generous bed of baby spinach in a wide bowl.\n2. Scatter the walnuts, the crumbled goat cheese, and the dried cranberries over the greens.\n3. Drizzle with balsamic vinegar and a touch of olive oil.\n4. Toss gently, honoring the greens rather than bruising them, and serve at once.",
       "author": "Myllarra"
     },
     {
       "title": "Elven Lentil Stew",
-      "description": "A nourishing, earthy stew simmered slowly beneath the eaves of the forest.",
+      "description": "A nourishing, earthy stew simmered slowly beneath the eaves of the forest, deepening in flavor the longer it is left to its own quiet work.",
       "ingredients": [
         {
           "name": "Green Lentils",
@@ -845,12 +845,12 @@
           "unit": "Cup"
         }
       ],
-      "instructions": "Yield: 6 servings | Time: 50 minutes\n1. Saute the carrots, diced, and the celery, diced, in a 4-quart pot over medium heat until softened, about 6 minutes.\n2. Add the lentils, cumin, and vegetable broth and stir to combine.\n3. Bring to a boil, then reduce the heat and simmer uncovered for 30-35 minutes, until the lentils are tender.\n4. Season to taste with salt and pepper and serve warm with crusty bread.",
+      "instructions": "Yield: 6 servings | Time: 50 minutes\n1. Sauté the diced carrots and celery until they soften.\n2. Add the lentils, cumin, and vegetable broth, and let the pot come to a boil.\n3. Lower the flame and let it simmer, uncovered, until the lentils grow tender and the broth thickens into something hearty.\n4. Season to taste and serve warm, with crusty bread alongside if you have it.",
       "author": "Myllarra"
     },
     {
       "title": "Myllarra's Roasted Root Medley",
-      "description": "A rustic roast of autumn roots kissed with rosemary and golden oil.",
+      "description": "A rustic roast of autumn roots kissed with rosemary and golden oil, born of the harvest and simple to bring to the table.",
       "ingredients": [
         {
           "name": "Sweet Potato",
@@ -878,12 +878,12 @@
           "unit": "Tablespoon"
         }
       ],
-      "instructions": "Yield: 6 servings | Time: 45 minutes\n1. Preheat oven to 400\u00b0F.\n2. Chop the sweet potatoes, the carrots, and the butternut squash into even 1-inch chunks.\n3. Toss on a rimmed baking sheet with the olive oil and the rosemary sprigs.\n4. Roast for 30-35 minutes, turning halfway through, until the edges are caramelized and the vegetables are fork-tender.\n5. Serve warm straight from the pan.",
+      "instructions": "Yield: 6 servings | Time: 45 minutes\n1. Warm the oven to four hundred degrees.\n2. Chop the sweet potatoes, carrots, and butternut squash into even chunks, honoring their natural shape where you can.\n3. Toss them on a baking sheet with olive oil and sprigs of fresh rosemary.\n4. Roast, turning once, until the edges caramelize and the roots yield gently to a fork.\n5. Serve warm, straight from the pan.",
       "author": "Myllarra"
     },
     {
       "title": "Whispering Wind Pasta Primavera",
-      "description": "A light, herb-flecked pasta tossed with the first vegetables of spring.",
+      "description": "A light, herb-flecked pasta tossed with the first vegetables of spring, quick enough to prepare between chores and lovely enough to savor slowly.",
       "ingredients": [
         {
           "name": "Fettuccine",
@@ -911,12 +911,12 @@
           "unit": "Tablespoon"
         }
       ],
-      "instructions": "Yield: 4 servings | Time: 25 minutes\n1. Cook the fettuccine in a large pot of salted boiling water until al dente, about 10 minutes, then drain, reserving 1/2 cup of the pasta water.\n2. Meanwhile, saute the zucchini, sliced, and the cherry tomatoes, halved, in the olive oil in a 12-inch skillet over medium heat until just tender, about 5 minutes.\n3. Add the drained pasta to the skillet with a splash of the reserved pasta water and toss to combine.\n4. Finish with the grated parmesan cheese and serve immediately.",
+      "instructions": "Yield: 4 servings | Time: 25 minutes\n1. Cook the fettuccine in a large pot of salted boiling water until tender, then drain, setting aside a little of the pasta water.\n2. Meanwhile, sauté the sliced zucchini and halved cherry tomatoes in olive oil until just tender.\n3. Add the pasta to the skillet with a splash of the reserved water and toss gently to bring everything together.\n4. Finish with grated parmesan and serve at once, while the aroma still lingers in the air.",
       "author": "Myllarra"
     },
     {
       "title": "Myllarra's Golden Tofu Stir-fry",
-      "description": "Crisp golden tofu tossed with garden vegetables in a glossy sauce.",
+      "description": "Crisp golden tofu tossed with garden vegetables in a glossy sauce — a quick dish that honors the harvest without asking too much time of you.",
       "ingredients": [
         {
           "name": "Tofu (Extra Firm)",
@@ -944,12 +944,12 @@
           "unit": "Tablespoon"
         }
       ],
-      "instructions": "Yield: 4 servings | Time: 25 minutes\n1. Press and cube the tofu, then pan-fry in a lightly oiled 12-inch skillet over medium-high heat until golden on all sides, about 8 minutes.\n2. Add the broccoli florets and the bell pepper, sliced, and stir-fry until crisp-tender, about 4 minutes.\n3. Stir in the ginger, grated, and the soy sauce and toss until everything is evenly coated and glossy.\n4. Serve hot over rice.",
+      "instructions": "Yield: 4 servings | Time: 25 minutes\n1. Press and cube the tofu, then pan-fry it until golden on every side.\n2. Add the broccoli florets and sliced bell pepper, letting them dance in the pan until crisp-tender.\n3. Stir in the grated ginger and soy sauce, tossing until everything gleams evenly.\n4. Serve hot over rice, while the glaze still glistens.",
       "author": "Myllarra"
     },
     {
       "title": "Elvenhome Squash Soup",
-      "description": "A silky, golden soup that tastes of harvest and hearthlight.",
+      "description": "A silky, golden soup that tastes of harvest and hearthlight, gentle enough to soothe and simple enough to make on any quiet evening.",
       "ingredients": [
         {
           "name": "Butternut Squash",
@@ -977,12 +977,12 @@
           "unit": "Count"
         }
       ],
-      "instructions": "Yield: 6 servings | Time: 40 minutes\n1. Saute the onion, diced, and the ginger, grated, in a 4-quart pot over medium heat until softened, about 4 minutes.\n2. Add the butternut squash and vegetable broth and bring to a boil.\n3. Reduce the heat and simmer for 20 minutes, until the squash is very soft.\n4. Blend the soup with an immersion blender until completely smooth, then stir in the coconut milk.\n5. Warm gently over low heat and serve hot.",
+      "instructions": "Yield: 6 servings | Time: 40 minutes\n1. Sauté the diced onion and grated ginger until they soften and turn fragrant.\n2. Add the butternut squash and vegetable broth and bring to a boil.\n3. Lower the heat and let it simmer until the squash turns soft enough to yield at a touch.\n4. Blend until silken smooth, then stir in the coconut milk.\n5. Warm gently, without haste, and serve hot.",
       "author": "Myllarra"
     },
     {
       "title": "Ghrolg's Beast Slayer Steak Bites",
-      "description": "Seared chunks of beef, blackened and bold, fit for a warband's feast.",
+      "description": "Meat is strength. Sear hard. Eat fast. No sauce needed. Simple is best.",
       "ingredients": [
         {
           "name": "Beef Stew Meat",
@@ -1010,12 +1010,12 @@
           "unit": "Teaspoon"
         }
       ],
-      "instructions": "Yield: 4 servings | Time: 20 minutes\n1. Pat the beef stew meat dry and season generously with the kosher salt.\n2. Heat the olive oil in a heavy 12-inch skillet over high heat until just smoking.\n3. Sear the beef with the garlic, smashed, and the rosemary sprigs until deeply browned, about 2 minutes per side.\n4. Rest for 5 minutes, then serve hot straight from the skillet.",
+      "instructions": "Yield: 4 servings | Time: 20 minutes\n1. Dry meat. Salt hard.\n2. Heat oil. Pan smoking.\n3. Sear beef. Add garlic. Add rosemary. Two minutes side.\n4. Rest five minutes. Eat hot.",
       "author": "Ghrolg"
     },
     {
       "title": "Warband Bacon-Wrapped Chicken",
-      "description": "Smoky bacon-wrapped chicken thighs, hearty enough for a marching army.",
+      "description": "Chicken wrapped in bacon. Fat protects meat. Feeds many mouths. No waste.",
       "ingredients": [
         {
           "name": "Chicken Thighs (Boneless)",
@@ -1038,12 +1038,12 @@
           "unit": "Teaspoon"
         }
       ],
-      "instructions": "Yield: 6 servings | Time: 45 minutes\n1. Preheat oven to 400\u00b0F.\n2. Season the chicken thighs with the garlic powder and the black pepper.\n3. Wrap each thigh tightly with a strip of bacon and secure with a toothpick if needed.\n4. Arrange on a rimmed baking sheet and roast for 30-35 minutes, until the bacon is crisp and the chicken reaches an internal temperature of 165\u00b0F.\n5. Rest for 5 minutes before serving.",
+      "instructions": "Yield: 6 servings | Time: 45 minutes\n1. Heat oven. Four hundred.\n2. Season chicken. Garlic powder. Pepper.\n3. Wrap bacon tight. Pin if needed.\n4. Roast. Bacon crisp. Meat done.\n5. Rest five minutes. Serve.",
       "author": "Ghrolg"
     },
     {
       "title": "Ghrolg's Roasted Root Feast",
-      "description": "Charred, hearty root vegetables roasted over high heat like a battlefield fire.",
+      "description": "Roots survive winter. Fire makes them strong. Eat what earth gives.",
       "ingredients": [
         {
           "name": "Sweet Potato",
@@ -1071,12 +1071,12 @@
           "unit": "Teaspoon"
         }
       ],
-      "instructions": "Yield: 6 servings | Time: 55 minutes\n1. Preheat oven to 425\u00b0F.\n2. Cut the sweet potatoes and the carrots into thick chunks.\n3. Toss on a rimmed baking sheet with the olive oil, the rosemary sprigs, and the kosher salt.\n4. Roast for 35-40 minutes, turning once, until charred at the edges and tender when pierced with a fork.\n5. Serve piled high on a platter.",
+      "instructions": "Yield: 6 servings | Time: 55 minutes\n1. Heat oven. High.\n2. Cut roots thick.\n3. Oil. Rosemary. Salt. Toss hard.\n4. Roast. Turn once. Edges black.\n5. Pile on platter. Eat.",
       "author": "Ghrolg"
     },
     {
       "title": "Battle-Ready Egg Scramble",
-      "description": "A hearty, protein-packed scramble to fuel a morning of orcish labor.",
+      "description": "Eggs build muscle. Fast food for hard morning. No time waste.",
       "ingredients": [
         {
           "name": "Large Eggs",
@@ -1099,12 +1099,12 @@
           "unit": "Count"
         }
       ],
-      "instructions": "Yield: 4 servings | Time: 20 minutes\n1. Cook the bacon in a 10-inch skillet over medium heat until crisp, about 6 minutes, then remove and crumble, leaving the fat in the pan.\n2. Whisk the eggs in a bowl and pour into the skillet, scrambling gently over medium-low heat until just set, about 3 minutes.\n3. Fold in the spinach and the crumbled bacon and cook until the spinach wilts, about 1 minute.\n4. Top with the avocado, sliced, and serve immediately.",
+      "instructions": "Yield: 4 servings | Time: 20 minutes\n1. Cook bacon crisp. Crumble.\n2. Whisk eggs. Pour pan.\n3. Scramble slow. Add spinach. Add bacon.\n4. Top avocado. Eat now.",
       "author": "Ghrolg"
     },
     {
       "title": "Ghrolg's Ironclad Pork Chops",
-      "description": "Thick, smoky pork chops seared hard like armor plating.",
+      "description": "Chop is armor. Sear until hard crust. Inside stays strong.",
       "ingredients": [
         {
           "name": "Pork Chops",
@@ -1127,12 +1127,12 @@
           "unit": "Tablespoon"
         }
       ],
-      "instructions": "Yield: 4 servings | Time: 20 minutes\n1. Rub the pork chops all over with the smoked paprika and the garlic, minced.\n2. Heat the olive oil in a 12-inch skillet over high heat until shimmering.\n3. Sear the chops for 4-5 minutes per side, until deeply browned and the internal temperature reaches 145\u00b0F.\n4. Rest for 5 minutes before serving.",
+      "instructions": "Yield: 4 servings | Time: 20 minutes\n1. Rub chops. Paprika. Garlic.\n2. Heat oil. Pan hot.\n3. Sear chops. Four minutes side.\n4. Rest five minutes. Eat.",
       "author": "Ghrolg"
     },
     {
       "title": "Orcish Almond-Crusted Salmon",
-      "description": "A crunchy, nutty crust protects tender salmon like scale armor.",
+      "description": "Fish wears armor of nut. Crust protects flesh. Strong meal, light work.",
       "ingredients": [
         {
           "name": "Salmon Fillet",
@@ -1155,12 +1155,12 @@
           "unit": "Count"
         }
       ],
-      "instructions": "Yield: 4 servings | Time: 25 minutes\n1. Preheat oven to 400\u00b0F.\n2. Crush the almonds coarsely and mix with the garlic, minced, in a small bowl.\n3. Press the almond mixture onto the top of each salmon fillet.\n4. Place on a parchment-lined baking sheet and bake for 12-15 minutes, until the crust is golden and the fish flakes easily with a fork.\n5. Squeeze the lemon over the top before serving.",
+      "instructions": "Yield: 4 servings | Time: 25 minutes\n1. Heat oven. Four hundred.\n2. Crush almonds. Mix garlic.\n3. Press onto fish.\n4. Bake. Crust golden. Fish flakes.\n5. Squeeze lemon. Eat.",
       "author": "Ghrolg"
     },
     {
       "title": "Ghrolg's Bonebroth Stew",
-      "description": "A deep, fortifying stew simmered long and slow like a siege.",
+      "description": "Long fight needs long broth. Bones give strength. Wait is worth it.",
       "ingredients": [
         {
           "name": "Beef Broth",
@@ -1183,12 +1183,12 @@
           "unit": "Count"
         }
       ],
-      "instructions": "Yield: 6 servings | Time: 1 hour 45 minutes\n1. Sear the beef stew meat in a 6-quart pot over medium-high heat until browned on all sides, about 8 minutes.\n2. Add the beef broth, the carrots, sliced, and the celery, sliced.\n3. Bring to a simmer and cook uncovered for 1.5 hours, until the broth has reduced and thickened and the meat is very tender.\n4. Serve hot in heavy bowls.",
+      "instructions": "Yield: 6 servings | Time: 1 hour 45 minutes\n1. Sear meat. Pot hot.\n2. Add broth. Add carrots. Add celery.\n3. Simmer long. Ninety minutes.\n4. Broth thick. Meat soft. Serve hot.",
       "author": "Ghrolg"
     },
     {
       "title": "Rampage Chicken Drumsticks",
-      "description": "Sticky, spicy drumsticks meant to be torn apart with bare hands.",
+      "description": "Tear with hands. No fork needed. Sticky. Spicy. Good for battle feast.",
       "ingredients": [
         {
           "name": "Chicken Drumsticks",
@@ -1211,12 +1211,12 @@
           "unit": "Tablespoon"
         }
       ],
-      "instructions": "Yield: 4 servings | Time: 45 minutes\n1. Preheat oven to 400\u00b0F.\n2. Toss the chicken drumsticks with the garlic, minced, the cayenne pepper, and the honey in a large bowl until evenly coated.\n3. Arrange on a rimmed baking sheet and roast for 35-40 minutes, turning halfway through, until deeply caramelized and the internal temperature reaches 165\u00b0F.\n4. Serve hot, while still sticky and glistening.",
+      "instructions": "Yield: 4 servings | Time: 45 minutes\n1. Heat oven. Four hundred.\n2. Mix garlic. Cayenne. Honey.\n3. Coat drumsticks.\n4. Roast. Turn once. Deep brown.\n5. Eat hot. Fingers sticky.",
       "author": "Ghrolg"
     },
     {
       "title": "Ghrolg's Coconut Curry Beast",
-      "description": "A bold, fiery curry rich enough to fuel a rampage.",
+      "description": "Fire in the pot. Chicken tames it. Eat before it cools.",
       "ingredients": [
         {
           "name": "Chicken Breast",
@@ -1239,12 +1239,12 @@
           "unit": "Tablespoon"
         }
       ],
-      "instructions": "Yield: 4 servings | Time: 30 minutes\n1. Cube the chicken breast and sear in a 12-inch skillet over medium-high heat until browned, about 5 minutes.\n2. Stir in the curry powder and the ginger, grated, and cook until fragrant, about 30 seconds.\n3. Pour in the coconut milk and simmer for 15-20 minutes, until the chicken is cooked through and the sauce has thickened slightly.\n4. Serve hot, straight from the pan.",
+      "instructions": "Yield: 4 servings | Time: 30 minutes\n1. Cube chicken. Sear hot.\n2. Add curry powder. Add ginger.\n3. Pour coconut milk. Simmer.\n4. Chicken done. Sauce thick. Serve.",
       "author": "Ghrolg"
     },
     {
       "title": "Warlord's Skillet Hash",
-      "description": "A rough-and-ready skillet meal built for speed between battles.",
+      "description": "Fast meal. Between battles. One pan. No waste.",
       "ingredients": [
         {
           "name": "Sweet Potato",
@@ -1267,7 +1267,7 @@
           "unit": "Count"
         }
       ],
-      "instructions": "Yield: 4 servings | Time: 30 minutes\n1. Dice the sweet potatoes and parboil in salted water for 5 minutes, until just tender, then drain.\n2. Brown the ground beef in a 12-inch skillet over medium-high heat with the onion, diced, and the bell pepper, diced, about 8 minutes.\n3. Add the sweet potatoes and cook, stirring occasionally, until crisped at the edges, about 8 minutes.\n4. Season to taste and serve straight from the skillet.",
+      "instructions": "Yield: 4 servings | Time: 30 minutes\n1. Parboil sweet potato.\n2. Brown beef. Add onion. Add pepper.\n3. Add potato. Crisp edges.\n4. Serve from pan. Eat.",
       "author": "Ghrolg"
     }
   ]
