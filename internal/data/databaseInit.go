@@ -6,6 +6,7 @@ import (
 	_ "embed"
 	"encoding/json"
 	"log"
+    "strings"
 
 	"github.com/lib/pq"
 	pb "github.com/schollz/progressbar/v3"
@@ -224,8 +225,9 @@ func InitDBRecipes(ik string, db *sql.DB, ctx context.Context, userpw string) er
   log.Println("Successfully read file - creating user profiles...")
 
   for _, char := range chars.Characters {
+        name := strings.ToLower(strings.TrimSpace(char.Name))
 	    dbConn.CreateUser(ctx, database.CreateUserParams{
-		    Email:    char.Name + "@admin.trr",
+		    Email:    name + "@admin.trr",
 		    HashedPw: userpw,
 		    Name:     char.Name,
 	    })

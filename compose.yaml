@@ -6,7 +6,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: recipe_repo
+      POSTGRES_DB: pantry_scrolls
     env_file:
       - .env
     volumes:
