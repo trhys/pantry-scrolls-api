@@ -241,12 +241,11 @@ func InitDBRecipes(ik string, db *sql.DB, ctx context.Context, userpw string) er
 			continue
 		}
 
-   user, err := dbConn.GetUserByEmail(ctx, r.Author + "@admin.trr")
+   user, err := dbConn.GetUserByEmail(ctx, strings.ToLower(strings.TrimSpace(r.Author)) + "@admin.trr")
 	if err != nil {
 		log.Printf("Error getting user: %v", err)
 		return err
 	}
-
 
 		query := database.CreateRecipeParams{
 			Title:        r.Title,
