@@ -199,7 +199,10 @@ func TestCRUDRecipe(t *testing.T) {
 		responseResult := w.Result()
 		defer responseResult.Body.Close()
 
-		var responseBody vm.RecipeViewModel
+		var responseBody struct {
+      ID uuid.UUID `json:"id"`
+   }
+
 		decoder := json.NewDecoder(responseResult.Body)
 		decoder.DisallowUnknownFields()
 
@@ -208,13 +211,29 @@ func TestCRUDRecipe(t *testing.T) {
 		}
 
 		// get id for next tests
-		testRecipeID = responseBody.Recipes[0].ID
+		testRecipeID = responseBody.ID
 	})
+
+  // add a like to the recipe 
+ t.Run("like recipe", func(t *testing.T) {
+    url := fmt.Sprintf("/api/recipes/%s/likes", testRecipeID.String())
+    req := httptest.NewRequest("PUT", url, nil)
+
+   req.AddCookie(jwt)
+		req.AddCookie(rt)
+
+		w = httptest.NewRecorder()
+		router.ServeHTTP(w, req)
+		if w.Code != 204 {
+			t.Errorf("Failed to like recipe: got status %d", w.Code)
+			return
+		}
+  }
 
 	// Read
 	t.Run("get recipe", func(t *testing.T) {
-		// we're getting the 10 most recent recipes at this endpoint
-		// newest should be index 0
+		// we're getting the 10 most liked recipes at this endpoint
+		// highest likes should be index 0
 		req := httptest.NewRequest("GET", "/api/recipes", nil)
 
 		w = httptest.NewRecorder()
