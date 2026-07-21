@@ -116,7 +116,7 @@ func (cfg *ApiConfig) handlerCreateRecipe(w http.ResponseWriter, r *http.Request
 		Instructions: req.Instructions,
 	}
 
-	rec, err := cfg.DB.CreateRecipe(r.Context(), query)
+	recipeID, err := cfg.DB.CreateRecipe(r.Context(), query)
 	if err != nil {
 		respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Failed to create recipe: %v", err))
 		return
@@ -125,7 +125,7 @@ func (cfg *ApiConfig) handlerCreateRecipe(w http.ResponseWriter, r *http.Request
 	// Connect all ingredients
 	for _, ing := range req.Ingredients {
 		query := database.AddToRecipeParams{
-			RecipeID:     rec.ID,
+			RecipeID:     recipeID,
 			IngredientID: ing.ID,
 			Quantity:     ing.Quantity,
 			Unit:         ing.Unit,
@@ -143,8 +143,12 @@ func (cfg *ApiConfig) handlerCreateRecipe(w http.ResponseWriter, r *http.Request
 		respondFail(r, w, 404, "Couldn't find ingredients", fmt.Errorf("Failed to find ingredients for recipe id: %s, ERROR: %v", rec.ID, err))
 		return
 	}
+  
+  type resp struct{
+     ID uuid.UUID `json:"id"`
+  }
 
-	respondJSON(w, 200, cfg.Vmf.GenerateRecipeViewModel(rec, viewmodel.GenerateIngredientsViewModel(i)))
+	respondJSON(w, 201, resp{ID: recipeID})
 }
 
 // Get recipe by ID
