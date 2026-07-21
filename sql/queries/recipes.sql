@@ -11,7 +11,7 @@ VALUES(
 	$5,
 	$6
 )
-RETURNING *;
+RETURNING id;
 
 -- name: UpdateRecipe :one
 UPDATE recipes SET 
