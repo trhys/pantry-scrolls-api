@@ -20,13 +20,13 @@ type PrivateUserViewModel struct {
 	User
 	Email         string         `json:"email"`
 	CreatedAt     time.Time      `json:"created_at"`
-	Recipes       []RecipeCard   `json:"recipes"`
+	Recipes       []Recipe       `json:"recipes"`
 	ShoppingLists []ShoppingList `json:"shopping_lists"`
 }
 
 type PublicUserViewModel struct {
 	User
-	Recipes []RecipeCard `json:"recipes"`
+	Recipes []Recipe `json:"recipes"`
 }
 
 type SessionViewModel struct {
@@ -42,6 +42,7 @@ type RefreshViewModel struct {
 }
 
 func (builder *VMFactory) GeneratePrivateUser(user database.GetUserRow, recipes []database.Recipe) PrivateUserViewModel {
+	recipeViewmodel := builder.GenerateRecipeViewModel(recipes, nil)
 	model := PrivateUserViewModel{
 		User: User{
 			ID:       user.ID,
@@ -50,7 +51,7 @@ func (builder *VMFactory) GeneratePrivateUser(user database.GetUserRow, recipes 
 		},
 		Email:     user.Email,
 		CreatedAt: user.CreatedAt,
-		Recipes:   builder.GetRecipesForUser(recipes),
+		Recipes:   recipeViewmodel.Recipes,
 	}
 
 	lists, err := builder.DB.GetUserLists(context.Background(), user.ID)
@@ -65,13 +66,14 @@ func (builder *VMFactory) GeneratePrivateUser(user database.GetUserRow, recipes 
 }
 
 func (builder *VMFactory) GeneratePublicUser(user database.GetUserRow, recipes []database.Recipe) PublicUserViewModel {
+	recipeViewmodel := builder.GenerateRecipeViewModel(recipes, nil)
 	model := PublicUserViewModel{
 		User: User{
 			ID:       user.ID,
 			Name:     user.Name,
 			ImageURL: fmt.Sprintf("%s/%s", builder.S3cdn, user.ImageKey),
 		},
-		Recipes: builder.GetRecipesForUser(recipes),
+		Recipes: recipeViewmodel.Recipes,
 	}
 
 	return model

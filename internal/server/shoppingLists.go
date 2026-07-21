@@ -148,7 +148,7 @@ func (cfg *ApiConfig) handlerGetShoppingList(w http.ResponseWriter, r *http.Requ
 		return
 	}
 
-	model := viewmodel.GenerateShoppingListViewModel(shoppingList, shoppingListRecipes)
+	model := cfg.Vmf.GenerateShoppingListViewModel(shoppingList, shoppingListRecipes)
 
 	respondJSON(w, 200, model)
 }

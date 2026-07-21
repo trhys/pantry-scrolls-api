@@ -28,8 +28,10 @@ SELECT * FROM recipes
 WHERE id = $1;
 
 -- name: GetRecipeList :many
-SELECT * FROM recipes
-ORDER BY created_at DESC
+SELECT recipes.*, COUNT(recipe_likes.user_id) AS likes FROM recipes
+INNER JOIN recipe_likes ON recipe_likes.recipe_id = recipes.id
+GROUP BY recipes.id
+ORDER BY likes DESC
 LIMIT 10;
 
 -- name: GetRecipesFromQuery :many

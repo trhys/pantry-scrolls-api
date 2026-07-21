@@ -11,6 +11,7 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 	"github.com/google/uuid"
+	"github.com/lib/pq"
 	"github.com/trhys/Recipe-Repo-2/internal/database"
 	util "github.com/trhys/Recipe-Repo-2/internal/utility"
 	"github.com/trhys/Recipe-Repo-2/internal/viewmodel"
@@ -143,7 +144,7 @@ func (cfg *ApiConfig) handlerCreateRecipe(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	respondJSON(w, 200, cfg.Vmf.GenerateRecipeFullViewModel(rec, viewmodel.GenerateIngredientsViewModel(i)))
+	respondJSON(w, 200, cfg.Vmf.GenerateRecipeViewModel(rec, viewmodel.GenerateIngredientsViewModel(i)))
 }
 
 // Get recipe by ID
@@ -167,25 +168,25 @@ func (cfg *ApiConfig) handlerGetRecipe(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	model := cfg.Vmf.GenerateRecipeFullViewModel(rec, viewmodel.GenerateIngredientsViewModel(i))
+	model := cfg.Vmf.GenerateRecipeViewModel(rec, viewmodel.GenerateIngredientsViewModel(i))
 
 	respondJSON(w, 200, model)
 }
 
-// Get ten most recent recipes or total
+// Get ten most liked recipes or total number of recipes
 func (cfg *ApiConfig) handlerGetRecipeList(w http.ResponseWriter, r *http.Request) {
-  // return early with count if total query
-  if r.URL.Query().Get("total") == "true" { 
-    total, err := cfg.DB.GetTotalRecipes(r.Context())
-    if err != nil {
-      respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Failed total recipes query: %v", err))
-      return
-    }
-    respondJSON(w, 200, struct{
-      Total int64 `json:"total"`
-    }{ Total: total, })
-    return
-  }
+	// return early with count if total query
+	if r.URL.Query().Get("total") == "true" {
+		total, err := cfg.DB.GetTotalRecipes(r.Context())
+		if err != nil {
+			respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Failed total recipes query: %v", err))
+			return
+		}
+		respondJSON(w, 200, struct {
+			Total int64 `json:"total"`
+		}{Total: total})
+		return
+	}
 
 	recipes, err := cfg.DB.GetRecipeList(r.Context())
 	if err != nil {
@@ -193,7 +194,7 @@ func (cfg *ApiConfig) handlerGetRecipeList(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	respondJSON(w, 200, cfg.Vmf.GenerateRecipeCardViewModel(recipes))
+	respondJSON(w, 200, cfg.Vmf.GenerateRecipeViewModel(recipes, nil))
 }
 
 // Update recipe
@@ -387,6 +388,66 @@ func (cfg *ApiConfig) handlerExploreFeed(w http.ResponseWriter, r *http.Request)
 			return
 		}
 
-		respondJSON(w, 200, cfg.Vmf.GenerateRecipeCardViewModel(feed))
+		respondJSON(w, 200, cfg.Vmf.GenerateRecipeViewModel(feed, nil))
 	}
+}
+
+func (cfg *ApiConfig) handlerLikeRecipe(w http.ResponseWriter, r *http.Request) {
+	requested := r.PathValue("recipe_id")
+	recipe_id, err := uuid.Parse(requested)
+	if err != nil {
+		respondFail(r, w, 404, "Invalid recipe id", fmt.Errorf("Couldn't parse UUID: %s ERROR: %v", requested, err))
+		return
+	}
+
+	// Validate auth from middleware
+	requesterID, ok := r.Context().Value("userID").(uuid.UUID)
+	if !ok {
+		respondFail(r, w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
+		return
+	}
+
+	// if there is no record of the like, add a like entry, otherwise delete it
+	if err := cfg.DB.LikeRecipe(r.Context(), database.LikeRecipeParams{
+		UserID:   requesterID,
+		RecipeID: recipe_id,
+	}); err != nil {
+		if err.(*pq.Error).Code == "23505" {
+			if err := cfg.DB.UnlikeRecipe(r.Context(), database.UnlikeRecipeParams{
+				UserID:   requesterID,
+				UserID_2: recipe_id,
+			}); err != nil {
+				respondFail(r, w, 500, "something went wrong", fmt.Errorf("Query Failure (UnlikeRecipe): %v", err))
+				return
+			}
+		} else {
+			respondFail(r, w, 500, "something went wrong", fmt.Errorf("Query Failure (LikeRecipe): %v", err))
+			return
+		}
+	}
+
+	respondJSON(w, 204, nil)
+}
+
+func (cfg *ApiConfig) handlerGetLikes(w http.ResponseWriter, r *http.Request) {
+	requested := r.PathValue("recipe_id")
+	recipe_id, err := uuid.Parse(requested)
+	if err != nil {
+		respondFail(r, w, 404, "Invalid recipe id", fmt.Errorf("Couldn't parse UUID: %s ERROR: %v", requested, err))
+		return
+	}
+
+	likes, err := cfg.DB.GetLikes(r.Context(), recipe_id)
+	if err != nil {
+		respondFail(r, w, 404, "Couldn't get likes count", fmt.Errorf("Query Failure (GetLikes) for recipe id: %v ERROR: %v", recipe_id, err))
+		return
+	}
+
+	resp := struct {
+		Likes int64 `json:"likes"`
+	}{
+		Likes: likes,
+	}
+
+	respondJSON(w, 200, resp)
 }

@@ -64,6 +64,11 @@ type RecipeIngredient struct {
 	Unit         string
 }
 
+type RecipeLike struct {
+	UserID   uuid.UUID
+	RecipeID uuid.UUID
+}
+
 type RefreshToken struct {
 	ID        string
 	CreatedAt time.Time

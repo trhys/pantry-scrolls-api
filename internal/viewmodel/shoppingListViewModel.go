@@ -19,7 +19,7 @@ type ShoppingList struct {
 
 type ShoppingListViewModel struct {
 	ShoppingList
-	Recipes []RecipeOnList `json:"recipes"`
+	Recipes []Recipe `json:"recipes"`
 }
 
 type UserListsViewModel struct {
@@ -32,7 +32,8 @@ type PrintViewModel struct {
 }
 
 // Display for viewing a single list with it's recipes
-func GenerateShoppingListViewModel(list db.ShoppingList, recipes []db.GetRecipesFromListRow) ShoppingListViewModel {
+func (builder *VMFactory) GenerateShoppingListViewModel(list db.ShoppingList, recipes []db.GetRecipesFromListRow) ShoppingListViewModel {
+	recipeViewmodel := builder.GenerateRecipeViewModel(recipes, nil)
 	model := ShoppingListViewModel{
 		ShoppingList: ShoppingList{
 			ID:        list.ID,
@@ -40,7 +41,7 @@ func GenerateShoppingListViewModel(list db.ShoppingList, recipes []db.GetRecipes
 			CreatedAt: list.CreatedAt,
 			UpdatedAt: list.UpdatedAt,
 		},
-		Recipes: GetRecipesOnList(recipes),
+		Recipes: recipeViewmodel.Recipes,
 	}
 
 	return model

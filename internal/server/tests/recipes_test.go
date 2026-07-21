@@ -199,7 +199,7 @@ func TestCRUDRecipe(t *testing.T) {
 		responseResult := w.Result()
 		defer responseResult.Body.Close()
 
-		var responseBody vm.RecipeFull
+		var responseBody vm.RecipeViewModel
 		decoder := json.NewDecoder(responseResult.Body)
 		decoder.DisallowUnknownFields()
 
@@ -208,7 +208,7 @@ func TestCRUDRecipe(t *testing.T) {
 		}
 
 		// get id for next tests
-		testRecipeID = responseBody.ID
+		testRecipeID = responseBody.Recipes[0].ID
 	})
 
 	// Read
@@ -227,7 +227,7 @@ func TestCRUDRecipe(t *testing.T) {
 		responseResult := w.Result()
 		defer responseResult.Body.Close()
 
-		var responseBody vm.RecipeCardViewModel
+		var responseBody vm.RecipeViewModel
 		decoder := json.NewDecoder(responseResult.Body)
 		decoder.DisallowUnknownFields()
 
@@ -255,7 +255,7 @@ func TestCRUDRecipe(t *testing.T) {
 		responseResult := w.Result()
 		defer responseResult.Body.Close()
 
-		var responseBody vm.RecipeFull
+		var responseBody vm.RecipeViewModel
 		decoder := json.NewDecoder(responseResult.Body)
 		decoder.DisallowUnknownFields()
 
@@ -263,11 +263,11 @@ func TestCRUDRecipe(t *testing.T) {
 			t.Errorf("Response structural validation failed: %v", err)
 		}
 
-		if responseBody.ID != testRecipeID {
-			t.Errorf("Expected recipe id: %v got %v", testRecipeID, responseBody.ID)
+		if responseBody.Recipes[0].ID != testRecipeID {
+			t.Errorf("Expected recipe id: %v got %v", testRecipeID, responseBody.Recipes[0].ID)
 		}
 
-		responseBody.Title = "new title"
+		responseBody.Recipes[0].Title = "new title"
 		data, _ := json.Marshal(responseBody)
 
 		// write update body
@@ -321,7 +321,7 @@ func TestCRUDRecipe(t *testing.T) {
 		updateResult := w.Result()
 		defer updateResult.Body.Close()
 
-		var updateBody vm.RecipeFull
+		var updateBody vm.RecipeViewModel
 		newDecoder := json.NewDecoder(updateResult.Body)
 		newDecoder.DisallowUnknownFields()
 
@@ -329,8 +329,8 @@ func TestCRUDRecipe(t *testing.T) {
 			t.Errorf("Response structural validation failed: %v", err)
 		}
 
-		if updateBody.Title != "new title" {
-			t.Errorf("Failed update verification. expected title: 'new title' got: %s", updateBody.Title)
+		if updateBody.Recipes[0].Title != "new title" {
+			t.Errorf("Failed update verification. expected title: 'new title' got: %s", updateBody.Recipes[0].Title)
 		}
 	})
 
