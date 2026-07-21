@@ -51,7 +51,7 @@ func GetRouter(cfg *ApiConfig, reg *prometheus.Registry) *http.ServeMux {
 	mux.HandleFunc("DELETE /api/recipes/{recipe_id}", cfg.authMiddleware(cfg.handlerDeleteRecipe))
 	mux.HandleFunc("GET /api/recipes/explore", cfg.handlerExploreFeed)
 	mux.HandleFunc("GET /api/recipes/{recipe_id}/likes", cfg.handlerGetLikes)
-	mux.HandleFunc("PUT /api/recipe/{recipe_id}/likes", cfg.authMiddleware(cfg.handlerLikeRecipe))
+	mux.HandleFunc("PUT /api/recipes/{recipe_id}/likes", cfg.authMiddleware(cfg.handlerLikeRecipe))
 
 	// Ingredient eps
 	//mux.HandleFunc("POST /api/ingredients", cfg.handlerCreateIngredient)
