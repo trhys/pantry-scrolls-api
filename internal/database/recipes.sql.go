@@ -37,7 +37,7 @@ VALUES(
 	$5,
 	$6
 )
-RETURNING id, title, author, description, instructions, image_key, created_at, updated_at, user_id
+RETURNING id
 `
 
 type CreateRecipeParams struct {
@@ -49,7 +49,7 @@ type CreateRecipeParams struct {
 	Instructions string
 }
 
-func (q *Queries) CreateRecipe(ctx context.Context, arg CreateRecipeParams) (Recipe, error) {
+func (q *Queries) CreateRecipe(ctx context.Context, arg CreateRecipeParams) (uuid.UUID, error) {
 	row := q.db.QueryRowContext(ctx, createRecipe,
 		arg.Title,
 		arg.Author,
@@ -58,19 +58,9 @@ func (q *Queries) CreateRecipe(ctx context.Context, arg CreateRecipeParams) (Rec
 		arg.ImageKey,
 		arg.Instructions,
 	)
-	var i Recipe
-	err := row.Scan(
-		&i.ID,
-		&i.Title,
-		&i.Author,
-		&i.Description,
-		&i.Instructions,
-		&i.ImageKey,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.UserID,
-	)
-	return i, err
+	var id uuid.UUID
+	err := row.Scan(&id)
+	return id, err
 }
 
 const deleteRecipe = `-- name: DeleteRecipe :exec

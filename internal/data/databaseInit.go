@@ -269,7 +269,7 @@ func InitDBRecipes(ik string, db *sql.DB, ctx context.Context, userpw string) er
 			}
 
 			query := database.AddToRecipeParams{
-				RecipeID:     rec.ID,
+				RecipeID:     rec,
 				IngredientID: id,
 				Quantity:     ing.Quantity,
 				Unit:         ing.Unit,

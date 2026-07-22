@@ -138,15 +138,9 @@ func (cfg *ApiConfig) handlerCreateRecipe(w http.ResponseWriter, r *http.Request
 		}
 	}
 
-	i, err := cfg.DB.GetIngredientList(r.Context(), rec.ID)
-	if err != nil {
-		respondFail(r, w, 404, "Couldn't find ingredients", fmt.Errorf("Failed to find ingredients for recipe id: %s, ERROR: %v", rec.ID, err))
-		return
+	type resp struct {
+		ID uuid.UUID `json:"id"`
 	}
-  
-  type resp struct{
-     ID uuid.UUID `json:"id"`
-  }
 
 	respondJSON(w, 201, resp{ID: recipeID})
 }

@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	// "github.com/trhys/Recipe-Repo-2/internal/database"
 )
 
 // Consolidated separate shapes into one generic shape that can
@@ -44,7 +43,6 @@ func (builder *VMFactory) GenerateRecipeViewModel(data any, ingredients []Ingred
 
 	switch val.Kind() {
 	case reflect.Slice:
-		// Process each item in the slice
 		for i := 0; i < val.Len(); i++ {
 			item := val.Index(i)
 			recipe, err := parseRecipe(item, ingredients)
@@ -55,7 +53,6 @@ func (builder *VMFactory) GenerateRecipeViewModel(data any, ingredients []Ingred
 		}
 
 	case reflect.Struct:
-		// Process a single struct input
 		recipe, err := parseRecipe(val, ingredients)
 		if err != nil {
 			return RecipeViewModel{}
@@ -79,7 +76,6 @@ func parseRecipe(src reflect.Value, ingredients []Ingredient) (Recipe, error) {
 
 	var dest Recipe
 
-	// 1. Assign required/base fields if present
 	if f := src.FieldByName("ID"); f.IsValid() {
 		dest.ID = f.Interface().(uuid.UUID)
 	}
@@ -89,8 +85,6 @@ func parseRecipe(src reflect.Value, ingredients []Ingredient) (Recipe, error) {
 	if f := src.FieldByName("CreatedAt"); f.IsValid() {
 		dest.CreatedAt = f.Interface().(time.Time)
 	}
-
-	// 2. Assign optional/nullable fields using pointers
 	if f := src.FieldByName("UpdatedAt"); f.IsValid() {
 		t := f.Interface().(time.Time)
 		if !t.IsZero() {
@@ -126,77 +120,3 @@ func parseRecipe(src reflect.Value, ingredients []Ingredient) (Recipe, error) {
 
 	return dest, nil
 }
-
-// func (builder *VMFactory) GenerateRecipeCardViewModel(recipes []database.Recipe) RecipeCardViewModel {
-// 	model := RecipeCardViewModel{}
-// 	for _, r := range recipes {
-// 		model.Recipes = append(model.Recipes, RecipeCard{
-// 			Recipe: Recipe{
-// 				ID:        r.ID,
-// 				Title:     r.Title,
-// 				CreatedAt: r.CreatedAt,
-// 				UpdatedAt: r.UpdatedAt,
-// 			},
-// 			UserID:   r.UserID,
-// 			Author:   r.Author,
-// 			ImageURL: fmt.Sprintf("%s/%s", builder.S3cdn, r.ImageKey),
-// 		})
-// 	}
-//
-// 	return model
-// }
-//
-// func (builder *VMFactory) GenerateRecipeFullViewModel(r database.Recipe, i []Ingredient) RecipeFull {
-// 	return RecipeFull{
-// 		Recipe: Recipe{
-// 			ID:        r.ID,
-// 			Title:     r.Title,
-// 			CreatedAt: r.CreatedAt,
-// 			UpdatedAt: r.UpdatedAt,
-// 		},
-// 		UserID:       r.UserID,
-// 		Author:       r.Author,
-// 		Description:  r.Description,
-// 		ImageURL:     fmt.Sprintf("%s/%s", builder.S3cdn, r.ImageKey),
-// 		Ingredients:  i,
-// 		Instructions: r.Instructions,
-// 	}
-// }
-//
-// func GetRecipesOnList(recipes []database.GetRecipesFromListRow) []RecipeOnList {
-// 	recipeList := make([]RecipeOnList, 0, len(recipes))
-// 	for _, r := range recipes {
-// 		recipeList = append(recipeList, RecipeOnList{
-// 			Recipe: Recipe{
-// 				ID:        r.ID,
-// 				Title:     r.Title,
-// 				CreatedAt: r.CreatedAt,
-// 				UpdatedAt: r.UpdatedAt,
-// 			},
-// 			UserID:   r.UserID,
-// 			Author:   r.Author,
-// 			Quantity: r.Quantity,
-// 		})
-// 	}
-//
-// 	return recipeList
-// }
-//
-// func (builder *VMFactory) GetRecipesForUser(recipes []database.Recipe) []RecipeCard {
-// 	recipeList := make([]RecipeCard, 0, len(recipes))
-// 	for _, r := range recipes {
-// 		recipeList = append(recipeList, RecipeCard{
-// 			Recipe: Recipe{
-// 				ID:        r.ID,
-// 				Title:     r.Title,
-// 				CreatedAt: r.CreatedAt,
-// 				UpdatedAt: r.UpdatedAt,
-// 			},
-// 			UserID:   r.UserID,
-// 			Author:   r.Author,
-// 			ImageURL: fmt.Sprintf("%s/%s", builder.S3cdn, r.ImageKey),
-// 		})
-// 	}
-//
-// 	return recipeList
-// }

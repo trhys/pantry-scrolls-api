@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
 	"mime/multipart"
 	"net/http"
 	"net/http/httptest"
@@ -191,7 +192,7 @@ func TestCRUDRecipe(t *testing.T) {
 
 		w = httptest.NewRecorder()
 		router.ServeHTTP(w, req)
-		if w.Code != 200 {
+		if w.Code != 201 {
 			t.Errorf("Failed to create recipe: got status %d", w.Code)
 			return
 		}
@@ -200,8 +201,8 @@ func TestCRUDRecipe(t *testing.T) {
 		defer responseResult.Body.Close()
 
 		var responseBody struct {
-      ID uuid.UUID `json:"id"`
-   }
+			ID uuid.UUID `json:"id"`
+		}
 
 		decoder := json.NewDecoder(responseResult.Body)
 		decoder.DisallowUnknownFields()
@@ -214,12 +215,12 @@ func TestCRUDRecipe(t *testing.T) {
 		testRecipeID = responseBody.ID
 	})
 
-  // add a like to the recipe 
- t.Run("like recipe", func(t *testing.T) {
-    url := fmt.Sprintf("/api/recipes/%s/likes", testRecipeID.String())
-    req := httptest.NewRequest("PUT", url, nil)
+	// add a like to the recipe
+	t.Run("like recipe", func(t *testing.T) {
+		url := fmt.Sprintf("/api/recipes/%s/likes", testRecipeID.String())
+		req := httptest.NewRequest("PUT", url, nil)
 
-   req.AddCookie(jwt)
+		req.AddCookie(jwt)
 		req.AddCookie(rt)
 
 		w = httptest.NewRecorder()
@@ -228,7 +229,7 @@ func TestCRUDRecipe(t *testing.T) {
 			t.Errorf("Failed to like recipe: got status %d", w.Code)
 			return
 		}
-  }
+	})
 
 	// Read
 	t.Run("get recipe", func(t *testing.T) {
@@ -286,8 +287,27 @@ func TestCRUDRecipe(t *testing.T) {
 			t.Errorf("Expected recipe id: %v got %v", testRecipeID, responseBody.Recipes[0].ID)
 		}
 
-		responseBody.Recipes[0].Title = "new title"
-		data, _ := json.Marshal(responseBody)
+		// the update endpoint takes this shape (decoder will silently fail
+		// if we give any unknown fields)
+		// for simplicity we nil the ingredients slice and check for a new title
+
+		requestBody := struct {
+			Title       string `json:"title"`
+			Description string `json:"description"`
+			Ingredients []struct {
+				ID       uuid.UUID `json:"id"`
+				Quantity float32   `json:"quantity"`
+				Unit     string    `json:"unit"`
+			} `json:"ingredients"`
+			Instructions string `json:"instructions"`
+		}{
+			Title:        "new title",
+			Description:  *responseBody.Recipes[0].Description,
+			Ingredients:  nil,
+			Instructions: *responseBody.Recipes[0].Instructions,
+		}
+
+		data, _ := json.Marshal(requestBody)
 
 		// write update body
 		body := &bytes.Buffer{}
