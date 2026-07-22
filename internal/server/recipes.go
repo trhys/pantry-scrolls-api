@@ -449,3 +449,33 @@ func (cfg *ApiConfig) handlerGetLikes(w http.ResponseWriter, r *http.Request) {
 
 	respondJSON(w, 200, resp)
 }
+
+// returns true/false whether user has liked recipe @ id
+func (cfg *ApiConfig) handlerCheckLiked(w http.ResponseWriter, r *http.Request) {
+	requested := r.PathValue("recipe_id")
+	recipe_id, err := uuid.Parse(requested)
+	if err != nil {
+		respondFail(r, w, 404, "Invalid recipe id", fmt.Errorf("Couldn't parse UUID: %s ERROR: %v", requested, err))
+		return
+	}
+
+	requesterID, ok := r.Context().Value("userID").(uuid.UUID)
+	if !ok {
+		respondFail(r, w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
+		return
+	}
+
+	liked, err := cfg.DB.CheckLiked(r.Context(), database.CheckLikedParams{ UserID: requesterID, RecipeID: recipe_id, })
+	if err != nil {
+		respondFail(r, w, 404, "Couldn't get liked state for recipe", fmt.Errorf("Query failed (CheckLiked): %v", err))
+		return
+	}
+
+	resp := struct {
+		Liked bool `json:"liked"`
+	}{
+		Liked: liked,
+	}
+	
+	respondJSON(w, 200, resp)
+}
