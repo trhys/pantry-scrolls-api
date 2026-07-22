@@ -36,7 +36,13 @@ LIMIT 10;
 
 -- name: GetRecipesFromQuery :many
 SELECT * FROM recipes
-WHERE LOWER(title) LIKE '%' || $1::text || '%';
+WHERE LOWER(title) LIKE '%' || $1::text || '%'
+LIMIT 50;
+
+-- name: GetRecipesFromNilQuery :many
+SELECT * FROM recipes
+ORDER BY created_at DESC
+LIMIT 50;
 
 -- name: GetUsersRecipes :many
 SELECT * FROM recipes
