@@ -472,7 +472,7 @@ func (cfg *ApiConfig) handlerCheckLiked(w http.ResponseWriter, r *http.Request) 
 
 	liked, err := cfg.DB.CheckLiked(r.Context(), database.CheckLikedParams{ UserID: requesterID, RecipeID: recipe_id, })
 	if err != nil {
-		respondFail(r, w, 404, "Couldn't get liked state for recipe", fmt.Errorf("Query failed (CheckLiked): %v", err))
+		respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Query failed (CheckLiked): %v", err))
 		return
 	}
 
