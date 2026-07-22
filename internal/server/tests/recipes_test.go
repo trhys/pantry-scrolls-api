@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
 	"mime/multipart"
 	"net/http"
 	"net/http/httptest"
@@ -191,7 +192,7 @@ func TestCRUDRecipe(t *testing.T) {
 
 		w = httptest.NewRecorder()
 		router.ServeHTTP(w, req)
-		if w.Code != 200 {
+		if w.Code != 201 {
 			t.Errorf("Failed to create recipe: got status %d", w.Code)
 			return
 		}
@@ -199,7 +200,10 @@ func TestCRUDRecipe(t *testing.T) {
 		responseResult := w.Result()
 		defer responseResult.Body.Close()
 
-		var responseBody vm.RecipeFull
+		var responseBody struct {
+			ID uuid.UUID `json:"id"`
+		}
+
 		decoder := json.NewDecoder(responseResult.Body)
 		decoder.DisallowUnknownFields()
 
@@ -211,10 +215,26 @@ func TestCRUDRecipe(t *testing.T) {
 		testRecipeID = responseBody.ID
 	})
 
+	// add a like to the recipe
+	t.Run("like recipe", func(t *testing.T) {
+		url := fmt.Sprintf("/api/recipes/%s/likes", testRecipeID.String())
+		req := httptest.NewRequest("PUT", url, nil)
+
+		req.AddCookie(jwt)
+		req.AddCookie(rt)
+
+		w = httptest.NewRecorder()
+		router.ServeHTTP(w, req)
+		if w.Code != 204 {
+			t.Errorf("Failed to like recipe: got status %d", w.Code)
+			return
+		}
+	})
+
 	// Read
 	t.Run("get recipe", func(t *testing.T) {
-		// we're getting the 10 most recent recipes at this endpoint
-		// newest should be index 0
+		// we're getting the 10 most liked recipes at this endpoint
+		// highest likes should be index 0
 		req := httptest.NewRequest("GET", "/api/recipes", nil)
 
 		w = httptest.NewRecorder()
@@ -227,7 +247,7 @@ func TestCRUDRecipe(t *testing.T) {
 		responseResult := w.Result()
 		defer responseResult.Body.Close()
 
-		var responseBody vm.RecipeCardViewModel
+		var responseBody vm.RecipeViewModel
 		decoder := json.NewDecoder(responseResult.Body)
 		decoder.DisallowUnknownFields()
 
@@ -255,7 +275,7 @@ func TestCRUDRecipe(t *testing.T) {
 		responseResult := w.Result()
 		defer responseResult.Body.Close()
 
-		var responseBody vm.RecipeFull
+		var responseBody vm.RecipeViewModel
 		decoder := json.NewDecoder(responseResult.Body)
 		decoder.DisallowUnknownFields()
 
@@ -263,12 +283,31 @@ func TestCRUDRecipe(t *testing.T) {
 			t.Errorf("Response structural validation failed: %v", err)
 		}
 
-		if responseBody.ID != testRecipeID {
-			t.Errorf("Expected recipe id: %v got %v", testRecipeID, responseBody.ID)
+		if responseBody.Recipes[0].ID != testRecipeID {
+			t.Errorf("Expected recipe id: %v got %v", testRecipeID, responseBody.Recipes[0].ID)
 		}
 
-		responseBody.Title = "new title"
-		data, _ := json.Marshal(responseBody)
+		// the update endpoint takes this shape (decoder will silently fail
+		// if we give any unknown fields)
+		// for simplicity we nil the ingredients slice and check for a new title
+
+		requestBody := struct {
+			Title       string `json:"title"`
+			Description string `json:"description"`
+			Ingredients []struct {
+				ID       uuid.UUID `json:"id"`
+				Quantity float32   `json:"quantity"`
+				Unit     string    `json:"unit"`
+			} `json:"ingredients"`
+			Instructions string `json:"instructions"`
+		}{
+			Title:        "new title",
+			Description:  *responseBody.Recipes[0].Description,
+			Ingredients:  nil,
+			Instructions: *responseBody.Recipes[0].Instructions,
+		}
+
+		data, _ := json.Marshal(requestBody)
 
 		// write update body
 		body := &bytes.Buffer{}
@@ -321,7 +360,7 @@ func TestCRUDRecipe(t *testing.T) {
 		updateResult := w.Result()
 		defer updateResult.Body.Close()
 
-		var updateBody vm.RecipeFull
+		var updateBody vm.RecipeViewModel
 		newDecoder := json.NewDecoder(updateResult.Body)
 		newDecoder.DisallowUnknownFields()
 
@@ -329,8 +368,8 @@ func TestCRUDRecipe(t *testing.T) {
 			t.Errorf("Response structural validation failed: %v", err)
 		}
 
-		if updateBody.Title != "new title" {
-			t.Errorf("Failed update verification. expected title: 'new title' got: %s", updateBody.Title)
+		if updateBody.Recipes[0].Title != "new title" {
+			t.Errorf("Failed update verification. expected title: 'new title' got: %s", updateBody.Recipes[0].Title)
 		}
 	})
 

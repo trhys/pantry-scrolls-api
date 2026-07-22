@@ -575,15 +575,15 @@ func (cfg *ApiConfig) handlerCancelDeactivation(w http.ResponseWriter, r *http.R
 
 // Get total number of users
 func (cfg *ApiConfig) handlerGetTotalUsers(w http.ResponseWriter, r *http.Request) {
-  total, err := cfg.DB.GetTotalUsers(r.Context())
-  if err != nil {
-    respondFail(r, w, 500, "something went wrong", fmt.Errorf("query failed: %v", err))
-    return
-  }
+	total, err := cfg.DB.GetTotalUsers(r.Context())
+	if err != nil {
+		respondFail(r, w, 500, "something went wrong", fmt.Errorf("query failed: %v", err))
+		return
+	}
 
-  respondJSON(w, 200, struct{
-    Total int64 `json:"total"`
-  }{
-    Total: total,
-  })
+	respondJSON(w, 200, struct {
+		Total int64 `json:"total"`
+	}{
+		Total: total,
+	})
 }

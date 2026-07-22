@@ -128,7 +128,7 @@ func TestCRUDShoppingList(t *testing.T) {
 			RecipeID uuid.UUID `json:"recipe_id"`
 			Quantity int32     `json:"quantity"`
 		}{
-			RecipeID: recipe.ID,
+			RecipeID: recipe,
 			Quantity: 2,
 		}
 		data, _ := json.Marshal(bodyPayload)

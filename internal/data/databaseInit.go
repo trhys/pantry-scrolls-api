@@ -6,7 +6,7 @@ import (
 	_ "embed"
 	"encoding/json"
 	"log"
-    "strings"
+	"strings"
 
 	"github.com/lib/pq"
 	pb "github.com/schollz/progressbar/v3"
@@ -200,7 +200,7 @@ func InitDBRecipes(ik string, db *sql.DB, ctx context.Context, userpw string) er
 				Unit     string  `json:"unit"`
 			} `json:"ingredients"`
 			Instructions string `json:"instructions"`
-     Author string `json:"author"`
+			Author       string `json:"author"`
 		} `json:"recipes"`
 	}
 
@@ -212,26 +212,26 @@ func InitDBRecipes(ik string, db *sql.DB, ctx context.Context, userpw string) er
 
 	dbConn := database.New(db)
 
-  var chars struct {
-        Characters []struct {
-            Name string `json:"name"`
-        } `json:"characters"`
-  }
+	var chars struct {
+		Characters []struct {
+			Name string `json:"name"`
+		} `json:"characters"`
+	}
 
-  if err := json.Unmarshal(characters, &chars); err != nil {
+	if err := json.Unmarshal(characters, &chars); err != nil {
 		log.Panic("Failed to unmarshal JSON!")
-  }
+	}
 
-  log.Println("Successfully read file - creating user profiles...")
+	log.Println("Successfully read file - creating user profiles...")
 
-  for _, char := range chars.Characters {
-        name := strings.ToLower(strings.TrimSpace(char.Name))
-	    dbConn.CreateUser(ctx, database.CreateUserParams{
-		    Email:    name + "@admin.trr",
-		    HashedPw: userpw,
-		    Name:     char.Name,
-	    })
-  }
+	for _, char := range chars.Characters {
+		name := strings.ToLower(strings.TrimSpace(char.Name))
+		dbConn.CreateUser(ctx, database.CreateUserParams{
+			Email:    name + "@admin.trr",
+			HashedPw: userpw,
+			Name:     char.Name,
+		})
+	}
 
 	bar := pb.Default(int64(len(recipes.Recipes)))
 	for _, r := range recipes.Recipes {
@@ -241,11 +241,11 @@ func InitDBRecipes(ik string, db *sql.DB, ctx context.Context, userpw string) er
 			continue
 		}
 
-   user, err := dbConn.GetUserByEmail(ctx, strings.ToLower(strings.TrimSpace(r.Author)) + "@admin.trr")
-	if err != nil {
-		log.Printf("Error getting user: %v", err)
-		return err
-	}
+		user, err := dbConn.GetUserByEmail(ctx, strings.ToLower(strings.TrimSpace(r.Author))+"@admin.trr")
+		if err != nil {
+			log.Printf("Error getting user: %v", err)
+			return err
+		}
 
 		query := database.CreateRecipeParams{
 			Title:        r.Title,
@@ -269,7 +269,7 @@ func InitDBRecipes(ik string, db *sql.DB, ctx context.Context, userpw string) er
 			}
 
 			query := database.AddToRecipeParams{
-				RecipeID:     rec.ID,
+				RecipeID:     rec,
 				IngredientID: id,
 				Quantity:     ing.Quantity,
 				Unit:         ing.Unit,

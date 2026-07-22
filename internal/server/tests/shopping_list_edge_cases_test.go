@@ -191,7 +191,7 @@ func TestShoppingListEdgeCases(t *testing.T) {
 		}
 
 		// Try to add with negative quantity
-		addBody := []byte(`{"recipe_id":"` + recipe.ID.String() + `","quantity":-1}`)
+		addBody := []byte(`{"recipe_id":"` + recipe.String() + `","quantity":-1}`)
 		url := "/api/shoppinglists/" + shoppingList.ID.String()
 
 		req = httptest.NewRequest("POST", url, bytes.NewBuffer(addBody))

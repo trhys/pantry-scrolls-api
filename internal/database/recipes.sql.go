@@ -7,6 +7,7 @@ package database
 
 import (
 	"context"
+	"time"
 
 	"github.com/google/uuid"
 )
@@ -36,7 +37,7 @@ VALUES(
 	$5,
 	$6
 )
-RETURNING id, title, author, description, instructions, image_key, created_at, updated_at, user_id
+RETURNING id
 `
 
 type CreateRecipeParams struct {
@@ -48,7 +49,7 @@ type CreateRecipeParams struct {
 	Instructions string
 }
 
-func (q *Queries) CreateRecipe(ctx context.Context, arg CreateRecipeParams) (Recipe, error) {
+func (q *Queries) CreateRecipe(ctx context.Context, arg CreateRecipeParams) (uuid.UUID, error) {
 	row := q.db.QueryRowContext(ctx, createRecipe,
 		arg.Title,
 		arg.Author,
@@ -57,19 +58,9 @@ func (q *Queries) CreateRecipe(ctx context.Context, arg CreateRecipeParams) (Rec
 		arg.ImageKey,
 		arg.Instructions,
 	)
-	var i Recipe
-	err := row.Scan(
-		&i.ID,
-		&i.Title,
-		&i.Author,
-		&i.Description,
-		&i.Instructions,
-		&i.ImageKey,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.UserID,
-	)
-	return i, err
+	var id uuid.UUID
+	err := row.Scan(&id)
+	return id, err
 }
 
 const deleteRecipe = `-- name: DeleteRecipe :exec
@@ -117,20 +108,35 @@ func (q *Queries) GetRecipeImageKey(ctx context.Context, id uuid.UUID) (string, 
 }
 
 const getRecipeList = `-- name: GetRecipeList :many
-SELECT id, title, author, description, instructions, image_key, created_at, updated_at, user_id FROM recipes
-ORDER BY created_at DESC
+SELECT recipes.id, recipes.title, recipes.author, recipes.description, recipes.instructions, recipes.image_key, recipes.created_at, recipes.updated_at, recipes.user_id, COUNT(recipe_likes.user_id) AS likes FROM recipes
+INNER JOIN recipe_likes ON recipe_likes.recipe_id = recipes.id
+GROUP BY recipes.id
+ORDER BY likes DESC
 LIMIT 10
 `
 
-func (q *Queries) GetRecipeList(ctx context.Context) ([]Recipe, error) {
+type GetRecipeListRow struct {
+	ID           uuid.UUID
+	Title        string
+	Author       string
+	Description  string
+	Instructions string
+	ImageKey     string
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
+	UserID       uuid.UUID
+	Likes        int64
+}
+
+func (q *Queries) GetRecipeList(ctx context.Context) ([]GetRecipeListRow, error) {
 	rows, err := q.db.QueryContext(ctx, getRecipeList)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []Recipe
+	var items []GetRecipeListRow
 	for rows.Next() {
-		var i Recipe
+		var i GetRecipeListRow
 		if err := rows.Scan(
 			&i.ID,
 			&i.Title,
@@ -141,6 +147,7 @@ func (q *Queries) GetRecipeList(ctx context.Context) ([]Recipe, error) {
 			&i.CreatedAt,
 			&i.UpdatedAt,
 			&i.UserID,
+			&i.Likes,
 		); err != nil {
 			return nil, err
 		}
