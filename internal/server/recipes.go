@@ -385,9 +385,14 @@ func (cfg *ApiConfig) handlerExploreFeed(w http.ResponseWriter, r *http.Request)
 			respondFail(r, w, 404, "No recipes matched the query params", fmt.Errorf("recipes query error: %v", err))
 			return
 		}
-
 		respondJSON(w, 200, cfg.Vmf.GenerateRecipeViewModel(feed, nil))
-	}
+	} else {
+		feed, err := cfg.DB.GetRecipesFromNilQuery(r.Context())
+		if err != nil {
+			respondFail(r, w, 404, "No recipes found", fmt.Errorf("recipes query error: %v", err))
+			return
+		}
+		respondJSON(w, 200, cfg.Vmf.GenerateRecipeViewModel(feed, nil))
 }
 
 func (cfg *ApiConfig) handlerLikeRecipe(w http.ResponseWriter, r *http.Request) {
