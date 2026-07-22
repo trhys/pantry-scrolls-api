@@ -12,3 +12,9 @@ WHERE recipe_id = $1;
 -- name: UnlikeRecipe :exec
 DELETE FROM recipe_likes
 WHERE (user_id, recipe_id) = ($1, $2);
+
+-- name: CheckLiked :one
+SELECT EXISTS (
+  SELECT * FROM recipe_likes
+  WHERE user_id = $1 AND recipe_id = $2
+);
