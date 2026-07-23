@@ -30,7 +30,7 @@ func GetRouter(cfg *ApiConfig, reg *prometheus.Registry) *http.ServeMux {
 	mux.Handle("/metrics", promhttp.HandlerFor(reg, promhttp.HandlerOpts{}))
 
 	// User eps
-	mux.HandleFunc("GET /api/users/{user_id}", cfg.authMiddleware(cfg.handlerGetUserProfile))
+	mux.HandleFunc("GET /api/users/{user_id}", cfg.optionalAuthMiddleware(cfg.handlerGetUserProfile))
 	mux.HandleFunc("POST /api/users", cfg.handlerCreateUser)
 	mux.HandleFunc("POST /api/sessions", cfg.handlerLogin)
 	mux.HandleFunc("GET /api/sessions", cfg.authMiddleware(cfg.handlerGetSession))
@@ -44,12 +44,12 @@ func GetRouter(cfg *ApiConfig, reg *prometheus.Registry) *http.ServeMux {
 	mux.HandleFunc("GET /api/users", cfg.handlerGetTotalUsers)
 
 	// Recipe eps
-	mux.HandleFunc("GET /api/recipes/{recipe_id}", cfg.handlerGetRecipe)
-	mux.HandleFunc("GET /api/recipes", cfg.handlerGetRecipeList)
+	mux.HandleFunc("GET /api/recipes/{recipe_id}", cfg.optionalAuthMiddleware(cfg.handlerGetRecipe))
+	mux.HandleFunc("GET /api/recipes", cfg.optionalAuthMiddleware(cfg.handlerGetRecipeList))
 	mux.HandleFunc("POST /api/recipes", cfg.authMiddleware(cfg.handlerCreateRecipe))
 	mux.HandleFunc("PUT /api/recipes/{recipe_id}", cfg.authMiddleware(cfg.handlerUpdateRecipe))
 	mux.HandleFunc("DELETE /api/recipes/{recipe_id}", cfg.authMiddleware(cfg.handlerDeleteRecipe))
-	mux.HandleFunc("GET /api/recipes/explore", cfg.handlerExploreFeed)
+	mux.HandleFunc("GET /api/recipes/explore", cfg.optionalAuthMiddleware(cfg.handlerExploreFeed))
 	mux.HandleFunc("GET /api/recipes/{recipe_id}/likes", cfg.handlerGetLikes)
 	mux.HandleFunc("PUT /api/recipes/{recipe_id}/likes", cfg.authMiddleware(cfg.handlerLikeRecipe))
 	mux.HandleFunc("GET /api/recipes/{recipe_id}/likes/check", cfg.authMiddleware(cfg.handlerCheckLiked))

@@ -225,7 +225,16 @@ func (cfg *ApiConfig) handlerGetUserProfile(w http.ResponseWriter, r *http.Reque
 	requesterID := r.Context().Value("userID")
 
 	// Get recipes for user
-	recipes, err := cfg.DB.GetUsersRecipes(r.Context(), user.ID)
+	var recipes any
+	requesterUUID, ok := requesterUserID(r)
+	if ok {
+		recipes, err = cfg.DB.GetAuthedUsersRecipes(r.Context(), database.GetAuthedUsersRecipesParams{
+			UserID:      user.ID,
+			RequesterID: requesterUUID,
+		})
+	} else {
+		recipes, err = cfg.DB.GetUsersRecipes(r.Context(), user.ID)
+	}
 	if err != nil {
 		respondFail(r, w, 404, "Couldn't find recipes", fmt.Errorf("Failed to find recipes for user ID: %s - ERROR: %v", val, err))
 		return

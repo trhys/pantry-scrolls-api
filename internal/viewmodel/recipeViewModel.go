@@ -28,6 +28,7 @@ type Recipe struct {
 	Instructions *string      `json:"instructions"`
 	Quantity     *int32       `json:"quantity"`
 	Likes        *int64       `json:"likes"`
+	Liked        *bool        `json:"liked,omitempty"`
 }
 
 type RecipeViewModel struct {
@@ -119,6 +120,10 @@ func (builder *VMFactory) parseRecipe(src reflect.Value, ingredients []Ingredien
 	if f := src.FieldByName("Likes"); f.IsValid() {
 		l := int64(f.Int())
 		dest.Likes = &l
+	}
+	if f := src.FieldByName("Liked"); f.IsValid() {
+		b := f.Bool()
+		dest.Liked = &b
 	}
 
 	dest.Ingredients = ingredients

@@ -154,7 +154,17 @@ func (cfg *ApiConfig) handlerGetRecipe(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	rec, err := cfg.DB.GetRecipe(r.Context(), recipe_id)
+	requesterID, ok := requesterUserID(r)
+
+	var rec any
+	if ok {
+		rec, err = cfg.DB.GetAuthedRecipe(r.Context(), database.GetAuthedRecipeParams{
+			ID:     recipe_id,
+			UserID: requesterID,
+		})
+	} else {
+		rec, err = cfg.DB.GetRecipe(r.Context(), recipe_id)
+	}
 	if err != nil {
 		respondFail(r, w, 404, "Couldn't find recipe id", fmt.Errorf("Failed to find recipe with ID: %s, ERROR: %v", requested, err))
 		return
@@ -186,7 +196,17 @@ func (cfg *ApiConfig) handlerGetRecipeList(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	recipes, err := cfg.DB.GetRecipeList(r.Context())
+	requesterID, ok := requesterUserID(r)
+
+	var (
+		recipes any
+		err     error
+	)
+	if ok {
+		recipes, err = cfg.DB.GetAuthedRecipeList(r.Context(), requesterID)
+	} else {
+		recipes, err = cfg.DB.GetRecipeList(r.Context())
+	}
 	if err != nil {
 		respondFail(r, w, 404, "Failed to retrieve recipe list", fmt.Errorf("Failed to get recipe list: %v", err))
 		return
@@ -379,15 +399,29 @@ func (cfg *ApiConfig) handlerExploreFeed(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
+	requesterID, ok := requesterUserID(r)
+
+	var feed any
 	if query != "" {
-		feed, err := cfg.DB.GetRecipesFromQuery(r.Context(), query)
+		if ok {
+			feed, err = cfg.DB.GetAuthedRecipesFromQuery(r.Context(), database.GetAuthedRecipesFromQueryParams{
+				Query:  query,
+				UserID: requesterID,
+			})
+		} else {
+			feed, err = cfg.DB.GetRecipesFromQuery(r.Context(), query)
+		}
 		if err != nil {
 			respondFail(r, w, 404, "No recipes matched the query params", fmt.Errorf("recipes query error: %v", err))
 			return
 		}
 		respondJSON(w, 200, cfg.Vmf.GenerateRecipeViewModel(feed, nil))
 	} else {
-		feed, err := cfg.DB.GetRecipesFromNilQuery(r.Context())
+		if ok {
+			feed, err = cfg.DB.GetAuthedRecipesFromNilQuery(r.Context(), requesterID)
+		} else {
+			feed, err = cfg.DB.GetRecipesFromNilQuery(r.Context())
+		}
 		if err != nil {
 			respondFail(r, w, 404, "No recipes found", fmt.Errorf("recipes query error: %v", err))
 			return
