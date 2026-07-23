@@ -393,6 +393,7 @@ func (cfg *ApiConfig) handlerExploreFeed(w http.ResponseWriter, r *http.Request)
 			return
 		}
 		respondJSON(w, 200, cfg.Vmf.GenerateRecipeViewModel(feed, nil))
+	}
 }
 
 func (cfg *ApiConfig) handlerLikeRecipe(w http.ResponseWriter, r *http.Request) {
@@ -470,7 +471,7 @@ func (cfg *ApiConfig) handlerCheckLiked(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	liked, err := cfg.DB.CheckLiked(r.Context(), database.CheckLikedParams{ UserID: requesterID, RecipeID: recipe_id, })
+	liked, err := cfg.DB.CheckLiked(r.Context(), database.CheckLikedParams{UserID: requesterID, RecipeID: recipe_id})
 	if err != nil {
 		respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Query failed (CheckLiked): %v", err))
 		return
@@ -481,6 +482,6 @@ func (cfg *ApiConfig) handlerCheckLiked(w http.ResponseWriter, r *http.Request) 
 	}{
 		Liked: liked,
 	}
-	
+
 	respondJSON(w, 200, resp)
 }

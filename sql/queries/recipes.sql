@@ -24,29 +24,37 @@ WHERE id = $5
 RETURNING *;
 
 -- name: GetRecipe :one
-SELECT * FROM recipes
-WHERE id = $1;
+SELECT recipes.*, COUNT(recipe_likes.user_id) AS likes FROM recipes
+INNER JOIN recipe_likes ON recipe_likes.recipe_id = recipes.id
+WHERE id = $1
+GROUP BY recipes.id;
 
 -- name: GetRecipeList :many
 SELECT recipes.*, COUNT(recipe_likes.user_id) AS likes FROM recipes
-INNER JOIN recipe_likes ON recipe_likes.recipe_id = recipes.id
+LEFT JOIN recipe_likes ON recipe_likes.recipe_id = recipes.id
 GROUP BY recipes.id
 ORDER BY likes DESC
 LIMIT 10;
 
 -- name: GetRecipesFromQuery :many
-SELECT * FROM recipes
+SELECT recipes.*, COUNT(recipe_likes.user_id) AS likes FROM recipes
+LEFT JOIN recipe_likes ON recipe_likes.recipe_id = recipes.id
 WHERE LOWER(title) LIKE '%' || $1::text || '%'
+GROUP BY recipes.id
 LIMIT 50;
 
 -- name: GetRecipesFromNilQuery :many
-SELECT * FROM recipes
+SELECT recipes.*, COUNT(recipe_likes.user_id) AS likes FROM recipes
+LEFT JOIN recipe_likes ON recipe_likes.recipe_id = recipes.id
+GROUP BY recipes.id
 ORDER BY created_at DESC
 LIMIT 50;
 
 -- name: GetUsersRecipes :many
-SELECT * FROM recipes
-WHERE user_id = $1
+SELECT recipes.*, COUNT(recipe_likes.user_id) AS likes FROM recipes
+INNER JOIN recipe_likes ON recipe_likes.recipe_id = recipes.id
+WHERE recipes.user_id = $1
+GROUP BY recipes.id
 ORDER BY created_at DESC;
 
 -- name: GetRecipeOwner :one

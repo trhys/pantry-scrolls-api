@@ -11,6 +11,25 @@ import (
 	"github.com/google/uuid"
 )
 
+const checkLiked = `-- name: CheckLiked :one
+SELECT EXISTS (
+  SELECT user_id, recipe_id FROM recipe_likes
+  WHERE user_id = $1 AND recipe_id = $2
+)
+`
+
+type CheckLikedParams struct {
+	UserID   uuid.UUID
+	RecipeID uuid.UUID
+}
+
+func (q *Queries) CheckLiked(ctx context.Context, arg CheckLikedParams) (bool, error) {
+	row := q.db.QueryRowContext(ctx, checkLiked, arg.UserID, arg.RecipeID)
+	var exists bool
+	err := row.Scan(&exists)
+	return exists, err
+}
+
 const getLikes = `-- name: GetLikes :one
 SELECT COUNT(*) FROM recipe_likes
 WHERE recipe_id = $1
