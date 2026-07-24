@@ -41,7 +41,7 @@ type RefreshViewModel struct {
 	Email string `json:"email"`
 }
 
-func (builder *VMFactory) GeneratePrivateUser(user database.GetUserRow, recipes []database.GetUsersRecipesRow) PrivateUserViewModel {
+func (builder *VMFactory) GeneratePrivateUser(user database.GetUserRow, recipes any) PrivateUserViewModel {
 	recipeViewmodel := builder.GenerateRecipeViewModel(recipes, nil)
 	model := PrivateUserViewModel{
 		User: User{
@@ -65,7 +65,7 @@ func (builder *VMFactory) GeneratePrivateUser(user database.GetUserRow, recipes 
 	return model
 }
 
-func (builder *VMFactory) GeneratePublicUser(user database.GetUserRow, recipes []database.GetUsersRecipesRow) PublicUserViewModel {
+func (builder *VMFactory) GeneratePublicUser(user database.GetUserRow, recipes any) PublicUserViewModel {
 	recipeViewmodel := builder.GenerateRecipeViewModel(recipes, nil)
 	model := PublicUserViewModel{
 		User: User{

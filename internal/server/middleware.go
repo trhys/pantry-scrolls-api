@@ -10,29 +10,16 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/google/uuid"
 	"github.com/trhys/Recipe-Repo-2/internal/auth"
 	"github.com/trhys/Recipe-Repo-2/internal/metrics"
 )
 
 func (cfg *ApiConfig) authMiddleware(next http.HandlerFunc) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		var tokenString string
-
-		cookie, err := r.Cookie("jwt")
-		if err == nil {
-			tokenString = cookie.Value
-		}
-
+		tokenString := getTokenString(r)
 		if tokenString == "" {
-			token, err := auth.GetBearerToken(r.Header)
-			if err == nil {
-				tokenString = token
-			}
-		}
-
-		if tokenString == "" {
-			ctx := context.WithValue(r.Context(), "userID", "")
-			next.ServeHTTP(w, r.WithContext(ctx))
+			next.ServeHTTP(w, withAnonymousUser(r))
 			return
 		}
 
@@ -48,9 +35,54 @@ func (cfg *ApiConfig) authMiddleware(next http.HandlerFunc) http.HandlerFunc {
 			return
 		}
 
-		ctx := context.WithValue(r.Context(), "userID", subject)
-		next.ServeHTTP(w, r.WithContext(ctx))
+		next.ServeHTTP(w, withUserID(r, subject))
 	})
+}
+
+func (cfg *ApiConfig) optionalAuthMiddleware(next http.HandlerFunc) http.HandlerFunc {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		tokenString := getTokenString(r)
+		if tokenString == "" {
+			next.ServeHTTP(w, withAnonymousUser(r))
+			return
+		}
+
+		subject, err := auth.ValidateJWT(tokenString, cfg.Secret)
+		if err != nil {
+			next.ServeHTTP(w, withAnonymousUser(r))
+			return
+		}
+
+		next.ServeHTTP(w, withUserID(r, subject))
+	})
+}
+
+func getTokenString(r *http.Request) string {
+	cookie, err := r.Cookie("jwt")
+	if err == nil {
+		return cookie.Value
+	}
+
+	token, err := auth.GetBearerToken(r.Header)
+	if err == nil {
+		return token
+	}
+
+	return ""
+}
+
+func withAnonymousUser(r *http.Request) *http.Request {
+	return withUserID(r, "")
+}
+
+func withUserID(r *http.Request, userID any) *http.Request {
+	ctx := context.WithValue(r.Context(), "userID", userID)
+	return r.WithContext(ctx)
+}
+
+func requesterUserID(r *http.Request) (uuid.UUID, bool) {
+	requesterID, ok := r.Context().Value("userID").(uuid.UUID)
+	return requesterID, ok
 }
 
 func getClientIP(r *http.Request) string {
