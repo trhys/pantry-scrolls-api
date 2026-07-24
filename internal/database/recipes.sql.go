@@ -73,14 +73,42 @@ func (q *Queries) DeleteRecipe(ctx context.Context, id uuid.UUID) error {
 	return err
 }
 
-const getRecipe = `-- name: GetRecipe :one
-SELECT id, title, author, description, instructions, image_key, created_at, updated_at, user_id FROM recipes
-WHERE id = $1
+const getAuthedRecipe = `-- name: GetAuthedRecipe :one
+SELECT recipes.id, recipes.title, recipes.author, recipes.description, recipes.instructions, recipes.image_key, recipes.created_at, recipes.updated_at, recipes.user_id,
+	COUNT(recipe_likes.user_id) AS likes,
+	EXISTS(
+		SELECT 1 FROM recipe_likes AS requester_likes
+		WHERE requester_likes.recipe_id = recipes.id
+		AND requester_likes.user_id = $1
+	) AS liked
+FROM recipes
+LEFT JOIN recipe_likes ON recipe_likes.recipe_id = recipes.id
+WHERE recipes.id = $2
+GROUP BY recipes.id
 `
 
-func (q *Queries) GetRecipe(ctx context.Context, id uuid.UUID) (Recipe, error) {
-	row := q.db.QueryRowContext(ctx, getRecipe, id)
-	var i Recipe
+type GetAuthedRecipeParams struct {
+	UserID uuid.UUID
+	ID     uuid.UUID
+}
+
+type GetAuthedRecipeRow struct {
+	ID           uuid.UUID
+	Title        string
+	Author       string
+	Description  string
+	Instructions string
+	ImageKey     string
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
+	UserID       uuid.UUID
+	Likes        int64
+	Liked        bool
+}
+
+func (q *Queries) GetAuthedRecipe(ctx context.Context, arg GetAuthedRecipeParams) (GetAuthedRecipeRow, error) {
+	row := q.db.QueryRowContext(ctx, getAuthedRecipe, arg.UserID, arg.ID)
+	var i GetAuthedRecipeRow
 	err := row.Scan(
 		&i.ID,
 		&i.Title,
@@ -91,6 +119,312 @@ func (q *Queries) GetRecipe(ctx context.Context, id uuid.UUID) (Recipe, error) {
 		&i.CreatedAt,
 		&i.UpdatedAt,
 		&i.UserID,
+		&i.Likes,
+		&i.Liked,
+	)
+	return i, err
+}
+
+const getAuthedRecipeList = `-- name: GetAuthedRecipeList :many
+SELECT recipes.id, recipes.title, recipes.author, recipes.description, recipes.instructions, recipes.image_key, recipes.created_at, recipes.updated_at, recipes.user_id,
+	COUNT(recipe_likes.user_id) AS likes,
+	EXISTS(
+		SELECT 1 FROM recipe_likes AS requester_likes
+		WHERE requester_likes.recipe_id = recipes.id
+		AND requester_likes.user_id = $1
+	) AS liked
+FROM recipes
+LEFT JOIN recipe_likes ON recipe_likes.recipe_id = recipes.id
+GROUP BY recipes.id
+ORDER BY likes DESC
+LIMIT 10
+`
+
+type GetAuthedRecipeListRow struct {
+	ID           uuid.UUID
+	Title        string
+	Author       string
+	Description  string
+	Instructions string
+	ImageKey     string
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
+	UserID       uuid.UUID
+	Likes        int64
+	Liked        bool
+}
+
+func (q *Queries) GetAuthedRecipeList(ctx context.Context, userID uuid.UUID) ([]GetAuthedRecipeListRow, error) {
+	rows, err := q.db.QueryContext(ctx, getAuthedRecipeList, userID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []GetAuthedRecipeListRow
+	for rows.Next() {
+		var i GetAuthedRecipeListRow
+		if err := rows.Scan(
+			&i.ID,
+			&i.Title,
+			&i.Author,
+			&i.Description,
+			&i.Instructions,
+			&i.ImageKey,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.UserID,
+			&i.Likes,
+			&i.Liked,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getAuthedRecipesFromNilQuery = `-- name: GetAuthedRecipesFromNilQuery :many
+SELECT recipes.id, recipes.title, recipes.author, recipes.description, recipes.instructions, recipes.image_key, recipes.created_at, recipes.updated_at, recipes.user_id,
+	COUNT(recipe_likes.user_id) AS likes,
+	EXISTS(
+		SELECT 1 FROM recipe_likes AS requester_likes
+		WHERE requester_likes.recipe_id = recipes.id
+		AND requester_likes.user_id = $1
+	) AS liked
+FROM recipes
+LEFT JOIN recipe_likes ON recipe_likes.recipe_id = recipes.id
+GROUP BY recipes.id
+ORDER BY created_at DESC
+LIMIT 50
+`
+
+type GetAuthedRecipesFromNilQueryRow struct {
+	ID           uuid.UUID
+	Title        string
+	Author       string
+	Description  string
+	Instructions string
+	ImageKey     string
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
+	UserID       uuid.UUID
+	Likes        int64
+	Liked        bool
+}
+
+func (q *Queries) GetAuthedRecipesFromNilQuery(ctx context.Context, userID uuid.UUID) ([]GetAuthedRecipesFromNilQueryRow, error) {
+	rows, err := q.db.QueryContext(ctx, getAuthedRecipesFromNilQuery, userID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []GetAuthedRecipesFromNilQueryRow
+	for rows.Next() {
+		var i GetAuthedRecipesFromNilQueryRow
+		if err := rows.Scan(
+			&i.ID,
+			&i.Title,
+			&i.Author,
+			&i.Description,
+			&i.Instructions,
+			&i.ImageKey,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.UserID,
+			&i.Likes,
+			&i.Liked,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getAuthedRecipesFromQuery = `-- name: GetAuthedRecipesFromQuery :many
+SELECT recipes.id, recipes.title, recipes.author, recipes.description, recipes.instructions, recipes.image_key, recipes.created_at, recipes.updated_at, recipes.user_id,
+	COUNT(recipe_likes.user_id) AS likes,
+	EXISTS(
+		SELECT 1 FROM recipe_likes AS requester_likes
+		WHERE requester_likes.recipe_id = recipes.id
+		AND requester_likes.user_id = $1
+	) AS liked
+FROM recipes
+LEFT JOIN recipe_likes ON recipe_likes.recipe_id = recipes.id
+WHERE LOWER(title) LIKE '%' || $2::text || '%'
+GROUP BY recipes.id
+LIMIT 50
+`
+
+type GetAuthedRecipesFromQueryParams struct {
+	UserID uuid.UUID
+	Query  string
+}
+
+type GetAuthedRecipesFromQueryRow struct {
+	ID           uuid.UUID
+	Title        string
+	Author       string
+	Description  string
+	Instructions string
+	ImageKey     string
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
+	UserID       uuid.UUID
+	Likes        int64
+	Liked        bool
+}
+
+func (q *Queries) GetAuthedRecipesFromQuery(ctx context.Context, arg GetAuthedRecipesFromQueryParams) ([]GetAuthedRecipesFromQueryRow, error) {
+	rows, err := q.db.QueryContext(ctx, getAuthedRecipesFromQuery, arg.UserID, arg.Query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []GetAuthedRecipesFromQueryRow
+	for rows.Next() {
+		var i GetAuthedRecipesFromQueryRow
+		if err := rows.Scan(
+			&i.ID,
+			&i.Title,
+			&i.Author,
+			&i.Description,
+			&i.Instructions,
+			&i.ImageKey,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.UserID,
+			&i.Likes,
+			&i.Liked,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getAuthedUsersRecipes = `-- name: GetAuthedUsersRecipes :many
+SELECT recipes.id, recipes.title, recipes.author, recipes.description, recipes.instructions, recipes.image_key, recipes.created_at, recipes.updated_at, recipes.user_id,
+	COUNT(recipe_likes.user_id) AS likes,
+	EXISTS(
+		SELECT 1 FROM recipe_likes AS requester_likes
+		WHERE requester_likes.recipe_id = recipes.id
+		AND requester_likes.user_id = $1
+	) AS liked
+FROM recipes
+LEFT JOIN recipe_likes ON recipe_likes.recipe_id = recipes.id
+WHERE recipes.user_id = $2
+GROUP BY recipes.id
+ORDER BY created_at DESC
+`
+
+type GetAuthedUsersRecipesParams struct {
+	RequesterID uuid.UUID
+	UserID      uuid.UUID
+}
+
+type GetAuthedUsersRecipesRow struct {
+	ID           uuid.UUID
+	Title        string
+	Author       string
+	Description  string
+	Instructions string
+	ImageKey     string
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
+	UserID       uuid.UUID
+	Likes        int64
+	Liked        bool
+}
+
+func (q *Queries) GetAuthedUsersRecipes(ctx context.Context, arg GetAuthedUsersRecipesParams) ([]GetAuthedUsersRecipesRow, error) {
+	rows, err := q.db.QueryContext(ctx, getAuthedUsersRecipes, arg.RequesterID, arg.UserID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []GetAuthedUsersRecipesRow
+	for rows.Next() {
+		var i GetAuthedUsersRecipesRow
+		if err := rows.Scan(
+			&i.ID,
+			&i.Title,
+			&i.Author,
+			&i.Description,
+			&i.Instructions,
+			&i.ImageKey,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.UserID,
+			&i.Likes,
+			&i.Liked,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getRecipe = `-- name: GetRecipe :one
+SELECT recipes.id, recipes.title, recipes.author, recipes.description, recipes.instructions, recipes.image_key, recipes.created_at, recipes.updated_at, recipes.user_id, COUNT(recipe_likes.user_id) AS likes FROM recipes
+LEFT JOIN recipe_likes ON recipe_likes.recipe_id = recipes.id
+WHERE recipes.id = $1
+GROUP BY recipes.id
+`
+
+type GetRecipeRow struct {
+	ID           uuid.UUID
+	Title        string
+	Author       string
+	Description  string
+	Instructions string
+	ImageKey     string
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
+	UserID       uuid.UUID
+	Likes        int64
+}
+
+func (q *Queries) GetRecipe(ctx context.Context, id uuid.UUID) (GetRecipeRow, error) {
+	row := q.db.QueryRowContext(ctx, getRecipe, id)
+	var i GetRecipeRow
+	err := row.Scan(
+		&i.ID,
+		&i.Title,
+		&i.Author,
+		&i.Description,
+		&i.Instructions,
+		&i.ImageKey,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.UserID,
+		&i.Likes,
 	)
 	return i, err
 }
@@ -109,7 +443,7 @@ func (q *Queries) GetRecipeImageKey(ctx context.Context, id uuid.UUID) (string, 
 
 const getRecipeList = `-- name: GetRecipeList :many
 SELECT recipes.id, recipes.title, recipes.author, recipes.description, recipes.instructions, recipes.image_key, recipes.created_at, recipes.updated_at, recipes.user_id, COUNT(recipe_likes.user_id) AS likes FROM recipes
-INNER JOIN recipe_likes ON recipe_likes.recipe_id = recipes.id
+LEFT JOIN recipe_likes ON recipe_likes.recipe_id = recipes.id
 GROUP BY recipes.id
 ORDER BY likes DESC
 LIMIT 10
@@ -174,20 +508,36 @@ func (q *Queries) GetRecipeOwner(ctx context.Context, id uuid.UUID) (uuid.UUID, 
 	return user_id, err
 }
 
-const getRecipesFromQuery = `-- name: GetRecipesFromQuery :many
-SELECT id, title, author, description, instructions, image_key, created_at, updated_at, user_id FROM recipes
-WHERE LOWER(title) LIKE '%' || $1::text || '%'
+const getRecipesFromNilQuery = `-- name: GetRecipesFromNilQuery :many
+SELECT recipes.id, recipes.title, recipes.author, recipes.description, recipes.instructions, recipes.image_key, recipes.created_at, recipes.updated_at, recipes.user_id, COUNT(recipe_likes.user_id) AS likes FROM recipes
+LEFT JOIN recipe_likes ON recipe_likes.recipe_id = recipes.id
+GROUP BY recipes.id
+ORDER BY created_at DESC
+LIMIT 50
 `
 
-func (q *Queries) GetRecipesFromQuery(ctx context.Context, dollar_1 string) ([]Recipe, error) {
-	rows, err := q.db.QueryContext(ctx, getRecipesFromQuery, dollar_1)
+type GetRecipesFromNilQueryRow struct {
+	ID           uuid.UUID
+	Title        string
+	Author       string
+	Description  string
+	Instructions string
+	ImageKey     string
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
+	UserID       uuid.UUID
+	Likes        int64
+}
+
+func (q *Queries) GetRecipesFromNilQuery(ctx context.Context) ([]GetRecipesFromNilQueryRow, error) {
+	rows, err := q.db.QueryContext(ctx, getRecipesFromNilQuery)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []Recipe
+	var items []GetRecipesFromNilQueryRow
 	for rows.Next() {
-		var i Recipe
+		var i GetRecipesFromNilQueryRow
 		if err := rows.Scan(
 			&i.ID,
 			&i.Title,
@@ -198,6 +548,62 @@ func (q *Queries) GetRecipesFromQuery(ctx context.Context, dollar_1 string) ([]R
 			&i.CreatedAt,
 			&i.UpdatedAt,
 			&i.UserID,
+			&i.Likes,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getRecipesFromQuery = `-- name: GetRecipesFromQuery :many
+SELECT recipes.id, recipes.title, recipes.author, recipes.description, recipes.instructions, recipes.image_key, recipes.created_at, recipes.updated_at, recipes.user_id, COUNT(recipe_likes.user_id) AS likes FROM recipes
+LEFT JOIN recipe_likes ON recipe_likes.recipe_id = recipes.id
+WHERE LOWER(title) LIKE '%' || $1::text || '%'
+GROUP BY recipes.id
+LIMIT 50
+`
+
+type GetRecipesFromQueryRow struct {
+	ID           uuid.UUID
+	Title        string
+	Author       string
+	Description  string
+	Instructions string
+	ImageKey     string
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
+	UserID       uuid.UUID
+	Likes        int64
+}
+
+func (q *Queries) GetRecipesFromQuery(ctx context.Context, dollar_1 string) ([]GetRecipesFromQueryRow, error) {
+	rows, err := q.db.QueryContext(ctx, getRecipesFromQuery, dollar_1)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []GetRecipesFromQueryRow
+	for rows.Next() {
+		var i GetRecipesFromQueryRow
+		if err := rows.Scan(
+			&i.ID,
+			&i.Title,
+			&i.Author,
+			&i.Description,
+			&i.Instructions,
+			&i.ImageKey,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.UserID,
+			&i.Likes,
 		); err != nil {
 			return nil, err
 		}
@@ -224,20 +630,35 @@ func (q *Queries) GetTotalRecipes(ctx context.Context) (int64, error) {
 }
 
 const getUsersRecipes = `-- name: GetUsersRecipes :many
-SELECT id, title, author, description, instructions, image_key, created_at, updated_at, user_id FROM recipes
-WHERE user_id = $1
+SELECT recipes.id, recipes.title, recipes.author, recipes.description, recipes.instructions, recipes.image_key, recipes.created_at, recipes.updated_at, recipes.user_id, COUNT(recipe_likes.user_id) AS likes FROM recipes
+LEFT JOIN recipe_likes ON recipe_likes.recipe_id = recipes.id
+WHERE recipes.user_id = $1
+GROUP BY recipes.id
 ORDER BY created_at DESC
 `
 
-func (q *Queries) GetUsersRecipes(ctx context.Context, userID uuid.UUID) ([]Recipe, error) {
+type GetUsersRecipesRow struct {
+	ID           uuid.UUID
+	Title        string
+	Author       string
+	Description  string
+	Instructions string
+	ImageKey     string
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
+	UserID       uuid.UUID
+	Likes        int64
+}
+
+func (q *Queries) GetUsersRecipes(ctx context.Context, userID uuid.UUID) ([]GetUsersRecipesRow, error) {
 	rows, err := q.db.QueryContext(ctx, getUsersRecipes, userID)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []Recipe
+	var items []GetUsersRecipesRow
 	for rows.Next() {
-		var i Recipe
+		var i GetUsersRecipesRow
 		if err := rows.Scan(
 			&i.ID,
 			&i.Title,
@@ -248,6 +669,7 @@ func (q *Queries) GetUsersRecipes(ctx context.Context, userID uuid.UUID) ([]Reci
 			&i.CreatedAt,
 			&i.UpdatedAt,
 			&i.UserID,
+			&i.Likes,
 		); err != nil {
 			return nil, err
 		}

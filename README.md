@@ -214,11 +214,15 @@ Without `SEED=true` the DB container will run migrations only and skip seeding.
       "updated_at": "timestamp",
       "image_url": "string",
       "user_id": "uuid",
-      "author": "string"
+      "author": "string",
+      "likes": 12,
+      "liked": true
     }
   ]
 }
 ```
+
+`liked` is included only when the request has a valid authenticated user; anonymous responses omit it.
 
 ### Recipe full
 ```json
@@ -231,6 +235,8 @@ Without `SEED=true` the DB container will run migrations only and skip seeding.
   "author": "string",
   "description": "string",
   "image_url": "string",
+  "likes": 12,
+  "liked": true,
   "ingredients": [
     {
       "id": "uuid",
@@ -242,6 +248,8 @@ Without `SEED=true` the DB container will run migrations only and skip seeding.
   "instructions": "string"
 }
 ```
+
+`liked` is included only when the request has a valid authenticated user; anonymous responses omit it.
 
 ### Shopping list
 ```json
@@ -468,7 +476,7 @@ Without `SEED=true` the DB container will run migrations only and skip seeding.
 ## Recipes
 
 ### `GET /api/recipes`
-- Auth: none
+- Auth: optional JWT (public response without auth)
 - Function: list recipe cards.
 - Query params:
   - `total=true` returns only total count.
@@ -480,7 +488,7 @@ Without `SEED=true` the DB container will run migrations only and skip seeding.
   ```
 
 ### `GET /api/recipes/{recipe_id}`
-- Auth: none
+- Auth: optional JWT (public response without auth)
 - Function: fetch full recipe with ingredients.
 - Response: Recipe full shape.
 
@@ -519,7 +527,7 @@ Without `SEED=true` the DB container will run migrations only and skip seeding.
 - Response: `204`
 
 ### `GET /api/recipes/explore`
-- Auth: none
+- Auth: optional JWT (public response without auth)
 - Function: search recipe cards.
 - Query params:
   - `search` (optional, sanitized, max length 100)

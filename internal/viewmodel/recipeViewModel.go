@@ -23,10 +23,12 @@ type Recipe struct {
 	UserID       *uuid.UUID   `json:"user_id"`
 	Author       *string      `json:"author"`
 	Description  *string      `json:"description"`
-	ImageURL     *string      `json:"image_url"`
+	ImageKey     *string      `json:"image_url"`
 	Ingredients  []Ingredient `json:"ingredients"`
 	Instructions *string      `json:"instructions"`
 	Quantity     *int32       `json:"quantity"`
+	Likes        *int64       `json:"likes"`
+	Liked        *bool        `json:"liked,omitempty"`
 }
 
 type RecipeViewModel struct {
@@ -45,7 +47,7 @@ func (builder *VMFactory) GenerateRecipeViewModel(data any, ingredients []Ingred
 	case reflect.Slice:
 		for i := 0; i < val.Len(); i++ {
 			item := val.Index(i)
-			recipe, err := parseRecipe(item, ingredients)
+			recipe, err := builder.parseRecipe(item, ingredients)
 			if err != nil {
 				return RecipeViewModel{}
 			}
@@ -53,7 +55,7 @@ func (builder *VMFactory) GenerateRecipeViewModel(data any, ingredients []Ingred
 		}
 
 	case reflect.Struct:
-		recipe, err := parseRecipe(val, ingredients)
+		recipe, err := builder.parseRecipe(val, ingredients)
 		if err != nil {
 			return RecipeViewModel{}
 		}
@@ -66,7 +68,7 @@ func (builder *VMFactory) GenerateRecipeViewModel(data any, ingredients []Ingred
 	return RecipeViewModel{Recipes: targetRecipes}
 }
 
-func parseRecipe(src reflect.Value, ingredients []Ingredient) (Recipe, error) {
+func (builder *VMFactory) parseRecipe(src reflect.Value, ingredients []Ingredient) (Recipe, error) {
 	if src.Kind() == reflect.Ptr {
 		src = src.Elem()
 	}
@@ -103,9 +105,9 @@ func parseRecipe(src reflect.Value, ingredients []Ingredient) (Recipe, error) {
 		s := f.String()
 		dest.Description = &s
 	}
-	if f := src.FieldByName("ImageURL"); f.IsValid() {
-		s := f.String()
-		dest.ImageURL = &s
+	if f := src.FieldByName("ImageKey"); f.IsValid() {
+		s := fmt.Sprintf("%s/%s", builder.S3cdn, f.String())
+		dest.ImageKey = &s
 	}
 	if f := src.FieldByName("Instructions"); f.IsValid() {
 		s := f.String()
@@ -114,6 +116,14 @@ func parseRecipe(src reflect.Value, ingredients []Ingredient) (Recipe, error) {
 	if f := src.FieldByName("Quantity"); f.IsValid() {
 		q := int32(f.Int())
 		dest.Quantity = &q
+	}
+	if f := src.FieldByName("Likes"); f.IsValid() {
+		l := int64(f.Int())
+		dest.Likes = &l
+	}
+	if f := src.FieldByName("Liked"); f.IsValid() {
+		b := f.Bool()
+		dest.Liked = &b
 	}
 
 	dest.Ingredients = ingredients
