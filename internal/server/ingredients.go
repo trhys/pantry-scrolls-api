@@ -136,8 +136,28 @@ func (cfg *ApiConfig) handlerCreateIngredient(w http.ResponseWriter, r *http.Req
 	respondJSON(w, 200, res)
 }
 
-// Grabs the full collection of ingredients
-func (cfg *ApiConfig) handlerGetIngredientBase(w http.ResponseWriter, r *http.Request) {
+// Grabs the full collection of ingredients if no query -- or collect specific ingredient by id with units
+func (cfg *ApiConfig) handlerGetIngredients(w http.ResponseWriter, r *http.Request) {
+	// return early with units if querying id
+	if r.URL.Query.Has("id") {
+		val := r.URL.Query.Get("id")
+		id, err := uuid.Parse(val)
+		if err != nil {
+			respondFail(r, w, 404, "Invalid ingredient id", fmt.Errorf("Get Ingredient Failure: %v", err))
+			return
+		}
+
+		conversions, err := cfg.DB.GetConversionsByID(r.Context(), id)
+		if err != nil {
+			respondFail(r, w, 404, "Couldn't find units", fmt.Errorf("Failed to get units for ingredient: %v", err))
+			return
+		}
+	
+		respondJSON(w, 200, viewmodel.GenerateUnitsViewModel(conversions))
+		return
+	}
+
+	// no query - get all ingredients
 	ingredients, err := cfg.DB.GetIngredients(r.Context())
 	if err != nil {
 		respondFail(r, w, 404, "Failed to retrieve ingredients from database", err)
@@ -157,28 +177,4 @@ func (cfg *ApiConfig) handlerGetIngredientBase(w http.ResponseWriter, r *http.Re
 	}
 
 	respondJSON(w, 200, res)
-}
-
-// Gets collection of units for ingredient by id
-func (cfg *ApiConfig) handlerGetUnits(w http.ResponseWriter, r *http.Request) {
-	val := r.PathValue("ingredient_id")
-	id, err := uuid.Parse(val)
-	if err != nil {
-		respondFail(r, w, 404, "Invalid ingredient id", fmt.Errorf("Failed to get id from path: %v", err))
-		return
-	}
-
-	// make sure ingredient exists
-	if _, err := cfg.DB.GetIngredientName(r.Context(), id); err != nil {
-		respondFail(r, w, 404, "Invalid ingredient id", fmt.Errorf("Can't find units for nonexistent ingredient: %v", err))
-		return
-	}
-
-	conversions, err := cfg.DB.GetConversionsByID(r.Context(), id)
-	if err != nil {
-		respondFail(r, w, 404, "Couldn't find units", fmt.Errorf("Failed to get units for ingredient: %v", err))
-		return
-	}
-
-	respondJSON(w, 200, viewmodel.GenerateUnitsViewModel(conversions))
 }
