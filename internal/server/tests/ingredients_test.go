@@ -80,7 +80,7 @@ func TestGetIngredientUnits(t *testing.T) {
 		}
 
 		ingredientID := ingredients[0].ID
-		url := "/api/ingredients/" + ingredientID.String() + "/units"
+		url := "/api/ingredients/units?id=" + ingredientID.String()
 
 		req := httptest.NewRequest("GET", url, nil)
 		w := httptest.NewRecorder()
@@ -102,7 +102,7 @@ func TestGetIngredientUnits(t *testing.T) {
 	})
 
 	t.Run("get units with invalid ingredient id", func(t *testing.T) {
-		url := "/api/ingredients/invalid-uuid/units"
+		url := "/api/ingredients/units?id=invalid-uuid"
 
 		req := httptest.NewRequest("GET", url, nil)
 		w := httptest.NewRecorder()
@@ -115,7 +115,7 @@ func TestGetIngredientUnits(t *testing.T) {
 
 	t.Run("get units with nonexistent ingredient", func(t *testing.T) {
 		fakeID := uuid.New()
-		url := "/api/ingredients/" + fakeID.String() + "/units"
+		url := "/api/ingredients/units?id=" + fakeID.String()
 
 		req := httptest.NewRequest("GET", url, nil)
 		w := httptest.NewRecorder()
