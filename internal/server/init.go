@@ -57,7 +57,7 @@ func GetRouter(cfg *ApiConfig, reg *prometheus.Registry) *http.ServeMux {
 	// Ingredient eps
 	//mux.HandleFunc("POST /api/ingredients", cfg.handlerCreateIngredient)
 	mux.HandleFunc("GET /api/ingredients", cfg.handlerGetIngredientBase)
-	mux.HandleFunc("GET /api/ingredients/{ingredient_id}/units", cfg.handlerGetUnits)
+	mux.HandleFunc("GET /api/ingredients/units", cfg.handlerGetUnits)
 
 	// Shopping list eps
 	mux.HandleFunc("GET /api/shoppinglists/{shopping_list_id}", cfg.authMiddleware(cfg.handlerGetShoppingList))
