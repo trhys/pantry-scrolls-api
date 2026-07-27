@@ -161,7 +161,12 @@ func (cfg *ApiConfig) handlerGetIngredientBase(w http.ResponseWriter, r *http.Re
 
 // Gets collection of units for ingredient by id
 func (cfg *ApiConfig) handlerGetUnits(w http.ResponseWriter, r *http.Request) {
-	val := r.PathValue("ingredient_id")
+	if !r.URL.Query.Has("id") {
+		respondFail(r, w, 404, "invalid ingredient id", fmt.Errorf("Empty id in units query"))
+		return
+	}
+	
+	val := r.URL.Query.Get("id")
 	id, err := uuid.Parse(val)
 	if err != nil {
 		respondFail(r, w, 404, "Invalid ingredient id", fmt.Errorf("Failed to get id from path: %v", err))
