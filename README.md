@@ -540,9 +540,11 @@ Without `SEED=true` the DB container will run migrations only and skip seeding.
 - Function: list base ingredients.
 - Response: Ingredient base shape.
 
-### `GET /api/ingredients/{ingredient_id}/units`
+### `GET /api/ingredients/units`
 - Auth: none
 - Function: list available units for a specific ingredient.
+- Query params:
+  - `id` (required UUID)
 - Response: Ingredient units shape.
 
 ## Shopping lists
