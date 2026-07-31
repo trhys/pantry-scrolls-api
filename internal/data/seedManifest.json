@@ -11156,14 +11156,19 @@
           "ratio": 28.3
         },
         {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        },
+        {
           "from_unit": "Gram",
           "to_unit": "g",
           "ratio": 1.0
         },
         {
           "from_unit": "Pint",
-          "to_unit": "g",
-          "ratio": 297.6
+          "to_unit": "ml",
+          "ratio": 473.2
         }
       ],
       "retail_units": [
@@ -12330,14 +12335,19 @@
           "ratio": 453.6
         },
         {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        },
+        {
           "from_unit": "Gram",
           "to_unit": "g",
           "ratio": 1.0
         },
         {
           "from_unit": "Pint",
-          "to_unit": "g",
-          "ratio": 297.6
+          "to_unit": "ml",
+          "ratio": 473.2
         }
       ],
       "retail_units": [
@@ -12378,19 +12388,24 @@
           "ratio": 28.3
         },
         {
+          "from_unit": "Cup",
+          "to_unit": "ml",
+          "ratio": 240.0
+        },
+        {
           "from_unit": "Gram",
           "to_unit": "g",
           "ratio": 1.0
         },
         {
           "from_unit": "Quart",
-          "to_unit": "g",
-          "ratio": 614.4
+          "to_unit": "ml",
+          "ratio": 946.4
         },
         {
           "from_unit": "Pint",
-          "to_unit": "g",
-          "ratio": 307.2
+          "to_unit": "ml",
+          "ratio": 473.2
         }
       ],
       "retail_units": [

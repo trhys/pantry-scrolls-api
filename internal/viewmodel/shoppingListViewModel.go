@@ -102,6 +102,9 @@ func GeneratePrintViewModel(listName string, printout []db.PrintListRow, dbConn 
 		}
 
 		bestUnit, bestQuantity := getBestFit(retailConversions, item.quantity)
+        if bestUnit == "unknown" {
+          continue
+        }
 
 		model.Ingredients = append(model.Ingredients, Ingredient{
 			ID:       key.id,
