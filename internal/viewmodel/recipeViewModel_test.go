@@ -84,4 +84,74 @@ func TestGenerateRecipeViewModelLikedField(t *testing.T) {
 			t.Fatalf("expected liked to be omitted from json: %s", string(body))
 		}
 	})
+
+	t.Run("includes tags when source exposes []string field", func(t *testing.T) {
+		model := builder.GenerateRecipeViewModel(struct {
+			ID           uuid.UUID
+			Title        string
+			CreatedAt    time.Time
+			UpdatedAt    time.Time
+			UserID       uuid.UUID
+			Author       string
+			Description  string
+			ImageKey     string
+			Instructions string
+			Likes        int64
+			Tags         []string
+		}{
+			ID:           uuid.New(),
+			Title:        "Tagged Recipe",
+			CreatedAt:    now,
+			UpdatedAt:    now,
+			UserID:       uuid.New(),
+			Author:       "author",
+			Description:  "desc",
+			ImageKey:     "image-key",
+			Instructions: "cook",
+			Likes:        4,
+			Tags:         []string{"dinner", "easy"},
+		}, nil)
+
+		if len(model.Recipes) != 1 {
+			t.Fatalf("expected 1 recipe, got %d", len(model.Recipes))
+		}
+		if got := model.Recipes[0].Tags; len(got) != 2 || got[0] != "dinner" || got[1] != "easy" {
+			t.Fatalf("expected tags [dinner easy], got %v", got)
+		}
+	})
+
+	t.Run("parses pq text array payload from sqlc interface field", func(t *testing.T) {
+		model := builder.GenerateRecipeViewModel(struct {
+			ID           uuid.UUID
+			Title        string
+			CreatedAt    time.Time
+			UpdatedAt    time.Time
+			UserID       uuid.UUID
+			Author       string
+			Description  string
+			ImageKey     string
+			Instructions string
+			Likes        int64
+			Tags         interface{}
+		}{
+			ID:           uuid.New(),
+			Title:        "Tagged Recipe",
+			CreatedAt:    now,
+			UpdatedAt:    now,
+			UserID:       uuid.New(),
+			Author:       "author",
+			Description:  "desc",
+			ImageKey:     "image-key",
+			Instructions: "cook",
+			Likes:        4,
+			Tags:         []byte("{dinner,easy}"),
+		}, nil)
+
+		if len(model.Recipes) != 1 {
+			t.Fatalf("expected 1 recipe, got %d", len(model.Recipes))
+		}
+		if got := model.Recipes[0].Tags; len(got) != 2 || got[0] != "dinner" || got[1] != "easy" {
+			t.Fatalf("expected tags [dinner easy], got %v", got)
+		}
+	})
 }

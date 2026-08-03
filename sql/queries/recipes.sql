@@ -24,7 +24,13 @@ WHERE id = $5
 RETURNING *;
 
 -- name: GetRecipe :one
-SELECT recipes.*, COUNT(recipe_likes.user_id) AS likes FROM recipes
+SELECT recipes.*,
+	COUNT(recipe_likes.user_id) AS likes,
+	COALESCE(
+		(SELECT ARRAY_AGG(tag ORDER BY tag) FROM recipe_tags WHERE recipe_tags.recipe_id = recipes.id),
+		ARRAY[]::text[]
+	) AS tags
+FROM recipes
 LEFT JOIN recipe_likes ON recipe_likes.recipe_id = recipes.id
 WHERE recipes.id = $1
 GROUP BY recipes.id;
@@ -32,6 +38,10 @@ GROUP BY recipes.id;
 -- name: GetAuthedRecipe :one
 SELECT recipes.*,
 	COUNT(recipe_likes.user_id) AS likes,
+	COALESCE(
+		(SELECT ARRAY_AGG(tag ORDER BY tag) FROM recipe_tags WHERE recipe_tags.recipe_id = recipes.id),
+		ARRAY[]::text[]
+	) AS tags,
 	EXISTS(
 		SELECT 1 FROM recipe_likes AS requester_likes
 		WHERE requester_likes.recipe_id = recipes.id
@@ -43,7 +53,13 @@ WHERE recipes.id = sqlc.arg(id)
 GROUP BY recipes.id;
 
 -- name: GetRecipeList :many
-SELECT recipes.*, COUNT(recipe_likes.user_id) AS likes FROM recipes
+SELECT recipes.*,
+	COUNT(recipe_likes.user_id) AS likes,
+	COALESCE(
+		(SELECT ARRAY_AGG(tag ORDER BY tag) FROM recipe_tags WHERE recipe_tags.recipe_id = recipes.id),
+		ARRAY[]::text[]
+	) AS tags
+FROM recipes
 LEFT JOIN recipe_likes ON recipe_likes.recipe_id = recipes.id
 GROUP BY recipes.id
 ORDER BY likes DESC
@@ -52,6 +68,10 @@ LIMIT 10;
 -- name: GetAuthedRecipeList :many
 SELECT recipes.*,
 	COUNT(recipe_likes.user_id) AS likes,
+	COALESCE(
+		(SELECT ARRAY_AGG(tag ORDER BY tag) FROM recipe_tags WHERE recipe_tags.recipe_id = recipes.id),
+		ARRAY[]::text[]
+	) AS tags,
 	EXISTS(
 		SELECT 1 FROM recipe_likes AS requester_likes
 		WHERE requester_likes.recipe_id = recipes.id
@@ -66,14 +86,26 @@ LIMIT 10;
 --unauthed queries
 
 -- name: GetRecipesFromTitleQuery :many
-SELECT recipes.*, COUNT(recipe_likes.user_id) AS likes FROM recipes
+SELECT recipes.*,
+	COUNT(recipe_likes.user_id) AS likes,
+	COALESCE(
+		(SELECT ARRAY_AGG(tag ORDER BY tag) FROM recipe_tags WHERE recipe_tags.recipe_id = recipes.id),
+		ARRAY[]::text[]
+	) AS tags
+FROM recipes
 LEFT JOIN recipe_likes ON recipe_likes.recipe_id = recipes.id
 WHERE LOWER(title) LIKE '%' || $1::text || '%'
 GROUP BY recipes.id
 LIMIT 50;
 
 -- name: GetRecipesFromAuthorQuery :many
-SELECT recipes.*, COUNT(recipe_likes.user_id) AS likes FROM recipes
+SELECT recipes.*,
+	COUNT(recipe_likes.user_id) AS likes,
+	COALESCE(
+		(SELECT ARRAY_AGG(tag ORDER BY tag) FROM recipe_tags WHERE recipe_tags.recipe_id = recipes.id),
+		ARRAY[]::text[]
+	) AS tags
+FROM recipes
 LEFT JOIN recipe_likes ON recipe_likes.recipe_id = recipes.id
 WHERE LOWER(author) LIKE '%' || $1::text || '%'
 GROUP BY recipes.id
@@ -84,6 +116,10 @@ LIMIT 50;
 -- name: GetAuthedRecipesFromTitleQuery :many
 SELECT recipes.*,
 	COUNT(recipe_likes.user_id) AS likes,
+	COALESCE(
+		(SELECT ARRAY_AGG(tag ORDER BY tag) FROM recipe_tags WHERE recipe_tags.recipe_id = recipes.id),
+		ARRAY[]::text[]
+	) AS tags,
 	EXISTS(
 		SELECT 1 FROM recipe_likes AS requester_likes
 		WHERE requester_likes.recipe_id = recipes.id
@@ -98,6 +134,10 @@ LIMIT 50;
 -- name: GetAuthedRecipesFromAuthorQuery :many
 SELECT recipes.*,
 	COUNT(recipe_likes.user_id) AS likes,
+	COALESCE(
+		(SELECT ARRAY_AGG(tag ORDER BY tag) FROM recipe_tags WHERE recipe_tags.recipe_id = recipes.id),
+		ARRAY[]::text[]
+	) AS tags,
 	EXISTS(
 		SELECT 1 FROM recipe_likes AS requester_likes
 		WHERE requester_likes.recipe_id = recipes.id
@@ -110,7 +150,13 @@ GROUP BY recipes.id
 LIMIT 50;
 
 -- name: GetRecipesFromNilQuery :many
-SELECT recipes.*, COUNT(recipe_likes.user_id) AS likes FROM recipes
+SELECT recipes.*,
+	COUNT(recipe_likes.user_id) AS likes,
+	COALESCE(
+		(SELECT ARRAY_AGG(tag ORDER BY tag) FROM recipe_tags WHERE recipe_tags.recipe_id = recipes.id),
+		ARRAY[]::text[]
+	) AS tags
+FROM recipes
 LEFT JOIN recipe_likes ON recipe_likes.recipe_id = recipes.id
 GROUP BY recipes.id
 ORDER BY created_at DESC
@@ -119,6 +165,10 @@ LIMIT 50;
 -- name: GetAuthedRecipesFromNilQuery :many
 SELECT recipes.*,
 	COUNT(recipe_likes.user_id) AS likes,
+	COALESCE(
+		(SELECT ARRAY_AGG(tag ORDER BY tag) FROM recipe_tags WHERE recipe_tags.recipe_id = recipes.id),
+		ARRAY[]::text[]
+	) AS tags,
 	EXISTS(
 		SELECT 1 FROM recipe_likes AS requester_likes
 		WHERE requester_likes.recipe_id = recipes.id
@@ -131,7 +181,13 @@ ORDER BY created_at DESC
 LIMIT 50;
 
 -- name: GetUsersRecipes :many
-SELECT recipes.*, COUNT(recipe_likes.user_id) AS likes FROM recipes
+SELECT recipes.*,
+	COUNT(recipe_likes.user_id) AS likes,
+	COALESCE(
+		(SELECT ARRAY_AGG(tag ORDER BY tag) FROM recipe_tags WHERE recipe_tags.recipe_id = recipes.id),
+		ARRAY[]::text[]
+	) AS tags
+FROM recipes
 LEFT JOIN recipe_likes ON recipe_likes.recipe_id = recipes.id
 WHERE recipes.user_id = $1
 GROUP BY recipes.id
@@ -140,6 +196,10 @@ ORDER BY created_at DESC;
 -- name: GetAuthedUsersRecipes :many
 SELECT recipes.*,
 	COUNT(recipe_likes.user_id) AS likes,
+	COALESCE(
+		(SELECT ARRAY_AGG(tag ORDER BY tag) FROM recipe_tags WHERE recipe_tags.recipe_id = recipes.id),
+		ARRAY[]::text[]
+	) AS tags,
 	EXISTS(
 		SELECT 1 FROM recipe_likes AS requester_likes
 		WHERE requester_likes.recipe_id = recipes.id

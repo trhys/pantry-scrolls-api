@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/lib/pq"
 )
 
 // Consolidated separate shapes into one generic shape that can
@@ -26,6 +27,7 @@ type Recipe struct {
 	ImageKey     *string      `json:"image_url"`
 	Ingredients  []Ingredient `json:"ingredients"`
 	Instructions *string      `json:"instructions"`
+	Tags         []string     `json:"tags"`
 	Quantity     *int32       `json:"quantity"`
 	Likes        *int64       `json:"likes"`
 	Liked        *bool        `json:"liked,omitempty"`
@@ -124,6 +126,30 @@ func (builder *VMFactory) parseRecipe(src reflect.Value, ingredients []Ingredien
 	if f := src.FieldByName("Liked"); f.IsValid() {
 		b := f.Bool()
 		dest.Liked = &b
+	}
+	if f := src.FieldByName("Tags"); f.IsValid() {
+		switch v := f.Interface().(type) {
+		case []string:
+			dest.Tags = v
+		case []interface{}:
+			tags := make([]string, 0, len(v))
+			for _, tag := range v {
+				if s, ok := tag.(string); ok {
+					tags = append(tags, s)
+				}
+			}
+			dest.Tags = tags
+		case []uint8:
+			var tags pq.StringArray
+			if err := tags.Scan(v); err == nil {
+				dest.Tags = []string(tags)
+			}
+		case string:
+			var tags pq.StringArray
+			if err := tags.Scan(v); err == nil {
+				dest.Tags = []string(tags)
+			}
+		}
 	}
 
 	dest.Ingredients = ingredients

@@ -69,6 +69,11 @@ type RecipeLike struct {
 	RecipeID uuid.UUID
 }
 
+type RecipeTag struct {
+	RecipeID uuid.UUID
+	Tag      string
+}
+
 type RefreshToken struct {
 	ID        string
 	CreatedAt time.Time
