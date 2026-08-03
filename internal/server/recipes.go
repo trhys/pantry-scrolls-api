@@ -29,6 +29,7 @@ func (cfg *ApiConfig) handlerCreateRecipe(w http.ResponseWriter, r *http.Request
 			Unit     string    `json:"unit"`
 		} `json:"ingredients"`
 		Instructions string `json:"instructions"`
+		Tags		 []string `json:"tags"`
 	}
 
 	// Get request payload
@@ -138,6 +139,16 @@ func (cfg *ApiConfig) handlerCreateRecipe(w http.ResponseWriter, r *http.Request
 		}
 	}
 
+	query := database.AddRecipeTagParams{
+		RecipeID:	recipeID,
+		Tag:		req.Tags,
+	}
+
+	if err := cfg.DB.AddRecipeTags(r.Context(), query); err != nil {
+		respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Query failed (AddRecipeTags): %v", err))
+		return
+	}
+
 	type resp struct {
 		ID uuid.UUID `json:"id"`
 	}
@@ -235,6 +246,7 @@ func (cfg *ApiConfig) handlerUpdateRecipe(w http.ResponseWriter, r *http.Request
 			Unit     string    `json:"unit"`
 		} `json:"ingredients"`
 		Instructions string `json:"instructions"`
+		Tags		 []string `json:"tags"`
 	}
 
 	// Get request payload
@@ -355,6 +367,22 @@ func (cfg *ApiConfig) handlerUpdateRecipe(w http.ResponseWriter, r *http.Request
 			respondFail(r, w, 500, "Failed to add ingredient", fmt.Errorf("Couldn't perform AddToRecipe query: %v", err))
 			return
 		}
+	}
+
+	query := database.AddRecipeTagParams{
+		RecipeID:	recipeID,
+		Tag:		req.Tags,
+	}
+
+	// clear existing tags first
+	if err := cfg.DB.ResetRecipeTags(r.Context(), recipeID); err != nil {
+		respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Query failed(ResetRecipeTags): %v", err))
+		return
+	}
+
+	if err := cfg.DB.AddRecipeTags(r.Context(), query); err != nil {
+		respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Query failed (AddRecipeTags): %v", err))
+		return
 	}
 
 	respondJSON(w, 204, nil)
