@@ -63,14 +63,25 @@ GROUP BY recipes.id
 ORDER BY likes DESC
 LIMIT 10;
 
--- name: GetRecipesFromQuery :many
+--unauthed queries
+
+-- name: GetRecipesFromTitleQuery :many
 SELECT recipes.*, COUNT(recipe_likes.user_id) AS likes FROM recipes
 LEFT JOIN recipe_likes ON recipe_likes.recipe_id = recipes.id
 WHERE LOWER(title) LIKE '%' || $1::text || '%'
 GROUP BY recipes.id
 LIMIT 50;
 
--- name: GetAuthedRecipesFromQuery :many
+-- name: GetRecipesFromAuthorQuery :many
+SELECT recipes.*, COUNT(recipe_likes.user_id) AS likes FROM recipes
+LEFT JOIN recipe_likes ON recipe_likes.recipe_id = recipes.id
+WHERE LOWER(author) LIKE '%' || $1::text || '%'
+GROUP BY recipes.id
+LIMIT 50;
+
+-- authed queries
+
+-- name: GetAuthedRecipesFromTitleQuery :many
 SELECT recipes.*,
 	COUNT(recipe_likes.user_id) AS likes,
 	EXISTS(
@@ -81,6 +92,20 @@ SELECT recipes.*,
 FROM recipes
 LEFT JOIN recipe_likes ON recipe_likes.recipe_id = recipes.id
 WHERE LOWER(title) LIKE '%' || sqlc.arg(query)::text || '%'
+GROUP BY recipes.id
+LIMIT 50;
+
+-- name: GetAuthedRecipesFromAuthorQuery :many
+SELECT recipes.*,
+	COUNT(recipe_likes.user_id) AS likes,
+	EXISTS(
+		SELECT 1 FROM recipe_likes AS requester_likes
+		WHERE requester_likes.recipe_id = recipes.id
+		AND requester_likes.user_id = sqlc.arg(user_id)
+	) AS liked
+FROM recipes
+LEFT JOIN recipe_likes ON recipe_likes.recipe_id = recipes.id
+WHERE LOWER(author) LIKE '%' || sqlc.arg(query)::text || '%'
 GROUP BY recipes.id
 LIMIT 50;
 
