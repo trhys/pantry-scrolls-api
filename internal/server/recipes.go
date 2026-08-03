@@ -139,9 +139,9 @@ func (cfg *ApiConfig) handlerCreateRecipe(w http.ResponseWriter, r *http.Request
 		}
 	}
 
-	query := database.AddRecipeTagParams{
+	query := database.AddRecipeTagsParams{
 		RecipeID:	recipeID,
-		Tag:		req.Tags,
+		Tags:		req.Tags,
 	}
 
 	if err := cfg.DB.AddRecipeTags(r.Context(), query); err != nil {
@@ -369,13 +369,13 @@ func (cfg *ApiConfig) handlerUpdateRecipe(w http.ResponseWriter, r *http.Request
 		}
 	}
 
-	query := database.AddRecipeTagParams{
-		RecipeID:	recipeID,
-		Tag:		req.Tags,
+	query := database.AddRecipeTagsParams{
+		RecipeID:	recipe_id,
+		Tags:		req.Tags,
 	}
 
 	// clear existing tags first
-	if err := cfg.DB.ResetRecipeTags(r.Context(), recipeID); err != nil {
+	if err := cfg.DB.ResetRecipeTags(r.Context(), recipe_id); err != nil {
 		respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Query failed(ResetRecipeTags): %v", err))
 		return
 	}
