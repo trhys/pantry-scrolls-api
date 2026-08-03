@@ -421,23 +421,52 @@ func (cfg *ApiConfig) handlerDeleteRecipe(w http.ResponseWriter, r *http.Request
 }
 
 func (cfg *ApiConfig) handlerExploreFeed(w http.ResponseWriter, r *http.Request) {
-	query, err := util.SanitizeSearchQuery(r.URL.Query().Get("search"))
+	queryParams := r.URL.Query()
+
+	// find url query
+	title := err := util.SanitizeSearchQuery(queryParams.Get("title"))
+	if err != nil {
+		respondFail(r, w, 400, "Bad request", err)
+		return
+	}
+	author := err := util.SanitizeSearchQuery(queryParams.Get("author"))
 	if err != nil {
 		respondFail(r, w, 400, "Bad request", err)
 		return
 	}
 
+	// todo: 
+	//tag := err := util.SanitizeSearchQuery(queryParams.Get("tag"))
+	//if err != nil {
+	//	respondFail(r, w, 400, "Bad request", err)
+	//	return
+	//}
+
 	requesterID, ok := requesterUserID(r)
 
 	var feed any
-	if query != "" {
+	if title != "" {
 		if ok {
-			feed, err = cfg.DB.GetAuthedRecipesFromQuery(r.Context(), database.GetAuthedRecipesFromQueryParams{
-				Query:  query,
+			feed, err = cfg.DB.GetAuthedRecipesFromTitleQuery(r.Context(), database.GetAuthedRecipesFromQueryTitleParams{
+				Query:  title,
 				UserID: requesterID,
 			})
 		} else {
-			feed, err = cfg.DB.GetRecipesFromQuery(r.Context(), query)
+			feed, err = cfg.DB.GetRecipesFromTitleQuery(r.Context(), title)
+		}
+		if err != nil {
+			respondFail(r, w, 404, "No recipes matched the query params", fmt.Errorf("recipes query error: %v", err))
+			return
+		}
+		respondJSON(w, 200, cfg.Vmf.GenerateRecipeViewModel(feed, nil))
+	} else if author != "" {
+		if ok {
+			feed, err = cfg.DB.GetAuthedRecipesFromAuthorQuery(r.Context(), database.GetAuthedRecipesFromQueryAuthorParams{
+				Query:  author,
+				UserID: requesterID,
+			})
+		} else {
+			feed, err = cfg.DB.GetRecipesFromTitleQuery(r.Context(), author)
 		}
 		if err != nil {
 			respondFail(r, w, 404, "No recipes matched the query params", fmt.Errorf("recipes query error: %v", err))
