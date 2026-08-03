@@ -8,3 +8,7 @@ VALUES (
 -- name: RemoveRecipeTag :exec
 DELETE FROM recipe_tags
 WHERE recipe_id = $1 AND tag = $2;
+
+-- name: ResetRecipeTags :exec
+DELETE FROM recipe_tags
+WHERE recipe_id = $1;
