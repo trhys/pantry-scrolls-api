@@ -447,7 +447,7 @@ func (cfg *ApiConfig) handlerExploreFeed(w http.ResponseWriter, r *http.Request)
 	var feed any
 	if title != "" {
 		if ok {
-			feed, err = cfg.DB.GetAuthedRecipesFromTitleQuery(r.Context(), database.GetAuthedRecipesFromQueryTitleParams{
+			feed, err = cfg.DB.GetAuthedRecipesFromTitleQuery(r.Context(), database.GetAuthedRecipesFromTitleQueryParams{
 				Query:  title,
 				UserID: requesterID,
 			})
@@ -461,12 +461,12 @@ func (cfg *ApiConfig) handlerExploreFeed(w http.ResponseWriter, r *http.Request)
 		respondJSON(w, 200, cfg.Vmf.GenerateRecipeViewModel(feed, nil))
 	} else if author != "" {
 		if ok {
-			feed, err = cfg.DB.GetAuthedRecipesFromAuthorQuery(r.Context(), database.GetAuthedRecipesFromQueryAuthorParams{
+			feed, err = cfg.DB.GetAuthedRecipesFromAuthorQuery(r.Context(), database.GetAuthedRecipesFromAuthorQueryParams{
 				Query:  author,
 				UserID: requesterID,
 			})
 		} else {
-			feed, err = cfg.DB.GetRecipesFromTitleQuery(r.Context(), author)
+			feed, err = cfg.DB.GetRecipesFromAuthorQuery(r.Context(), author)
 		}
 		if err != nil {
 			respondFail(r, w, 404, "No recipes matched the query params", fmt.Errorf("recipes query error: %v", err))
