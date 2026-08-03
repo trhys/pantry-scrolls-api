@@ -424,19 +424,19 @@ func (cfg *ApiConfig) handlerExploreFeed(w http.ResponseWriter, r *http.Request)
 	queryParams := r.URL.Query()
 
 	// find url query
-	title := err := util.SanitizeSearchQuery(queryParams.Get("title"))
+	title, err := util.SanitizeSearchQuery(queryParams.Get("title"))
 	if err != nil {
 		respondFail(r, w, 400, "Bad request", err)
 		return
 	}
-	author := err := util.SanitizeSearchQuery(queryParams.Get("author"))
+	author, err := util.SanitizeSearchQuery(queryParams.Get("author"))
 	if err != nil {
 		respondFail(r, w, 400, "Bad request", err)
 		return
 	}
 
 	// todo: 
-	//tag := err := util.SanitizeSearchQuery(queryParams.Get("tag"))
+	//tag, err := util.SanitizeSearchQuery(queryParams.Get("tag"))
 	//if err != nil {
 	//	respondFail(r, w, 400, "Bad request", err)
 	//	return
