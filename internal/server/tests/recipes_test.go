@@ -567,13 +567,13 @@ func TestGetRecipeEdit(t *testing.T) {
 			t.Fatalf("Expected 1 ingredient, got %d", len(recipe.Ingredients))
 		}
 
-		// Conversions may be empty if none are seeded for this ingredient,
-		// but the field must be present and deserializable.
 		ing := recipe.Ingredients[0]
 		if ing.ID != ingID {
 			t.Errorf("Expected ingredient ID %v, got %v", ingID, ing.ID)
 		}
-		_ = ing.Conversions // field presence validated by successful decode above
+		if len(ing.Conversions) == 0 {
+			t.Fatalf("expected conversions for seeded ingredient %v", ingID)
+		}
 	})
 
 	// Verify existing GET /api/recipes/{id} endpoint is unchanged (no conversions field)
