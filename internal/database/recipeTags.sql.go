@@ -16,6 +16,7 @@ const addRecipeTags = `-- name: AddRecipeTags :exec
 INSERT INTO recipe_tags (recipe_id, tag)
 SELECT $1, tag
 FROM UNNEST($2::text[]) AS tag
+ON CONFLICT (recipe_id, tag) DO NOTHING
 `
 
 type AddRecipeTagsParams struct {
