@@ -162,7 +162,7 @@ func (cfg *ApiConfig) handlerGetRecipeEdit(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	rec, err = cfg.DB.GetAuthedRecipe(r.Context(), database.GetAuthedRecipeParams{
+	rec, err := cfg.DB.GetAuthedRecipe(r.Context(), database.GetAuthedRecipeParams{
 			ID:     recipe_id,
 			UserID: requesterID,
 	})
