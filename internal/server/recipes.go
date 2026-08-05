@@ -145,6 +145,53 @@ func (cfg *ApiConfig) handlerCreateRecipe(w http.ResponseWriter, r *http.Request
 	respondJSON(w, 201, resp{ID: recipeID})
 }
 
+// Get recipe by ID with ingredient conversions for editor hydration
+func (cfg *ApiConfig) handlerGetRecipeEdit(w http.ResponseWriter, r *http.Request) {
+	requested := r.PathValue("recipe_id")
+	recipe_id, err := uuid.Parse(requested)
+	if err != nil {
+		respondFail(r, w, 404, "Invalid recipe id", fmt.Errorf("Failed to parse UUID: %v", err))
+		return
+	}
+
+	requesterID, ok := requesterUserID(r)
+
+	var rec any
+	if ok {
+		rec, err = cfg.DB.GetAuthedRecipe(r.Context(), database.GetAuthedRecipeParams{
+			ID:     recipe_id,
+			UserID: requesterID,
+		})
+	} else {
+		rec, err = cfg.DB.GetRecipe(r.Context(), recipe_id)
+	}
+	if err != nil {
+		respondFail(r, w, 404, "Couldn't find recipe id", fmt.Errorf("Failed to find recipe with ID: %s, ERROR: %v", requested, err))
+		return
+	}
+
+	ingredientList, err := cfg.DB.GetIngredientList(r.Context(), recipe_id)
+	if err != nil {
+		respondFail(r, w, 404, "Couldn't find ingredients", fmt.Errorf("Failed to find ingredients for recipe id: %s, ERROR: %v", requested, err))
+		return
+	}
+
+	conversionMap := make(map[uuid.UUID][]database.Conversion)
+	for _, ing := range ingredientList {
+		convs, err := cfg.DB.GetConversionsByID(r.Context(), ing.IngredientID)
+		if err != nil {
+			respondFail(r, w, 500, "Couldn't load conversions", fmt.Errorf("Failed to get conversions for ingredient %s: %v", ing.IngredientID, err))
+			return
+		}
+		conversionMap[ing.IngredientID] = convs
+	}
+
+	ingredients := viewmodel.GenerateIngredientsWithConversionsViewModel(ingredientList, conversionMap)
+	model := cfg.Vmf.GenerateRecipeViewModel(rec, ingredients)
+
+	respondJSON(w, 200, model)
+}
+
 // Get recipe by ID
 func (cfg *ApiConfig) handlerGetRecipe(w http.ResponseWriter, r *http.Request) {
 	requested := r.PathValue("recipe_id")
