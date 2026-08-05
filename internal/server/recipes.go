@@ -156,15 +156,16 @@ func (cfg *ApiConfig) handlerGetRecipeEdit(w http.ResponseWriter, r *http.Reques
 
 	requesterID, ok := requesterUserID(r)
 
-	var rec any
-	if ok {
-		rec, err = cfg.DB.GetAuthedRecipe(r.Context(), database.GetAuthedRecipeParams{
+	owner, err := cfg.DB.GetRecipeOwner(r.Context(), recipe_id)
+	if err != nil || owner != requesterID {
+		respondFail(r, w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
+		return
+	}
+
+	rec, err = cfg.DB.GetAuthedRecipe(r.Context(), database.GetAuthedRecipeParams{
 			ID:     recipe_id,
 			UserID: requesterID,
-		})
-	} else {
-		rec, err = cfg.DB.GetRecipe(r.Context(), recipe_id)
-	}
+	})
 	if err != nil {
 		respondFail(r, w, 404, "Couldn't find recipe id", fmt.Errorf("Failed to find recipe with ID: %s, ERROR: %v", requested, err))
 		return
