@@ -401,3 +401,197 @@ func TestCRUDRecipe(t *testing.T) {
 		}
 	})
 }
+
+func TestGetRecipeEdit(t *testing.T) {
+	cfg := server.GetConfig()
+	tx, err := cfg.DBConn.Begin()
+	if err != nil {
+		t.Fatalf("Failed to start transaction: %v", err)
+	}
+	defer tx.Rollback()
+
+	cfg.DB = cfg.DB.WithTx(tx)
+
+	mockSES := &MockSESClient{}
+	cfg.SESClient = mockSES
+
+	testReg := prometheus.NewRegistry()
+	router := server.GetRouter(cfg, testReg)
+
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+	}))
+	defer ts.Close()
+
+	mockAwsCfg, err := config.LoadDefaultConfig(context.Background(),
+		config.WithRegion("us-east-1"),
+		config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider("mockadmin", "mockpassword", "")),
+	)
+	if err != nil {
+		t.Fatalf("failed to build mock aws config: %v", err)
+	}
+
+	cfg.S3client = s3.NewFromConfig(mockAwsCfg, func(o *s3.Options) {
+		o.BaseEndpoint = aws.String(ts.URL)
+		o.UsePathStyle = true
+	})
+
+	// Create and login a test user
+	req := httptest.NewRequest("POST", "/api/users", bytes.NewBuffer([]byte(`{"email":"edit@test.com","password":"password","name":"edituser"}`)))
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+	if w.Code != 201 {
+		t.Fatalf("Failed to create user for test")
+	}
+
+	req = httptest.NewRequest("POST", "/api/sessions", bytes.NewBuffer([]byte(`{"email":"edit@test.com","password":"password"}`)))
+	w = httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+	if w.Code != 200 {
+		t.Fatalf("Failed to login test user")
+	}
+
+	var user vm.SessionViewModel
+	if err := json.NewDecoder(w.Body).Decode(&user); err != nil {
+		t.Fatalf("failed to decode login response: %v", err)
+	}
+
+	response := w.Result()
+	cookies := response.Cookies()
+	var jwt *http.Cookie
+	var rt *http.Cookie
+	for _, c := range cookies {
+		if c.Name == "jwt" {
+			jwt = c
+		} else if c.Name == "refresh_token" {
+			rt = c
+		}
+	}
+
+	// Build a recipe with one ingredient that has conversions
+	ingID, err := cfg.DB.GetIngredientFromName(context.Background(), "Spaghetti")
+	if err != nil {
+		t.Fatalf("Failed to resolve ingredient ID: %v", err)
+	}
+
+	recipePayload := struct {
+		Title       string `json:"title"`
+		Description string `json:"description"`
+		Ingredients []struct {
+			ID       uuid.UUID `json:"id"`
+			Quantity float32   `json:"quantity"`
+			Unit     string    `json:"unit"`
+		} `json:"ingredients"`
+		Instructions string `json:"instructions"`
+	}{
+		Title:        "Edit Endpoint Test Recipe",
+		Description:  "desc",
+		Instructions: "cook it",
+		Ingredients: []struct {
+			ID       uuid.UUID `json:"id"`
+			Quantity float32   `json:"quantity"`
+			Unit     string    `json:"unit"`
+		}{{ID: ingID, Quantity: 8, Unit: "Ounce"}},
+	}
+
+	payloadJSON, _ := json.Marshal(recipePayload)
+
+	body := &bytes.Buffer{}
+	writer := multipart.NewWriter(body)
+	_ = writer.WriteField("payload", string(payloadJSON))
+	writer.Close()
+
+	req = httptest.NewRequest("POST", "/api/recipes", body)
+	req.Header.Set("Content-Type", writer.FormDataContentType())
+	req.AddCookie(jwt)
+	req.AddCookie(rt)
+
+	w = httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+	if w.Code != 201 {
+		t.Fatalf("Failed to create recipe for edit test: %d", w.Code)
+	}
+
+	var createResp struct {
+		ID uuid.UUID `json:"id"`
+	}
+	if err := json.NewDecoder(w.Body).Decode(&createResp); err != nil {
+		t.Fatalf("failed to decode create recipe response: %v", err)
+	}
+
+	// Call the edit endpoint
+	t.Run("get recipe edit returns conversions on ingredients", func(t *testing.T) {
+		url := fmt.Sprintf("/api/recipes/%s/edit", createResp.ID)
+		req := httptest.NewRequest("GET", url, nil)
+		req.AddCookie(jwt)
+		req.AddCookie(rt)
+
+		w := httptest.NewRecorder()
+		router.ServeHTTP(w, req)
+		if w.Code != 200 {
+			t.Fatalf("Expected 200 from edit endpoint, got %d", w.Code)
+		}
+
+		var responseBody struct {
+			Recipes []struct {
+				ID          uuid.UUID `json:"id"`
+				Title       string    `json:"title"`
+				Ingredients []struct {
+					ID          uuid.UUID `json:"id"`
+					Name        string    `json:"name"`
+					Quantity    float32   `json:"quantity"`
+					Unit        string    `json:"unit"`
+					Conversions []struct {
+						FromUnit string  `json:"from_unit"`
+						ToUnit   string  `json:"to_unit"`
+						Ratio    float32 `json:"ratio"`
+					} `json:"conversions"`
+				} `json:"ingredients"`
+			} `json:"recipes"`
+		}
+
+		if err := json.NewDecoder(w.Body).Decode(&responseBody); err != nil {
+			t.Fatalf("Failed to decode response: %v", err)
+		}
+
+		if len(responseBody.Recipes) != 1 {
+			t.Fatalf("Expected 1 recipe, got %d", len(responseBody.Recipes))
+		}
+
+		recipe := responseBody.Recipes[0]
+		if recipe.ID != createResp.ID {
+			t.Errorf("Expected recipe ID %v, got %v", createResp.ID, recipe.ID)
+		}
+
+		if len(recipe.Ingredients) != 1 {
+			t.Fatalf("Expected 1 ingredient, got %d", len(recipe.Ingredients))
+		}
+
+		ing := recipe.Ingredients[0]
+		if ing.ID != ingID {
+			t.Errorf("Expected ingredient ID %v, got %v", ingID, ing.ID)
+		}
+		if len(ing.Conversions) == 0 {
+			t.Fatalf("expected conversions for seeded ingredient %v", ingID)
+		}
+	})
+
+	// Verify existing GET /api/recipes/{id} endpoint is unchanged (no conversions field)
+	t.Run("existing get recipe endpoint unchanged", func(t *testing.T) {
+		url := fmt.Sprintf("/api/recipes/%s", createResp.ID)
+		req := httptest.NewRequest("GET", url, nil)
+
+		w := httptest.NewRecorder()
+		router.ServeHTTP(w, req)
+		if w.Code != 200 {
+			t.Fatalf("Expected 200, got %d", w.Code)
+		}
+
+		var responseBody vm.RecipeViewModel
+		decoder := json.NewDecoder(w.Body)
+		decoder.DisallowUnknownFields()
+		if err := decoder.Decode(&responseBody); err != nil {
+			t.Errorf("Response structural validation failed (existing endpoint must be unchanged): %v", err)
+		}
+	})
+}
