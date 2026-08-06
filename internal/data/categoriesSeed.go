@@ -16,7 +16,7 @@ import (
 //go:embed seedManifest.json
 var manifest []byte
 
-func SeedCategories(ik string, db *sql.DB, ctx context.Context) error {
+func SeedCategories(db *sql.DB, ctx context.Context) error {
 	log.Println("Loading seed from JSON...")
 
 	var seed struct {
