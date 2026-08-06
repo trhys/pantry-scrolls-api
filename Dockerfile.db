@@ -8,13 +8,17 @@ RUN go install github.com/pressly/goose/v3/cmd/goose@latest
 
 COPY . .
 RUN CGO_ENABLED=0 GOOS=linux go build -o dbinit ./cmd/dbinit
+RUN CGO_ENABLED=0 GOOS=linux go build -o categoriesMigration ./cmd/categoriesMigration
 
 FROM postgres:16
 WORKDIR /app
 
 COPY --from=builder /app/dbinit ./dbinit
+COPY --from=builder /app/categoriesMigration ./categoriesMigration
 COPY --from=builder /go/bin/goose ./goose
 
 COPY sql/schema ./sql/schema
 COPY cmd/scripts/seed.sh ./scripts/seed.sh
+COPY cmd/scripts/001_categories_migration.sh ./scripts/001_categories_migration.sh
 RUN chmod +x ./scripts/seed.sh
+RUN chmod +x ./scripts/001_categories_migration.sh
