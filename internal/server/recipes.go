@@ -19,7 +19,7 @@ import (
 )
 
 // helper to verify ingredients have a non nill unit and quantity set
-func verifyIngredients(ings []recipeIngredientInput) error {
+func verifyIngredients(ings []recipeIngredientsInput) error {
 	if len(ings) == 0 {
 		return fmt.Errorf("Ingredients must not be empty")
 	}
