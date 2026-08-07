@@ -2,6 +2,7 @@ package server
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"log/slog"
@@ -107,45 +108,59 @@ func (cfg *ApiConfig) handlerCreateRecipe(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	// Query database
-	query := database.CreateRecipeParams{
-		Title:        req.Title,
-		Author:       username,
-		UserID:       requesterID,
-		Description:  req.Description,
-		ImageKey:     key,
-		Instructions: req.Instructions,
-	}
-
-	recipeID, err := cfg.DB.CreateRecipe(r.Context(), query)
-	if err != nil {
-		respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Failed to create recipe: %v", err))
-		return
-	}
-
-	// Connect all ingredients
-	for _, ing := range req.Ingredients {
-		query := database.AddToRecipeParams{
-			RecipeID:     recipeID,
-			IngredientID: ing.ID,
-			Quantity:     ing.Quantity,
-			Unit:         ing.Unit,
+	// Begin write tx
+	err = cfg.withTx(r.Context(), func(qtx *database.Queries) error {
+		query := database.CreateRecipeParams{
+			Title:        req.Title,
+			Author:       username,
+			UserID:       requesterID,
+			Description:  req.Description,
+			ImageKey:     key,
+			Instructions: req.Instructions,
 		}
-
-		_, err := cfg.DB.AddToRecipe(r.Context(), query)
+	
+		recipeID, err := qtx.CreateRecipe(r.Context(), query)
 		if err != nil {
-			respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Failed to add ingredient to recipe: %v", err))
-			return
+			return err
 		}
-	}
-
-	queryTags := database.AddRecipeTagsParams{
-		RecipeID:	recipeID,
-		Tags:		req.Tags,
-	}
-
-	if err := cfg.DB.AddRecipeTags(r.Context(), queryTags); err != nil {
-		respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Query failed (AddRecipeTags): %v", err))
+	
+		// Connect all ingredients
+		for _, ing := range req.Ingredients {
+			query := database.AddToRecipeParams{
+				RecipeID:     recipeID,
+				IngredientID: ing.ID,
+				Quantity:     ing.Quantity,
+				Unit:         ing.Unit,
+			}
+	
+			_, err := qtx.AddToRecipe(r.Context(), query)
+			if err != nil {
+				return err
+			}
+		}
+	
+		queryTags := database.AddRecipeTagsParams{
+			RecipeID:	recipeID,
+			Tags:		req.Tags,
+		}
+	
+		if err := qtx.AddRecipeTags(r.Context(), queryTags); err != nil {
+			return err
+		}
+	})
+	if err != nil {
+		var pqErr *pq.Error
+		if errors.As(err, &pqErr) {
+			switch pqErr.Code {
+			case "23503":
+				respondFail(r, w, 400, "Bad request", fmt.Errorf("handlerCreateRecipe tx error --- invalid foreign key: %v", err))
+				return
+			case "23505":
+				respondFail(r, w, 400, "Bad request", fmt.Errorf("handlerCreateRecipe tx error --- duplicate value: %v", err))
+				return
+			}
+		}
+		respondFail(r, w, 500, "Something went wrong", fmt.Errorf("handlerCreateRecipe transaction failed: %v", err))
 		return
 	}
 
@@ -381,55 +396,67 @@ func (cfg *ApiConfig) handlerUpdateRecipe(w http.ResponseWriter, r *http.Request
 		}
 	}
 
-	// Query database
-	query := database.UpdateRecipeParams{
-		Title:        req.Title,
-		Description:  req.Description,
-		ImageKey:     key,
-		Instructions: req.Instructions,
-		ID:           recipe_id,
-	}
-
-	rec, err := cfg.DB.UpdateRecipe(r.Context(), query)
-	if err != nil {
-		respondFail(r, w, 500, "Couldn't update recipe", fmt.Errorf("Database error: %v", err))
-		return
-	}
-
-	// Update ingredients
-	if err := cfg.DB.ClearFromRecipe(r.Context(), recipe_id); err != nil {
-		respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Database error: %v", err))
-		return
-	}
-
-	for _, ing := range req.Ingredients {
-		query := database.AddToRecipeParams{
-			RecipeID:     rec.ID,
-			IngredientID: ing.ID,
-			Quantity:     ing.Quantity,
-			Unit:         ing.Unit,
+	// Begin write tx
+	err = cfg.withTx(r.Context(), func(qtx *database.Queries) error {
+		query := database.UpdateRecipeParams{
+			Title:        req.Title,
+			Description:  req.Description,
+			ImageKey:     key,
+			Instructions: req.Instructions,
+			ID:           recipe_id,
 		}
-
-		_, err := cfg.DB.AddToRecipe(r.Context(), query)
+	
+		rec, err := qtx.UpdateRecipe(r.Context(), query)
 		if err != nil {
-			respondFail(r, w, 500, "Failed to add ingredient", fmt.Errorf("Couldn't perform AddToRecipe query: %v", err))
-			return
+			return err
 		}
-	}
-
-	queryTags := database.AddRecipeTagsParams{
-		RecipeID:	recipe_id,
-		Tags:		req.Tags,
-	}
-
-	// clear existing tags first
-	if err := cfg.DB.ResetRecipeTags(r.Context(), recipe_id); err != nil {
-		respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Query failed(ResetRecipeTags): %v", err))
-		return
-	}
-
-	if err := cfg.DB.AddRecipeTags(r.Context(), queryTags); err != nil {
-		respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Query failed (AddRecipeTags): %v", err))
+	
+		// Update ingredients
+		if err := qtx.ClearFromRecipe(r.Context(), recipe_id); err != nil {
+			return err
+		}
+	
+		for _, ing := range req.Ingredients {
+			query := database.AddToRecipeParams{
+				RecipeID:     rec.ID,
+				IngredientID: ing.ID,
+				Quantity:     ing.Quantity,
+				Unit:         ing.Unit,
+			}
+	
+			_, err := qtx.AddToRecipe(r.Context(), query)
+			if err != nil {
+				return err
+			}
+		}
+	
+		queryTags := database.AddRecipeTagsParams{
+			RecipeID:	recipe_id,
+			Tags:		req.Tags,
+		}
+	
+		// clear existing tags first
+		if err := qtx.ResetRecipeTags(r.Context(), recipe_id); err != nil {
+			return err
+		}
+	
+		if err := qtx.AddRecipeTags(r.Context(), queryTags); err != nil {
+			return err
+		}
+	})
+	if err != nil {
+		var pqErr *pq.Error
+		if errors.As(err, &pqErr) {
+			switch pqErr.Code {
+			case "23503":
+				respondFail(r, w, 400, "Bad request", fmt.Errorf("handlerUpdateRecipe tx invalid foreign key: %v", err))
+				return
+			case "23505":
+				respondFail(r, w, 400, "Bad request", fmt.Errorf("handlerUpdateRecipe tx duplicate value: %v", err))
+				return
+			}
+		}
+		respondFail(r, w, 500, "Something went wrong", fmt.Errorf("handlerUpdateRecipe transaction failed: %v", err))
 		return
 	}
 
@@ -460,8 +487,24 @@ func (cfg *ApiConfig) handlerDeleteRecipe(w http.ResponseWriter, r *http.Request
 	}
 
 	// Valid request - delete from database
-	if err := cfg.DB.DeleteRecipe(r.Context(), recipe_id); err != nil {
-		respondFail(r, w, 404, "Couldn't delete recipe", fmt.Errorf("Failed to delete recipe: %v", err))
+	err = cfg.withTx(r.Context(), func(qtx *database.Queries) error {
+		if err := qtx.DeleteRecipe(r.Context(), recipe_id); err != nil {
+			return err
+		}
+	})
+	if err != nil {
+		var pqErr *pq.Error
+		if errors.As(err, &pqErr) {
+			switch pqErr.Code {
+			case "23503":
+				respondFail(r, w, 400, "Bad request", fmt.Errorf("handlerDeleteRecipe --- invalid foreign key: %v", err))
+				return
+			case "23505":
+				respondFail(r, w, 400, "Bad request", fmt.Errorf("handlerDeleteRecipe --- duplicate value: %v", err))
+				return
+			}
+		}
+		respondFail(r, w, 500, "Something went wrong", fmt.Errorf("handlerDeleteRecipe transaction failed: %v", err))
 		return
 	}
 
