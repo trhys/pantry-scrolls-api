@@ -130,6 +130,7 @@ func (cfg *ApiConfig) handlerCreateRecipe(w http.ResponseWriter, r *http.Request
 		return
 	}
 
+	var recipeID uuid.UUID
 	// Begin write tx
 	err = cfg.withTx(r.Context(), func(qtx *database.Queries) error {
 		query := database.CreateRecipeParams{
