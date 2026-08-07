@@ -25,7 +25,7 @@ func verifyIngredients(ings []recipeIngredientInput) error {
 	}
 	
 	for _, i := range ings {
-		if i.Quantity == 0 | i.Unit == "" {
+		if i.Quantity == 0 || i.Unit == "" {
 			return fmt.Errorf("Unset quantity or unit in ingredients")
 		}
 	}
