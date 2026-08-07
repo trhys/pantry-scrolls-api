@@ -203,9 +203,14 @@ func (cfg *ApiConfig) handlerGetRecipeEdit(w http.ResponseWriter, r *http.Reques
 
 	requesterID, _ := requesterUserID(r)
 
+	// Verify ownership and check record exists
 	owner, err := cfg.DB.GetRecipeOwner(r.Context(), recipe_id)
 	if err != nil || owner != requesterID {
-		respondFail(r, w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %v", requesterID))
+		if errors.Is(err, sql.ErrNoRows) {
+			respondFail(r, w, 404, "No recipe found", fmt.Errorf("No recipe found @ID: %v", recipe_id))
+			return
+		}
+		respondFail(r, w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
 		return
 	}
 
@@ -349,9 +354,13 @@ func (cfg *ApiConfig) handlerUpdateRecipe(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	// Verify ownership
+	// Verify ownership and check record exists
 	owner, err := cfg.DB.GetRecipeOwner(r.Context(), recipe_id)
 	if err != nil || owner != requesterID {
+		if errors.Is(err, sql.ErrNoRows) {
+			respondFail(r, w, 404, "No recipe found", fmt.Errorf("No recipe found @ID: %v", recipe_id))
+			return
+		}
 		respondFail(r, w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
 		return
 	}
@@ -511,9 +520,13 @@ func (cfg *ApiConfig) handlerDeleteRecipe(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	// Verify ownership
+	// Verify ownership and check record exists
 	owner, err := cfg.DB.GetRecipeOwner(r.Context(), recipe_id)
 	if err != nil || owner != requesterID {
+		if errors.Is(err, sql.ErrNoRows) {
+			respondFail(r, w, 404, "No recipe found", fmt.Errorf("No recipe found @ID: %v", recipe_id))
+			return
+		}
 		respondFail(r, w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
 		return
 	}
@@ -638,6 +651,9 @@ func (cfg *ApiConfig) handlerLikeRecipe(w http.ResponseWriter, r *http.Request) 
 				respondFail(r, w, 500, "something went wrong", fmt.Errorf("Query Failure (UnlikeRecipe): %v", err))
 				return
 			}
+		} else if errors.Is(err, sql.ErrNoRows) {
+			respondFail(r, w, 404, "No recipe found", fmt.Errorf("No recipe found @ID: %v", recipe_id))
+			return
 		} else {
 			respondFail(r, w, 500, "something went wrong", fmt.Errorf("Query Failure (LikeRecipe): %v", err))
 			return
