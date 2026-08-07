@@ -11,6 +11,22 @@ import (
 	"github.com/google/uuid"
 )
 
+const addCategory = `-- name: AddCategory :exec
+UPDATE ingredients
+SET category = $1
+WHERE name = $2
+`
+
+type AddCategoryParams struct {
+	Category string
+	Name     string
+}
+
+func (q *Queries) AddCategory(ctx context.Context, arg AddCategoryParams) error {
+	_, err := q.db.ExecContext(ctx, addCategory, arg.Category, arg.Name)
+	return err
+}
+
 const createIngredient = `-- name: CreateIngredient :one
 INSERT INTO ingredients (id, name, image_key, created_at, updated_at)
 VALUES (
@@ -19,7 +35,7 @@ VALUES (
 	$2,
 	NOW(),
 	NOW()
-) RETURNING id, name, image_key, created_at, updated_at
+) RETURNING id, name, image_key, created_at, updated_at, category
 `
 
 type CreateIngredientParams struct {
@@ -36,8 +52,44 @@ func (q *Queries) CreateIngredient(ctx context.Context, arg CreateIngredientPara
 		&i.ImageKey,
 		&i.CreatedAt,
 		&i.UpdatedAt,
+		&i.Category,
 	)
 	return i, err
+}
+
+const getCategory = `-- name: GetCategory :many
+SELECT id, name, image_key, created_at, updated_at, category FROM ingredients
+WHERE category = $1
+`
+
+func (q *Queries) GetCategory(ctx context.Context, category string) ([]Ingredient, error) {
+	rows, err := q.db.QueryContext(ctx, getCategory, category)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Ingredient
+	for rows.Next() {
+		var i Ingredient
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.ImageKey,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.Category,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }
 
 const getIngredientFromName = `-- name: GetIngredientFromName :one

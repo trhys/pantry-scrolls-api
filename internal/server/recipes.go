@@ -482,13 +482,11 @@ func (cfg *ApiConfig) handlerExploreFeed(w http.ResponseWriter, r *http.Request)
 		respondFail(r, w, 400, "Bad request", err)
 		return
 	}
-
-	// todo: 
-	//tag, err := util.SanitizeSearchQuery(queryParams.Get("tag"))
-	//if err != nil {
-	//	respondFail(r, w, 400, "Bad request", err)
-	//	return
-	//}
+	// tag, err := util.SanitizeSearchQuery(queryParams.Get("tag"))
+	// if err != nil {
+	// 	respondFail(r, w, 400, "Bad request", err)
+	// 	return
+	// }
 
 	requesterID, ok := requesterUserID(r)
 
@@ -507,6 +505,7 @@ func (cfg *ApiConfig) handlerExploreFeed(w http.ResponseWriter, r *http.Request)
 			return
 		}
 		respondJSON(w, 200, cfg.Vmf.GenerateRecipeViewModel(feed, nil))
+        return
 	} else if author != "" {
 		if ok {
 			feed, err = cfg.DB.GetAuthedRecipesFromAuthorQuery(r.Context(), database.GetAuthedRecipesFromAuthorQueryParams{
@@ -521,6 +520,7 @@ func (cfg *ApiConfig) handlerExploreFeed(w http.ResponseWriter, r *http.Request)
 			return
 		}
 		respondJSON(w, 200, cfg.Vmf.GenerateRecipeViewModel(feed, nil))
+        return
 	} else {
 		if ok {
 			feed, err = cfg.DB.GetAuthedRecipesFromNilQuery(r.Context(), requesterID)

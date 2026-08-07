@@ -30,6 +30,7 @@ type Ingredient struct {
 	ImageKey  string
 	CreatedAt time.Time
 	UpdatedAt time.Time
+	Category  string
 }
 
 type IngredientRetailUnit struct {
