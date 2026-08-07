@@ -76,6 +76,10 @@ func (q *Queries) DeleteRecipe(ctx context.Context, id uuid.UUID) error {
 const getAuthedRecipe = `-- name: GetAuthedRecipe :one
 SELECT recipes.id, recipes.title, recipes.author, recipes.description, recipes.instructions, recipes.image_key, recipes.created_at, recipes.updated_at, recipes.user_id,
 	COUNT(recipe_likes.user_id) AS likes,
+	COALESCE(
+		(SELECT ARRAY_AGG(tag ORDER BY tag) FROM recipe_tags WHERE recipe_tags.recipe_id = recipes.id),
+		ARRAY[]::text[]
+	) AS tags,
 	EXISTS(
 		SELECT 1 FROM recipe_likes AS requester_likes
 		WHERE requester_likes.recipe_id = recipes.id
@@ -103,6 +107,7 @@ type GetAuthedRecipeRow struct {
 	UpdatedAt    time.Time
 	UserID       uuid.UUID
 	Likes        int64
+	Tags         interface{}
 	Liked        bool
 }
 
@@ -120,6 +125,7 @@ func (q *Queries) GetAuthedRecipe(ctx context.Context, arg GetAuthedRecipeParams
 		&i.UpdatedAt,
 		&i.UserID,
 		&i.Likes,
+		&i.Tags,
 		&i.Liked,
 	)
 	return i, err
@@ -128,6 +134,10 @@ func (q *Queries) GetAuthedRecipe(ctx context.Context, arg GetAuthedRecipeParams
 const getAuthedRecipeList = `-- name: GetAuthedRecipeList :many
 SELECT recipes.id, recipes.title, recipes.author, recipes.description, recipes.instructions, recipes.image_key, recipes.created_at, recipes.updated_at, recipes.user_id,
 	COUNT(recipe_likes.user_id) AS likes,
+	COALESCE(
+		(SELECT ARRAY_AGG(tag ORDER BY tag) FROM recipe_tags WHERE recipe_tags.recipe_id = recipes.id),
+		ARRAY[]::text[]
+	) AS tags,
 	EXISTS(
 		SELECT 1 FROM recipe_likes AS requester_likes
 		WHERE requester_likes.recipe_id = recipes.id
@@ -151,6 +161,7 @@ type GetAuthedRecipeListRow struct {
 	UpdatedAt    time.Time
 	UserID       uuid.UUID
 	Likes        int64
+	Tags         interface{}
 	Liked        bool
 }
 
@@ -174,6 +185,82 @@ func (q *Queries) GetAuthedRecipeList(ctx context.Context, userID uuid.UUID) ([]
 			&i.UpdatedAt,
 			&i.UserID,
 			&i.Likes,
+			&i.Tags,
+			&i.Liked,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getAuthedRecipesFromAuthorQuery = `-- name: GetAuthedRecipesFromAuthorQuery :many
+SELECT recipes.id, recipes.title, recipes.author, recipes.description, recipes.instructions, recipes.image_key, recipes.created_at, recipes.updated_at, recipes.user_id,
+	COUNT(recipe_likes.user_id) AS likes,
+	COALESCE(
+		(SELECT ARRAY_AGG(tag ORDER BY tag) FROM recipe_tags WHERE recipe_tags.recipe_id = recipes.id),
+		ARRAY[]::text[]
+	) AS tags,
+	EXISTS(
+		SELECT 1 FROM recipe_likes AS requester_likes
+		WHERE requester_likes.recipe_id = recipes.id
+		AND requester_likes.user_id = $1
+	) AS liked
+FROM recipes
+LEFT JOIN recipe_likes ON recipe_likes.recipe_id = recipes.id
+WHERE LOWER(author) LIKE '%' || $2::text || '%'
+GROUP BY recipes.id
+LIMIT 50
+`
+
+type GetAuthedRecipesFromAuthorQueryParams struct {
+	UserID uuid.UUID
+	Query  string
+}
+
+type GetAuthedRecipesFromAuthorQueryRow struct {
+	ID           uuid.UUID
+	Title        string
+	Author       string
+	Description  string
+	Instructions string
+	ImageKey     string
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
+	UserID       uuid.UUID
+	Likes        int64
+	Tags         interface{}
+	Liked        bool
+}
+
+func (q *Queries) GetAuthedRecipesFromAuthorQuery(ctx context.Context, arg GetAuthedRecipesFromAuthorQueryParams) ([]GetAuthedRecipesFromAuthorQueryRow, error) {
+	rows, err := q.db.QueryContext(ctx, getAuthedRecipesFromAuthorQuery, arg.UserID, arg.Query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []GetAuthedRecipesFromAuthorQueryRow
+	for rows.Next() {
+		var i GetAuthedRecipesFromAuthorQueryRow
+		if err := rows.Scan(
+			&i.ID,
+			&i.Title,
+			&i.Author,
+			&i.Description,
+			&i.Instructions,
+			&i.ImageKey,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.UserID,
+			&i.Likes,
+			&i.Tags,
 			&i.Liked,
 		); err != nil {
 			return nil, err
@@ -192,6 +279,10 @@ func (q *Queries) GetAuthedRecipeList(ctx context.Context, userID uuid.UUID) ([]
 const getAuthedRecipesFromNilQuery = `-- name: GetAuthedRecipesFromNilQuery :many
 SELECT recipes.id, recipes.title, recipes.author, recipes.description, recipes.instructions, recipes.image_key, recipes.created_at, recipes.updated_at, recipes.user_id,
 	COUNT(recipe_likes.user_id) AS likes,
+	COALESCE(
+		(SELECT ARRAY_AGG(tag ORDER BY tag) FROM recipe_tags WHERE recipe_tags.recipe_id = recipes.id),
+		ARRAY[]::text[]
+	) AS tags,
 	EXISTS(
 		SELECT 1 FROM recipe_likes AS requester_likes
 		WHERE requester_likes.recipe_id = recipes.id
@@ -215,6 +306,7 @@ type GetAuthedRecipesFromNilQueryRow struct {
 	UpdatedAt    time.Time
 	UserID       uuid.UUID
 	Likes        int64
+	Tags         interface{}
 	Liked        bool
 }
 
@@ -238,6 +330,7 @@ func (q *Queries) GetAuthedRecipesFromNilQuery(ctx context.Context, userID uuid.
 			&i.UpdatedAt,
 			&i.UserID,
 			&i.Likes,
+			&i.Tags,
 			&i.Liked,
 		); err != nil {
 			return nil, err
@@ -253,9 +346,14 @@ func (q *Queries) GetAuthedRecipesFromNilQuery(ctx context.Context, userID uuid.
 	return items, nil
 }
 
-const getAuthedRecipesFromQuery = `-- name: GetAuthedRecipesFromQuery :many
+const getAuthedRecipesFromTitleQuery = `-- name: GetAuthedRecipesFromTitleQuery :many
+
 SELECT recipes.id, recipes.title, recipes.author, recipes.description, recipes.instructions, recipes.image_key, recipes.created_at, recipes.updated_at, recipes.user_id,
 	COUNT(recipe_likes.user_id) AS likes,
+	COALESCE(
+		(SELECT ARRAY_AGG(tag ORDER BY tag) FROM recipe_tags WHERE recipe_tags.recipe_id = recipes.id),
+		ARRAY[]::text[]
+	) AS tags,
 	EXISTS(
 		SELECT 1 FROM recipe_likes AS requester_likes
 		WHERE requester_likes.recipe_id = recipes.id
@@ -268,12 +366,12 @@ GROUP BY recipes.id
 LIMIT 50
 `
 
-type GetAuthedRecipesFromQueryParams struct {
+type GetAuthedRecipesFromTitleQueryParams struct {
 	UserID uuid.UUID
 	Query  string
 }
 
-type GetAuthedRecipesFromQueryRow struct {
+type GetAuthedRecipesFromTitleQueryRow struct {
 	ID           uuid.UUID
 	Title        string
 	Author       string
@@ -284,18 +382,20 @@ type GetAuthedRecipesFromQueryRow struct {
 	UpdatedAt    time.Time
 	UserID       uuid.UUID
 	Likes        int64
+	Tags         interface{}
 	Liked        bool
 }
 
-func (q *Queries) GetAuthedRecipesFromQuery(ctx context.Context, arg GetAuthedRecipesFromQueryParams) ([]GetAuthedRecipesFromQueryRow, error) {
-	rows, err := q.db.QueryContext(ctx, getAuthedRecipesFromQuery, arg.UserID, arg.Query)
+// authed queries
+func (q *Queries) GetAuthedRecipesFromTitleQuery(ctx context.Context, arg GetAuthedRecipesFromTitleQueryParams) ([]GetAuthedRecipesFromTitleQueryRow, error) {
+	rows, err := q.db.QueryContext(ctx, getAuthedRecipesFromTitleQuery, arg.UserID, arg.Query)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []GetAuthedRecipesFromQueryRow
+	var items []GetAuthedRecipesFromTitleQueryRow
 	for rows.Next() {
-		var i GetAuthedRecipesFromQueryRow
+		var i GetAuthedRecipesFromTitleQueryRow
 		if err := rows.Scan(
 			&i.ID,
 			&i.Title,
@@ -307,6 +407,7 @@ func (q *Queries) GetAuthedRecipesFromQuery(ctx context.Context, arg GetAuthedRe
 			&i.UpdatedAt,
 			&i.UserID,
 			&i.Likes,
+			&i.Tags,
 			&i.Liked,
 		); err != nil {
 			return nil, err
@@ -325,6 +426,10 @@ func (q *Queries) GetAuthedRecipesFromQuery(ctx context.Context, arg GetAuthedRe
 const getAuthedUsersRecipes = `-- name: GetAuthedUsersRecipes :many
 SELECT recipes.id, recipes.title, recipes.author, recipes.description, recipes.instructions, recipes.image_key, recipes.created_at, recipes.updated_at, recipes.user_id,
 	COUNT(recipe_likes.user_id) AS likes,
+	COALESCE(
+		(SELECT ARRAY_AGG(tag ORDER BY tag) FROM recipe_tags WHERE recipe_tags.recipe_id = recipes.id),
+		ARRAY[]::text[]
+	) AS tags,
 	EXISTS(
 		SELECT 1 FROM recipe_likes AS requester_likes
 		WHERE requester_likes.recipe_id = recipes.id
@@ -353,6 +458,7 @@ type GetAuthedUsersRecipesRow struct {
 	UpdatedAt    time.Time
 	UserID       uuid.UUID
 	Likes        int64
+	Tags         interface{}
 	Liked        bool
 }
 
@@ -376,6 +482,7 @@ func (q *Queries) GetAuthedUsersRecipes(ctx context.Context, arg GetAuthedUsersR
 			&i.UpdatedAt,
 			&i.UserID,
 			&i.Likes,
+			&i.Tags,
 			&i.Liked,
 		); err != nil {
 			return nil, err
@@ -392,7 +499,13 @@ func (q *Queries) GetAuthedUsersRecipes(ctx context.Context, arg GetAuthedUsersR
 }
 
 const getRecipe = `-- name: GetRecipe :one
-SELECT recipes.id, recipes.title, recipes.author, recipes.description, recipes.instructions, recipes.image_key, recipes.created_at, recipes.updated_at, recipes.user_id, COUNT(recipe_likes.user_id) AS likes FROM recipes
+SELECT recipes.id, recipes.title, recipes.author, recipes.description, recipes.instructions, recipes.image_key, recipes.created_at, recipes.updated_at, recipes.user_id,
+	COUNT(recipe_likes.user_id) AS likes,
+	COALESCE(
+		(SELECT ARRAY_AGG(tag ORDER BY tag) FROM recipe_tags WHERE recipe_tags.recipe_id = recipes.id),
+		ARRAY[]::text[]
+	) AS tags
+FROM recipes
 LEFT JOIN recipe_likes ON recipe_likes.recipe_id = recipes.id
 WHERE recipes.id = $1
 GROUP BY recipes.id
@@ -409,6 +522,7 @@ type GetRecipeRow struct {
 	UpdatedAt    time.Time
 	UserID       uuid.UUID
 	Likes        int64
+	Tags         interface{}
 }
 
 func (q *Queries) GetRecipe(ctx context.Context, id uuid.UUID) (GetRecipeRow, error) {
@@ -425,6 +539,7 @@ func (q *Queries) GetRecipe(ctx context.Context, id uuid.UUID) (GetRecipeRow, er
 		&i.UpdatedAt,
 		&i.UserID,
 		&i.Likes,
+		&i.Tags,
 	)
 	return i, err
 }
@@ -442,7 +557,13 @@ func (q *Queries) GetRecipeImageKey(ctx context.Context, id uuid.UUID) (string, 
 }
 
 const getRecipeList = `-- name: GetRecipeList :many
-SELECT recipes.id, recipes.title, recipes.author, recipes.description, recipes.instructions, recipes.image_key, recipes.created_at, recipes.updated_at, recipes.user_id, COUNT(recipe_likes.user_id) AS likes FROM recipes
+SELECT recipes.id, recipes.title, recipes.author, recipes.description, recipes.instructions, recipes.image_key, recipes.created_at, recipes.updated_at, recipes.user_id,
+	COUNT(recipe_likes.user_id) AS likes,
+	COALESCE(
+		(SELECT ARRAY_AGG(tag ORDER BY tag) FROM recipe_tags WHERE recipe_tags.recipe_id = recipes.id),
+		ARRAY[]::text[]
+	) AS tags
+FROM recipes
 LEFT JOIN recipe_likes ON recipe_likes.recipe_id = recipes.id
 GROUP BY recipes.id
 ORDER BY likes DESC
@@ -460,6 +581,7 @@ type GetRecipeListRow struct {
 	UpdatedAt    time.Time
 	UserID       uuid.UUID
 	Likes        int64
+	Tags         interface{}
 }
 
 func (q *Queries) GetRecipeList(ctx context.Context) ([]GetRecipeListRow, error) {
@@ -482,6 +604,7 @@ func (q *Queries) GetRecipeList(ctx context.Context) ([]GetRecipeListRow, error)
 			&i.UpdatedAt,
 			&i.UserID,
 			&i.Likes,
+			&i.Tags,
 		); err != nil {
 			return nil, err
 		}
@@ -508,8 +631,77 @@ func (q *Queries) GetRecipeOwner(ctx context.Context, id uuid.UUID) (uuid.UUID, 
 	return user_id, err
 }
 
+const getRecipesFromAuthorQuery = `-- name: GetRecipesFromAuthorQuery :many
+SELECT recipes.id, recipes.title, recipes.author, recipes.description, recipes.instructions, recipes.image_key, recipes.created_at, recipes.updated_at, recipes.user_id,
+	COUNT(recipe_likes.user_id) AS likes,
+	COALESCE(
+		(SELECT ARRAY_AGG(tag ORDER BY tag) FROM recipe_tags WHERE recipe_tags.recipe_id = recipes.id),
+		ARRAY[]::text[]
+	) AS tags
+FROM recipes
+LEFT JOIN recipe_likes ON recipe_likes.recipe_id = recipes.id
+WHERE LOWER(author) LIKE '%' || $1::text || '%'
+GROUP BY recipes.id
+LIMIT 50
+`
+
+type GetRecipesFromAuthorQueryRow struct {
+	ID           uuid.UUID
+	Title        string
+	Author       string
+	Description  string
+	Instructions string
+	ImageKey     string
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
+	UserID       uuid.UUID
+	Likes        int64
+	Tags         interface{}
+}
+
+func (q *Queries) GetRecipesFromAuthorQuery(ctx context.Context, dollar_1 string) ([]GetRecipesFromAuthorQueryRow, error) {
+	rows, err := q.db.QueryContext(ctx, getRecipesFromAuthorQuery, dollar_1)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []GetRecipesFromAuthorQueryRow
+	for rows.Next() {
+		var i GetRecipesFromAuthorQueryRow
+		if err := rows.Scan(
+			&i.ID,
+			&i.Title,
+			&i.Author,
+			&i.Description,
+			&i.Instructions,
+			&i.ImageKey,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.UserID,
+			&i.Likes,
+			&i.Tags,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getRecipesFromNilQuery = `-- name: GetRecipesFromNilQuery :many
-SELECT recipes.id, recipes.title, recipes.author, recipes.description, recipes.instructions, recipes.image_key, recipes.created_at, recipes.updated_at, recipes.user_id, COUNT(recipe_likes.user_id) AS likes FROM recipes
+SELECT recipes.id, recipes.title, recipes.author, recipes.description, recipes.instructions, recipes.image_key, recipes.created_at, recipes.updated_at, recipes.user_id,
+	COUNT(recipe_likes.user_id) AS likes,
+	COALESCE(
+		(SELECT ARRAY_AGG(tag ORDER BY tag) FROM recipe_tags WHERE recipe_tags.recipe_id = recipes.id),
+		ARRAY[]::text[]
+	) AS tags
+FROM recipes
 LEFT JOIN recipe_likes ON recipe_likes.recipe_id = recipes.id
 GROUP BY recipes.id
 ORDER BY created_at DESC
@@ -527,6 +719,7 @@ type GetRecipesFromNilQueryRow struct {
 	UpdatedAt    time.Time
 	UserID       uuid.UUID
 	Likes        int64
+	Tags         interface{}
 }
 
 func (q *Queries) GetRecipesFromNilQuery(ctx context.Context) ([]GetRecipesFromNilQueryRow, error) {
@@ -549,6 +742,7 @@ func (q *Queries) GetRecipesFromNilQuery(ctx context.Context) ([]GetRecipesFromN
 			&i.UpdatedAt,
 			&i.UserID,
 			&i.Likes,
+			&i.Tags,
 		); err != nil {
 			return nil, err
 		}
@@ -563,15 +757,22 @@ func (q *Queries) GetRecipesFromNilQuery(ctx context.Context) ([]GetRecipesFromN
 	return items, nil
 }
 
-const getRecipesFromQuery = `-- name: GetRecipesFromQuery :many
-SELECT recipes.id, recipes.title, recipes.author, recipes.description, recipes.instructions, recipes.image_key, recipes.created_at, recipes.updated_at, recipes.user_id, COUNT(recipe_likes.user_id) AS likes FROM recipes
+const getRecipesFromTitleQuery = `-- name: GetRecipesFromTitleQuery :many
+
+SELECT recipes.id, recipes.title, recipes.author, recipes.description, recipes.instructions, recipes.image_key, recipes.created_at, recipes.updated_at, recipes.user_id,
+	COUNT(recipe_likes.user_id) AS likes,
+	COALESCE(
+		(SELECT ARRAY_AGG(tag ORDER BY tag) FROM recipe_tags WHERE recipe_tags.recipe_id = recipes.id),
+		ARRAY[]::text[]
+	) AS tags
+FROM recipes
 LEFT JOIN recipe_likes ON recipe_likes.recipe_id = recipes.id
 WHERE LOWER(title) LIKE '%' || $1::text || '%'
 GROUP BY recipes.id
 LIMIT 50
 `
 
-type GetRecipesFromQueryRow struct {
+type GetRecipesFromTitleQueryRow struct {
 	ID           uuid.UUID
 	Title        string
 	Author       string
@@ -582,17 +783,19 @@ type GetRecipesFromQueryRow struct {
 	UpdatedAt    time.Time
 	UserID       uuid.UUID
 	Likes        int64
+	Tags         interface{}
 }
 
-func (q *Queries) GetRecipesFromQuery(ctx context.Context, dollar_1 string) ([]GetRecipesFromQueryRow, error) {
-	rows, err := q.db.QueryContext(ctx, getRecipesFromQuery, dollar_1)
+// unauthed queries
+func (q *Queries) GetRecipesFromTitleQuery(ctx context.Context, dollar_1 string) ([]GetRecipesFromTitleQueryRow, error) {
+	rows, err := q.db.QueryContext(ctx, getRecipesFromTitleQuery, dollar_1)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []GetRecipesFromQueryRow
+	var items []GetRecipesFromTitleQueryRow
 	for rows.Next() {
-		var i GetRecipesFromQueryRow
+		var i GetRecipesFromTitleQueryRow
 		if err := rows.Scan(
 			&i.ID,
 			&i.Title,
@@ -604,6 +807,7 @@ func (q *Queries) GetRecipesFromQuery(ctx context.Context, dollar_1 string) ([]G
 			&i.UpdatedAt,
 			&i.UserID,
 			&i.Likes,
+			&i.Tags,
 		); err != nil {
 			return nil, err
 		}
@@ -630,7 +834,13 @@ func (q *Queries) GetTotalRecipes(ctx context.Context) (int64, error) {
 }
 
 const getUsersRecipes = `-- name: GetUsersRecipes :many
-SELECT recipes.id, recipes.title, recipes.author, recipes.description, recipes.instructions, recipes.image_key, recipes.created_at, recipes.updated_at, recipes.user_id, COUNT(recipe_likes.user_id) AS likes FROM recipes
+SELECT recipes.id, recipes.title, recipes.author, recipes.description, recipes.instructions, recipes.image_key, recipes.created_at, recipes.updated_at, recipes.user_id,
+	COUNT(recipe_likes.user_id) AS likes,
+	COALESCE(
+		(SELECT ARRAY_AGG(tag ORDER BY tag) FROM recipe_tags WHERE recipe_tags.recipe_id = recipes.id),
+		ARRAY[]::text[]
+	) AS tags
+FROM recipes
 LEFT JOIN recipe_likes ON recipe_likes.recipe_id = recipes.id
 WHERE recipes.user_id = $1
 GROUP BY recipes.id
@@ -648,6 +858,7 @@ type GetUsersRecipesRow struct {
 	UpdatedAt    time.Time
 	UserID       uuid.UUID
 	Likes        int64
+	Tags         interface{}
 }
 
 func (q *Queries) GetUsersRecipes(ctx context.Context, userID uuid.UUID) ([]GetUsersRecipesRow, error) {
@@ -670,6 +881,7 @@ func (q *Queries) GetUsersRecipes(ctx context.Context, userID uuid.UUID) ([]GetU
 			&i.UpdatedAt,
 			&i.UserID,
 			&i.Likes,
+			&i.Tags,
 		); err != nil {
 			return nil, err
 		}

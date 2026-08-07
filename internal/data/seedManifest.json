@@ -1388,7 +1388,8 @@
       "retail_units": [
         "Bag (2lb)",
         "Bag (4lb)"
-      ]
+      ],
+      "category": "Baking & Flours"
     },
     {
       "name": "Light Brown Sugar",
@@ -1432,7 +1433,8 @@
       "retail_units": [
         "Bag (2lb)",
         "Bag (4lb)"
-      ]
+      ],
+      "category": "Baking & Flours"
     },
     {
       "name": "Dark Brown Sugar",
@@ -1476,7 +1478,8 @@
       "retail_units": [
         "Bag (2lb)",
         "Bag (4lb)"
-      ]
+      ],
+      "category": "Baking & Flours"
     },
     {
       "name": "Granulated Sugar",
@@ -1520,7 +1523,8 @@
       "retail_units": [
         "Bag (4lb)",
         "Bag (2lb)"
-      ]
+      ],
+      "category": "Baking & Flours"
     },
     {
       "name": "Powdered Sugar",
@@ -1564,7 +1568,8 @@
       "retail_units": [
         "Bag (2lb)",
         "Bag (4lb)"
-      ]
+      ],
+      "category": "Baking & Flours"
     },
     {
       "name": "All-Purpose Flour",
@@ -1608,7 +1613,8 @@
       "retail_units": [
         "Bag (5lb)",
         "Bag (2lb)"
-      ]
+      ],
+      "category": "Baking & Flours"
     },
     {
       "name": "Bread Flour",
@@ -1651,7 +1657,8 @@
       ],
       "retail_units": [
         "Bag (5lb)"
-      ]
+      ],
+      "category": "Baking & Flours"
     },
     {
       "name": "Whole Wheat Flour",
@@ -1694,7 +1701,8 @@
       ],
       "retail_units": [
         "Bag (5lb)"
-      ]
+      ],
+      "category": "Baking & Flours"
     },
     {
       "name": "Almond Flour",
@@ -1738,7 +1746,8 @@
       "retail_units": [
         "Bag (1lb)",
         "Bag (2lb)"
-      ]
+      ],
+      "category": "Baking & Flours"
     },
     {
       "name": "Coconut Flour",
@@ -1781,7 +1790,8 @@
       ],
       "retail_units": [
         "Bag (1lb)"
-      ]
+      ],
+      "category": "Baking & Flours"
     },
     {
       "name": "Cornmeal",
@@ -1824,7 +1834,8 @@
       ],
       "retail_units": [
         "Bag (24oz)"
-      ]
+      ],
+      "category": "Baking & Flours"
     },
     {
       "name": "Tapioca Starch",
@@ -1867,7 +1878,8 @@
       ],
       "retail_units": [
         "Bag (20oz)"
-      ]
+      ],
+      "category": "Baking & Flours"
     },
     {
       "name": "Corn Starch",
@@ -1916,7 +1928,8 @@
       "retail_units": [
         "Container (16oz)",
         "Canister (16oz)"
-      ]
+      ],
+      "category": "Baking & Flours"
     },
     {
       "name": "Cocoa Powder",
@@ -1959,7 +1972,8 @@
       ],
       "retail_units": [
         "Canister (8oz)"
-      ]
+      ],
+      "category": "Baking & Flours"
     },
     {
       "name": "Rolled Oats",
@@ -2008,7 +2022,8 @@
       "retail_units": [
         "Canister (18oz)",
         "Bag (2lb)"
-      ]
+      ],
+      "category": "Grains, Rice & Pasta"
     },
     {
       "name": "Long Grain White Rice",
@@ -2052,7 +2067,8 @@
       "retail_units": [
         "Bag (2lb)",
         "Bag (5lb)"
-      ]
+      ],
+      "category": "Grains, Rice & Pasta"
     },
     {
       "name": "Brown Rice",
@@ -2096,7 +2112,8 @@
       "retail_units": [
         "Bag (2lb)",
         "Bag (5lb)"
-      ]
+      ],
+      "category": "Grains, Rice & Pasta"
     },
     {
       "name": "Jasmine Rice",
@@ -2140,7 +2157,8 @@
       "retail_units": [
         "Bag (2lb)",
         "Bag (5lb)"
-      ]
+      ],
+      "category": "Grains, Rice & Pasta"
     },
     {
       "name": "Basmati Rice",
@@ -2184,7 +2202,8 @@
       "retail_units": [
         "Bag (2lb)",
         "Bag (5lb)"
-      ]
+      ],
+      "category": "Grains, Rice & Pasta"
     },
     {
       "name": "Arborio Rice",
@@ -2227,7 +2246,8 @@
       ],
       "retail_units": [
         "Bag (2lb)"
-      ]
+      ],
+      "category": "Grains, Rice & Pasta"
     },
     {
       "name": "Quinoa",
@@ -2271,7 +2291,8 @@
       "retail_units": [
         "Bag (1lb)",
         "Bag (2lb)"
-      ]
+      ],
+      "category": "Grains, Rice & Pasta"
     },
     {
       "name": "Farro",
@@ -2314,7 +2335,8 @@
       ],
       "retail_units": [
         "Bag (1lb)"
-      ]
+      ],
+      "category": "Grains, Rice & Pasta"
     },
     {
       "name": "Barley",
@@ -2357,7 +2379,8 @@
       ],
       "retail_units": [
         "Bag (1lb)"
-      ]
+      ],
+      "category": "Grains, Rice & Pasta"
     },
     {
       "name": "Couscous",
@@ -2400,7 +2423,8 @@
       ],
       "retail_units": [
         "Box (10oz)"
-      ]
+      ],
+      "category": "Grains, Rice & Pasta"
     },
     {
       "name": "Breadcrumbs",
@@ -2443,7 +2467,8 @@
       ],
       "retail_units": [
         "Canister (15oz)"
-      ]
+      ],
+      "category": "Grains, Rice & Pasta"
     },
     {
       "name": "Panko Breadcrumbs",
@@ -2486,7 +2511,8 @@
       ],
       "retail_units": [
         "Box (8oz)"
-      ]
+      ],
+      "category": "Grains, Rice & Pasta"
     },
     {
       "name": "Spaghetti",
@@ -2514,7 +2540,8 @@
       ],
       "retail_units": [
         "Box (1lb)"
-      ]
+      ],
+      "category": "Grains, Rice & Pasta"
     },
     {
       "name": "Penne Pasta",
@@ -2557,7 +2584,8 @@
       ],
       "retail_units": [
         "Box (1lb)"
-      ]
+      ],
+      "category": "Grains, Rice & Pasta"
     },
     {
       "name": "Elbow Pasta",
@@ -2600,7 +2628,8 @@
       ],
       "retail_units": [
         "Box (1lb)"
-      ]
+      ],
+      "category": "Grains, Rice & Pasta"
     },
     {
       "name": "Rotini Pasta",
@@ -2643,7 +2672,8 @@
       ],
       "retail_units": [
         "Box (1lb)"
-      ]
+      ],
+      "category": "Grains, Rice & Pasta"
     },
     {
       "name": "Fettuccine",
@@ -2671,7 +2701,8 @@
       ],
       "retail_units": [
         "Box (1lb)"
-      ]
+      ],
+      "category": "Grains, Rice & Pasta"
     },
     {
       "name": "Lasagna Noodles",
@@ -2704,7 +2735,8 @@
       ],
       "retail_units": [
         "Box (1lb)"
-      ]
+      ],
+      "category": "Grains, Rice & Pasta"
     },
     {
       "name": "Linguine",
@@ -2732,7 +2764,8 @@
       ],
       "retail_units": [
         "Box (1lb)"
-      ]
+      ],
+      "category": "Grains, Rice & Pasta"
     },
     {
       "name": "Rigatoni",
@@ -2775,7 +2808,8 @@
       ],
       "retail_units": [
         "Box (1lb)"
-      ]
+      ],
+      "category": "Grains, Rice & Pasta"
     },
     {
       "name": "Orzo",
@@ -2818,7 +2852,8 @@
       ],
       "retail_units": [
         "Box (1lb)"
-      ]
+      ],
+      "category": "Grains, Rice & Pasta"
     },
     {
       "name": "Ditalini Pasta",
@@ -2861,7 +2896,8 @@
       ],
       "retail_units": [
         "Box (1lb)"
-      ]
+      ],
+      "category": "Grains, Rice & Pasta"
     },
     {
       "name": "Egg Noodles",
@@ -2904,7 +2940,8 @@
       ],
       "retail_units": [
         "Bag (12oz)"
-      ]
+      ],
+      "category": "Grains, Rice & Pasta"
     },
     {
       "name": "Rice Noodles",
@@ -2953,7 +2990,8 @@
       "retail_units": [
         "Pack (14oz)",
         "Bag (1lb)"
-      ]
+      ],
+      "category": "Grains, Rice & Pasta"
     },
     {
       "name": "Black Beans",
@@ -3003,7 +3041,8 @@
         "Can (15oz)",
         "Can (28oz)",
         "Bag (1lb)"
-      ]
+      ],
+      "category": "Legumes & Beans"
     },
     {
       "name": "Pinto Beans",
@@ -3052,7 +3091,8 @@
       "retail_units": [
         "Can (15oz)",
         "Bag (1lb)"
-      ]
+      ],
+      "category": "Legumes & Beans"
     },
     {
       "name": "Chickpeas",
@@ -3101,7 +3141,8 @@
       "retail_units": [
         "Can (15oz)",
         "Bag (1lb)"
-      ]
+      ],
+      "category": "Legumes & Beans"
     },
     {
       "name": "Kidney Beans",
@@ -3150,7 +3191,8 @@
       "retail_units": [
         "Can (15oz)",
         "Bag (1lb)"
-      ]
+      ],
+      "category": "Legumes & Beans"
     },
     {
       "name": "Cannellini Beans",
@@ -3199,7 +3241,8 @@
       "retail_units": [
         "Can (15oz)",
         "Bag (1lb)"
-      ]
+      ],
+      "category": "Legumes & Beans"
     },
     {
       "name": "Green Lentils",
@@ -3242,7 +3285,8 @@
       ],
       "retail_units": [
         "Bag (1lb)"
-      ]
+      ],
+      "category": "Legumes & Beans"
     },
     {
       "name": "Red Lentils",
@@ -3285,7 +3329,8 @@
       ],
       "retail_units": [
         "Bag (1lb)"
-      ]
+      ],
+      "category": "Legumes & Beans"
     },
     {
       "name": "Peanut Butter",
@@ -3329,7 +3374,8 @@
       "retail_units": [
         "Jar (16oz)",
         "Jar (12oz)"
-      ]
+      ],
+      "category": "Nuts, Seeds & Dried Fruit"
     },
     {
       "name": "Almond Butter",
@@ -3372,7 +3418,8 @@
       ],
       "retail_units": [
         "Jar (16oz)"
-      ]
+      ],
+      "category": "Nuts, Seeds & Dried Fruit"
     },
     {
       "name": "Tahini",
@@ -3415,7 +3462,8 @@
       ],
       "retail_units": [
         "Jar (16oz)"
-      ]
+      ],
+      "category": "Nuts, Seeds & Dried Fruit"
     },
     {
       "name": "Chocolate Chips",
@@ -3458,7 +3506,8 @@
       ],
       "retail_units": [
         "Bag (12oz)"
-      ]
+      ],
+      "category": "Nuts, Seeds & Dried Fruit"
     },
     {
       "name": "Unsweetened Chocolate",
@@ -3486,7 +3535,8 @@
       ],
       "retail_units": [
         "Box (4oz)"
-      ]
+      ],
+      "category": "Nuts, Seeds & Dried Fruit"
     },
     {
       "name": "Semi-Sweet Baking Chocolate",
@@ -3514,7 +3564,8 @@
       ],
       "retail_units": [
         "Box (4oz)"
-      ]
+      ],
+      "category": "Nuts, Seeds & Dried Fruit"
     },
     {
       "name": "Walnuts",
@@ -3558,7 +3609,8 @@
       "retail_units": [
         "Bag (8oz)",
         "Bag (16oz)"
-      ]
+      ],
+      "category": "Nuts, Seeds & Dried Fruit"
     },
     {
       "name": "Almonds",
@@ -3602,7 +3654,8 @@
       "retail_units": [
         "Bag (8oz)",
         "Bag (16oz)"
-      ]
+      ],
+      "category": "Nuts, Seeds & Dried Fruit"
     },
     {
       "name": "Pecans",
@@ -3645,7 +3698,8 @@
       ],
       "retail_units": [
         "Bag (8oz)"
-      ]
+      ],
+      "category": "Nuts, Seeds & Dried Fruit"
     },
     {
       "name": "Cashews",
@@ -3689,7 +3743,8 @@
       "retail_units": [
         "Bag (8oz)",
         "Bag (16oz)"
-      ]
+      ],
+      "category": "Nuts, Seeds & Dried Fruit"
     },
     {
       "name": "Peanuts",
@@ -3732,7 +3787,8 @@
       ],
       "retail_units": [
         "Bag (16oz)"
-      ]
+      ],
+      "category": "Nuts, Seeds & Dried Fruit"
     },
     {
       "name": "Hazelnuts",
@@ -3775,7 +3831,8 @@
       ],
       "retail_units": [
         "Bag (8oz)"
-      ]
+      ],
+      "category": "Nuts, Seeds & Dried Fruit"
     },
     {
       "name": "Pistachios",
@@ -3819,7 +3876,8 @@
       "retail_units": [
         "Bag (8oz)",
         "Bag (16oz)"
-      ]
+      ],
+      "category": "Nuts, Seeds & Dried Fruit"
     },
     {
       "name": "Macadamia Nuts",
@@ -3862,7 +3920,8 @@
       ],
       "retail_units": [
         "Bag (8oz)"
-      ]
+      ],
+      "category": "Nuts, Seeds & Dried Fruit"
     },
     {
       "name": "Pine Nuts",
@@ -3905,7 +3964,8 @@
       ],
       "retail_units": [
         "Bag (8oz)"
-      ]
+      ],
+      "category": "Nuts, Seeds & Dried Fruit"
     },
     {
       "name": "Sunflower Seeds",
@@ -3948,7 +4008,8 @@
       ],
       "retail_units": [
         "Bag (8oz)"
-      ]
+      ],
+      "category": "Nuts, Seeds & Dried Fruit"
     },
     {
       "name": "Pumpkin Seeds",
@@ -3991,7 +4052,8 @@
       ],
       "retail_units": [
         "Bag (8oz)"
-      ]
+      ],
+      "category": "Nuts, Seeds & Dried Fruit"
     },
     {
       "name": "Sesame Seeds",
@@ -4040,7 +4102,8 @@
       "retail_units": [
         "Jar (3.5oz)",
         "Bag (8oz)"
-      ]
+      ],
+      "category": "Nuts, Seeds & Dried Fruit"
     },
     {
       "name": "Chia Seeds",
@@ -4083,7 +4146,8 @@
       ],
       "retail_units": [
         "Bag (12oz)"
-      ]
+      ],
+      "category": "Nuts, Seeds & Dried Fruit"
     },
     {
       "name": "Flax Seeds",
@@ -4126,7 +4190,8 @@
       ],
       "retail_units": [
         "Bag (12oz)"
-      ]
+      ],
+      "category": "Nuts, Seeds & Dried Fruit"
     },
     {
       "name": "Hemp Seeds",
@@ -4169,7 +4234,8 @@
       ],
       "retail_units": [
         "Bag (8oz)"
-      ]
+      ],
+      "category": "Nuts, Seeds & Dried Fruit"
     },
     {
       "name": "Raisins",
@@ -4218,7 +4284,8 @@
       "retail_units": [
         "Box (1lb)",
         "Bag (12oz)"
-      ]
+      ],
+      "category": "Nuts, Seeds & Dried Fruit"
     },
     {
       "name": "Dried Cranberries",
@@ -4262,7 +4329,8 @@
       "retail_units": [
         "Bag (8oz)",
         "Bag (12oz)"
-      ]
+      ],
+      "category": "Nuts, Seeds & Dried Fruit"
     },
     {
       "name": "Dates",
@@ -4310,7 +4378,8 @@
       ],
       "retail_units": [
         "Bag (8oz)"
-      ]
+      ],
+      "category": "Nuts, Seeds & Dried Fruit"
     },
     {
       "name": "Shredded Coconut (Sweetened)",
@@ -4353,7 +4422,8 @@
       ],
       "retail_units": [
         "Bag (14oz)"
-      ]
+      ],
+      "category": "Nuts, Seeds & Dried Fruit"
     },
     {
       "name": "Coconut Flakes (Unsweetened)",
@@ -4396,7 +4466,8 @@
       ],
       "retail_units": [
         "Bag (8oz)"
-      ]
+      ],
+      "category": "Nuts, Seeds & Dried Fruit"
     },
     {
       "name": "Kosher Salt",
@@ -4445,7 +4516,8 @@
       "retail_units": [
         "Canister (26oz)",
         "Box (1lb)"
-      ]
+      ],
+      "category": "Spices & Seasonings"
     },
     {
       "name": "Fine Sea Salt",
@@ -4488,7 +4560,8 @@
       ],
       "retail_units": [
         "Canister (26oz)"
-      ]
+      ],
+      "category": "Spices & Seasonings"
     },
     {
       "name": "Ground Black Pepper",
@@ -4532,7 +4605,8 @@
       "retail_units": [
         "Jar (3oz)",
         "Jar (2oz)"
-      ]
+      ],
+      "category": "Spices & Seasonings"
     },
     {
       "name": "Whole Black Peppercorns",
@@ -4576,7 +4650,8 @@
       "retail_units": [
         "Jar (4oz)",
         "Jar (3oz)"
-      ]
+      ],
+      "category": "Spices & Seasonings"
     },
     {
       "name": "Ground Cinnamon",
@@ -4620,7 +4695,8 @@
       "retail_units": [
         "Jar (2.3oz)",
         "Jar (2oz)"
-      ]
+      ],
+      "category": "Spices & Seasonings"
     },
     {
       "name": "Ground Cumin",
@@ -4664,7 +4740,8 @@
       "retail_units": [
         "Jar (1.8oz)",
         "Jar (2oz)"
-      ]
+      ],
+      "category": "Spices & Seasonings"
     },
     {
       "name": "Garlic Powder",
@@ -4708,7 +4785,8 @@
       "retail_units": [
         "Jar (3oz)",
         "Jar (2oz)"
-      ]
+      ],
+      "category": "Spices & Seasonings"
     },
     {
       "name": "Onion Powder",
@@ -4752,7 +4830,8 @@
       "retail_units": [
         "Jar (3oz)",
         "Jar (2oz)"
-      ]
+      ],
+      "category": "Spices & Seasonings"
     },
     {
       "name": "Smoked Paprika",
@@ -4795,7 +4874,8 @@
       ],
       "retail_units": [
         "Jar (2oz)"
-      ]
+      ],
+      "category": "Spices & Seasonings"
     },
     {
       "name": "Sweet Paprika",
@@ -4838,7 +4918,8 @@
       ],
       "retail_units": [
         "Jar (2oz)"
-      ]
+      ],
+      "category": "Spices & Seasonings"
     },
     {
       "name": "Cayenne Pepper",
@@ -4881,7 +4962,8 @@
       ],
       "retail_units": [
         "Jar (2oz)"
-      ]
+      ],
+      "category": "Spices & Seasonings"
     },
     {
       "name": "Red Pepper Flakes",
@@ -4925,7 +5007,8 @@
       "retail_units": [
         "Jar (1.5oz)",
         "Jar (2oz)"
-      ]
+      ],
+      "category": "Spices & Seasonings"
     },
     {
       "name": "Chili Powder",
@@ -4969,7 +5052,8 @@
       "retail_units": [
         "Jar (2oz)",
         "Jar (2.3oz)"
-      ]
+      ],
+      "category": "Spices & Seasonings"
     },
     {
       "name": "Curry Powder",
@@ -5012,7 +5096,8 @@
       ],
       "retail_units": [
         "Jar (2oz)"
-      ]
+      ],
+      "category": "Spices & Seasonings"
     },
     {
       "name": "Garam Masala",
@@ -5055,7 +5140,8 @@
       ],
       "retail_units": [
         "Jar (2oz)"
-      ]
+      ],
+      "category": "Spices & Seasonings"
     },
     {
       "name": "Ground Turmeric",
@@ -5098,7 +5184,8 @@
       ],
       "retail_units": [
         "Jar (2oz)"
-      ]
+      ],
+      "category": "Spices & Seasonings"
     },
     {
       "name": "Ground Ginger",
@@ -5142,7 +5229,8 @@
       "retail_units": [
         "Jar (1.5oz)",
         "Jar (2oz)"
-      ]
+      ],
+      "category": "Spices & Seasonings"
     },
     {
       "name": "Ground Nutmeg",
@@ -5185,7 +5273,8 @@
       ],
       "retail_units": [
         "Jar (1.8oz)"
-      ]
+      ],
+      "category": "Spices & Seasonings"
     },
     {
       "name": "Ground Cloves",
@@ -5228,7 +5317,8 @@
       ],
       "retail_units": [
         "Jar (1.8oz)"
-      ]
+      ],
+      "category": "Spices & Seasonings"
     },
     {
       "name": "Ground Allspice",
@@ -5271,7 +5361,8 @@
       ],
       "retail_units": [
         "Jar (1.8oz)"
-      ]
+      ],
+      "category": "Spices & Seasonings"
     },
     {
       "name": "Ground Cardamom",
@@ -5314,7 +5405,8 @@
       ],
       "retail_units": [
         "Jar (2.3oz)"
-      ]
+      ],
+      "category": "Spices & Seasonings"
     },
     {
       "name": "Ground Coriander",
@@ -5357,7 +5449,8 @@
       ],
       "retail_units": [
         "Jar (1.8oz)"
-      ]
+      ],
+      "category": "Spices & Seasonings"
     },
     {
       "name": "Dried Oregano",
@@ -5401,7 +5494,8 @@
       "retail_units": [
         "Jar (0.5oz)",
         "Jar (0.75oz)"
-      ]
+      ],
+      "category": "Spices & Seasonings"
     },
     {
       "name": "Dried Basil",
@@ -5445,7 +5539,8 @@
       "retail_units": [
         "Jar (0.5oz)",
         "Jar (0.75oz)"
-      ]
+      ],
+      "category": "Spices & Seasonings"
     },
     {
       "name": "Dried Parsley",
@@ -5489,7 +5584,8 @@
       "retail_units": [
         "Jar (0.5oz)",
         "Jar (0.75oz)"
-      ]
+      ],
+      "category": "Spices & Seasonings"
     },
     {
       "name": "Dried Thyme",
@@ -5533,7 +5629,8 @@
       "retail_units": [
         "Jar (0.7oz)",
         "Jar (0.75oz)"
-      ]
+      ],
+      "category": "Spices & Seasonings"
     },
     {
       "name": "Dried Rosemary",
@@ -5577,7 +5674,8 @@
       "retail_units": [
         "Jar (0.7oz)",
         "Jar (0.75oz)"
-      ]
+      ],
+      "category": "Spices & Seasonings"
     },
     {
       "name": "Italian Seasoning",
@@ -5621,7 +5719,8 @@
       "retail_units": [
         "Jar (0.75oz)",
         "Jar (2oz)"
-      ]
+      ],
+      "category": "Spices & Seasonings"
     },
     {
       "name": "Bay Leaves",
@@ -5645,7 +5744,8 @@
       "retail_units": [
         "Jar (0.1oz)",
         "Bag (0.5oz)"
-      ]
+      ],
+      "category": "Spices & Seasonings"
     },
     {
       "name": "Baking Soda",
@@ -5694,7 +5794,8 @@
       "retail_units": [
         "Canister (16oz)",
         "Box (1lb)"
-      ]
+      ],
+      "category": "Baking & Flours"
     },
     {
       "name": "Baking Powder",
@@ -5737,7 +5838,8 @@
       ],
       "retail_units": [
         "Canister (8oz)"
-      ]
+      ],
+      "category": "Baking & Flours"
     },
     {
       "name": "Cream of Tartar",
@@ -5780,7 +5882,8 @@
       ],
       "retail_units": [
         "Jar (1.5oz)"
-      ]
+      ],
+      "category": "Baking & Flours"
     },
     {
       "name": "Active Dry Yeast",
@@ -5829,7 +5932,8 @@
       "retail_units": [
         "Pack (0.25oz)",
         "Jar (4oz)"
-      ]
+      ],
+      "category": "Baking & Flours"
     },
     {
       "name": "Instant Yeast",
@@ -5878,7 +5982,8 @@
       "retail_units": [
         "Pack (0.25oz)",
         "Jar (4oz)"
-      ]
+      ],
+      "category": "Baking & Flours"
     },
     {
       "name": "Gelatin",
@@ -5927,7 +6032,8 @@
       "retail_units": [
         "Pack (0.25oz)",
         "Jar (4oz)"
-      ]
+      ],
+      "category": "Baking & Flours"
     },
     {
       "name": "Nutritional Yeast",
@@ -5970,7 +6076,8 @@
       ],
       "retail_units": [
         "Canister (8oz)"
-      ]
+      ],
+      "category": "Baking & Flours"
     },
     {
       "name": "Vanilla Extract",
@@ -5999,7 +6106,8 @@
       "retail_units": [
         "Bottle (2oz)",
         "Bottle (4oz)"
-      ]
+      ],
+      "category": "Baking & Flours"
     },
     {
       "name": "Extra Virgin Olive Oil",
@@ -6028,7 +6136,8 @@
       "retail_units": [
         "Bottle (500ml)",
         "Bottle (16.9oz)"
-      ]
+      ],
+      "category": "Oils, Vinegars & Fats"
     },
     {
       "name": "Canola Oil",
@@ -6057,7 +6166,8 @@
       "retail_units": [
         "Bottle (48oz)",
         "Bottle (32oz)"
-      ]
+      ],
+      "category": "Oils, Vinegars & Fats"
     },
     {
       "name": "Vegetable Oil",
@@ -6086,7 +6196,8 @@
       "retail_units": [
         "Bottle (48oz)",
         "Bottle (32oz)"
-      ]
+      ],
+      "category": "Oils, Vinegars & Fats"
     },
     {
       "name": "Coconut Oil",
@@ -6115,7 +6226,8 @@
       "retail_units": [
         "Jar (14oz)",
         "Jar (16oz)"
-      ]
+      ],
+      "category": "Oils, Vinegars & Fats"
     },
     {
       "name": "Sesame Oil",
@@ -6144,7 +6256,8 @@
       "retail_units": [
         "Bottle (5oz)",
         "Bottle (9oz)"
-      ]
+      ],
+      "category": "Oils, Vinegars & Fats"
     },
     {
       "name": "Shortening",
@@ -6178,7 +6291,8 @@
       "retail_units": [
         "Can (48oz)",
         "Container (16oz)"
-      ]
+      ],
+      "category": "Oils, Vinegars & Fats"
     },
     {
       "name": "Whole Milk",
@@ -6212,7 +6326,8 @@
       "retail_units": [
         "Gallon",
         "Carton (32oz)"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "2% Milk",
@@ -6246,7 +6361,8 @@
       "retail_units": [
         "Gallon",
         "Carton (32oz)"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Skim Milk",
@@ -6280,7 +6396,8 @@
       "retail_units": [
         "Gallon",
         "Carton (32oz)"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Half-and-Half",
@@ -6309,7 +6426,8 @@
       "retail_units": [
         "Carton (32oz)",
         "Carton (16oz)"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Heavy Cream",
@@ -6337,7 +6455,8 @@
       ],
       "retail_units": [
         "Carton (16oz)"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Whipping Cream",
@@ -6365,7 +6484,8 @@
       ],
       "retail_units": [
         "Carton (16oz)"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Evaporated Milk",
@@ -6393,7 +6513,8 @@
       ],
       "retail_units": [
         "Can (12oz)"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Condensed Milk",
@@ -6421,7 +6542,8 @@
       ],
       "retail_units": [
         "Can (14oz)"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Sour Cream",
@@ -6450,7 +6572,8 @@
       "retail_units": [
         "Container (16oz)",
         "Container (32oz)"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Greek Yogurt",
@@ -6479,7 +6602,8 @@
       "retail_units": [
         "Container (32oz)",
         "Container (16oz)"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Orange Juice",
@@ -6508,7 +6632,8 @@
       "retail_units": [
         "Carton (52oz)",
         "Carton (32oz)"
-      ]
+      ],
+      "category": "Broths & Beverages"
     },
     {
       "name": "Apple Juice",
@@ -6537,7 +6662,8 @@
       "retail_units": [
         "Bottle (64oz)",
         "Bottle (32oz)"
-      ]
+      ],
+      "category": "Broths & Beverages"
     },
     {
       "name": "Cranberry Juice",
@@ -6566,7 +6692,8 @@
       "retail_units": [
         "Bottle (64oz)",
         "Bottle (32oz)"
-      ]
+      ],
+      "category": "Broths & Beverages"
     },
     {
       "name": "Chicken Broth",
@@ -6600,7 +6727,8 @@
       "retail_units": [
         "Carton (32oz)",
         "Can (14.5oz)"
-      ]
+      ],
+      "category": "Broths & Beverages"
     },
     {
       "name": "Beef Broth",
@@ -6634,7 +6762,8 @@
       "retail_units": [
         "Carton (32oz)",
         "Can (14.5oz)"
-      ]
+      ],
+      "category": "Broths & Beverages"
     },
     {
       "name": "Vegetable Broth",
@@ -6668,7 +6797,8 @@
       "retail_units": [
         "Carton (32oz)",
         "Can (14.5oz)"
-      ]
+      ],
+      "category": "Broths & Beverages"
     },
     {
       "name": "Chicken Stock",
@@ -6702,7 +6832,8 @@
       "retail_units": [
         "Carton (32oz)",
         "Can (14.5oz)"
-      ]
+      ],
+      "category": "Broths & Beverages"
     },
     {
       "name": "Beef Stock",
@@ -6736,7 +6867,8 @@
       "retail_units": [
         "Carton (32oz)",
         "Can (14.5oz)"
-      ]
+      ],
+      "category": "Broths & Beverages"
     },
     {
       "name": "Coconut Milk",
@@ -6764,7 +6896,8 @@
       ],
       "retail_units": [
         "Can (13.5oz)"
-      ]
+      ],
+      "category": "Broths & Beverages"
     },
     {
       "name": "Lite Coconut Milk",
@@ -6792,7 +6925,8 @@
       ],
       "retail_units": [
         "Can (13.5oz)"
-      ]
+      ],
+      "category": "Broths & Beverages"
     },
     {
       "name": "Dry White Wine",
@@ -6820,7 +6954,8 @@
       ],
       "retail_units": [
         "Bottle (750ml)"
-      ]
+      ],
+      "category": "Broths & Beverages"
     },
     {
       "name": "Dry Red Wine",
@@ -6848,7 +6983,8 @@
       ],
       "retail_units": [
         "Bottle (750ml)"
-      ]
+      ],
+      "category": "Broths & Beverages"
     },
     {
       "name": "Clam Juice",
@@ -6876,7 +7012,8 @@
       ],
       "retail_units": [
         "Bottle (8oz)"
-      ]
+      ],
+      "category": "Broths & Beverages"
     },
     {
       "name": "Soy Sauce",
@@ -6905,7 +7042,8 @@
       "retail_units": [
         "Bottle (10oz)",
         "Bottle (16oz)"
-      ]
+      ],
+      "category": "Condiments, Sauces & Dressings"
     },
     {
       "name": "Coconut Aminos",
@@ -6934,7 +7072,8 @@
       "retail_units": [
         "Bottle (8oz)",
         "Bottle (16oz)"
-      ]
+      ],
+      "category": "Condiments, Sauces & Dressings"
     },
     {
       "name": "Fish Sauce",
@@ -6962,7 +7101,8 @@
       ],
       "retail_units": [
         "Bottle (6oz)"
-      ]
+      ],
+      "category": "Condiments, Sauces & Dressings"
     },
     {
       "name": "Worcestershire Sauce",
@@ -6990,7 +7130,8 @@
       ],
       "retail_units": [
         "Bottle (10oz)"
-      ]
+      ],
+      "category": "Condiments, Sauces & Dressings"
     },
     {
       "name": "Hot Sauce",
@@ -7018,7 +7159,8 @@
       ],
       "retail_units": [
         "Bottle (12oz)"
-      ]
+      ],
+      "category": "Condiments, Sauces & Dressings"
     },
     {
       "name": "Sriracha",
@@ -7046,7 +7188,8 @@
       ],
       "retail_units": [
         "Bottle (17oz)"
-      ]
+      ],
+      "category": "Condiments, Sauces & Dressings"
     },
     {
       "name": "Hoisin Sauce",
@@ -7074,7 +7217,8 @@
       ],
       "retail_units": [
         "Jar (8oz)"
-      ]
+      ],
+      "category": "Condiments, Sauces & Dressings"
     },
     {
       "name": "Oyster Sauce",
@@ -7102,7 +7246,8 @@
       ],
       "retail_units": [
         "Bottle (9oz)"
-      ]
+      ],
+      "category": "Condiments, Sauces & Dressings"
     },
     {
       "name": "Teriyaki Sauce",
@@ -7130,7 +7275,8 @@
       ],
       "retail_units": [
         "Bottle (10oz)"
-      ]
+      ],
+      "category": "Condiments, Sauces & Dressings"
     },
     {
       "name": "Barbecue Sauce",
@@ -7158,7 +7304,8 @@
       ],
       "retail_units": [
         "Bottle (18oz)"
-      ]
+      ],
+      "category": "Condiments, Sauces & Dressings"
     },
     {
       "name": "Ketchup",
@@ -7186,7 +7333,8 @@
       ],
       "retail_units": [
         "Bottle (20oz)"
-      ]
+      ],
+      "category": "Condiments, Sauces & Dressings"
     },
     {
       "name": "Mayonnaise",
@@ -7215,7 +7363,8 @@
       "retail_units": [
         "Jar (30oz)",
         "Jar (16oz)"
-      ]
+      ],
+      "category": "Condiments, Sauces & Dressings"
     },
     {
       "name": "Dijon Mustard",
@@ -7243,7 +7392,8 @@
       ],
       "retail_units": [
         "Jar (12oz)"
-      ]
+      ],
+      "category": "Condiments, Sauces & Dressings"
     },
     {
       "name": "Yellow Mustard",
@@ -7271,7 +7421,8 @@
       ],
       "retail_units": [
         "Bottle (14oz)"
-      ]
+      ],
+      "category": "Condiments, Sauces & Dressings"
     },
     {
       "name": "Ranch Dressing",
@@ -7299,7 +7450,8 @@
       ],
       "retail_units": [
         "Bottle (16oz)"
-      ]
+      ],
+      "category": "Condiments, Sauces & Dressings"
     },
     {
       "name": "Italian Dressing",
@@ -7327,7 +7479,8 @@
       ],
       "retail_units": [
         "Bottle (16oz)"
-      ]
+      ],
+      "category": "Condiments, Sauces & Dressings"
     },
     {
       "name": "Salsa",
@@ -7355,7 +7508,8 @@
       ],
       "retail_units": [
         "Jar (16oz)"
-      ]
+      ],
+      "category": "Condiments, Sauces & Dressings"
     },
     {
       "name": "Guacamole",
@@ -7383,7 +7537,8 @@
       ],
       "retail_units": [
         "Container (12oz)"
-      ]
+      ],
+      "category": "Condiments, Sauces & Dressings"
     },
     {
       "name": "Hummus",
@@ -7411,7 +7566,8 @@
       ],
       "retail_units": [
         "Container (10oz)"
-      ]
+      ],
+      "category": "Condiments, Sauces & Dressings"
     },
     {
       "name": "Miso Paste",
@@ -7439,7 +7595,8 @@
       ],
       "retail_units": [
         "Container (16oz)"
-      ]
+      ],
+      "category": "Condiments, Sauces & Dressings"
     },
     {
       "name": "Gochujang",
@@ -7467,7 +7624,8 @@
       ],
       "retail_units": [
         "Tub (17.6oz)"
-      ]
+      ],
+      "category": "Condiments, Sauces & Dressings"
     },
     {
       "name": "Harissa",
@@ -7495,7 +7653,8 @@
       ],
       "retail_units": [
         "Jar (10oz)"
-      ]
+      ],
+      "category": "Condiments, Sauces & Dressings"
     },
     {
       "name": "Apple Cider Vinegar",
@@ -7524,7 +7683,8 @@
       "retail_units": [
         "Bottle (16oz)",
         "Bottle (32oz)"
-      ]
+      ],
+      "category": "Oils, Vinegars & Fats"
     },
     {
       "name": "Red Wine Vinegar",
@@ -7552,7 +7712,8 @@
       ],
       "retail_units": [
         "Bottle (12oz)"
-      ]
+      ],
+      "category": "Oils, Vinegars & Fats"
     },
     {
       "name": "Balsamic Vinegar",
@@ -7580,7 +7741,8 @@
       ],
       "retail_units": [
         "Bottle (16.9oz)"
-      ]
+      ],
+      "category": "Oils, Vinegars & Fats"
     },
     {
       "name": "White Wine Vinegar",
@@ -7608,7 +7770,8 @@
       ],
       "retail_units": [
         "Bottle (12oz)"
-      ]
+      ],
+      "category": "Oils, Vinegars & Fats"
     },
     {
       "name": "Sherry Vinegar",
@@ -7636,7 +7799,8 @@
       ],
       "retail_units": [
         "Bottle (16.9oz)"
-      ]
+      ],
+      "category": "Oils, Vinegars & Fats"
     },
     {
       "name": "Rice Vinegar",
@@ -7664,7 +7828,8 @@
       ],
       "retail_units": [
         "Bottle (12oz)"
-      ]
+      ],
+      "category": "Oils, Vinegars & Fats"
     },
     {
       "name": "Honey",
@@ -7693,7 +7858,8 @@
       "retail_units": [
         "Jar (12oz)",
         "Jar (16oz)"
-      ]
+      ],
+      "category": "Condiments, Sauces & Dressings"
     },
     {
       "name": "Maple Syrup",
@@ -7722,7 +7888,8 @@
       "retail_units": [
         "Bottle (12oz)",
         "Bottle (32oz)"
-      ]
+      ],
+      "category": "Condiments, Sauces & Dressings"
     },
     {
       "name": "Agave Nectar",
@@ -7750,7 +7917,8 @@
       ],
       "retail_units": [
         "Bottle (12oz)"
-      ]
+      ],
+      "category": "Condiments, Sauces & Dressings"
     },
     {
       "name": "Molasses",
@@ -7778,7 +7946,8 @@
       ],
       "retail_units": [
         "Jar (12oz)"
-      ]
+      ],
+      "category": "Condiments, Sauces & Dressings"
     },
     {
       "name": "Tomato Paste",
@@ -7811,7 +7980,8 @@
       ],
       "retail_units": [
         "Can (6oz)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Diced Tomatoes",
@@ -7845,7 +8015,8 @@
       "retail_units": [
         "Can (14.5oz)",
         "Can (28oz)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Crushed Tomatoes",
@@ -7879,7 +8050,8 @@
       "retail_units": [
         "Can (28oz)",
         "Can (14.5oz)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Tomato Sauce",
@@ -7913,7 +8085,8 @@
       "retail_units": [
         "Can (8oz)",
         "Can (15oz)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Tomato Soup",
@@ -7946,7 +8119,8 @@
       ],
       "retail_units": [
         "Can (10.75oz)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Canned Corn",
@@ -7979,7 +8153,8 @@
       ],
       "retail_units": [
         "Can (15oz)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Canned Pumpkin",
@@ -8012,7 +8187,8 @@
       ],
       "retail_units": [
         "Can (15oz)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Pineapple (Canned)",
@@ -8045,7 +8221,8 @@
       ],
       "retail_units": [
         "Can (20oz)"
-      ]
+      ],
+      "category": "Fruits"
     },
     {
       "name": "Canned Salmon",
@@ -8078,7 +8255,8 @@
       ],
       "retail_units": [
         "Can (14.75oz)"
-      ]
+      ],
+      "category": "Seafood"
     },
     {
       "name": "Canned Tuna",
@@ -8111,7 +8289,8 @@
       ],
       "retail_units": [
         "Can (5oz)"
-      ]
+      ],
+      "category": "Seafood"
     },
     {
       "name": "Pickle Relish",
@@ -8139,7 +8318,8 @@
       ],
       "retail_units": [
         "Jar (10oz)"
-      ]
+      ],
+      "category": "Condiments, Sauces & Dressings"
     },
     {
       "name": "Unsalted Butter",
@@ -8188,7 +8368,8 @@
       "retail_units": [
         "Pack (1lb)",
         "Stick"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Salted Butter",
@@ -8237,7 +8418,8 @@
       "retail_units": [
         "Pack (1lb)",
         "Stick"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Cream Cheese",
@@ -8280,7 +8462,8 @@
       ],
       "retail_units": [
         "Block (8oz)"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Shredded Cheddar Cheese",
@@ -8324,7 +8507,8 @@
       "retail_units": [
         "Bag (8oz)",
         "Bag (16oz)"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Shredded Mozzarella Cheese",
@@ -8368,7 +8552,8 @@
       "retail_units": [
         "Bag (8oz)",
         "Bag (16oz)"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Mozzarella Cheese",
@@ -8411,7 +8596,8 @@
       ],
       "retail_units": [
         "Ball (8oz)"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Parmesan Cheese",
@@ -8454,7 +8640,8 @@
       ],
       "retail_units": [
         "Wedge (8oz)"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Parmesan (Grated, Shaker)",
@@ -8497,7 +8684,8 @@
       ],
       "retail_units": [
         "Canister (8oz)"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Ricotta Cheese",
@@ -8540,7 +8728,8 @@
       ],
       "retail_units": [
         "Container (15oz)"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Feta Cheese",
@@ -8583,7 +8772,8 @@
       ],
       "retail_units": [
         "Container (6oz)"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Goat Cheese",
@@ -8626,7 +8816,8 @@
       ],
       "retail_units": [
         "Log (4oz)"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Gruyere Cheese",
@@ -8669,7 +8860,8 @@
       ],
       "retail_units": [
         "Wedge (8oz)"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Large Eggs",
@@ -8688,7 +8880,8 @@
       "retail_units": [
         "Pack (12ct)",
         "Pack (6ct)"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Chicken Breast",
@@ -8722,7 +8915,8 @@
       "retail_units": [
         "Pack (1.5lb)",
         "Pack (2lb)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Chicken Thighs (Boneless)",
@@ -8756,7 +8950,8 @@
       "retail_units": [
         "Pack (1.5lb)",
         "Pack (2lb)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Chicken Drumsticks",
@@ -8789,7 +8984,8 @@
       ],
       "retail_units": [
         "Pack (4ct)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Whole Chicken",
@@ -8817,7 +9013,8 @@
       ],
       "retail_units": [
         "Count"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Turkey Breast",
@@ -8850,7 +9047,8 @@
       ],
       "retail_units": [
         "Pack (1.5lb)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Ground Turkey",
@@ -8879,7 +9077,8 @@
       "retail_units": [
         "Pack (1lb)",
         "Pack (1.3lb)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Ground Beef",
@@ -8908,7 +9107,8 @@
       "retail_units": [
         "Pack (1lb)",
         "Pack (2lb)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Ground Pork",
@@ -8937,7 +9137,8 @@
       "retail_units": [
         "Pack (1lb)",
         "Pack (2lb)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Beef Stew Meat",
@@ -8966,7 +9167,8 @@
       "retail_units": [
         "Pack (1lb)",
         "Pack (2lb)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Pork Chops",
@@ -8999,7 +9201,8 @@
       ],
       "retail_units": [
         "Pack (4ct)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Pork Tenderloin",
@@ -9032,7 +9235,8 @@
       ],
       "retail_units": [
         "Pack (1.5lb)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Italian Sausage",
@@ -9065,7 +9269,8 @@
       ],
       "retail_units": [
         "Pack (19oz)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Chorizo",
@@ -9104,7 +9309,8 @@
       "retail_units": [
         "Link (9oz)",
         "Pack (2ct)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Bacon",
@@ -9137,7 +9343,8 @@
       ],
       "retail_units": [
         "Pack (16oz)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Pancetta",
@@ -9180,7 +9387,8 @@
       ],
       "retail_units": [
         "Pack (4oz)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Lamb Chops",
@@ -9213,7 +9421,8 @@
       ],
       "retail_units": [
         "Pack (4ct)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Salmon Fillet",
@@ -9242,7 +9451,8 @@
       "retail_units": [
         "Pack (1lb)",
         "Pack (1.5lb)"
-      ]
+      ],
+      "category": "Seafood"
     },
     {
       "name": "Tilapia Fillet",
@@ -9275,7 +9485,8 @@
       ],
       "retail_units": [
         "Pack (1lb)"
-      ]
+      ],
+      "category": "Seafood"
     },
     {
       "name": "Cod Fillet",
@@ -9303,7 +9514,8 @@
       ],
       "retail_units": [
         "Pack (1lb)"
-      ]
+      ],
+      "category": "Seafood"
     },
     {
       "name": "Shrimp (Frozen)",
@@ -9337,7 +9549,8 @@
       "retail_units": [
         "Bag (1lb)",
         "Bag (2lb)"
-      ]
+      ],
+      "category": "Seafood"
     },
     {
       "name": "Anchovies",
@@ -9385,7 +9598,8 @@
       ],
       "retail_units": [
         "Tin (2oz)"
-      ]
+      ],
+      "category": "Seafood"
     },
     {
       "name": "Tofu (Extra Firm)",
@@ -9418,7 +9632,8 @@
       ],
       "retail_units": [
         "Block (14oz)"
-      ]
+      ],
+      "category": "Plant-Based Proteins"
     },
     {
       "name": "Tofu (Silken)",
@@ -9461,7 +9676,8 @@
       ],
       "retail_units": [
         "Block (12.3oz)"
-      ]
+      ],
+      "category": "Plant-Based Proteins"
     },
     {
       "name": "Tempeh",
@@ -9494,7 +9710,8 @@
       ],
       "retail_units": [
         "Pack (8oz)"
-      ]
+      ],
+      "category": "Plant-Based Proteins"
     },
     {
       "name": "Yellow Onion",
@@ -9543,7 +9760,8 @@
       "retail_units": [
         "Count",
         "Bag (3lb)"
-      ]
+      ],
+      "category": "Herbs & Aromatics"
     },
     {
       "name": "Red Onion",
@@ -9586,7 +9804,8 @@
       ],
       "retail_units": [
         "Count"
-      ]
+      ],
+      "category": "Herbs & Aromatics"
     },
     {
       "name": "Shallot",
@@ -9629,7 +9848,8 @@
       ],
       "retail_units": [
         "Count"
-      ]
+      ],
+      "category": "Herbs & Aromatics"
     },
     {
       "name": "Garlic",
@@ -9683,7 +9903,8 @@
       "retail_units": [
         "Head",
         "Bag (3ct)"
-      ]
+      ],
+      "category": "Herbs & Aromatics"
     },
     {
       "name": "Green Onions",
@@ -9731,7 +9952,8 @@
       ],
       "retail_units": [
         "Bunch"
-      ]
+      ],
+      "category": "Herbs & Aromatics"
     },
     {
       "name": "Fresh Parsley",
@@ -9774,7 +9996,8 @@
       ],
       "retail_units": [
         "Bunch"
-      ]
+      ],
+      "category": "Herbs & Aromatics"
     },
     {
       "name": "Fresh Cilantro",
@@ -9817,7 +10040,8 @@
       ],
       "retail_units": [
         "Bunch"
-      ]
+      ],
+      "category": "Herbs & Aromatics"
     },
     {
       "name": "Fresh Basil",
@@ -9860,7 +10084,8 @@
       ],
       "retail_units": [
         "Pack (0.75oz)"
-      ]
+      ],
+      "category": "Herbs & Aromatics"
     },
     {
       "name": "Fresh Mint",
@@ -9903,7 +10128,8 @@
       ],
       "retail_units": [
         "Bunch"
-      ]
+      ],
+      "category": "Herbs & Aromatics"
     },
     {
       "name": "Fresh Dill",
@@ -9946,7 +10172,8 @@
       ],
       "retail_units": [
         "Pack (0.75oz)"
-      ]
+      ],
+      "category": "Herbs & Aromatics"
     },
     {
       "name": "Fresh Rosemary",
@@ -9989,7 +10216,8 @@
       ],
       "retail_units": [
         "Pack (0.75oz)"
-      ]
+      ],
+      "category": "Herbs & Aromatics"
     },
     {
       "name": "Fresh Thyme",
@@ -10032,7 +10260,8 @@
       ],
       "retail_units": [
         "Pack (0.75oz)"
-      ]
+      ],
+      "category": "Herbs & Aromatics"
     },
     {
       "name": "Fresh Sage",
@@ -10080,7 +10309,8 @@
       ],
       "retail_units": [
         "Pack (0.75oz)"
-      ]
+      ],
+      "category": "Herbs & Aromatics"
     },
     {
       "name": "Fresh Ginger",
@@ -10123,7 +10353,8 @@
       ],
       "retail_units": [
         "Root"
-      ]
+      ],
+      "category": "Herbs & Aromatics"
     },
     {
       "name": "Carrots",
@@ -10177,7 +10408,8 @@
       "retail_units": [
         "Bag (2lb)",
         "Bunch"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Celery",
@@ -10225,7 +10457,8 @@
       ],
       "retail_units": [
         "Bunch"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Bell Pepper",
@@ -10274,7 +10507,8 @@
       "retail_units": [
         "Count",
         "Bag (3ct)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Green Bell Pepper",
@@ -10323,7 +10557,8 @@
       "retail_units": [
         "Count",
         "Bag (3ct)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Jalapeno",
@@ -10342,7 +10577,8 @@
       "retail_units": [
         "Count",
         "Bag (8ct)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Serrano Pepper",
@@ -10361,7 +10597,8 @@
       "retail_units": [
         "Count",
         "Bag (6ct)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Spinach",
@@ -10405,7 +10642,8 @@
       "retail_units": [
         "Bag (10oz)",
         "Bag (5oz)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Baby Spinach",
@@ -10454,7 +10692,8 @@
       "retail_units": [
         "Container (5oz)",
         "Bag (10oz)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Kale",
@@ -10497,7 +10736,8 @@
       ],
       "retail_units": [
         "Bunch"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Broccoli",
@@ -10546,7 +10786,8 @@
       "retail_units": [
         "Head",
         "Bag (12oz)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Cauliflower",
@@ -10589,7 +10830,8 @@
       ],
       "retail_units": [
         "Head"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Cabbage",
@@ -10632,7 +10874,8 @@
       ],
       "retail_units": [
         "Head"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Brussels Sprouts",
@@ -10675,7 +10918,8 @@
       ],
       "retail_units": [
         "Bag (1lb)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Asparagus",
@@ -10708,7 +10952,8 @@
       ],
       "retail_units": [
         "Bunch"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Green Beans (Fresh)",
@@ -10751,7 +10996,8 @@
       ],
       "retail_units": [
         "Bag (12oz)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Green Beans (Canned)",
@@ -10784,7 +11030,8 @@
       ],
       "retail_units": [
         "Can (14.5oz)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Cucumber",
@@ -10827,7 +11074,8 @@
       ],
       "retail_units": [
         "Count"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Zucchini",
@@ -10870,7 +11118,8 @@
       ],
       "retail_units": [
         "Count"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Yellow Squash",
@@ -10913,7 +11162,8 @@
       ],
       "retail_units": [
         "Count"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Eggplant",
@@ -10956,7 +11206,8 @@
       ],
       "retail_units": [
         "Count"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Mushrooms (White)",
@@ -11000,7 +11251,8 @@
       "retail_units": [
         "Pack (8oz)",
         "Pack (16oz)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Cremini Mushrooms",
@@ -11044,7 +11296,8 @@
       "retail_units": [
         "Pack (8oz)",
         "Pack (16oz)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Shiitake Mushrooms",
@@ -11087,7 +11340,8 @@
       ],
       "retail_units": [
         "Pack (4oz)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Portobello Mushrooms",
@@ -11120,7 +11374,8 @@
       ],
       "retail_units": [
         "Pack (2ct)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Cherry Tomatoes",
@@ -11173,7 +11428,8 @@
       ],
       "retail_units": [
         "Pint"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Roma Tomato",
@@ -11222,7 +11478,8 @@
       "retail_units": [
         "Count",
         "Pack (4ct)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Beefsteak Tomato",
@@ -11265,7 +11522,8 @@
       ],
       "retail_units": [
         "Count"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Sun-Dried Tomatoes",
@@ -11308,7 +11566,8 @@
       ],
       "retail_units": [
         "Jar (8.5oz)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Roasted Red Peppers",
@@ -11351,7 +11610,8 @@
       ],
       "retail_units": [
         "Jar (16oz)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Capers",
@@ -11394,7 +11654,8 @@
       ],
       "retail_units": [
         "Jar (3.5oz)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Kalamata Olives",
@@ -11437,7 +11698,8 @@
       ],
       "retail_units": [
         "Jar (6oz)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Marinated Artichoke Hearts",
@@ -11480,7 +11742,8 @@
       ],
       "retail_units": [
         "Jar (12oz)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Artichoke Hearts (Canned)",
@@ -11523,7 +11786,8 @@
       ],
       "retail_units": [
         "Can (14oz)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Dill Pickles",
@@ -11571,7 +11835,8 @@
       ],
       "retail_units": [
         "Jar (32oz)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Russet Potato",
@@ -11605,7 +11870,8 @@
       "retail_units": [
         "Bag (5lb)",
         "Count"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Yukon Gold Potato",
@@ -11639,7 +11905,8 @@
       "retail_units": [
         "Bag (5lb)",
         "Count"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Sweet Potato",
@@ -11667,7 +11934,8 @@
       ],
       "retail_units": [
         "Count"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Corn on the Cob",
@@ -11686,7 +11954,8 @@
       "retail_units": [
         "Count",
         "Bag (4ct)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Avocado",
@@ -11735,7 +12004,8 @@
       "retail_units": [
         "Count",
         "Bag (4ct)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Butternut Squash",
@@ -11773,7 +12043,8 @@
       ],
       "retail_units": [
         "Count"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Acorn Squash",
@@ -11816,7 +12087,8 @@
       ],
       "retail_units": [
         "Count"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Leek",
@@ -11864,7 +12136,8 @@
       ],
       "retail_units": [
         "Bunch"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Fennel Bulb",
@@ -11907,7 +12180,8 @@
       ],
       "retail_units": [
         "Count"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Frozen Peas",
@@ -11951,7 +12225,8 @@
       "retail_units": [
         "Bag (12oz)",
         "Bag (16oz)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Frozen Corn",
@@ -11995,7 +12270,8 @@
       "retail_units": [
         "Bag (12oz)",
         "Bag (16oz)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Frozen Blueberries",
@@ -12038,7 +12314,8 @@
       ],
       "retail_units": [
         "Bag (12oz)"
-      ]
+      ],
+      "category": "Fruits"
     },
     {
       "name": "Frozen Spinach",
@@ -12081,7 +12358,8 @@
       ],
       "retail_units": [
         "Box (10oz)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Frozen Edamame",
@@ -12124,7 +12402,8 @@
       ],
       "retail_units": [
         "Bag (12oz)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Banana",
@@ -12143,7 +12422,8 @@
       "retail_units": [
         "Count",
         "Bunch (5ct)"
-      ]
+      ],
+      "category": "Fruits"
     },
     {
       "name": "Apple",
@@ -12162,7 +12442,8 @@
       "retail_units": [
         "Count",
         "Bag (3lb)"
-      ]
+      ],
+      "category": "Fruits"
     },
     {
       "name": "Pear",
@@ -12175,7 +12456,8 @@
       ],
       "retail_units": [
         "Count"
-      ]
+      ],
+      "category": "Fruits"
     },
     {
       "name": "Peach",
@@ -12218,7 +12500,8 @@
       ],
       "retail_units": [
         "Count"
-      ]
+      ],
+      "category": "Fruits"
     },
     {
       "name": "Mango",
@@ -12261,7 +12544,8 @@
       ],
       "retail_units": [
         "Count"
-      ]
+      ],
+      "category": "Fruits"
     },
     {
       "name": "Pineapple",
@@ -12304,7 +12588,8 @@
       ],
       "retail_units": [
         "Count"
-      ]
+      ],
+      "category": "Fruits"
     },
     {
       "name": "Blueberries (Fresh)",
@@ -12352,7 +12637,8 @@
       ],
       "retail_units": [
         "Pint"
-      ]
+      ],
+      "category": "Fruits"
     },
     {
       "name": "Strawberries (Fresh)",
@@ -12411,7 +12697,8 @@
       "retail_units": [
         "Quart",
         "Pint"
-      ]
+      ],
+      "category": "Fruits"
     },
     {
       "name": "Raspberries (Fresh)",
@@ -12454,7 +12741,8 @@
       ],
       "retail_units": [
         "Container (6oz)"
-      ]
+      ],
+      "category": "Fruits"
     },
     {
       "name": "Blackberries (Fresh)",
@@ -12497,7 +12785,8 @@
       ],
       "retail_units": [
         "Container (6oz)"
-      ]
+      ],
+      "category": "Fruits"
     },
     {
       "name": "Orange",
@@ -12516,7 +12805,8 @@
       "retail_units": [
         "Count",
         "Bag (4lb)"
-      ]
+      ],
+      "category": "Fruits"
     },
     {
       "name": "Grapefruit",
@@ -12535,7 +12825,8 @@
       "retail_units": [
         "Count",
         "Bag (4ct)"
-      ]
+      ],
+      "category": "Fruits"
     },
     {
       "name": "Lemon",
@@ -12569,7 +12860,8 @@
       "retail_units": [
         "Count",
         "Bag (2lb)"
-      ]
+      ],
+      "category": "Fruits"
     },
     {
       "name": "Lime",
@@ -12603,7 +12895,8 @@
       "retail_units": [
         "Count",
         "Bag (2lb)"
-      ]
+      ],
+      "category": "Fruits"
     },
     {
       "name": "Tortilla Chips",
@@ -12646,7 +12939,8 @@
       ],
       "retail_units": [
         "Bag (13oz)"
-      ]
+      ],
+      "category": "Bread, Dough & Wrappers"
     },
     {
       "name": "Flour Tortillas",
@@ -12665,7 +12959,8 @@
       "retail_units": [
         "Pack (10ct)",
         "Pack (8ct)"
-      ]
+      ],
+      "category": "Bread, Dough & Wrappers"
     },
     {
       "name": "Corn Tortillas",
@@ -12684,7 +12979,8 @@
       "retail_units": [
         "Pack (30ct)",
         "Pack (12ct)"
-      ]
+      ],
+      "category": "Bread, Dough & Wrappers"
     },
     {
       "name": "Sandwich Bread",
@@ -12702,7 +12998,8 @@
       ],
       "retail_units": [
         "Loaf (24oz)"
-      ]
+      ],
+      "category": "Bread, Dough & Wrappers"
     },
     {
       "name": "Hamburger Buns",
@@ -12721,7 +13018,8 @@
       "retail_units": [
         "Pack (8ct)",
         "Pack (6ct)"
-      ]
+      ],
+      "category": "Bread, Dough & Wrappers"
     },
     {
       "name": "Hot Dog Buns",
@@ -12739,7 +13037,8 @@
       ],
       "retail_units": [
         "Pack (8ct)"
-      ]
+      ],
+      "category": "Bread, Dough & Wrappers"
     },
     {
       "name": "Pita Bread",
@@ -12758,7 +13057,8 @@
       "retail_units": [
         "Pack (6ct)",
         "Pack (12ct)"
-      ]
+      ],
+      "category": "Bread, Dough & Wrappers"
     },
     {
       "name": "Naan",
@@ -12777,7 +13077,8 @@
       "retail_units": [
         "Pack (2ct)",
         "Pack (4ct)"
-      ]
+      ],
+      "category": "Bread, Dough & Wrappers"
     },
     {
       "name": "Pie Crust",
@@ -12795,7 +13096,8 @@
       ],
       "retail_units": [
         "Pack (2ct)"
-      ]
+      ],
+      "category": "Bread, Dough & Wrappers"
     },
     {
       "name": "Puff Pastry",
@@ -12828,7 +13130,8 @@
       ],
       "retail_units": [
         "Box (2 sheets)"
-      ]
+      ],
+      "category": "Bread, Dough & Wrappers"
     },
     {
       "name": "Phyllo Dough",
@@ -12861,7 +13164,8 @@
       ],
       "retail_units": [
         "Box (1lb)"
-      ]
+      ],
+      "category": "Bread, Dough & Wrappers"
     },
     {
       "name": "Chicken Bouillon",
@@ -12909,7 +13213,8 @@
       ],
       "retail_units": [
         "Jar (25ct)"
-      ]
+      ],
+      "category": "Broths & Beverages"
     },
     {
       "name": "Beef Bouillon",
@@ -12957,7 +13262,8 @@
       ],
       "retail_units": [
         "Jar (25ct)"
-      ]
+      ],
+      "category": "Broths & Beverages"
     },
     {
       "name": "Ground Chicken",
@@ -12986,7 +13292,8 @@
       "retail_units": [
         "Pack (1lb)",
         "Pack (1.3lb)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Chicken Wings",
@@ -13025,7 +13332,8 @@
       "retail_units": [
         "Bag (2lb)",
         "Pack (2lb)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Chicken Tenders",
@@ -13059,7 +13367,8 @@
       "retail_units": [
         "Pack (1lb)",
         "Pack (1.5lb)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Chicken Thighs (Bone-In)",
@@ -13093,7 +13402,8 @@
       "retail_units": [
         "Pack (1.5lb)",
         "Pack (2lb)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Turkey Thighs",
@@ -13126,7 +13436,8 @@
       ],
       "retail_units": [
         "Pack (1.5lb)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Rotisserie Chicken",
@@ -13154,7 +13465,8 @@
       ],
       "retail_units": [
         "Count"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Ribeye Steak",
@@ -13187,7 +13499,8 @@
       ],
       "retail_units": [
         "Pack (2ct)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Sirloin Steak",
@@ -13220,7 +13533,8 @@
       ],
       "retail_units": [
         "Pack (2ct)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Flank Steak",
@@ -13248,7 +13562,8 @@
       ],
       "retail_units": [
         "Pack (1.5lb)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Beef Chuck Roast",
@@ -13276,7 +13591,8 @@
       ],
       "retail_units": [
         "Pack (3lb)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Beef Brisket",
@@ -13304,7 +13620,8 @@
       ],
       "retail_units": [
         "Pack (5lb)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Beef Short Ribs",
@@ -13337,7 +13654,8 @@
       ],
       "retail_units": [
         "Pack (2lb)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Pork Shoulder",
@@ -13365,7 +13683,8 @@
       ],
       "retail_units": [
         "Pack (4lb)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Pork Belly",
@@ -13393,7 +13712,8 @@
       ],
       "retail_units": [
         "Pack (2lb)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Baby Back Ribs",
@@ -13421,7 +13741,8 @@
       ],
       "retail_units": [
         "Pack (2lb)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Ham (Deli Sliced)",
@@ -13450,7 +13771,8 @@
       "retail_units": [
         "Pack (8oz)",
         "Pack (16oz)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Prosciutto",
@@ -13478,7 +13800,8 @@
       ],
       "retail_units": [
         "Pack (4oz)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Ground Lamb",
@@ -13506,7 +13829,8 @@
       ],
       "retail_units": [
         "Pack (1lb)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Leg of Lamb",
@@ -13534,7 +13858,8 @@
       ],
       "retail_units": [
         "Pack (3lb)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Salami",
@@ -13562,7 +13887,8 @@
       ],
       "retail_units": [
         "Pack (8oz)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Pepperoni",
@@ -13590,7 +13916,8 @@
       ],
       "retail_units": [
         "Pack (8oz)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Hot Dogs",
@@ -13623,7 +13950,8 @@
       ],
       "retail_units": [
         "Pack (8ct)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Kielbasa",
@@ -13651,7 +13979,8 @@
       ],
       "retail_units": [
         "Pack (14oz)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Deli Turkey",
@@ -13679,7 +14008,8 @@
       ],
       "retail_units": [
         "Pack (8oz)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Turkey Bacon",
@@ -13712,7 +14042,8 @@
       ],
       "retail_units": [
         "Pack (16oz)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Beef Liver",
@@ -13740,7 +14071,8 @@
       ],
       "retail_units": [
         "Pack (1lb)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "New York Strip Steak",
@@ -13773,7 +14105,8 @@
       ],
       "retail_units": [
         "Pack (2ct)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Filet Mignon",
@@ -13806,7 +14139,8 @@
       ],
       "retail_units": [
         "Pack (2ct)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "T-Bone Steak",
@@ -13839,7 +14173,8 @@
       ],
       "retail_units": [
         "Pack (2ct)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Skirt Steak",
@@ -13867,7 +14202,8 @@
       ],
       "retail_units": [
         "Pack (1lb)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Corned Beef",
@@ -13895,7 +14231,8 @@
       ],
       "retail_units": [
         "Pack (3lb)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Beef Tenderloin (Whole)",
@@ -13923,7 +14260,8 @@
       ],
       "retail_units": [
         "Pack (4lb)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Ground Veal",
@@ -13951,7 +14289,8 @@
       ],
       "retail_units": [
         "Pack (1lb)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Veal Cutlets",
@@ -13984,7 +14323,8 @@
       ],
       "retail_units": [
         "Pack (1lb)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Pork Loin",
@@ -14012,7 +14352,8 @@
       ],
       "retail_units": [
         "Pack (3lb)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Spare Ribs",
@@ -14040,7 +14381,8 @@
       ],
       "retail_units": [
         "Pack (3lb)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Ham Hocks",
@@ -14073,7 +14415,8 @@
       ],
       "retail_units": [
         "Pack (1.5lb)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Breakfast Sausage Links",
@@ -14106,7 +14449,8 @@
       ],
       "retail_units": [
         "Pack (10ct)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Breakfast Sausage Patties",
@@ -14139,7 +14483,8 @@
       ],
       "retail_units": [
         "Pack (8ct)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Canadian Bacon",
@@ -14167,7 +14512,8 @@
       ],
       "retail_units": [
         "Pack (8oz)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Chicken Breast (Bone-In)",
@@ -14200,7 +14546,8 @@
       ],
       "retail_units": [
         "Pack (2lb)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Chicken Liver",
@@ -14228,7 +14575,8 @@
       ],
       "retail_units": [
         "Pack (1lb)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Cornish Hen",
@@ -14256,7 +14604,8 @@
       ],
       "retail_units": [
         "Count"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Duck Breast",
@@ -14289,7 +14638,8 @@
       ],
       "retail_units": [
         "Pack (2ct)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Whole Duck",
@@ -14317,7 +14667,8 @@
       ],
       "retail_units": [
         "Count"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Lamb Shank",
@@ -14350,7 +14701,8 @@
       ],
       "retail_units": [
         "Pack (2ct)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Rack of Lamb",
@@ -14378,7 +14730,8 @@
       ],
       "retail_units": [
         "Count"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Venison (Ground)",
@@ -14406,7 +14759,8 @@
       ],
       "retail_units": [
         "Pack (1lb)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Goat Meat (Cubed)",
@@ -14434,7 +14788,8 @@
       ],
       "retail_units": [
         "Pack (1lb)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Bologna",
@@ -14462,7 +14817,8 @@
       ],
       "retail_units": [
         "Pack (8oz)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Pastrami",
@@ -14490,7 +14846,8 @@
       ],
       "retail_units": [
         "Pack (8oz)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Bratwurst",
@@ -14523,7 +14880,8 @@
       ],
       "retail_units": [
         "Pack (4ct)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Andouille Sausage",
@@ -14556,7 +14914,8 @@
       ],
       "retail_units": [
         "Pack (4ct)"
-      ]
+      ],
+      "category": "Meat"
     },
     {
       "name": "Tuna Steak",
@@ -14589,7 +14948,8 @@
       ],
       "retail_units": [
         "Pack (2ct)"
-      ]
+      ],
+      "category": "Seafood"
     },
     {
       "name": "Halibut Fillet",
@@ -14617,7 +14977,8 @@
       ],
       "retail_units": [
         "Pack (1lb)"
-      ]
+      ],
+      "category": "Seafood"
     },
     {
       "name": "Mahi Mahi Fillet",
@@ -14650,7 +15011,8 @@
       ],
       "retail_units": [
         "Pack (2ct)"
-      ]
+      ],
+      "category": "Seafood"
     },
     {
       "name": "Swordfish Steak",
@@ -14683,7 +15045,8 @@
       ],
       "retail_units": [
         "Pack (2ct)"
-      ]
+      ],
+      "category": "Seafood"
     },
     {
       "name": "Sea Bass Fillet",
@@ -14716,7 +15079,8 @@
       ],
       "retail_units": [
         "Pack (2ct)"
-      ]
+      ],
+      "category": "Seafood"
     },
     {
       "name": "Trout Fillet",
@@ -14749,7 +15113,8 @@
       ],
       "retail_units": [
         "Pack (2ct)"
-      ]
+      ],
+      "category": "Seafood"
     },
     {
       "name": "Catfish Fillet",
@@ -14782,7 +15147,8 @@
       ],
       "retail_units": [
         "Pack (1lb)"
-      ]
+      ],
+      "category": "Seafood"
     },
     {
       "name": "Red Snapper Fillet",
@@ -14815,7 +15181,8 @@
       ],
       "retail_units": [
         "Pack (1lb)"
-      ]
+      ],
+      "category": "Seafood"
     },
     {
       "name": "Flounder Fillet",
@@ -14848,7 +15215,8 @@
       ],
       "retail_units": [
         "Pack (1lb)"
-      ]
+      ],
+      "category": "Seafood"
     },
     {
       "name": "Haddock Fillet",
@@ -14881,7 +15249,8 @@
       ],
       "retail_units": [
         "Pack (1lb)"
-      ]
+      ],
+      "category": "Seafood"
     },
     {
       "name": "Scallops",
@@ -14914,7 +15283,8 @@
       ],
       "retail_units": [
         "Bag (1lb)"
-      ]
+      ],
+      "category": "Seafood"
     },
     {
       "name": "Mussels",
@@ -14942,7 +15312,8 @@
       ],
       "retail_units": [
         "Bag (2lb)"
-      ]
+      ],
+      "category": "Seafood"
     },
     {
       "name": "Clams (Fresh)",
@@ -14975,7 +15346,8 @@
       ],
       "retail_units": [
         "Bag (2lb)"
-      ]
+      ],
+      "category": "Seafood"
     },
     {
       "name": "Oysters (Shucked)",
@@ -15008,7 +15380,8 @@
       ],
       "retail_units": [
         "Container (16oz)"
-      ]
+      ],
+      "category": "Seafood"
     },
     {
       "name": "Crab Meat (Lump)",
@@ -15036,7 +15409,8 @@
       ],
       "retail_units": [
         "Container (16oz)"
-      ]
+      ],
+      "category": "Seafood"
     },
     {
       "name": "King Crab Legs",
@@ -15064,7 +15438,8 @@
       ],
       "retail_units": [
         "Pack (2lb)"
-      ]
+      ],
+      "category": "Seafood"
     },
     {
       "name": "Lobster Tail",
@@ -15097,7 +15472,8 @@
       ],
       "retail_units": [
         "Pack (2ct)"
-      ]
+      ],
+      "category": "Seafood"
     },
     {
       "name": "Squid (Calamari)",
@@ -15125,7 +15501,8 @@
       ],
       "retail_units": [
         "Bag (1lb)"
-      ]
+      ],
+      "category": "Seafood"
     },
     {
       "name": "Sardines (Canned)",
@@ -15158,7 +15535,8 @@
       ],
       "retail_units": [
         "Can (5oz)"
-      ]
+      ],
+      "category": "Seafood"
     },
     {
       "name": "Canned Crab",
@@ -15191,7 +15569,8 @@
       ],
       "retail_units": [
         "Can (6oz)"
-      ]
+      ],
+      "category": "Seafood"
     },
     {
       "name": "Smoked Salmon",
@@ -15219,7 +15598,8 @@
       ],
       "retail_units": [
         "Pack (4oz)"
-      ]
+      ],
+      "category": "Seafood"
     },
     {
       "name": "Imitation Crab",
@@ -15247,7 +15627,8 @@
       ],
       "retail_units": [
         "Pack (8oz)"
-      ]
+      ],
+      "category": "Seafood"
     },
     {
       "name": "Octopus",
@@ -15275,7 +15656,8 @@
       ],
       "retail_units": [
         "Pack (2lb)"
-      ]
+      ],
+      "category": "Seafood"
     },
     {
       "name": "Shrimp (Fresh)",
@@ -15308,7 +15690,8 @@
       ],
       "retail_units": [
         "Bag (1lb)"
-      ]
+      ],
+      "category": "Seafood"
     },
     {
       "name": "Radish",
@@ -15357,7 +15740,8 @@
       "retail_units": [
         "Bag (1lb)",
         "Count"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Beet",
@@ -15406,7 +15790,8 @@
       "retail_units": [
         "Bunch",
         "Count"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Turnip",
@@ -15449,7 +15834,8 @@
       ],
       "retail_units": [
         "Count"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Parsnip",
@@ -15497,7 +15883,8 @@
       ],
       "retail_units": [
         "Bag (1lb)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Okra",
@@ -15540,7 +15927,8 @@
       ],
       "retail_units": [
         "Bag (1lb)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Snap Peas (Sugar Snap)",
@@ -15583,7 +15971,8 @@
       ],
       "retail_units": [
         "Bag (12oz)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Snow Peas",
@@ -15626,7 +16015,8 @@
       ],
       "retail_units": [
         "Bag (8oz)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Bok Choy",
@@ -15675,7 +16065,8 @@
       "retail_units": [
         "Count",
         "Bunch"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Swiss Chard",
@@ -15718,7 +16109,8 @@
       ],
       "retail_units": [
         "Bunch"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Arugula",
@@ -15761,7 +16153,8 @@
       ],
       "retail_units": [
         "Bag (5oz)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Romaine Lettuce",
@@ -15810,7 +16203,8 @@
       "retail_units": [
         "Count",
         "Head"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Iceberg Lettuce",
@@ -15858,7 +16252,8 @@
       ],
       "retail_units": [
         "Head"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Watercress",
@@ -15901,7 +16296,8 @@
       ],
       "retail_units": [
         "Bunch"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Bean Sprouts",
@@ -15944,7 +16340,8 @@
       ],
       "retail_units": [
         "Bag (12oz)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Water Chestnuts (Canned)",
@@ -15977,7 +16374,8 @@
       ],
       "retail_units": [
         "Can (8oz)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Bamboo Shoots (Canned)",
@@ -16010,7 +16408,8 @@
       ],
       "retail_units": [
         "Can (8oz)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Poblano Pepper",
@@ -16053,7 +16452,8 @@
       ],
       "retail_units": [
         "Count"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Habanero Pepper",
@@ -16072,7 +16472,8 @@
       "retail_units": [
         "Count",
         "Bag (8ct)"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Spaghetti Squash",
@@ -16115,7 +16516,8 @@
       ],
       "retail_units": [
         "Count"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Radicchio",
@@ -16163,7 +16565,8 @@
       ],
       "retail_units": [
         "Head"
-      ]
+      ],
+      "category": "Vegetables"
     },
     {
       "name": "Grapes",
@@ -16206,7 +16609,8 @@
       ],
       "retail_units": [
         "Bag (2lb)"
-      ]
+      ],
+      "category": "Fruits"
     },
     {
       "name": "Watermelon",
@@ -16244,7 +16648,8 @@
       ],
       "retail_units": [
         "Count"
-      ]
+      ],
+      "category": "Fruits"
     },
     {
       "name": "Cantaloupe",
@@ -16282,7 +16687,8 @@
       ],
       "retail_units": [
         "Count"
-      ]
+      ],
+      "category": "Fruits"
     },
     {
       "name": "Honeydew Melon",
@@ -16320,7 +16726,8 @@
       ],
       "retail_units": [
         "Count"
-      ]
+      ],
+      "category": "Fruits"
     },
     {
       "name": "Kiwi",
@@ -16363,7 +16770,8 @@
       ],
       "retail_units": [
         "Count"
-      ]
+      ],
+      "category": "Fruits"
     },
     {
       "name": "Plum",
@@ -16406,7 +16814,8 @@
       ],
       "retail_units": [
         "Count"
-      ]
+      ],
+      "category": "Fruits"
     },
     {
       "name": "Apricot",
@@ -16449,7 +16858,8 @@
       ],
       "retail_units": [
         "Count"
-      ]
+      ],
+      "category": "Fruits"
     },
     {
       "name": "Cherries (Fresh)",
@@ -16497,7 +16907,8 @@
       ],
       "retail_units": [
         "Bag (1lb)"
-      ]
+      ],
+      "category": "Fruits"
     },
     {
       "name": "Fig (Fresh)",
@@ -16546,7 +16957,8 @@
       "retail_units": [
         "Count",
         "Pack (4ct)"
-      ]
+      ],
+      "category": "Fruits"
     },
     {
       "name": "Pomegranate",
@@ -16589,7 +17001,8 @@
       ],
       "retail_units": [
         "Count"
-      ]
+      ],
+      "category": "Fruits"
     },
     {
       "name": "Papaya",
@@ -16632,7 +17045,8 @@
       ],
       "retail_units": [
         "Count"
-      ]
+      ],
+      "category": "Fruits"
     },
     {
       "name": "Clementine",
@@ -16651,7 +17065,8 @@
       "retail_units": [
         "Count",
         "Bag (3lb)"
-      ]
+      ],
+      "category": "Fruits"
     },
     {
       "name": "Nectarine",
@@ -16694,7 +17109,8 @@
       ],
       "retail_units": [
         "Count"
-      ]
+      ],
+      "category": "Fruits"
     },
     {
       "name": "Cranberries (Fresh)",
@@ -16737,7 +17153,8 @@
       ],
       "retail_units": [
         "Bag (12oz)"
-      ]
+      ],
+      "category": "Fruits"
     },
     {
       "name": "Coconut (Fresh)",
@@ -16780,7 +17197,8 @@
       ],
       "retail_units": [
         "Count"
-      ]
+      ],
+      "category": "Fruits"
     },
     {
       "name": "Buttermilk",
@@ -16814,7 +17232,8 @@
       "retail_units": [
         "Carton (32oz)",
         "Quart"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Almond Milk",
@@ -16842,7 +17261,8 @@
       ],
       "retail_units": [
         "Carton (32oz)"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Oat Milk",
@@ -16870,7 +17290,8 @@
       ],
       "retail_units": [
         "Carton (32oz)"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Soy Milk",
@@ -16898,7 +17319,8 @@
       ],
       "retail_units": [
         "Carton (32oz)"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Powdered Milk (Dry)",
@@ -16941,7 +17363,8 @@
       ],
       "retail_units": [
         "Box (1lb)"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Plain Yogurt",
@@ -16970,7 +17393,8 @@
       "retail_units": [
         "Container (32oz)",
         "Container (16oz)"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Kefir",
@@ -16998,7 +17422,8 @@
       ],
       "retail_units": [
         "Bottle (32oz)"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Creme Fraiche",
@@ -17026,7 +17451,8 @@
       ],
       "retail_units": [
         "Container (8oz)"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Ghee (Clarified Butter)",
@@ -17054,7 +17480,8 @@
       ],
       "retail_units": [
         "Jar (16oz)"
-      ]
+      ],
+      "category": "Oils, Vinegars & Fats"
     },
     {
       "name": "Whipped Cream",
@@ -17097,7 +17524,8 @@
       ],
       "retail_units": [
         "Can (6oz)"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Egg Whites",
@@ -17130,7 +17558,8 @@
       ],
       "retail_units": [
         "Carton (16oz)"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Egg Yolks",
@@ -17143,7 +17572,8 @@
       ],
       "retail_units": [
         "Count"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Cottage Cheese",
@@ -17186,7 +17616,8 @@
       ],
       "retail_units": [
         "Container (16oz)"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Provolone Cheese",
@@ -17229,7 +17660,8 @@
       ],
       "retail_units": [
         "Pack (8oz)"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Swiss Cheese",
@@ -17272,7 +17704,8 @@
       ],
       "retail_units": [
         "Block (8oz)"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Blue Cheese",
@@ -17315,7 +17748,8 @@
       ],
       "retail_units": [
         "Container (6oz)"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Brie Cheese",
@@ -17343,7 +17777,8 @@
       ],
       "retail_units": [
         "Wedge (8oz)"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Colby Jack Cheese",
@@ -17386,7 +17821,8 @@
       ],
       "retail_units": [
         "Bag (8oz)"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Monterey Jack Cheese",
@@ -17429,7 +17865,8 @@
       ],
       "retail_units": [
         "Bag (8oz)"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Pepper Jack Cheese",
@@ -17472,7 +17909,8 @@
       ],
       "retail_units": [
         "Bag (8oz)"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "String Cheese",
@@ -17490,7 +17928,8 @@
       ],
       "retail_units": [
         "Pack (12ct)"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Queso Fresco",
@@ -17533,7 +17972,8 @@
       ],
       "retail_units": [
         "Block (8oz)"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Mascarpone Cheese",
@@ -17576,7 +18016,8 @@
       ],
       "retail_units": [
         "Container (8oz)"
-      ]
+      ],
+      "category": "Dairy & Eggs"
     },
     {
       "name": "Cake Flour",
@@ -17619,7 +18060,8 @@
       ],
       "retail_units": [
         "Box (1lb)"
-      ]
+      ],
+      "category": "Baking & Flours"
     },
     {
       "name": "Self-Rising Flour",
@@ -17662,7 +18104,8 @@
       ],
       "retail_units": [
         "Bag (5lb)"
-      ]
+      ],
+      "category": "Baking & Flours"
     },
     {
       "name": "Semolina Flour",
@@ -17705,7 +18148,8 @@
       ],
       "retail_units": [
         "Bag (2lb)"
-      ]
+      ],
+      "category": "Baking & Flours"
     },
     {
       "name": "Rye Flour",
@@ -17748,7 +18192,8 @@
       ],
       "retail_units": [
         "Bag (2lb)"
-      ]
+      ],
+      "category": "Baking & Flours"
     },
     {
       "name": "Arrowroot Starch",
@@ -17791,7 +18236,8 @@
       ],
       "retail_units": [
         "Box (8oz)"
-      ]
+      ],
+      "category": "Baking & Flours"
     },
     {
       "name": "Wild Rice",
@@ -17834,7 +18280,8 @@
       ],
       "retail_units": [
         "Bag (1lb)"
-      ]
+      ],
+      "category": "Grains, Rice & Pasta"
     },
     {
       "name": "Sushi Rice",
@@ -17877,7 +18324,8 @@
       ],
       "retail_units": [
         "Bag (2lb)"
-      ]
+      ],
+      "category": "Grains, Rice & Pasta"
     },
     {
       "name": "Millet",
@@ -17920,7 +18368,8 @@
       ],
       "retail_units": [
         "Bag (1lb)"
-      ]
+      ],
+      "category": "Grains, Rice & Pasta"
     },
     {
       "name": "Buckwheat Groats",
@@ -17963,7 +18412,8 @@
       ],
       "retail_units": [
         "Bag (1lb)"
-      ]
+      ],
+      "category": "Grains, Rice & Pasta"
     },
     {
       "name": "Bulgur Wheat",
@@ -18006,7 +18456,8 @@
       ],
       "retail_units": [
         "Bag (1lb)"
-      ]
+      ],
+      "category": "Grains, Rice & Pasta"
     },
     {
       "name": "Steel-Cut Oats",
@@ -18049,7 +18500,8 @@
       ],
       "retail_units": [
         "Canister (18oz)"
-      ]
+      ],
+      "category": "Grains, Rice & Pasta"
     },
     {
       "name": "Wheat Bran",
@@ -18092,7 +18544,8 @@
       ],
       "retail_units": [
         "Bag (16oz)"
-      ]
+      ],
+      "category": "Baking & Flours"
     },
     {
       "name": "Wheat Germ",
@@ -18135,7 +18588,8 @@
       ],
       "retail_units": [
         "Jar (12oz)"
-      ]
+      ],
+      "category": "Baking & Flours"
     },
     {
       "name": "Graham Cracker Crumbs",
@@ -18178,7 +18632,8 @@
       ],
       "retail_units": [
         "Box (10oz)"
-      ]
+      ],
+      "category": "Baking & Flours"
     },
     {
       "name": "Cornflake Crumbs",
@@ -18221,7 +18676,8 @@
       ],
       "retail_units": [
         "Box (8oz)"
-      ]
+      ],
+      "category": "Baking & Flours"
     },
     {
       "name": "Matzo Meal",
@@ -18264,7 +18720,8 @@
       ],
       "retail_units": [
         "Box (10oz)"
-      ]
+      ],
+      "category": "Baking & Flours"
     },
     {
       "name": "Rice Paper Wrappers",
@@ -18282,7 +18739,8 @@
       ],
       "retail_units": [
         "Pack (30ct)"
-      ]
+      ],
+      "category": "Bread, Dough & Wrappers"
     },
     {
       "name": "Wonton Wrappers",
@@ -18300,7 +18758,8 @@
       ],
       "retail_units": [
         "Pack (30ct)"
-      ]
+      ],
+      "category": "Bread, Dough & Wrappers"
     },
     {
       "name": "Egg Roll Wrappers",
@@ -18318,7 +18777,8 @@
       ],
       "retail_units": [
         "Pack (12ct)"
-      ]
+      ],
+      "category": "Bread, Dough & Wrappers"
     },
     {
       "name": "Pizza Dough",
@@ -18351,7 +18811,8 @@
       ],
       "retail_units": [
         "Pack (1lb)"
-      ]
+      ],
+      "category": "Bread, Dough & Wrappers"
     },
     {
       "name": "Crescent Roll Dough",
@@ -18369,7 +18830,8 @@
       ],
       "retail_units": [
         "Pack (8ct)"
-      ]
+      ],
+      "category": "Bread, Dough & Wrappers"
     },
     {
       "name": "Angel Hair Pasta",
@@ -18397,7 +18859,8 @@
       ],
       "retail_units": [
         "Box (1lb)"
-      ]
+      ],
+      "category": "Grains, Rice & Pasta"
     },
     {
       "name": "Gnocchi",
@@ -18440,7 +18903,8 @@
       ],
       "retail_units": [
         "Pack (1lb)"
-      ]
+      ],
+      "category": "Grains, Rice & Pasta"
     },
     {
       "name": "Graham Crackers",
@@ -18458,7 +18922,8 @@
       ],
       "retail_units": [
         "Pack (14oz)"
-      ]
+      ],
+      "category": "Bread, Dough & Wrappers"
     },
     {
       "name": "Saltine Crackers",
@@ -18476,7 +18941,8 @@
       ],
       "retail_units": [
         "Box (1lb)"
-      ]
+      ],
+      "category": "Bread, Dough & Wrappers"
     }
   ]
 }

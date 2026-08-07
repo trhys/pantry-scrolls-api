@@ -29,6 +29,7 @@ func (cfg *ApiConfig) handlerCreateRecipe(w http.ResponseWriter, r *http.Request
 			Unit     string    `json:"unit"`
 		} `json:"ingredients"`
 		Instructions string `json:"instructions"`
+		Tags		 []string `json:"tags"`
 	}
 
 	// Get request payload
@@ -136,6 +137,16 @@ func (cfg *ApiConfig) handlerCreateRecipe(w http.ResponseWriter, r *http.Request
 			respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Failed to add ingredient to recipe: %v", err))
 			return
 		}
+	}
+
+	queryTags := database.AddRecipeTagsParams{
+		RecipeID:	recipeID,
+		Tags:		req.Tags,
+	}
+
+	if err := cfg.DB.AddRecipeTags(r.Context(), queryTags); err != nil {
+		respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Query failed (AddRecipeTags): %v", err))
+		return
 	}
 
 	type resp struct {
@@ -283,6 +294,7 @@ func (cfg *ApiConfig) handlerUpdateRecipe(w http.ResponseWriter, r *http.Request
 			Unit     string    `json:"unit"`
 		} `json:"ingredients"`
 		Instructions string `json:"instructions"`
+		Tags		 []string `json:"tags"`
 	}
 
 	// Get request payload
@@ -405,6 +417,22 @@ func (cfg *ApiConfig) handlerUpdateRecipe(w http.ResponseWriter, r *http.Request
 		}
 	}
 
+	queryTags := database.AddRecipeTagsParams{
+		RecipeID:	recipe_id,
+		Tags:		req.Tags,
+	}
+
+	// clear existing tags first
+	if err := cfg.DB.ResetRecipeTags(r.Context(), recipe_id); err != nil {
+		respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Query failed(ResetRecipeTags): %v", err))
+		return
+	}
+
+	if err := cfg.DB.AddRecipeTags(r.Context(), queryTags); err != nil {
+		respondFail(r, w, 500, "Something went wrong", fmt.Errorf("Query failed (AddRecipeTags): %v", err))
+		return
+	}
+
 	respondJSON(w, 204, nil)
 }
 
@@ -441,29 +469,58 @@ func (cfg *ApiConfig) handlerDeleteRecipe(w http.ResponseWriter, r *http.Request
 }
 
 func (cfg *ApiConfig) handlerExploreFeed(w http.ResponseWriter, r *http.Request) {
-	query, err := util.SanitizeSearchQuery(r.URL.Query().Get("search"))
+	queryParams := r.URL.Query()
+
+	// find url query
+	title, err := util.SanitizeSearchQuery(queryParams.Get("title"))
 	if err != nil {
 		respondFail(r, w, 400, "Bad request", err)
 		return
 	}
+	author, err := util.SanitizeSearchQuery(queryParams.Get("author"))
+	if err != nil {
+		respondFail(r, w, 400, "Bad request", err)
+		return
+	}
+	// tag, err := util.SanitizeSearchQuery(queryParams.Get("tag"))
+	// if err != nil {
+	// 	respondFail(r, w, 400, "Bad request", err)
+	// 	return
+	// }
 
 	requesterID, ok := requesterUserID(r)
 
 	var feed any
-	if query != "" {
+	if title != "" {
 		if ok {
-			feed, err = cfg.DB.GetAuthedRecipesFromQuery(r.Context(), database.GetAuthedRecipesFromQueryParams{
-				Query:  query,
+			feed, err = cfg.DB.GetAuthedRecipesFromTitleQuery(r.Context(), database.GetAuthedRecipesFromTitleQueryParams{
+				Query:  title,
 				UserID: requesterID,
 			})
 		} else {
-			feed, err = cfg.DB.GetRecipesFromQuery(r.Context(), query)
+			feed, err = cfg.DB.GetRecipesFromTitleQuery(r.Context(), title)
 		}
 		if err != nil {
 			respondFail(r, w, 404, "No recipes matched the query params", fmt.Errorf("recipes query error: %v", err))
 			return
 		}
 		respondJSON(w, 200, cfg.Vmf.GenerateRecipeViewModel(feed, nil))
+        return
+	} else if author != "" {
+		if ok {
+			feed, err = cfg.DB.GetAuthedRecipesFromAuthorQuery(r.Context(), database.GetAuthedRecipesFromAuthorQueryParams{
+				Query:  author,
+				UserID: requesterID,
+			})
+		} else {
+			feed, err = cfg.DB.GetRecipesFromAuthorQuery(r.Context(), author)
+		}
+		if err != nil {
+			respondFail(r, w, 404, "No recipes matched the query params", fmt.Errorf("recipes query error: %v", err))
+			return
+		}
+		respondJSON(w, 200, cfg.Vmf.GenerateRecipeViewModel(feed, nil))
+        return
 	} else {
 		if ok {
 			feed, err = cfg.DB.GetAuthedRecipesFromNilQuery(r.Context(), requesterID)

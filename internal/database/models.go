@@ -30,6 +30,7 @@ type Ingredient struct {
 	ImageKey  string
 	CreatedAt time.Time
 	UpdatedAt time.Time
+	Category  string
 }
 
 type IngredientRetailUnit struct {
@@ -67,6 +68,11 @@ type RecipeIngredient struct {
 type RecipeLike struct {
 	UserID   uuid.UUID
 	RecipeID uuid.UUID
+}
+
+type RecipeTag struct {
+	RecipeID uuid.UUID
+	Tag      string
 }
 
 type RefreshToken struct {
