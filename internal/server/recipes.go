@@ -18,6 +18,16 @@ import (
 	"github.com/trhys/Recipe-Repo-2/internal/viewmodel"
 )
 
+// helper to verify ingredients have a non nill unit and quantity set
+func verifyIngredient(ings []struct) error {
+	for _, i := range ings {
+		if i.Quantity == 0 | i.Units == "" {
+			return fmt.Errorf("Unset quantity or unit in ingredients")
+		}
+	}
+	return nil
+}
+	
 func (cfg *ApiConfig) handlerCreateRecipe(w http.ResponseWriter, r *http.Request) {
 	// Request
 	r.Body = http.MaxBytesReader(w, r.Body, 10<<20)
@@ -46,6 +56,17 @@ func (cfg *ApiConfig) handlerCreateRecipe(w http.ResponseWriter, r *http.Request
 	requesterID, ok := r.Context().Value("userID").(uuid.UUID)
 	if !ok {
 		respondFail(r, w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
+		return
+	}
+
+	// validate ingredients is non empty && units/quantity is set
+	if err := util.CheckNilSlice([][]any{req.Ingredients}); err != nil {
+		respondFail(r, w, 400, "Bad request", fmt.Errorf("Request unmarshalled with empty ingredients - %v", err))
+		return
+	}
+
+	if err := verifyIngredients(req.Ingredients); err != nil {
+		respondFail(r, w, 400, "Bad request", fmt.Errorf("Request unmarshalled with unset ingredient vars - %v", err))
 		return
 	}
 
@@ -340,6 +361,17 @@ func (cfg *ApiConfig) handlerUpdateRecipe(w http.ResponseWriter, r *http.Request
 	if err != nil {
 		slog.Warn("Failed to get image key", "recipe_id", recipe_id, "error", err)
 		key = uuid.New().String()
+	}
+
+	// validate ingredients is non empty && units/quantity is set
+	if err := util.CheckNilSlice([][]any{req.Ingredients}); err != nil {
+		respondFail(r, w, 400, "Bad request", fmt.Errorf("Request unmarshalled with empty ingredients - %v", err))
+		return
+	}
+
+	if err := verifyIngredients(req.Ingredients); err != nil {
+		respondFail(r, w, 400, "Bad request", fmt.Errorf("Request unmarshalled with unset ingredient vars - %v", err))
+		return
 	}
 
 	// Begin processing image file
