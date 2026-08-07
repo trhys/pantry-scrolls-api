@@ -199,7 +199,7 @@ func (cfg *ApiConfig) handlerGetRecipeEdit(w http.ResponseWriter, r *http.Reques
 	requested := r.PathValue("recipe_id")
 	recipe_id, err := uuid.Parse(requested)
 	if err != nil {
-		respondFail(r, w, 404, "Invalid recipe id", fmt.Errorf("Failed to parse UUID: %v", err))
+		respondFail(r, w, 400, "Bad request", fmt.Errorf("Failed to parse UUID: %v", err))
 		return
 	}
 
@@ -252,7 +252,7 @@ func (cfg *ApiConfig) handlerGetRecipe(w http.ResponseWriter, r *http.Request) {
 	requested := r.PathValue("recipe_id")
 	recipe_id, err := uuid.Parse(requested)
 	if err != nil {
-		respondFail(r, w, 404, "Invalid recipe id", fmt.Errorf("Failed to parse UUID: %v", err))
+		respondFail(r, w, 400, "Bad request", fmt.Errorf("Failed to parse UUID: %v", err))
 		return
 	}
 
@@ -322,7 +322,7 @@ func (cfg *ApiConfig) handlerUpdateRecipe(w http.ResponseWriter, r *http.Request
 	requested := r.PathValue("recipe_id")
 	recipe_id, err := uuid.Parse(requested)
 	if err != nil {
-		respondFail(r, w, 404, "Invalid recipe id", fmt.Errorf("Failed to parse UUID %s : ERROR: %v", requested, err))
+		respondFail(r, w, 400, "Bad request", fmt.Errorf("Failed to parse UUID %s : ERROR: %v", requested, err))
 		return
 	}
 
@@ -341,7 +341,7 @@ func (cfg *ApiConfig) handlerUpdateRecipe(w http.ResponseWriter, r *http.Request
 
 	// Unmarshal JSON
 	if err := json.Unmarshal([]byte(jsonString), &req); err != nil {
-		respondFail(r, w, 404, "Bad request", fmt.Errorf("Failed to unmarshal request body: %v", err))
+		respondFail(r, w, 400, "Bad request", fmt.Errorf("Failed to unmarshal request body: %v", err))
 		return
 	}
 
@@ -502,7 +502,7 @@ func (cfg *ApiConfig) handlerDeleteRecipe(w http.ResponseWriter, r *http.Request
 	requested := r.PathValue("recipe_id")
 	recipe_id, err := uuid.Parse(requested)
 	if err != nil {
-		respondFail(r, w, 404, "Invalid recipe id", fmt.Errorf("Couldn't parse UUID: %s ERROR: %v", requested, err))
+		respondFail(r, w, 400, "Bad request", fmt.Errorf("Couldn't parse UUID: %s ERROR: %v", requested, err))
 		return
 	}
 
