@@ -19,26 +19,32 @@ import (
 )
 
 // helper to verify ingredients have a non nill unit and quantity set
-func verifyIngredient(ings []struct) error {
+func verifyIngredients(ings []recipeIngredientInput) error {
+	if len(ings) == 0 {
+		return fmt.Errorf("Ingredients must not be empty")
+	}
+	
 	for _, i := range ings {
-		if i.Quantity == 0 | i.Units == "" {
+		if i.Quantity == 0 | i.Unit == "" {
 			return fmt.Errorf("Unset quantity or unit in ingredients")
 		}
 	}
 	return nil
 }
-	
+
+type recipeIngredientsInput struct {
+	ID       uuid.UUID `json:"id"`
+	Quantity float32   `json:"quantity"`
+	Unit     string    `json:"unit"`
+}
+
 func (cfg *ApiConfig) handlerCreateRecipe(w http.ResponseWriter, r *http.Request) {
 	// Request
 	r.Body = http.MaxBytesReader(w, r.Body, 10<<20)
 	var req struct {
 		Title       string `json:"title"`
 		Description string `json:"description"`
-		Ingredients []struct {
-			ID       uuid.UUID `json:"id"`
-			Quantity float32   `json:"quantity"`
-			Unit     string    `json:"unit"`
-		} `json:"ingredients"`
+		Ingredients []recipeIngredientsInput `json:"ingredients"`
 		Instructions string `json:"instructions"`
 		Tags		 []string `json:"tags"`
 	}
@@ -60,13 +66,8 @@ func (cfg *ApiConfig) handlerCreateRecipe(w http.ResponseWriter, r *http.Request
 	}
 
 	// validate ingredients is non empty && units/quantity is set
-	if err := util.CheckNilSlice([][]any{req.Ingredients}); err != nil {
-		respondFail(r, w, 400, "Bad request", fmt.Errorf("Request unmarshalled with empty ingredients - %v", err))
-		return
-	}
-
 	if err := verifyIngredients(req.Ingredients); err != nil {
-		respondFail(r, w, 400, "Bad request", fmt.Errorf("Request unmarshalled with unset ingredient vars - %v", err))
+		respondFail(r, w, 400, "Bad request", fmt.Errorf("Request unmarshalled with bad ingredients slice - %v", err))
 		return
 	}
 
@@ -329,11 +330,7 @@ func (cfg *ApiConfig) handlerUpdateRecipe(w http.ResponseWriter, r *http.Request
 	var req struct {
 		Title       string `json:"title"`
 		Description string `json:"description"`
-		Ingredients []struct {
-			ID       uuid.UUID `json:"id"`
-			Quantity float32   `json:"quantity"`
-			Unit     string    `json:"unit"`
-		} `json:"ingredients"`
+		Ingredients []recipeIngredientsInput `json:"ingredients"`
 		Instructions string `json:"instructions"`
 		Tags		 []string `json:"tags"`
 	}
@@ -373,13 +370,8 @@ func (cfg *ApiConfig) handlerUpdateRecipe(w http.ResponseWriter, r *http.Request
 	}
 
 	// validate ingredients is non empty && units/quantity is set
-	if err := util.CheckNilSlice([][]any{req.Ingredients}); err != nil {
-		respondFail(r, w, 400, "Bad request", fmt.Errorf("Request unmarshalled with empty ingredients - %v", err))
-		return
-	}
-
 	if err := verifyIngredients(req.Ingredients); err != nil {
-		respondFail(r, w, 400, "Bad request", fmt.Errorf("Request unmarshalled with unset ingredient vars - %v", err))
+		respondFail(r, w, 400, "Bad request", fmt.Errorf("Request unmarshalled with bad ingredients slice - %v", err))
 		return
 	}
 
@@ -520,13 +512,9 @@ func (cfg *ApiConfig) handlerDeleteRecipe(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	// Verify ownership and check record exists
+	// Verify ownership
 	owner, err := cfg.DB.GetRecipeOwner(r.Context(), recipe_id)
 	if err != nil || owner != requesterID {
-		if errors.Is(err, sql.ErrNoRows) {
-			respondFail(r, w, 404, "No recipe found", fmt.Errorf("No recipe found @ID: %v", recipe_id))
-			return
-		}
 		respondFail(r, w, 401, "Unauthorized", fmt.Errorf("Unauthorized access attempt at user id: %s", requesterID))
 		return
 	}
@@ -538,17 +526,6 @@ func (cfg *ApiConfig) handlerDeleteRecipe(w http.ResponseWriter, r *http.Request
 		}
 	})
 	if err != nil {
-		var pqErr *pq.Error
-		if errors.As(err, &pqErr) {
-			switch pqErr.Code {
-			case "23503":
-				respondFail(r, w, 400, "Bad request", fmt.Errorf("handlerDeleteRecipe --- invalid foreign key: %v", err))
-				return
-			case "23505":
-				respondFail(r, w, 400, "Bad request", fmt.Errorf("handlerDeleteRecipe --- duplicate value: %v", err))
-				return
-			}
-		}
 		respondFail(r, w, 500, "Something went wrong", fmt.Errorf("handlerDeleteRecipe transaction failed: %v", err))
 		return
 	}
