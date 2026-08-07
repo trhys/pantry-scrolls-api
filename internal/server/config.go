@@ -37,3 +37,27 @@ type adminCredentials struct {
 type EmailClient interface {
 	SendEmail(ctx context.Context, params *ses.SendEmailInput, optFns ...func(*ses.Options)) (*ses.SendEmailOutput, error)
 }
+
+// db transaction helper with rollback
+func (cfg *ApiConfig) withTx(ctx context.Context, fn func(qtx *database.Queries) error) error {
+	tx, err := cfg.DBConn.BeginTx(ctx, &sql.TxOptions{})
+	if err != nil {
+		return fmt.Errorf("begin tx: %w", err)
+	}
+
+	qtx := cfg.DB.WithTx(tx)
+
+	defer func() {
+		_ = tx.Rollback()
+	}()
+
+	if err := fn(qtx); err != nil {
+		return err
+	}
+
+	if err := tx.Commit(); err != nil {
+		return fmt.Errorf("commit tx: %w", err)
+	}
+
+	return nil
+}
