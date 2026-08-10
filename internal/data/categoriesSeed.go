@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	_ "embed"
 	"encoding/json"
-  "fmt"
+	"fmt"
 	"log"
 
 	_ "github.com/lib/pq"
@@ -21,13 +21,13 @@ func SeedCategories(db *sql.DB, ctx context.Context) error {
 
 	var seed struct {
 		Ingredients []struct {
-			Name        string `json:"name"`
-      Category    string `json:"category"`
+			Name     string `json:"name"`
+			Category string `json:"category"`
 		} `json:"ingredients"`
 	}
 
 	if err := json.Unmarshal(manifestCategories, &seed); err != nil {
-      return fmt.Errorf("Failed to unmarshal JSON! ERROR: %v", err)
+		return fmt.Errorf("Failed to unmarshal JSON! ERROR: %v", err)
 	}
 
 	log.Println("Successfully read file - seeding categories...")
@@ -37,18 +37,18 @@ func SeedCategories(db *sql.DB, ctx context.Context) error {
 	bar := pb.Default(int64(len(seed.Ingredients)))
 	for _, u := range seed.Ingredients {
 		if err := dbConn.AddCategory(ctx, database.AddCategoryParams{
-          Name: u.Name,
-          Category: u.Category,
-        }); err == nil {
-            bar.Add(1)
+			Name:     u.Name,
+			Category: u.Category,
+		}); err == nil {
+			bar.Add(1)
 			continue
 		} else {
-          log.Printf("ERROR FOR INGREDIENT %s --- %v", u.Name, err)
-          bar.Add(1)
-          continue
-    }
-  }
+			log.Printf("ERROR FOR INGREDIENT %s --- %v", u.Name, err)
+			bar.Add(1)
+			continue
+		}
+	}
 
-  log.Printf("Completed...")
-  return nil
+	log.Printf("Completed...")
+	return nil
 }

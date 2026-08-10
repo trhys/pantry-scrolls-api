@@ -165,7 +165,7 @@ func (cfg *ApiConfig) handlerGetUnits(w http.ResponseWriter, r *http.Request) {
 		respondFail(r, w, 404, "invalid ingredient id", fmt.Errorf("Empty id in units query"))
 		return
 	}
-	
+
 	val := r.URL.Query().Get("id")
 	id, err := uuid.Parse(val)
 	if err != nil {

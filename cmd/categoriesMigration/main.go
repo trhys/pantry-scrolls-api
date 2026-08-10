@@ -36,6 +36,6 @@ func main() {
 		slog.Error("Migration failure", "error", err)
 		os.Exit(1)
 	}
-  
+
 	slog.Info("Categories migration complete")
 }

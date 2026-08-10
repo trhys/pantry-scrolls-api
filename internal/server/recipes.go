@@ -1,6 +1,7 @@
 package server
 
 import (
+	"database/sql"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -23,7 +24,7 @@ func verifyIngredients(ings []recipeIngredientsInput) error {
 	if len(ings) == 0 {
 		return fmt.Errorf("Ingredients must not be empty")
 	}
-	
+
 	for _, i := range ings {
 		if i.Quantity == 0 || i.Unit == "" {
 			return fmt.Errorf("Unset quantity or unit in ingredients")
@@ -42,11 +43,11 @@ func (cfg *ApiConfig) handlerCreateRecipe(w http.ResponseWriter, r *http.Request
 	// Request
 	r.Body = http.MaxBytesReader(w, r.Body, 10<<20)
 	var req struct {
-		Title       string `json:"title"`
-		Description string `json:"description"`
-		Ingredients []recipeIngredientsInput `json:"ingredients"`
-		Instructions string `json:"instructions"`
-		Tags		 []string `json:"tags"`
+		Title        string                   `json:"title"`
+		Description  string                   `json:"description"`
+		Ingredients  []recipeIngredientsInput `json:"ingredients"`
+		Instructions string                   `json:"instructions"`
+		Tags         []string                 `json:"tags"`
 	}
 
 	// Get request payload
@@ -141,12 +142,12 @@ func (cfg *ApiConfig) handlerCreateRecipe(w http.ResponseWriter, r *http.Request
 			ImageKey:     key,
 			Instructions: req.Instructions,
 		}
-	
+
 		recipeID, err := qtx.CreateRecipe(r.Context(), query)
 		if err != nil {
 			return err
 		}
-	
+
 		// Connect all ingredients
 		for _, ing := range req.Ingredients {
 			query := database.AddToRecipeParams{
@@ -155,21 +156,22 @@ func (cfg *ApiConfig) handlerCreateRecipe(w http.ResponseWriter, r *http.Request
 				Quantity:     ing.Quantity,
 				Unit:         ing.Unit,
 			}
-	
+
 			_, err := qtx.AddToRecipe(r.Context(), query)
 			if err != nil {
 				return err
 			}
 		}
-	
+
 		queryTags := database.AddRecipeTagsParams{
-			RecipeID:	recipeID,
-			Tags:		req.Tags,
+			RecipeID: recipeID,
+			Tags:     req.Tags,
 		}
-	
+
 		if err := qtx.AddRecipeTags(r.Context(), queryTags); err != nil {
 			return err
 		}
+		return nil
 	})
 	if err != nil {
 		var pqErr *pq.Error
@@ -217,8 +219,8 @@ func (cfg *ApiConfig) handlerGetRecipeEdit(w http.ResponseWriter, r *http.Reques
 	}
 
 	rec, err := cfg.DB.GetAuthedRecipe(r.Context(), database.GetAuthedRecipeParams{
-			ID:     recipe_id,
-			UserID: requesterID,
+		ID:     recipe_id,
+		UserID: requesterID,
 	})
 	if err != nil {
 		respondFail(r, w, 404, "Couldn't find recipe id", fmt.Errorf("Failed to find recipe with ID: %s, ERROR: %v", requested, err))
@@ -329,11 +331,11 @@ func (cfg *ApiConfig) handlerUpdateRecipe(w http.ResponseWriter, r *http.Request
 	// Request
 	r.Body = http.MaxBytesReader(w, r.Body, 10<<20)
 	var req struct {
-		Title       string `json:"title"`
-		Description string `json:"description"`
-		Ingredients []recipeIngredientsInput `json:"ingredients"`
-		Instructions string `json:"instructions"`
-		Tags		 []string `json:"tags"`
+		Title        string                   `json:"title"`
+		Description  string                   `json:"description"`
+		Ingredients  []recipeIngredientsInput `json:"ingredients"`
+		Instructions string                   `json:"instructions"`
+		Tags         []string                 `json:"tags"`
 	}
 
 	// Get request payload
@@ -439,17 +441,17 @@ func (cfg *ApiConfig) handlerUpdateRecipe(w http.ResponseWriter, r *http.Request
 			Instructions: req.Instructions,
 			ID:           recipe_id,
 		}
-	
+
 		rec, err := qtx.UpdateRecipe(r.Context(), query)
 		if err != nil {
 			return err
 		}
-	
+
 		// Update ingredients
 		if err := qtx.ClearFromRecipe(r.Context(), recipe_id); err != nil {
 			return err
 		}
-	
+
 		for _, ing := range req.Ingredients {
 			query := database.AddToRecipeParams{
 				RecipeID:     rec.ID,
@@ -457,26 +459,27 @@ func (cfg *ApiConfig) handlerUpdateRecipe(w http.ResponseWriter, r *http.Request
 				Quantity:     ing.Quantity,
 				Unit:         ing.Unit,
 			}
-	
+
 			_, err := qtx.AddToRecipe(r.Context(), query)
 			if err != nil {
 				return err
 			}
 		}
-	
+
 		queryTags := database.AddRecipeTagsParams{
-			RecipeID:	recipe_id,
-			Tags:		req.Tags,
+			RecipeID: recipe_id,
+			Tags:     req.Tags,
 		}
-	
+
 		// clear existing tags first
 		if err := qtx.ResetRecipeTags(r.Context(), recipe_id); err != nil {
 			return err
 		}
-	
+
 		if err := qtx.AddRecipeTags(r.Context(), queryTags); err != nil {
 			return err
 		}
+		return nil
 	})
 	if err != nil {
 		var pqErr *pq.Error
@@ -525,6 +528,7 @@ func (cfg *ApiConfig) handlerDeleteRecipe(w http.ResponseWriter, r *http.Request
 		if err := qtx.DeleteRecipe(r.Context(), recipe_id); err != nil {
 			return err
 		}
+		return nil
 	})
 	if err != nil {
 		respondFail(r, w, 500, "Something went wrong", fmt.Errorf("handlerDeleteRecipe transaction failed: %v", err))
@@ -571,7 +575,7 @@ func (cfg *ApiConfig) handlerExploreFeed(w http.ResponseWriter, r *http.Request)
 			return
 		}
 		respondJSON(w, 200, cfg.Vmf.GenerateRecipeViewModel(feed, nil))
-        return
+		return
 	} else if author != "" {
 		if ok {
 			feed, err = cfg.DB.GetAuthedRecipesFromAuthorQuery(r.Context(), database.GetAuthedRecipesFromAuthorQueryParams{
@@ -586,7 +590,7 @@ func (cfg *ApiConfig) handlerExploreFeed(w http.ResponseWriter, r *http.Request)
 			return
 		}
 		respondJSON(w, 200, cfg.Vmf.GenerateRecipeViewModel(feed, nil))
-        return
+		return
 	} else {
 		if ok {
 			feed, err = cfg.DB.GetAuthedRecipesFromNilQuery(r.Context(), requesterID)

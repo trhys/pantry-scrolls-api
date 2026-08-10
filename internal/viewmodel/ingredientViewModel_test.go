@@ -89,4 +89,3 @@ func TestGenerateIngredientsWithConversionsViewModel_NoConversions(t *testing.T)
 		t.Errorf("expected 'conversions' to be omitted from JSON when empty: %s", string(body))
 	}
 }
-

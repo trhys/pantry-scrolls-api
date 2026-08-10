@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
-    "strings"
+	"strings"
 
 	"github.com/aws/aws-sdk-go-v2/service/ses"
 	"github.com/aws/aws-sdk-go-v2/service/ses/types"
@@ -12,7 +12,7 @@ import (
 
 func (cfg *ApiConfig) SendVerificationEmail(targetEmail string, token string) error {
 	base := strings.TrimRight(cfg.React, "/")
-    verificationURL := fmt.Sprintf("%s/verify/%s", base, token)
+	verificationURL := fmt.Sprintf("%s/verify/%s", base, token)
 
 	sender := "no-reply@pantryscrolls.com"
 	subject := "Verify your email address"
@@ -58,8 +58,8 @@ func (cfg *ApiConfig) SendVerificationEmail(targetEmail string, token string) er
 }
 
 func (cfg *ApiConfig) SendPasswordReset(targetEmail string, token string) error {
-    base := strings.TrimRight(cfg.React, "/")
-    resetURL := fmt.Sprintf("%s/resetpassword/%s", base, token)
+	base := strings.TrimRight(cfg.React, "/")
+	resetURL := fmt.Sprintf("%s/resetpassword/%s", base, token)
 
 	sender := "no-reply@pantryscrolls.com"
 	subject := "Password Reset Request"
@@ -105,8 +105,8 @@ func (cfg *ApiConfig) SendPasswordReset(targetEmail string, token string) error 
 }
 
 func (cfg *ApiConfig) SendDeactivationEmail(targetEmail string, cancelToken string) error {
-    base := strings.TrimRight(cfg.React, "/")
-    cancelURL := fmt.Sprintf("%s/cancel-deactivation/%s", base, cancelToken)
+	base := strings.TrimRight(cfg.React, "/")
+	cancelURL := fmt.Sprintf("%s/cancel-deactivation/%s", base, cancelToken)
 
 	sender := "no-reply@pantryscrolls.com"
 	subject := "Your account has been scheduled for deletion"
